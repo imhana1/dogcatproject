@@ -1,0 +1,187 @@
+create table user_member (
+    username varchar2(10) not null,
+    password varchar2(10) null,
+    role varchar2(4) null,
+    status varchar2(5) null,
+    e_code varchar2(20) null,
+    count number(1) null,
+    sign_dt date null,
+    constraint pk_user_member primary key (username)
+);
+
+create table hospital_member (
+    h_username varchar2(10) not null,
+    director varchar2(10) not null,
+    hospital varchar2(10) null,
+    tel number(11) null,
+    reptel number(10) null,
+    address varchar2(30) null,
+    choice number(1) null,
+    profile clob null,
+    location number(5,10) null,
+    longitude number(5,10) null,
+    open_time date null,
+    close_time date null,
+    d_profile clob null,
+    birthday date null,
+    h_email varchar2(15) null,
+    introduction varchar2(1000) null,
+    constraint pk_hospital_member primary key (h_username),
+    constraint fk_user_member_to_hospital_member_1 foreign key (h_username) references user_member (username)
+);
+
+create table nomal_member (
+    nusername varchar2(10) not null,
+    name varchar2(10) null,
+    address varchar2(30) null,
+    tel number(11) null,
+    n_birthday date null,
+    n_email varchar2(15) null,
+    location number(5,10) null,
+    longitude number(5,10) null,
+    constraint pk_nomal_member primary key (nusername),
+    constraint fk_user_member_to_nomal_member_1 foreign key (nusername) references user_member (username)
+);
+
+create table pet (
+    pno number(10) not null,
+    nusername varchar2(10) not null,
+    animal_types varchar2(10) null,
+    microchipped number(1) null,
+    breed varchar2(10) null,
+    p_name varchar2(10) null,
+    p_age number(5) null,
+    p_weight number(5) null,
+    has_allergies number(1) null,
+    field8 number(1) null,
+    p_profile clob null,
+    constraint pk_pet primary key (pno, nusername),
+    constraint fk_nomal_member_to_pet_1 foreign key (nusername) references nomal_member (nusername)
+);
+
+create table surgical_history (
+    sno number(10) not null,
+    pno number(10) not null,
+    nusername varchar2(10) not null,
+    s_name varchar2(10) null,
+    s_content varchar2(50) null,
+    s_day date null,
+    constraint pk_surgical_history primary key (sno, pno, nusername),
+    constraint fk_surgical_history_pet foreign key (pno, nusername) references pet (pno, nusername)
+);
+
+CREATE TABLE chronic_illness (
+    cno NUMBER(10) NOT NULL,
+    pno NUMBER(10) NOT NULL,
+    nusername VARCHAR2(10) NOT NULL,
+    i_name VARCHAR2(10) NULL,
+    CONSTRAINT pk_chronic_illness PRIMARY KEY (cno, pno, nusername),
+    CONSTRAINT fk_chronic_illness_pet FOREIGN KEY (pno, nusername)
+        REFERENCES pet (pno, nusername)
+);
+
+create table treat (
+    tno number(10) not null,
+    writer varchar2(10) not null,
+    content varchar2(1000) null,
+    t_title varchar2(10) null,
+    constraint pk_treat primary key (tno, writer),
+    constraint fk_hospital_member_to_treat_1 foreign key (writer) references hospital_member (h_username)
+);
+
+create table review (
+    rev_no number(10) not null,
+    rno number(10) not null,
+    r_writer varchar2(10) not null,
+    write_day date null,
+    content varchar2(1000) null,
+    constraint pk_review primary key (rev_no)
+);
+
+create table history (
+    h_usernmae varchar2(10) not null,
+    educational varchar2(30) null,
+    constraint pk_history primary key (h_usernmae),
+    constraint fk_hospital_member_to_history_1 foreign key (h_usernmae) references hospital_member (h_username)
+);
+
+create table qna_question (
+    qno number(10) not null,
+    q_title varchar2(50) null,
+    username varchar2(10) not null,
+    q_write_day date null,
+    q_content varchar2(1000) null,
+    q_is_answered number(1) null,
+    constraint pk_qna_question primary key (qno)
+);
+
+create table qna_answer (
+    qno number(10) not null,
+    username varchar2(10) not null,
+    answer_write_day date null,
+    answer_content varchar2(1000) null,
+    constraint pk_qna_answer primary key (qno),
+    constraint fk_qna_question_to_qna_answer_1 foreign key (qno) references qna_question (qno)
+);
+
+create table reservation (
+    rno number(10) not null,
+    nusername varchar2(10) not null,
+    schedule date null,
+    h_username varchar2(10) not null,
+    pno number(10) not null,
+    constraint pk_reservation primary key (rno)
+);
+
+create table schedule (
+    schedule date null,
+    h_username varchar2(10) not null,
+    block_status number(1) null,
+    status varchar2(4) null,
+    h_notice varchar2(100) null,
+    choice varchar2(4) null,
+    constraint pk_schedule primary key (schedule, h_username),
+    constraint fk_hospital_member_to_schedule_1 foreign key (h_username) references hospital_member (h_username)
+);
+
+create table notice (
+    nno number(10) not null,
+    n_title varchar2(50) null,
+    username varchar2(10) not null,
+    n_write_day date null,
+    n_content varchar2(1000) null,
+    n_is_top number(1) null,
+    constraint pk_notice primary key (nno)
+);
+
+create table adoption (
+    ano number(10) not null,
+    a_profile clob null,
+    a_name varchar2(10) null,
+    a_age number(5) null,
+    a_breed varchar2(10) null,
+    a_city varchar2(50) null,
+    a_locaion varchar2(50) null,
+    a_found_location varchar2(50) null,
+    username varchar2(10) not null,
+    a_write_day date null,
+    a_content varchar2(1000) null,
+    a_is_adopted number(1) null,
+    constraint pk_adoption primary key (ano)
+);
+
+create table wish_list (
+    ano number(10) not null,
+    username varchar2(10) not null,
+    constraint pk_wish_list primary key (ano, username),
+    constraint fk_adoption_to_wish_list_1 foreign key (ano) references adoption (ano),
+    constraint fk_user_member_to_wish_list_1 foreign key (username) references user_member (username)
+);
+
+create table wish (
+    ano number(10) not null,
+    username varchar2(10) not null,
+    constraint pk_wish primary key (ano, username),
+    constraint fk_adoption_to_wish_1 foreign key (ano) references adoption (ano),
+    constraint fk_user_member_to_wish_1 foreign key (username) references user_member (username)
+);
