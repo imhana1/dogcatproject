@@ -8,18 +8,19 @@ function HospitalIntro() {
     return (
         <div>
             <div className="header">
+                <div className="menu-wrap" />
                 <ul className="name">
                     <li>병원 소개</li>
                     <li>의료진 소개</li>
                     <li>예약</li>
                 </ul>
-                <button id="member">로그인</button>
+                <button id="member" type="button" className="btn btn-link">로그인</button>
             </div>
             <session>
                 <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxODAzMDlfMTQ5%2FMDAxNTIwNTgzMTgxNDM2.2o2AEfuH_8KKkFLW1kE81MxiH7K3Zl9nSAg79aENcmkg.rteNAnE9Kg_sd5K8Y6mbSuxwDvWYsTWqpFuTRQ1fhRgg.JPEG.forestamc%2F20098810.jpg&type=sc960_832"
                      alt="병원 진료 사진" className="intro-image" />
-                <b>반려동물과 가장 가까운 친구로 따뜻한 사랑을 담아 진료하겠습니다</b>
             </session>
+            <h2>반려동물과 가장 가까운 친구로 따뜻한 사랑을 담아 진료하겠습니다</h2>
             <session>
                 <ul>
                     <FcClock size="40" />
