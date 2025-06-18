@@ -1,7 +1,7 @@
-package com.example.dogcatserver.hosController;
+package com.example.dogcatserver.controller;
 
-import com.example.dogcatserver.hosDto.*;
-import com.example.dogcatserver.hosService.*;
+import com.example.dogcatserver.dto.*;
+import com.example.dogcatserver.service.*;
 import io.swagger.v3.oas.annotations.*;
 import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.*;

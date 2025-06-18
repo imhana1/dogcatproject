@@ -1,7 +1,7 @@
-package com.example.dogcatserver.hosService;
+package com.example.dogcatserver.service;
 
-import com.example.dogcatserver.hosDao.*;
-import com.example.dogcatserver.hosDto.*;
+import com.example.dogcatserver.dao.*;
+import com.example.dogcatserver.dto.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 

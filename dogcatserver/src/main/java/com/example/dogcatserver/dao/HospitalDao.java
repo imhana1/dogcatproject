@@ -1,4 +1,4 @@
-package com.example.dogcatserver.hosDao;
+package com.example.dogcatserver.dao;
 
 import org.apache.ibatis.annotations.*;
 

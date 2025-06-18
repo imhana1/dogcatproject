@@ -1,4 +1,4 @@
-package com.example.dogcatserver.hosDto;
+package com.example.dogcatserver.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.*;

@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Bmember {
+public class UseMember {
     private String username;
     private String password;
     private Role role;
