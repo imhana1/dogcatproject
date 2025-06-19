@@ -16,49 +16,32 @@ li {
 }
 
 .header {
-    border: 1px solid rgb(200, 200, 200);
-    position: relative;
     /* 가로 정렬 */
     display: flex;
     /* 세로 가운데 */
     align-items: center;
     height: 60px;
-    /* 가로 가운데 */
-    justify-content: center;
-}
-
-.menu-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 메뉴와 로그인 버튼 사이 간격 */
 }
 
 .name {
-    /* 부모 기준으로 위치 지정 */
-    position: absolute;
     display: flex;
     /* 항목 간 간격 */
     gap: 50px;
     height: 50px;
     /* 줄 간격 */
-    line-height: 70px;
+    line-height: 50px;
     font-weight: bold;
+    text-align: center;
 }
 
 #member {
+    display: flex;
     margin-left: auto;
+    align-items: center;
 }
 
 .intro-image {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* 가로 가운데 */
     align-items: center;
-    width: 1300px;
-    height: 500px;
-
-}
-
-h2 {
-    margin-top: 100px; /* 사진과 글자 사이 간격 */
-    text-align: center;
 }
