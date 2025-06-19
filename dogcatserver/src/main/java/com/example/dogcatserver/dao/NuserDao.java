@@ -1,5 +1,6 @@
 package com.example.dogcatserver.dao;
 
+import com.example.dogcatserver.entity.Nuser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

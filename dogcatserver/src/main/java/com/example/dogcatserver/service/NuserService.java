@@ -2,6 +2,7 @@ package com.example.dogcatserver.service;
 
 import com.example.dogcatserver.dao.NuserDao;
 import com.example.dogcatserver.dto.NuserDto;
+import com.example.dogcatserver.entity.Nuser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

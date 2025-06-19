@@ -2,6 +2,7 @@ package com.example.dogcatserver.controller;
 
 
 import com.example.dogcatserver.dto.NuserDto;
+import com.example.dogcatserver.entity.Nuser;
 import com.example.dogcatserver.service.NuserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,8 +24,8 @@ public class NuserController {
     private NuserService nuserservice;
 
     @PreAuthorize("isAnonymous()")
-    @Operation(summary = "아이디 확인", description = "아이디 중복 확인")
-    @GetMapping("/api/nmember/checknid")
+    @Operation(summary = "아이디 확인", description = "아이디 중복확인")
+    @GetMapping("/api/nuser/check-username")
     public ResponseEntity<String> checkNid(@ModelAttribute @Valid NuserDto.NidCheck dto, BindingResult br) {
         boolean result = nuserservice.checkNid(dto);
         if (result)
@@ -40,3 +42,44 @@ public class NuserController {
         return ResponseEntity.status(200).body(nuser);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

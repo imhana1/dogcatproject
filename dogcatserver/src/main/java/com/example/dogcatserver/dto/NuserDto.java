@@ -1,12 +1,8 @@
 package com.example.dogcatserver.dto;
 
-import com.example.dogcatserver.entity.Nuser;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-
-import java.time.LocalDate;
 
 public class NuserDto {
     @Data

@@ -1,6 +1,5 @@
 package com.example.dogcatserver.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +23,7 @@ public class Nuser {
     private String email;       // 이메일
     private String naddr;       // 주소
     private int ntel;           // 연락처
-    private Date nbirth;        // 생년월일
+    private LocalDate nbirth;        // 생년월일
     private int nlongitude;     // 위도
     private int nlocation;      // 경도
     private LocalDate nsigndt;
