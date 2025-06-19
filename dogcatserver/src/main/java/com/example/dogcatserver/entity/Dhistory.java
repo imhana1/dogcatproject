@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class History {
-    private String Husername;
+public class Dhistory {
+    private String hUsername;
     private String educational;
 }

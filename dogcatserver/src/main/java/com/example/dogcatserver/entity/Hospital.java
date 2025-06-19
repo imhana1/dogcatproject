@@ -9,7 +9,7 @@ import java.time.*;
 @NoArgsConstructor
 @Builder
 public class Hospital {
-    private String Husername;
+    private String hUsername;
     private String director;
     private String hospital;
     private String tel;
@@ -21,7 +21,7 @@ public class Hospital {
     private Double longitude;
     private LocalDateTime openTime;
     private LocalDateTime closeTime;
-    private String Dprofile;
+    private String dProfile;
     private LocalDateTime birthDay;
     private String email;
     private String Introduction;

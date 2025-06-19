@@ -1,187 +1,246 @@
-create table user_member (
-    username varchar2(10) not null,
-    password varchar2(10) null,
-    role varchar2(4) null,
-    status varchar2(5) null,
-    e_code varchar2(20) null,
-    count number(1) null,
-    sign_dt date null,
-    constraint pk_user_member primary key (username)
+-- 1. user_member : 다른 테이블들이 참조하는 가장 기본 테이블
+CREATE TABLE user_member (
+	username varchar2(10) NOT NULL,
+	password varchar2(10) NULL,
+	role varchar2(4) NULL,
+	status varchar2(5) NULL,
+	e_code varchar2(20) NULL,
+	count number(1) NULL,
+	sign_dt date NULL,
+	is_locked number(1) NULL,
+	CONSTRAINT PK_USER_MEMBER PRIMARY KEY (username)
 );
 
-create table hospital_member (
-    h_username varchar2(10) not null,
-    director varchar2(10) not null,
-    hospital varchar2(10) null,
-    tel number(11) null,
-    reptel number(10) null,
-    address varchar2(30) null,
-    choice number(1) null,
-    profile clob null,
-    location number(5,10) null,
-    longitude number(5,10) null,
-    open_time date null,
-    close_time date null,
-    d_profile clob null,
-    birthday date null,
-    h_email varchar2(15) null,
-    introduction varchar2(1000) null,
-    constraint pk_hospital_member primary key (h_username),
-    constraint fk_user_member_to_hospital_member_1 foreign key (h_username) references user_member (username)
+-- 2. nomal_member : user_member 참조
+CREATE TABLE nomal_member (
+	n_username varchar2(10) NOT NULL,
+	n_name varchar2(10) NULL,
+	n_address varchar2(30) NULL,
+	n_tel number(11) NULL,
+	n_birthday date NULL,
+	n_email varchar2(15) NULL,
+	n_location number(5,10) NULL,
+	n_longitude number(5,10) NULL,
+	CONSTRAINT PK_NOMAL_MEMBER PRIMARY KEY (n_username),
+	CONSTRAINT FK_user_member_TO_nomal_member_1 FOREIGN KEY (n_username) REFERENCES user_member (username)
 );
 
-create table nomal_member (
-    nusername varchar2(10) not null,
-    name varchar2(10) null,
-    address varchar2(30) null,
-    tel number(11) null,
-    n_birthday date null,
-    n_email varchar2(15) null,
-    location number(5,10) null,
-    longitude number(5,10) null,
-    constraint pk_nomal_member primary key (nusername),
-    constraint fk_user_member_to_nomal_member_1 foreign key (nusername) references user_member (username)
+-- 3. hospital_member : user_member 참조
+CREATE TABLE hospital_member (
+	h_username varchar2(10) NOT NULL,
+	director varchar2(10) NOT NULL,
+	hospital varchar2(10) NULL,
+	h_tel number(11) NULL,
+	h_reptel number(10) NULL,
+	h_address varchar2(30) NULL,
+	h_choice number(1) NULL,
+	h_profile clob NULL,
+	h_location number(5,10) NULL,
+	h_longitude number(5,10) NULL,
+	open_time date NULL,
+	close_time date NULL,
+	d_profile clob NULL,
+	h_birthday date NULL,
+	h_email varchar2(15) NULL,
+	h_Introduction varchar2(1000) NULL,
+	CONSTRAINT PK_HOSPITAL_MEMBER PRIMARY KEY (h_username),
+	CONSTRAINT FK_user_member_TO_hospital_member_1 FOREIGN KEY (h_username) REFERENCES user_member (username)
 );
 
-create table pet (
-    pno number(10) not null,
-    nusername varchar2(10) not null,
-    animal_types varchar2(10) null,
-    microchipped number(1) null,
-    breed varchar2(10) null,
-    p_name varchar2(10) null,
-    p_age number(5) null,
-    p_weight number(5) null,
-    has_allergies number(1) null,
-    field8 number(1) null,
-    p_profile clob null,
-    constraint pk_pet primary key (pno, nusername),
-    constraint fk_nomal_member_to_pet_1 foreign key (nusername) references nomal_member (nusername)
+-- 4. adoption : user_member 참조
+CREATE TABLE adoption (
+	ano number(10) NOT NULL,
+	a_profile clob NULL,
+	a_name varchar2(10) NULL,
+	a_age number(5) NULL,
+	a_breed varchar2(10) NULL,
+	a_city varchar2(50) NULL,
+	a_location varchar2(50) NULL,
+	a_found_location varchar2(50) NULL,
+	username varchar2(10) NOT NULL,
+	a_write_day date NULL,
+	a_content varchar2(1000) NULL,
+	a_is_adopted number(1) NULL,
+	CONSTRAINT PK_ADOPTION PRIMARY KEY (ano),
+	CONSTRAINT FK_user_member_TO_adoption_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
 
-create table surgical_history (
-    sno number(10) not null,
-    pno number(10) not null,
-    nusername varchar2(10) not null,
-    s_name varchar2(10) null,
-    s_content varchar2(50) null,
-    s_day date null,
-    constraint pk_surgical_history primary key (sno, pno, nusername),
-    constraint fk_surgical_history_pet foreign key (pno, nusername) references pet (pno, nusername)
+-- 5. pet : nomal_member 참조
+CREATE TABLE pet (
+	pno number(10) NOT NULL,
+	n_username varchar2(10) NOT NULL,
+	animal_types varchar2(10) NULL,
+	microchipped number(1) NULL,
+	breed varchar2(10) NULL,
+	p_name varchar2(10) NULL,
+	p_age number(5) NULL,
+	p_weight number(5) NULL,
+	has_allergies number(1) NULL,
+	has_insurance number(1) NULL,
+	p_profile clob NULL,
+	CONSTRAINT PK_PET PRIMARY KEY (pno, n_username),
+	CONSTRAINT FK_nomal_member_TO_pet_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username)
 );
 
+-- 6. treat : hospital_member 참조
+CREATE TABLE treat (
+	tno number(10) NOT NULL,
+	t_writer varchar2(10) NOT NULL,
+	t_content varchar2(1000) NULL,
+	t_title varchar2(10) NULL,
+	CONSTRAINT PK_TREAT PRIMARY KEY (tno, t_writer),
+	CONSTRAINT FK_hospital_member_TO_treat_1 FOREIGN KEY (t_writer) REFERENCES hospital_member (h_username)
+);
+
+-- 7. reservation : nomal_member, hospital_member, pet 참조
+CREATE TABLE reservation (
+	rno number(10) NOT NULL,
+	n_username varchar2(10) NOT NULL,
+	schedule date NULL,
+	h_username varchar2(10) NOT NULL,
+	pno number(10) NOT NULL,
+	r_status varchar2(5) NULL,
+	CONSTRAINT PK_RESERVATION PRIMARY KEY (rno),
+	CONSTRAINT FK_nomal_member_TO_reservation_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username),
+	CONSTRAINT FK_hospital_member_TO_reservation_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
+	CONSTRAINT FK_pet_TO_reservation_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
+);
+
+-- 8. pay : reservation, hospital_member, nomal_member 참조
+CREATE TABLE pay (
+	rno number(10) NOT NULL,
+	h_username varchar2(10) NOT NULL,
+	n_username varchar2(10) NOT NULL,
+	p_username varchar2(10) NULL,
+	p_time date NULL,
+	p_price number(10) NULL,
+	CONSTRAINT PK_PAY PRIMARY KEY (rno, h_username, n_username),
+	CONSTRAINT FK_reservation_TO_pay_1 FOREIGN KEY (rno) REFERENCES reservation (rno),
+	CONSTRAINT FK_hospital_member_TO_pay_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
+	CONSTRAINT FK_nomal_member_TO_pay_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username)
+);
+
+-- 9. d_history : hospital_member 참조
+CREATE TABLE d_history (
+	h_username varchar2(10) NOT NULL,
+	educational varchar2(30) NULL,
+	CONSTRAINT PK_D_HISTORY PRIMARY KEY (h_username),
+	CONSTRAINT FK_hospital_member_TO_d_history_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username)
+);
+
+-- 10. schedule : hospital_member 참조
+CREATE TABLE schedule (
+	schedule date NOT NULL,
+	h_username varchar2(10) NOT NULL,
+	block_status number(1) NULL,
+	h_notice varchar2(100) NULL,
+	s_choice varchar2(4) NULL,
+	CONSTRAINT PK_SCHEDULE PRIMARY KEY (schedule, h_username),
+	CONSTRAINT FK_hospital_member_TO_schedule_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username)
+);
+
+-- 11. wish_list : adoption, user_member 참조
+CREATE TABLE wish_list (
+	ano number(10) NOT NULL,
+	username varchar2(10) NOT NULL,
+	CONSTRAINT PK_WISH_LIST PRIMARY KEY (ano, username),
+	CONSTRAINT FK_adoption_TO_wish_list_1 FOREIGN KEY (ano) REFERENCES adoption (ano),
+	CONSTRAINT FK_user_member_TO_wish_list_1 FOREIGN KEY (username) REFERENCES user_member (username)
+);
+
+-- 12. surgical_history : pet 참조
+CREATE TABLE surgical_history (
+	sno number(10) NOT NULL,
+	pno number(10) NOT NULL,
+	n_username varchar2(10) NOT NULL,
+	s_name varchar2(10) NULL,
+	s_content varchar2(50) NULL,
+	s_day date NULL,
+	CONSTRAINT PK_SURGICAL_HISTORY PRIMARY KEY (sno, pno, n_username),
+	CONSTRAINT FK_pet_TO_surgical_history_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
+);
+
+-- 13. chronic_illness : pet 참조
 CREATE TABLE chronic_illness (
-    cno NUMBER(10) NOT NULL,
-    pno NUMBER(10) NOT NULL,
-    nusername VARCHAR2(10) NOT NULL,
-    i_name VARCHAR2(10) NULL,
-    CONSTRAINT pk_chronic_illness PRIMARY KEY (cno, pno, nusername),
-    CONSTRAINT fk_chronic_illness_pet FOREIGN KEY (pno, nusername)
-        REFERENCES pet (pno, nusername)
+	cno number(10) NOT NULL,
+	pno number(10) NOT NULL,
+	n_username varchar2(10) NOT NULL,
+	i_name varchar2(10) NULL,
+	CONSTRAINT PK_CHRONIC_ILLNESS PRIMARY KEY (cno, pno, n_username),
+	CONSTRAINT FK_pet_TO_chronic_illness_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
 );
 
-create table treat (
-    tno number(10) not null,
-    writer varchar2(10) not null,
-    content varchar2(1000) null,
-    t_title varchar2(10) null,
-    constraint pk_treat primary key (tno, writer),
-    constraint fk_hospital_member_to_treat_1 foreign key (writer) references hospital_member (h_username)
+-- 14. wish : adoption, user_member 참조
+CREATE TABLE wish (
+	ano number(10) NOT NULL,
+	username varchar2(10) NOT NULL,
+	CONSTRAINT PK_WISH PRIMARY KEY (ano, username),
+	CONSTRAINT FK_adoption_TO_wish_1 FOREIGN KEY (ano) REFERENCES adoption (ano),
+	CONSTRAINT FK_user_member_TO_wish_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
 
-create table review (
-    rev_no number(10) not null,
-    rno number(10) not null,
-    r_writer varchar2(10) not null,
-    write_day date null,
-    content varchar2(1000) null,
-    constraint pk_review primary key (rev_no)
+-- 15. qna_question : user_member 참조
+CREATE TABLE qna_question (
+	qno number(10) NOT NULL,
+	q_title varchar2(50) NULL,
+	username varchar2(10) NOT NULL,
+	q_write_day date NULL,
+	q_content varchar2(1000) NULL,
+	q_is_answered number(1) NULL,
+	CONSTRAINT PK_QNA_QUESTION PRIMARY KEY (qno),
+	CONSTRAINT FK_user_member_TO_qna_question_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
 
-create table history (
-    h_usernmae varchar2(10) not null,
-    educational varchar2(30) null,
-    constraint pk_history primary key (h_usernmae),
-    constraint fk_hospital_member_to_history_1 foreign key (h_usernmae) references hospital_member (h_username)
+-- 16. qna_answer : qna_question, user_member 참조
+CREATE TABLE qna_answer (
+	qno number(10) NOT NULL,
+	username varchar2(10) NOT NULL,
+	answer_write_day date NULL,
+	answer_content varchar2(1000) NULL,
+	CONSTRAINT PK_QNA_ANSWER PRIMARY KEY (qno),
+	CONSTRAINT FK_qna_question_TO_qna_answer_1 FOREIGN KEY (qno) REFERENCES qna_question (qno),
+	CONSTRAINT FK_user_member_TO_qna_answer_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
 
-create table qna_question (
-    qno number(10) not null,
-    q_title varchar2(50) null,
-    username varchar2(10) not null,
-    q_write_day date null,
-    q_content varchar2(1000) null,
-    q_is_answered number(1) null,
-    constraint pk_qna_question primary key (qno)
+-- 17. review : reservation, user_member, hospital_member 참조
+CREATE TABLE review (
+	rev_no number(10) NOT NULL,
+	rno number(10) NOT NULL,
+	rev_writer varchar2(10) NOT NULL,
+	write_day date NULL,
+	rev_content varchar2(1000) NULL,
+	h_username varchar2(10) NOT NULL,
+	CONSTRAINT PK_REVIEW PRIMARY KEY (rev_no),
+	CONSTRAINT FK_reservation_TO_review_1 FOREIGN KEY (rno) REFERENCES reservation (rno),
+	CONSTRAINT FK_user_member_TO_review_1 FOREIGN KEY (rev_writer) REFERENCES user_member (username),
+	CONSTRAINT FK_hospital_member_TO_review_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username)
 );
 
-create table qna_answer (
-    qno number(10) not null,
-    username varchar2(10) not null,
-    answer_write_day date null,
-    answer_content varchar2(1000) null,
-    constraint pk_qna_answer primary key (qno),
-    constraint fk_qna_question_to_qna_answer_1 foreign key (qno) references qna_question (qno)
+-- 18. notice : user_member 참조
+CREATE TABLE notice (
+	nno number(10) NOT NULL,
+	n_title varchar2(50) NULL,
+	username varchar2(10) NOT NULL,
+	n_write_day date NULL,
+	n_content varchar2(1000) NULL,
+	n_is_top number(1) NULL,
+	CONSTRAINT PK_NOTICE PRIMARY KEY (nno),
+	CONSTRAINT FK_user_member_TO_notice_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
 
-create table reservation (
-    rno number(10) not null,
-    nusername varchar2(10) not null,
-    schedule date null,
-    h_username varchar2(10) not null,
-    pno number(10) not null,
-    constraint pk_reservation primary key (rno)
-);
 
-create table schedule (
-    schedule date null,
-    h_username varchar2(10) not null,
-    block_status number(1) null,
-    status varchar2(4) null,
-    h_notice varchar2(100) null,
-    choice varchar2(4) null,
-    constraint pk_schedule primary key (schedule, h_username),
-    constraint fk_hospital_member_to_schedule_1 foreign key (h_username) references hospital_member (h_username)
-);
+alter table schedule rename COLUMN h_notice to s_notice;
+alter table review rename column write_day to rev_write_day;
+alter table pet rename column breed to p_breed;
 
-create table notice (
-    nno number(10) not null,
-    n_title varchar2(50) null,
-    username varchar2(10) not null,
-    n_write_day date null,
-    n_content varchar2(1000) null,
-    n_is_top number(1) null,
-    constraint pk_notice primary key (nno)
-);
 
-create table adoption (
-    ano number(10) not null,
-    a_profile clob null,
-    a_name varchar2(10) null,
-    a_age number(5) null,
-    a_breed varchar2(10) null,
-    a_city varchar2(50) null,
-    a_locaion varchar2(50) null,
-    a_found_location varchar2(50) null,
-    username varchar2(10) not null,
-    a_write_day date null,
-    a_content varchar2(1000) null,
-    a_is_adopted number(1) null,
-    constraint pk_adoption primary key (ano)
-);
-
-create table wish_list (
-    ano number(10) not null,
-    username varchar2(10) not null,
-    constraint pk_wish_list primary key (ano, username),
-    constraint fk_adoption_to_wish_list_1 foreign key (ano) references adoption (ano),
-    constraint fk_user_member_to_wish_list_1 foreign key (username) references user_member (username)
-);
-
-create table wish (
-    ano number(10) not null,
-    username varchar2(10) not null,
-    constraint pk_wish primary key (ano, username),
-    constraint fk_adoption_to_wish_1 foreign key (ano) references adoption (ano),
-    constraint fk_user_member_to_wish_1 foreign key (username) references user_member (username)
-);
+create sequence treat_seq;
+create sequence notice_seq;
+create sequence qna_question_seq;
+create sequence qna_answer_seq;
+create sequence adoption_seq;
+create sequence reservation_seq;
+create sequence review_seq;
+create sequence pet_seq;
+create sequence surgical_history_seq;
+create sequence chronic_illness_seq;
