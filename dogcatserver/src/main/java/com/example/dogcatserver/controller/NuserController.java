@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,11 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class NuserController {
     @Autowired
-    private NuserService nuserservice;
 
-    @PreAuthorize("isAnonymous()")
-    @Operation(summary = "아이디 확인", description = "아이디 중복 확인")
-    @GetMapping("/api/nmember/checknid")
     public ResponseEntity<String> checkNid(@ModelAttribute @Valid NuserDto.NidCheck dto, BindingResult br) {
         boolean result = nuserservice.checkNid(dto);
         if (result)
