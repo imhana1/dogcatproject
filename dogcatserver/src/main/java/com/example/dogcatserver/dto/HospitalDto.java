@@ -10,4 +10,5 @@ public class HospitalDto {
         @Pattern(regexp = "^[a-z0-9]{6,10}$")
         private String username;
     }
+
 }

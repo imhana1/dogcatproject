@@ -27,4 +27,5 @@ public class HospitalController {
         return ResponseEntity.status(HttpStatus.CONFLICT).body("사용중인 아이디입니다");
     }
 
+
 }

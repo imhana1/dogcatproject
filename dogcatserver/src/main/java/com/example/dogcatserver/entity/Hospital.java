@@ -12,17 +12,17 @@ public class Hospital {
     private String hUsername;
     private String director;
     private String hospital;
-    private String tel;
-    private String reptel;
-    private String address;
-    private boolean choice;
-    private String profile;
-    private Double loaction;
-    private Double longitude;
+    private String hTel;
+    private String hReptel;
+    private String hAddress;
+    private boolean hChoice;
+    private String hProfile;
+    private Double hLoaction;
+    private Double HLongitude;
     private LocalDateTime openTime;
     private LocalDateTime closeTime;
     private String dProfile;
-    private LocalDateTime birthDay;
-    private String email;
-    private String Introduction;
+    private LocalDateTime hBirthDay;
+    private String hEmail;
+    private String hIntroduction;
 }
