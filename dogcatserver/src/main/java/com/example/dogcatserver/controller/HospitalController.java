@@ -23,12 +23,12 @@ public class HospitalController {
     private HospitalDao hospitalDao;
 
 
-
-//    public ResponseEntity<String> signup(@RequestParam String username, @RequestBody @Valid HospitalDto dto, @RequestBody UseMemberDto uDto){
-//
-//    }
-
-
+    @PostMapping("/signup")
+    @Operation(summary = "병원 회원가입", description = "회원가입 확인")
+    public ResponseEntity<SignupDto> signup(@RequestBody SignupDto.SignupRequestDto dto) {
+        SignupDto result = service.signup(dto);
+        return ResponseEntity.status(200).body(result);
+    }
 
 
 }

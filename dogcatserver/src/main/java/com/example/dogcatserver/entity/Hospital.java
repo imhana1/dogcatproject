@@ -17,13 +17,17 @@ public class Hospital {
     private String hReptel;
     private String hAddress;
     private boolean hChoice;
+    @JsonIgnore
     private String hProfile;
     private Double hLocation;
     private Double hLongitude;
+    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
     private LocalDateTime openTime;
+    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
     private LocalDateTime closeTime;
     @JsonIgnore
     private String dProfile;
+    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
     private LocalDateTime hBirthDay;
     private String hIntroduction;
 }

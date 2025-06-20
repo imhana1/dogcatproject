@@ -36,6 +36,10 @@ public class UseMemberDto {
     @Builder
     @AllArgsConstructor
     public static class hospitalSignup{
+        @NotEmpty
+        @Pattern(regexp = "^[a-z0-9]{6,10}$")
+        private String username;
+        @NotEmpty
         @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
         private String password;
         @Builder.Default
@@ -46,12 +50,20 @@ public class UseMemberDto {
         // 경고 횟수
         private int count=0;
         @Builder.Default
-        private LocalDateTime sign_dt = LocalDateTime.now();
+        private LocalDateTime signDt = LocalDateTime.now();
+
+        public UseMember toUseMemberEntity(String encodedPassword){
+            return UseMember.builder().username(username).password(encodedPassword).role(role).status(status).count(count).signDt(signDt).build();
+        }
     }
     @Data
     @Builder
     @AllArgsConstructor
     public static class noamlSignup{
+        @NotEmpty
+        @Pattern(regexp = "^[a-z0-9]{6,10}$")
+        private String username;
+        @NotEmpty
         @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
         private String password;
         @Builder.Default
@@ -62,7 +74,7 @@ public class UseMemberDto {
         // 경고 횟수
         private int count=0;
         @Builder.Default
-        private LocalDateTime sign_dt = LocalDateTime.now();
+        private LocalDateTime signDt = LocalDateTime.now();
     }
 
 

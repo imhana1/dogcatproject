@@ -7,5 +7,7 @@ import org.apache.ibatis.annotations.*;
 public interface HospitalDao {
 
 
-//    @Update("update user_member set ")
+    @Insert("insert into hospital_member(h_username,director,hospital,h_tel,h_reptel,h_address,h_choice) values(#{hUsername}, #{director},#{hospital}," +
+            "#{hTel}, #{hReptel}, #{hAddress},#{hChoice})")
+    int save(Hospital hospital);
 }

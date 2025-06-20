@@ -1,11 +1,21 @@
 package com.example.dogcatserver.util;
 
 import org.springframework.http.*;
+import org.springframework.web.multipart.*;
 
 import java.io.*;
 import java.util.*;
 
 public class ProfileUtil {
+    public static String convertToBase64(MultipartFile file)throws IOException {
+        byte[] fileBytes = file.getBytes() ;
+        // contenetType는 파일의 형식.
+        // base64 형식으로 데이터를 브라우저에 출력할 때
+        //  데이터 앞에 파일을 형식을 지정하면 웹브라우저가 처리
+        return "data:"+ file.getContentType() + ";base64,"+
+                Base64.getEncoder().encodeToString(fileBytes);
+    }
+
     private static final String PROFILE_FOLDER = System.getProperty("user.dir")+ File.separator +"upload"
             + File.separator + "profile" + File.separator;
     private static final String PROFILE_NAME ="3.jpg";

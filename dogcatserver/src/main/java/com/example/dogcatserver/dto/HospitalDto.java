@@ -1,6 +1,7 @@
 package com.example.dogcatserver.dto;
 
 import com.example.dogcatserver.entity.*;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.web.multipart.*;
@@ -21,9 +22,12 @@ public class HospitalDto {
         @Pattern(regexp = "^0\\d{1,2}-?\\d{3,4}-?\\d{4}$")
         private String hReptel;
         private String hAddress;
-        private MultipartFile dProfile;
         private boolean hChoice;
         private LocalDateTime hBirthDay;
+        public Hospital toSignEntity(){
+            return Hospital.builder().hospital(hUsername).director(director).hUsername(hUsername).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
+                    .hBirthDay(hBirthDay).build();
+        }
 
     }
 

@@ -20,4 +20,7 @@ public interface UseMemberDao {
 
     @Select("select username from user_member where e_code=#{code}")
     String findUsernameByCode(String code);
+
+    @Update("update user_member set password=#{password},role=#{role}, status=#{status}, count=#{count}, sign_dt=#{signDt} where username=#{username}")
+    int signupUpdate(UseMember useMember);
 }

@@ -1,5 +1,6 @@
 package com.example.dogcatserver.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import java.time.*;
@@ -20,7 +21,8 @@ public class UseMember {
     // 경고 횟수
     private int count=0;
     @Builder.Default
-    private LocalDateTime sign_dt = LocalDateTime.now();
+    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+    private LocalDateTime signDt = LocalDateTime.now();
     @Builder.Default
     private boolean isLocked=false;
 }
