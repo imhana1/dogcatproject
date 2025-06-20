@@ -18,9 +18,12 @@ li {
 .header {
     /* 가로 정렬 */
     display: flex;
-    /* 세로 가운데 */
-    align-items: center;
+    justify-content: space-between;
     height: 60px;
+    padding: 0 20px;
+    background-color: #AFEEEE;
+    font-weight: bold;
+    font-size: larger;
 }
 
 .name {
@@ -30,7 +33,6 @@ li {
     height: 50px;
     /* 줄 간격 */
     line-height: 50px;
-    font-weight: bold;
     text-align: center;
 }
 
@@ -38,6 +40,7 @@ li {
     display: flex;
     margin-left: auto;
     align-items: center;
+    height: 100%;
 }
 
 .intro-image {
