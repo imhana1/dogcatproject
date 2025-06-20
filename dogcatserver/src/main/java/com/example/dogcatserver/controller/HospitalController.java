@@ -1,6 +1,7 @@
 package com.example.dogcatserver.controller;
 
 import com.example.dogcatserver.dto.*;
+import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.service.*;
 import io.swagger.v3.oas.annotations.*;
 import jakarta.validation.*;
@@ -26,6 +27,14 @@ public class HospitalController {
             return  ResponseEntity.ok("사용가능합니다");
         return ResponseEntity.status(HttpStatus.CONFLICT).body("사용중인 아이디입니다");
     }
+
+    @PostMapping("/email-send")
+    @Operation(summary = "이메일발송", description = "이메일 발송 확인")
+    public ResponseEntity<UseMember> emailSend(@RequestBody UseMemberDto.UseMemberCode dto) {
+        UseMember result = service.emailSending(dto);
+        return ResponseEntity.ok(result);
+    }
+
 
 
 }

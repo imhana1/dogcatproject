@@ -20,10 +20,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     // 스프링 시큐리티는 11개의 필터들의 집합체(FilterChain)
     // 필터를 생성, 등록하는 설정 함수

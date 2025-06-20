@@ -23,6 +23,5 @@ public class Hospital {
     private LocalDateTime closeTime;
     private String dProfile;
     private LocalDateTime hBirthDay;
-    private String hEmail;
     private String hIntroduction;
 }
