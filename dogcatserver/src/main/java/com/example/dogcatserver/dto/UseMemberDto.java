@@ -4,7 +4,15 @@ import com.example.dogcatserver.entity.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.time.*;
+
 public class UseMemberDto {
+    @Data
+    public static class UsernameCheck{
+        @NotEmpty
+        @Pattern(regexp = "^[a-z0-9]{6,10}$")
+        private String username;
+    }
     @Data
     public static class UseMemberCode{
         private String username;
@@ -18,6 +26,43 @@ public class UseMemberDto {
     public static class checkCode{
         @NotEmpty
         private String code;
+
+        public UseMember toEntity(String username){
+            return UseMember.builder().username(username).isLocked(false).build();
+        }
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    public static class hospitalSignup{
+        @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
+        private String password;
+        @Builder.Default
+        private Role role= Role.HOSPITAL;
+        @Builder.Default
+        private String status = "일반";
+        @Builder.Default
+        // 경고 횟수
+        private int count=0;
+        @Builder.Default
+        private LocalDateTime sign_dt = LocalDateTime.now();
+    }
+    @Data
+    @Builder
+    @AllArgsConstructor
+    public static class noamlSignup{
+        @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
+        private String password;
+        @Builder.Default
+        private Role role= Role.USER;
+        @Builder.Default
+        private String status = "일반";
+        @Builder.Default
+        // 경고 횟수
+        private int count=0;
+        @Builder.Default
+        private LocalDateTime sign_dt = LocalDateTime.now();
     }
 
 

@@ -12,7 +12,8 @@ public class UseMember {
     private String username;
     private String password;
     private Role role;
-    private String status;
+    @Builder.Default
+    private String status = "일반";
     private String eCode;
     private String email;
     @Builder.Default

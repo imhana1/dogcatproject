@@ -1,5 +1,6 @@
 package com.example.dogcatserver.controller;
 
+import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.service.*;
@@ -18,26 +19,15 @@ public class HospitalController {
     @Autowired
     private HospitalService service;
 
+    @Autowired
+    private HospitalDao hospitalDao;
 
-    @GetMapping("/api/hospital/check-username")
-    @Operation(summary = "아이디 확인", description = "아이디가 사용가능한지 확인")
-    public ResponseEntity<String> checkUsername(@ModelAttribute @Valid HospitalDto.UsernameCheck dto, BindingResult br){
-        boolean result = service.checkUsername(dto);
-        if(result)
-            return  ResponseEntity.ok("사용가능합니다");
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("사용중인 아이디입니다");
-    }
 
-    @PostMapping("/email-send")
-    @Operation(summary = "이메일발송", description = "이메일 발송 확인")
-    public ResponseEntity<UseMember> emailSend(@RequestBody UseMemberDto.UseMemberCode dto) {
-        UseMember result = service.emailSending(dto);
-        return ResponseEntity.ok(result);
-    }
 
-    public ResponseEntity<String> emailcheck(@ModelAttribute UseMemberDto.checkCode dto){
+//    public ResponseEntity<String> signup(@RequestParam String username, @RequestBody @Valid HospitalDto dto, @RequestBody UseMemberDto uDto){
+//
+//    }
 
-    }
 
 
 

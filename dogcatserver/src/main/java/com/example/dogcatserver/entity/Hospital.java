@@ -1,5 +1,6 @@
 package com.example.dogcatserver.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import java.time.*;
@@ -17,10 +18,11 @@ public class Hospital {
     private String hAddress;
     private boolean hChoice;
     private String hProfile;
-    private Double hLoaction;
-    private Double HLongitude;
+    private Double hLocation;
+    private Double hLongitude;
     private LocalDateTime openTime;
     private LocalDateTime closeTime;
+    @JsonIgnore
     private String dProfile;
     private LocalDateTime hBirthDay;
     private String hIntroduction;

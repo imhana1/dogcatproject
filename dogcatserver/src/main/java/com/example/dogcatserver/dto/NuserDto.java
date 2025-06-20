@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 public class NuserDto {
     @Data
-    public static class NidCheck{
+    public static class NidCheck {
         @NotEmpty
         @Pattern(regexp = "^[A-Za-z0-9]{6,10}$")
         private String nId;
@@ -39,3 +39,4 @@ public class NuserDto {
                     build();
         }
     }
+}
