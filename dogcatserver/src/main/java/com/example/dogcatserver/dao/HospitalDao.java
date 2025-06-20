@@ -13,4 +13,7 @@ public interface HospitalDao {
     @Insert("insert into user_member(username, e_code, email)values(#{username}, #{eCode}, #{email})")
     int emailSave(UseMember useMember);
 
+    @Select("Select count(*) from user_member where username=#{code}")
+    boolean existsByCode(String code);
+
 }

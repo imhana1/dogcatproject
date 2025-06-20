@@ -36,7 +36,9 @@ public class HospitalService {
             e.printStackTrace();
         }
     }
-
+    public boolean checkEmail(UseMemberDto.checkCode dto){
+        return !hospitalDao.existsByCode(dto.getCode());
+    }
 
 
     // 메일 보내고 메일과 코드를 DB에 저장
@@ -54,4 +56,6 @@ public class HospitalService {
 
         return useMember;
     }
+
+
 }

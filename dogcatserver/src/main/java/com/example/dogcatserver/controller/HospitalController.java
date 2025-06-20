@@ -35,6 +35,10 @@ public class HospitalController {
         return ResponseEntity.ok(result);
     }
 
+    public ResponseEntity<String> emailcheck(@ModelAttribute UseMemberDto.checkCode dto){
+
+    }
+
 
 
 }

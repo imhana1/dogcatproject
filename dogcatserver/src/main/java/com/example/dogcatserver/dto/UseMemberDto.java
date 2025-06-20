@@ -1,6 +1,7 @@
 package com.example.dogcatserver.dto;
 
 import com.example.dogcatserver.entity.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 public class UseMemberDto {
@@ -12,6 +13,11 @@ public class UseMemberDto {
         public UseMember toEntity(String code){
             return UseMember.builder().username(username).eCode(code).email(email).isLocked(true).build();
         }
+    }
+    @Data
+    public static class checkCode{
+        @NotEmpty
+        private String code;
     }
 
 
