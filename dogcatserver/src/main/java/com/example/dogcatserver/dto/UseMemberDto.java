@@ -44,16 +44,16 @@ public class UseMemberDto {
         private String password;
         @Builder.Default
         private Role role= Role.HOSPITAL;
-        @Builder.Default
-        private String status = "일반";
-        @Builder.Default
-        // 경고 횟수
-        private int count=0;
+//        @Builder.Default
+//        private String status = "일반";
+//        @Builder.Default
+//        // 경고 횟수
+//        private int count=0;
         @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
 
         public UseMember toUseMemberEntity(String encodedPassword){
-            return UseMember.builder().username(username).password(encodedPassword).role(role).status(status).count(count).signDt(signDt).build();
+            return UseMember.builder().username(username).password(encodedPassword).role(role).signDt(signDt).build();
         }
     }
     @Data
@@ -76,6 +76,10 @@ public class UseMemberDto {
         @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
     }
-
+//    @Data
+//    @AllArgsConstructor
+//    public static class HospitalInfoRead{
+//        private String email;
+//    }
 
 }

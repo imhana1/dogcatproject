@@ -11,7 +11,7 @@ import java.time.*;
 public class HospitalDto {
 
     @Data
-    public static class create{
+    public static class create {
         @NotEmpty
         @Pattern(regexp = "^[a-z0-9]{6,10}$")
         private String hUsername;
@@ -24,11 +24,26 @@ public class HospitalDto {
         private String hAddress;
         private boolean hChoice;
         private LocalDateTime hBirthDay;
-        public Hospital toSignEntity(){
-            return Hospital.builder().hospital(hUsername).director(director).hUsername(hUsername).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
-                    .hBirthDay(hBirthDay).build();
+
+                public Hospital toSignEntity(Double hLocation, Double hLongitude){
+            return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
+                    .hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).build();
         }
+//        public Hospital toSignEntity() {
+//            return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
+//                    .hBirthDay(hBirthDay).build();
+//        }
+        }
+//    @Data
+//    @AllArgsConstructor
+//    public static class Read{
+//        private String hUsername;
+//        private String director;
+//        private String hospital;
+//        private String hTel;
+//        private String hReptel;
+//        private String hAddress;
+//    }
+
 
     }
-
-}

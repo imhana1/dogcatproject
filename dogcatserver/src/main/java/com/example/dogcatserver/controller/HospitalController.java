@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @Controller
 public class HospitalController {
+
     @Autowired
     private HospitalService service;
 
@@ -26,9 +27,19 @@ public class HospitalController {
     @PostMapping("/signup")
     @Operation(summary = "병원 회원가입", description = "회원가입 확인")
     public ResponseEntity<SignupDto> signup(@RequestBody SignupDto.SignupRequestDto dto) {
+        System.out.println("Received DTO: " + dto);
+        if (dto == null || dto.getUseMember() == null || dto.getHospital() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
         SignupDto result = service.signup(dto);
         return ResponseEntity.status(200).body(result);
     }
 
+    @Operation(summary = "내 정보 보기", description = "내 정보 보기")
+    @GetMapping("/hospital")
+    public ResponseEntity<JoinViewInfoDto.HospitalInfo>read(UseMemberDto.UsernameCheck uDto){
+        JoinViewInfoDto.HospitalInfo dto = service.Read(uDto.getUsername());
+        return ResponseEntity.ok(dto);
+    }
 
 }

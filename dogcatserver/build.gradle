@@ -30,7 +30,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     testImplementation 'org.springframework.security:spring-security-test'
 
-
+    //Apache HttpClient 라이브러리를 프로젝트에 추가하는 의존성 선언
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
     // 랜덤한 문자열(임시비밀번호) 생성
     implementation("org.apache.commons:commons-lang3:3.17.0")

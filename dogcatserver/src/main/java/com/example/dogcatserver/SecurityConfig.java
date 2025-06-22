@@ -25,11 +25,13 @@ public class SecurityConfig {
     // 필터를 생성, 등록하는 설정 함수
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity config) throws Exception {
-        // csrf : MNC 방식에서 타임리프 파일을 위초, 변조하는 것을 막기 위해 사용한다
-        //        사용자가 작업한 html파일이 서버가 보내준 파일이 맞는지, 혹시 사용자 html을 조작하지 않았는지 확인하기 위한 랜덤 문자열
-        //        화면이 없는 rest에는 전혀 의미없는 개념
-        config.cors(cors->cors.configurationSource(corsConfigurationSource()));
-        config.csrf(csrf-> csrf.disable());
+        config.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        config.csrf(csrf -> csrf.disable());
+
+        config.authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()  // 모든 요청 허용
+        );
+
         return config.build();
     }
 

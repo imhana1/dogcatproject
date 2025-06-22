@@ -19,7 +19,11 @@ public class Hospital {
     private boolean hChoice;
     @JsonIgnore
     private String hProfile;
+    // 위도
+    @JsonProperty("y")
     private Double hLocation;
+    // 경도
+    @JsonProperty("x")
     private Double hLongitude;
     @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
     private LocalDateTime openTime;
