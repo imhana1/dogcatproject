@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
+import {Link, useNavigate} from "react-router-dom";
 
 // 공통
 // LOGIN 화면 입력창 컴포넌트
 function LoginForm({ onLogin }) {
     const [form, setForm] = useState({id:'', password:''});
+  const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = e => {
         const {name, value} = e.target;
@@ -13,9 +14,8 @@ function LoginForm({ onLogin }) {
     }
 
     // 로그인 버튼 누르면 실행
-    const handleSignup = e => {
+    const handleSignup = async (e) => {
         e.preventDefault(); // 새로고침 막아
-        onLogin(form); // 부모 컴포넌트에서 로그인 처리
     };
 
     return (
@@ -28,10 +28,10 @@ function LoginForm({ onLogin }) {
             </div>
             <div>
                 <label htmlFor="password" className="form-label">Password</label>
-                <input type="text" name='password' placeholder="비밀번호를 입력하세요" className='form-control' value={form.password} onChange={handleChange} required />
+                <input type="password" name='password' placeholder="비밀번호를 입력하세요" className='form-control' value={form.password} onChange={handleChange} required />
             </div>
             <div className="d-grid mb-3 mt-3">
-                <button type="button" className="btn btn-outline-dark btn-block">로그인</button>
+                <button type="submit" className="btn btn-outline-dark btn-block">로그인</button>
             </div>
             <div style={{ textAlign: "center", marginTop: "20px" }}>
                 <button type="button" className="btn btn-outline-light text-dark" style={{ fontSize: "1.1rem", padding: "7px 80px" }}>아이디/비밀번호 찾기</button>

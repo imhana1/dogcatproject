@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { GoPerson } from "react-icons/go";
 import { VscLayout } from "react-icons/vsc";
-import LoginForm from "../components/LoginForm";
 
 // 공통화면
 // 회원가입 할 때 회원, 병원 선택 페이지
@@ -9,6 +8,7 @@ function LoginPage() {
     const handleLogin = (formData) => {
         // formData = { id: "...", password: "..." }
         console.log('로그인 시도:', formData);
+        return true;
     };
 
     return (

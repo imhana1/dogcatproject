@@ -4,17 +4,28 @@ import HospitalIntro from "./hospital/introduction/HospitalIntro";
 import {Route, Routes} from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import LoginForm from "./components/LoginForm";
-import SignupHospitalForm from "./components/SignupHospitalForm";
+import SignupHospitalForm from "./components/hospitals/SignupHospitalForm";
+import HospitalCheckPassword from "./pages/hospitals/HospitalCheckPassword";
+import MyPage from "./pages/hospitals/MyPage";
+import HospitalTime from "./pages/hospitals/HospitalTime";
+import Booking from "./pages/hospitals/Booking";
+import Notice from "./pages/hospitals/Notice";
+import ChangeMyPage from "./pages/hospitals/ChangeMyPage";
 
 function App() {
   return (
     <div className="App">
-        {/*<LoginPage />*/}
         <Routes>
             <Route path="/" element={<HospitalIntro />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<LoginPage />} />
             <Route path="/hospital-signup" element={<SignupHospitalForm />} />
+            <Route path="/hospital-checkpassword" element={<HospitalCheckPassword />} />
+            <Route path="/hospital-mypage" element={<MyPage />} />
+            <Route path="/change-mypage" element={<ChangeMyPage />} />
+            <Route path="/hospital-time" element={<HospitalTime />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/notice" element={<Notice />} />
         </Routes>
     </div>
   );

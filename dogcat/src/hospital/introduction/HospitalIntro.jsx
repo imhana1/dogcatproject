@@ -47,7 +47,7 @@ function HospitalIntro() {
                     <span className="carousel-control-next-icon"></span>
                 </button>
             </div>
-            <h2>반려동물과 가장 가까운 친구로 따뜻한 사랑을 담아 진료하겠습니다</h2>
+            <h2 className="title">반려동물과 가장 가까운 친구로 따뜻한 사랑을 담아 진료하겠습니다</h2>
             <div className="information">
                 <ul>
                     <FcClock size="40"/>
