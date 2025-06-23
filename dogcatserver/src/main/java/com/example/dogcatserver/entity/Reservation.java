@@ -15,4 +15,5 @@ public class Reservation {
   private LocalDateTime schedule;
   private String h_username;
   private int pno;
+  private String rStatus;
 }

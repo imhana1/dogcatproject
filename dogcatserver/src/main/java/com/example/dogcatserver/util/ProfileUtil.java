@@ -18,7 +18,7 @@ public class ProfileUtil {
 
     private static final String PROFILE_FOLDER = System.getProperty("user.dir")+ File.separator +"upload"
             + File.separator + "profile" + File.separator;
-    private static final String PROFILE_NAME ="3.jpg";
+    private static final String PROFILE_NAME ="flower.jpg";
     public static String getDefaultBase64Profile() {
         try {
             //1. 폴더와 파일명으로 파일 객체를 생성

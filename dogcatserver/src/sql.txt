@@ -1,10 +1,11 @@
 -- 1. user_member : 다른 테이블들이 참조하는 가장 기본 테이블
 CREATE TABLE user_member (
 	username varchar2(10) NOT NULL,
-	password varchar2(10) NULL,
+	password varchar2(70) NULL,
 	role varchar2(4) NULL,
 	status varchar2(5) NULL,
 	e_code varchar2(20) NULL,
+	email varchar2(30) Null,
 	count number(1) NULL,
 	sign_dt date NULL,
 	is_locked number(1) NULL,
@@ -18,9 +19,8 @@ CREATE TABLE nomal_member (
 	n_address varchar2(30) NULL,
 	n_tel number(11) NULL,
 	n_birthday date NULL,
-	n_email varchar2(15) NULL,
-	n_location number(5,10) NULL,
-	n_longitude number(5,10) NULL,
+	n_location number(25,15) NULL,
+	n_longitude number(25,15) NULL,
 	CONSTRAINT PK_NOMAL_MEMBER PRIMARY KEY (n_username),
 	CONSTRAINT FK_user_member_TO_nomal_member_1 FOREIGN KEY (n_username) REFERENCES user_member (username)
 );
@@ -35,13 +35,12 @@ CREATE TABLE hospital_member (
 	h_address varchar2(30) NULL,
 	h_choice number(1) NULL,
 	h_profile clob NULL,
-	h_location number(5,10) NULL,
-	h_longitude number(5,10) NULL,
+	h_location number(25,15) NULL,
+	h_longitude number(25,15) NULL,
 	open_time date NULL,
 	close_time date NULL,
 	d_profile clob NULL,
 	h_birthday date NULL,
-	h_email varchar2(15) NULL,
 	h_Introduction varchar2(1000) NULL,
 	CONSTRAINT PK_HOSPITAL_MEMBER PRIMARY KEY (h_username),
 	CONSTRAINT FK_user_member_TO_hospital_member_1 FOREIGN KEY (h_username) REFERENCES user_member (username)
@@ -92,7 +91,7 @@ CREATE TABLE treat (
 	CONSTRAINT FK_hospital_member_TO_treat_1 FOREIGN KEY (t_writer) REFERENCES hospital_member (h_username)
 );
 
--- 7. reservation : nomal_member, hospital_member, pet 참조
+-- 7. reservation : nomal_member, hospital_member, pet 참조 s_id 추가
 CREATE TABLE reservation (
 	rno number(10) NOT NULL,
 	n_username varchar2(10) NOT NULL,
@@ -100,6 +99,7 @@ CREATE TABLE reservation (
 	h_username varchar2(10) NOT NULL,
 	pno number(10) NOT NULL,
 	r_status varchar2(5) NULL,
+	s_id number(10) NULL,
 	CONSTRAINT PK_RESERVATION PRIMARY KEY (rno),
 	CONSTRAINT FK_nomal_member_TO_reservation_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username),
 	CONSTRAINT FK_hospital_member_TO_reservation_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
@@ -132,14 +132,15 @@ CREATE TABLE d_history (
 	CONSTRAINT FK_hospital_member_TO_d_history_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username)
 );
 
--- 10. schedule : hospital_member 참조
+-- 10. schedule : hospital_member 참조 기본키 s_id 추가 미용 시간과 진료 시간을 구분하기 위한 기본키
 CREATE TABLE schedule (
+	s_id number(10) NOT NULL,
 	schedule date NOT NULL,
 	h_username varchar2(10) NOT NULL,
 	block_status number(1) NULL,
 	h_notice varchar2(100) NULL,
-	s_choice varchar2(4) NULL,
-	CONSTRAINT PK_SCHEDULE PRIMARY KEY (schedule, h_username),
+	s_choice varchar2(10) NULL,
+	CONSTRAINT PK_SCHEDULE PRIMARY KEY (s_id , schedule, h_username),
 	CONSTRAINT FK_hospital_member_TO_schedule_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username)
 );
 
@@ -241,13 +242,17 @@ alter table reservation add constraint uniq_reservation_schedule UNIQUE (schedul
 
 -- uniq 설정 됐는지 확인
 select constraint_name, constraint_type from USER_CONSTRAINTS where TABLE_NAME='RESERVATION';
+
 alter table hospital_member modify(h_address varchar2(50));
 alter table user_member modify(status varchar2(10));
 alter table user_member modify(role varchar2(10));
-alter table hospital_member modify(h_location number(10,50));
-alter table hospital_member modify(h_longitude number(10,50));
+alter table hospital_member modify(h_location number(25,15));
+alter table hospital_member modify(h_longitude number(25,15));
 
 
+
+
+create sequence schedule_seq;
 create sequence treat_seq;
 create sequence notice_seq;
 create sequence qna_question_seq;

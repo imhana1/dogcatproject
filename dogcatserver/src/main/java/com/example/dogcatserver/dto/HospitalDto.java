@@ -31,16 +31,4 @@ public class HospitalDto {
         }
 
         }
-//    @Data
-//    @AllArgsConstructor
-//    public static class Read{
-//        private String hUsername;
-//        private String director;
-//        private String hospital;
-//        private String hTel;
-//        private String hReptel;
-//        private String hAddress;
-//    }
-
-
     }

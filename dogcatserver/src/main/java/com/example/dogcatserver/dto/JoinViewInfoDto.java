@@ -23,9 +23,9 @@ public class JoinViewInfoDto {
     }
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class HospitalInfoChange{
-        @NotEmpty
-        private String hUsername;
         @NotEmpty
         private String director;
         @NotEmpty
@@ -46,10 +46,11 @@ public class JoinViewInfoDto {
         @JsonIgnore
         private MultipartFile dProfile;
         @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+        @JsonProperty("hIntroduction")
         private String hIntroduction;
-        public Hospital toChangeEntity(Double hLocation, Double hLongitude, String base64Image){
-             return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
-                     .hProfile(base64Image).openTime(openTime).closeTime(openTime).dProfile(base64Image).hLocation(hLocation).hLongitude(hLongitude).hIntroduction(hIntroduction).build();
+        public Hospital toChangeEntity(Double hLocation, Double hLongitude, String base64PImage, String bas64DImage){
+             return Hospital.builder().director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
+                     .hProfile(base64PImage).openTime(openTime).closeTime(closeTime).dProfile(bas64DImage).hLocation(hLocation).hLongitude(hLongitude).hIntroduction(hIntroduction).build();
         }
     }
 

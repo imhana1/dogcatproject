@@ -1,14 +1,12 @@
 package com.example.dogcatserver.dto;
 
 import lombok.*;
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignupDto {
     private SignupRequestDto data;
-    @Getter
-    @Setter
+   @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class SignupRequestDto{

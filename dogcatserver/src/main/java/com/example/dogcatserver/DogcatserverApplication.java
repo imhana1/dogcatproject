@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
+@EnableScheduling
 public class DogcatserverApplication {
 
     public static void main(String[] args) {

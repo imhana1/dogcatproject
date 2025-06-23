@@ -60,18 +60,22 @@ public class HospitalService {
         return hospitalMemberInfo.toRead();
     }
 
-    public JoinViewInfoDto.HospitalInfoChange ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto){
+    public JoinViewInfoDto.HospitalInfoChange ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto,MultipartFile hProfile, MultipartFile dProfile, String loginId){
         String address = dto.getHAddress();
         double[] latlng = service.getCoordinates(address);
         String base64HImage= "";
         String base64DImage="";
         try {
-            base64HImage = ProfileUtil.convertToBase64(dto.getHProfile());
-            base64DImage = ProfileUtil.convertToBase64(dto.getDProfile());
-            
+            base64HImage = ProfileUtil.convertToBase64(hProfile);
+            base64DImage = ProfileUtil.convertToBase64(dProfile);
+
+            Hospital hospital = dto.toChangeEntity(latlng[0], latlng[1], base64HImage, base64DImage);
+
+            hospitalDao.changeInfo(hospital);
+
         } catch(IOException e) {
             System.out.println(e.getMessage());
         }
-
+        return hospitalDao.findByUsername(loginId).toChangeRead();
     }
 }
