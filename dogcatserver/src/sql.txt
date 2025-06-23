@@ -236,6 +236,11 @@ CREATE TABLE notice (
 alter table schedule rename COLUMN h_notice to s_notice;
 alter table review rename column write_day to rev_write_day;
 alter table pet rename column breed to p_breed;
+-- uniq 제약 설정
+alter table reservation add constraint uniq_reservation_schedule UNIQUE (schedule, h_username);
+
+-- uniq 설정 됐는지 확인
+select constraint_name, constraint_type from USER_CONSTRAINTS where TABLE_NAME='RESERVATION';
 alter table hospital_member modify(h_address varchar2(50));
 alter table user_member modify(status varchar2(10));
 alter table user_member modify(role varchar2(10));
