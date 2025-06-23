@@ -1,6 +1,5 @@
 package com.example.dogcatserver.dao;
 
-import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import org.apache.ibatis.annotations.*;
 
@@ -15,7 +14,7 @@ public interface HospitalDao {
     int save(Hospital hospital);
 
     @Select("SELECT h.*, m.email FROM hospital_member h LEFT JOIN user_member m ON h.h_username = m.username WHERE h.h_username = #{loginId}")
-    HospitalMemberInfo findByUsername(String loginId);
+    int findByUsername(String loginId);
 
     @Update("update hospital_member set director=#{director}, hospital=#{hospital}, h_tel=#{hTel}, h_reptel=#{hReptel},h_address=#{hAddress}," +
             "h_choice=#{hChoice}, h_profile=#{hProfile},open_time=#{openTime},close_time=#{closeTime},d_profile=#{dProfile},h_Introduction=#{hIntroduction}," +

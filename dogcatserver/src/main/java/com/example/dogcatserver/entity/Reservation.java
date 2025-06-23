@@ -1,12 +1,14 @@
 package com.example.dogcatserver.entity;
 
 import lombok.*;
+import org.springframework.stereotype.*;
 
 import java.time.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Builder
 public class Reservation {
   // rno 기본키
