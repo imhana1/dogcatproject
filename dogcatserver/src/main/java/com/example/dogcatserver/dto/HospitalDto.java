@@ -29,10 +29,7 @@ public class HospitalDto {
             return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
                     .hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).build();
         }
-//        public Hospital toSignEntity() {
-//            return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
-//                    .hBirthDay(hBirthDay).build();
-//        }
+
         }
 //    @Data
 //    @AllArgsConstructor

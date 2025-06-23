@@ -14,4 +14,9 @@ public interface HospitalDao {
 
     @Select("SELECT h.*, m.email FROM hospital_member h LEFT JOIN user_member m ON h.h_username = m.username WHERE h.h_username = #{loginId}")
     HospitalMemberInfo findByUsername(String loginId);
+
+    @Update("update hospital_memeber set direcrtor=#{director}, hospital=#{hospital}, h_tel=#{hTel}, h_reptel=#{hR},h_address=," +
+            "h_choice=, h_profile=,open_time=,close_time=,d_profile=,h_Introduction")
+    int changeInfo();
+
 }

@@ -236,6 +236,11 @@ CREATE TABLE notice (
 alter table schedule rename COLUMN h_notice to s_notice;
 alter table review rename column write_day to rev_write_day;
 alter table pet rename column breed to p_breed;
+alter table hospital_member modify(h_address varchar2(50));
+alter table user_member modify(status varchar2(10));
+alter table user_member modify(role varchar2(10));
+alter table hospital_member modify(h_location number(10,50));
+alter table hospital_member modify(h_longitude number(10,50));
 
 
 create sequence treat_seq;

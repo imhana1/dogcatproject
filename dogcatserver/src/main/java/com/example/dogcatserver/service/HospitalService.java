@@ -3,11 +3,15 @@ package com.example.dogcatserver.service;
 import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
+import com.example.dogcatserver.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.mail.javamail.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
+import org.springframework.web.multipart.*;
+
+import java.io.*;
 
 @Service
 public class HospitalService {
@@ -54,5 +58,20 @@ public class HospitalService {
     public JoinViewInfoDto.HospitalInfo Read(String loginId) {
         HospitalMemberInfo hospitalMemberInfo = hospitalDao.findByUsername(loginId);
         return hospitalMemberInfo.toRead();
+    }
+
+    public JoinViewInfoDto.HospitalInfoChange ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto){
+        String address = dto.getHAddress();
+        double[] latlng = service.getCoordinates(address);
+        String base64HImage= "";
+        String base64DImage="";
+        try {
+            base64HImage = ProfileUtil.convertToBase64(dto.getHProfile());
+            base64DImage = ProfileUtil.convertToBase64(dto.getDProfile());
+            
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }

@@ -24,7 +24,7 @@ public class HospitalController {
     private HospitalDao hospitalDao;
 
 
-    @PostMapping("/signup")
+    @PostMapping("/hospital/signup")
     @Operation(summary = "병원 회원가입", description = "회원가입 확인")
     public ResponseEntity<SignupDto> signup(@RequestBody SignupDto.SignupRequestDto dto) {
         System.out.println("Received DTO: " + dto);
@@ -41,5 +41,6 @@ public class HospitalController {
         JoinViewInfoDto.HospitalInfo dto = service.Read(uDto.getUsername());
         return ResponseEntity.ok(dto);
     }
+    //
 
 }
