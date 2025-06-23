@@ -1,10 +1,13 @@
 package com.example.dogcatserver.dto;
 
 import com.example.dogcatserver.entity.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.context.annotation.*;
 
 import java.time.*;
 import java.util.*;
+
 
 public class NoticeDto {
   // 전체 글 불러오기
@@ -21,10 +24,13 @@ public class NoticeDto {
 
 
   // 글 수정
+
   @Data
   public static class Update {
     private int nno;
+    @NotNull
     private String nTitle;
+    @NotNull
     private String nContent;
     private boolean nIsTop;
   }
@@ -32,7 +38,9 @@ public class NoticeDto {
   // 글 등록
   @Data
   public static class Write {
+    @NotNull
     private String nTitle;
+    @NotNull
     private String nContent;
     private boolean nIsTop;
 

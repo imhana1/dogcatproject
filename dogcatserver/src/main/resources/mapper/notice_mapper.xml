@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.dogcatserver.dao.NoticeDao">
 
-    <!-- 공지사항 글 등록. sql은 임의로 가정 -->
-    <insert id="saveNotice">
+    <!-- 공지사항 글 등록. -->
+    <insert id="writeNotice">
 
-            <selectKey resultType="int" keyProperty="pno" order="BEFORE">
+            <selectKey resultType="int" keyProperty="nno" order="BEFORE">
                 select notice_seq.nextval from dual
             </selectKey>
             insert into notice values(#{nno}, #{nTitle}, #{username}, #{nWriteDay},#{nContent},#{nIsTop})
