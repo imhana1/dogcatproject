@@ -30,10 +30,15 @@ public class UseMemberController {
     }
 
     @PostMapping("/email-send")
-    @Operation(summary = "이메일발송", description = "이메일 발송 확인")
-    public ResponseEntity<UseMember> emailSend(@RequestBody UseMemberDto.UseMemberCode dto) {
+    public ResponseEntity<UseMemberResponseDto> emailSend(@RequestBody UseMemberDto.UseMemberCode dto) {
         UseMember result = service.emailSending(dto);
-        return ResponseEntity.ok(result);
+        UseMemberResponseDto response = new UseMemberResponseDto(
+                result.getUsername(),
+                result.getEmail(),
+                result.getStatus(),
+                result.isLocked()
+        );
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/email-check")

@@ -2,6 +2,9 @@ package com.example.dogcatserver.dao;
 
 import com.example.dogcatserver.entity.*;
 import org.apache.ibatis.annotations.*;
+
+import java.util.*;
+
 @Mapper
 public interface UseMemberDao {
     // 같은 이름의 아이디 찾기
@@ -23,4 +26,8 @@ public interface UseMemberDao {
 
     @Update("update user_member set password=#{password},role=#{role}, status=#{status}, count=#{count}, sign_dt=#{signDt} where username=#{username}")
     int signupUpdate(UseMember useMember);
+
+    @Select("select username, password, role, is_locked from user_name where username=#{username}")
+    Optional<UseMember>loadLoginData(String username);
 }
+

@@ -27,12 +27,17 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity config) throws Exception {
         config.cors(cors -> cors.configurationSource(corsConfigurationSource()));
         config.csrf(csrf -> csrf.disable());
-
-        config.authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()  // 모든 요청 허용
-        );
-
+        config.formLogin(form->form.loginPage("/login").loginProcessingUrl("/login")
+                .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler));
+        config.logout(logout->logout.logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler));
+        config.exceptionHandling(handler->handler.accessDeniedHandler(authenticationHandler)
+                .authenticationEntryPoint(authenticationEntryPoint));
         return config.build();
+
+//        config.authorizeHttpRequests(auth -> auth
+//                .anyRequest().permitAll()  // 모든 요청 허용
+//        );
+
     }
 
     @Bean
