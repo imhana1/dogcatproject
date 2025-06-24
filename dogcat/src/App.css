@@ -18,18 +18,12 @@ li {
 .header {
     /* 가로 정렬 */
     display: flex;
-<<<<<<< HEAD
     justify-content: space-between;
     height: 60px;
     padding: 0 20px;
     background-color: #cbe86b;
     font-weight: bold;
     font-size: larger;
-=======
-    /* 세로 가운데 */
-    align-items: center;
-    height: 60px;
->>>>>>> 309dc07 (tlqkf 0618 병원소개페이지 가운데 정렬 안댐)
 }
 
 .name {
@@ -39,10 +33,6 @@ li {
     height: 50px;
     /* 줄 간격 */
     line-height: 50px;
-<<<<<<< HEAD
-=======
-    font-weight: bold;
->>>>>>> 309dc07 (tlqkf 0618 병원소개페이지 가운데 정렬 안댐)
     text-align: center;
 }
 
@@ -50,21 +40,15 @@ li {
     display: flex;
     margin-left: auto;
     align-items: center;
-<<<<<<< HEAD
     height: 100%;
-=======
->>>>>>> 309dc07 (tlqkf 0618 병원소개페이지 가운데 정렬 안댐)
 }
 
 .intro-image {
     display: flex;
     justify-content: center; /* 가로 가운데 */
     align-items: center;
-<<<<<<< HEAD
 }
 
 .title {
     text-align: center;
-=======
->>>>>>> 309dc07 (tlqkf 0618 병원소개페이지 가운데 정렬 안댐)
 }
