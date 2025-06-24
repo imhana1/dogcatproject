@@ -12,5 +12,6 @@ public class SignupDto {
     public static class SignupRequestDto{
         private HospitalDto.create hospital;
         private UseMemberDto.hospitalSignup useMember;
+        private NuserDto.Ncreate nuser;
     }
 }

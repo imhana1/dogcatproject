@@ -13,29 +13,24 @@ public class NuserDto {
     public static class NidCheck {
         @NotEmpty
         @Pattern(regexp = "^[A-Za-z0-9]{6,10}$")
-        private String nId;
+        private String nid;
     }
 
     @Data
     public static class Ncreate {
         @NotEmpty
         @Pattern(regexp = "^[a-z0-9]{6,10}$")
-        private String nId;
-        @NotEmpty
+        private String nid;
         private String nname;
-        @NotEmpty
         @Pattern(regexp = "^[A-Za-z0-9]{6,10}$")
         private String npwd;
-        @NotEmpty
-        @Email
-        private String email;
-        @NotEmpty
+        @Pattern(regexp = "^01[016789]-?\\d{3,4}-?\\d{4}$")
+        private String ntel;
         private String naddr;
-        @NotEmpty
         private LocalDate nbirth;
 
-        public Nuser toEntity(String encodedPassword) {
-            return Nuser.builder().nname(nname).npassword(encodedPassword).email(email).
+        public Nuser toSignEntity(Double nlocation, Double nlongitude) {
+            return Nuser.builder().nid(nid).nname(nname).ntel(ntel).naddr(naddr).nbirth(nbirth).nlocation(nlocation).nlongitude(nlongitude).
                     build();
         }
     }

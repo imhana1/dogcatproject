@@ -5,12 +5,15 @@ import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.service.*;
 import io.swagger.v3.oas.annotations.*;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 public class UseMemberController {
@@ -48,4 +51,30 @@ public class UseMemberController {
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).body("인증 실패했습니다");
     }
+
+    // 회원 탈퇴
+    @Operation(summary = "회원 탈퇴", description = "로그아웃 시킨 후 회원 탈퇴")
+    @DeleteMapping("/member/member") // url 미정
+    public ResponseEntity<String> resign(Principal principal, HttpSession session) {
+        service.resign(principal.getName());
+        session.invalidate();
+        return ResponseEntity.ok("회원 탈퇴");
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
