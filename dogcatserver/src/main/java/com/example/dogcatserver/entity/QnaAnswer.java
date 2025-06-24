@@ -17,6 +17,10 @@ public class QnaAnswer {  // qna 답변
   private LocalDateTime answerWriteDay=LocalDateTime.now();  // 기본값: 작성일
   @NotNull
   private String answerContent;
+
+  public QnaAnswer toEntity(String loginId, int qno, String answerContent) {
+    return QnaAnswer.builder().qno(qno).username(loginId).answerWriteDay(LocalDateTime.now()).answerContent(answerContent).build();
+  }
 }
 
 // 질문, 답변 entity 따로 만든 후 dto 만들어서 출력할 형태 관리

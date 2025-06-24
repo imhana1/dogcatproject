@@ -5,7 +5,6 @@ CREATE TABLE user_member (
 	role varchar2(4) NULL,
 	status varchar2(5) NULL,
 	e_code varchar2(20) NULL,
-	email varchar2(30) Null,
 	count number(1) NULL,
 	sign_dt date NULL,
 	is_locked number(1) NULL,
@@ -248,7 +247,6 @@ alter table user_member modify(status varchar2(10));
 alter table user_member modify(role varchar2(10));
 alter table hospital_member modify(h_location number(25,15));
 alter table hospital_member modify(h_longitude number(25,15));
-
 
 
 

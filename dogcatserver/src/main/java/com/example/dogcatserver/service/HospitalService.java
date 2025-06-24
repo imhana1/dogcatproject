@@ -56,7 +56,7 @@ public class HospitalService {
     }
 
     public JoinViewInfoDto.HospitalInfo Read(String loginId) {
-        HospitalMemberInfo hospitalMemberInfo = hospitalDao.findByUsername(loginId);
+        HospitalMemberInfo hospitalMemberInfo = hospitalDao.getByUsername(loginId);
         return hospitalMemberInfo.toRead();
     }
 
@@ -76,6 +76,7 @@ public class HospitalService {
         } catch(IOException e) {
             System.out.println(e.getMessage());
         }
-        return hospitalDao.findByUsername(loginId).toChangeRead();
+        return hospitalDao.getByUsername(loginId).toChangeRead();
     }
 }
+

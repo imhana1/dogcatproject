@@ -19,6 +19,8 @@ public class UserMemberService {
 
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private UseMemberDao useMemberDao;
 
     // 아이디 사용 여부 확인
     public boolean checkUsername(UseMemberDto.UsernameCheck dto){return !memberDao.existsByUsername(dto.getUsername());}
@@ -72,4 +74,7 @@ public class UserMemberService {
     }
 
 
+    public void resign(String loginId) {
+        useMemberDao.delete(loginId);
+    }
 }

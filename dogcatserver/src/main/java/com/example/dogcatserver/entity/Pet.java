@@ -17,12 +17,14 @@ public class Pet {
     private int pmichipe;   // 내장칩유무
     private String pbreed;  // 품종
     private String pname;   // 이름
+    private int pweight;    // 몸무게
     private int page;   // 나이
     private int palg;   // 알러지유무
     private int pins;   // 펫보험 여부
     private String pporf;   // 펫 프사
 
-//
-//    public static PetDto.Pread toRead() {
-//    }
+    public PetDto.pread toRead() {
+        return new PetDto.pread(pno, pname, pmichipe, ptype, pbreed, pweight, page, palg, pins, pporf);
+    }
+
 }

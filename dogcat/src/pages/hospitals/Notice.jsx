@@ -1,8 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 
 // 병원 공지사항
 function Notice() {
+  const [notice, setNotice] = useState("초기 공지사항입니다.");
+  const [input, setInput] = useState(notice);
+
+  const handleChange = () => {
+    setNotice(input);
+    alert('공지사항이 변경되었습니다');
+  };
+
   return (
     <div>
       <nav>
@@ -23,11 +31,14 @@ function Notice() {
         </ul>
       </nav>
       <div>
-        <div style={{ border: "1px solid #ccc", borderRadius: "10px", padding: "32px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.04)", maxWidth: "1400px", margin: "40px auto" }}>
-          <textarea className="font-control" placeholder="공지사항을 작성해주세요" style={{ width: "100%", height: "240px" }} />
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <button type="button" className="btn btn-outline-dark btn-block" style={{ width: "30%", padding: "10px", fontSize: "1.1rem" }}>작성하기</button>
-          </div>
+        <h2 style={{ textAlign: "center" }}>공지사항 작성/수정</h2>
+        <textarea style={{ width: 1300, height: 500, fontSize: 16, marginBottom: 16, padding: 10 }} value={input} onChange={e => setInput(e.target.value)} placeholder="공지사항을 입력하세요"/>
+        <br />
+        <button onClick={handleChange}>수정하기</button>
+        <div style={{ marginTop: 30, color: "#888" }}>
+          <strong>미리보기:</strong>
+          <br />
+          {input}
         </div>
       </div>
     </div>

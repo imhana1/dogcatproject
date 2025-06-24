@@ -11,6 +11,7 @@ import HospitalTime from "./pages/hospitals/HospitalTime";
 import Booking from "./pages/hospitals/Booking";
 import Notice from "./pages/hospitals/Notice";
 import ChangeMyPage from "./pages/hospitals/ChangeMyPage";
+import BookingDetails from "./pages/hospitals/BookingDetails";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/change-mypage" element={<ChangeMyPage />} />
             <Route path="/hospital-time" element={<HospitalTime />} />
             <Route path="/booking" element={<Booking />} />
+            <Route path="/booking/:id" element={<BookingDetails />} />
             <Route path="/notice" element={<Notice />} />
         </Routes>
     </div>
