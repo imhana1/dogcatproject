@@ -2,15 +2,14 @@ package com.example.dogcatserver.entity;
 
 import com.example.dogcatserver.dto.*;
 import com.fasterxml.jackson.annotation.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
-import org.springframework.web.multipart.*;
 
 import java.time.*;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class HospitalMemberInfo {
     private String hUsername;
     private String director;
@@ -19,24 +18,46 @@ public class HospitalMemberInfo {
     private String hReptel;
     private String hAddress;
     private String email;
-    private boolean hChoice;
+    private Integer hChoice;
+    // 위도
+    @JsonProperty("y")
+    private Double hLocation;
+    // 경도
+    @JsonProperty("x")
+    private Double hLongitude;
     @JsonIgnore
-    private MultipartFile hProfile;
-    @JsonFormat(pattern = "HH시 mm분")
-    private LocalDateTime openTime;
-    @JsonFormat(pattern = "HH시 mm분")
-    private LocalDateTime closeTime;
+    private String hProfile;
     @JsonIgnore
-    private MultipartFile dProfile;
-    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
-    @JsonProperty("hIntroduction")
+    private String dProfile;
+    private String  openTime;
+    private String closeTime;
+//    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+//    @JsonProperty("hIntroduction")
     private String hIntroduction;
 
-    public JoinViewInfoDto.HospitalInfo toRead(){
-        return new JoinViewInfoDto.HospitalInfo(hUsername,director,hospital,hTel,hReptel,hAddress,email);
+    // 기존 toRead()는 그대로 유지
+    public JoinViewInfoDto.HospitalInfo toRead() {
+        return new JoinViewInfoDto.HospitalInfo(
+                hUsername, director, hospital, hTel, hReptel, hAddress, email
+        );
     }
 
-    public JoinViewInfoDto.HospitalInfoChange toChangeRead(){
-        return new JoinViewInfoDto.HospitalInfoChange(director,hospital,hTel,hReptel,hAddress,hChoice,hProfile,openTime,closeTime,dProfile,hIntroduction);
+    // 파일명/경로를 이용해 URL로 변환해서 DTO로 반환
+    public HospitalInfoChangeResponse toChangeRead() {
+        return HospitalInfoChangeResponse.builder()
+                .hUsername(hUsername)
+                .director(director)
+                .hospital(hospital)
+                .hTel(hTel)
+                .hReptel(hReptel)
+                .hAddress(hAddress)
+                .hChoice(hChoice)
+                .hProfileUrl(hProfile != null ? "/files/profile/" + hProfile : null)
+                .openTime(openTime)
+                .closeTime(closeTime)
+                .dProfileUrl(dProfile != null ? "/files/profile/" + dProfile : null)
+                .hIntroduction(hIntroduction)
+                .build();
     }
 }
+

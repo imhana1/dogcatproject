@@ -33,6 +33,7 @@ public class UseMemberController {
     }
 
     @PostMapping("/email-send")
+    @Operation(summary = "이메일 발송", description = "이메일 발송")
     public ResponseEntity<UseMemberResponseDto> emailSend(@RequestBody UseMemberDto.UseMemberCode dto) {
         UseMember result = service.emailSending(dto);
         UseMemberResponseDto response = new UseMemberResponseDto(

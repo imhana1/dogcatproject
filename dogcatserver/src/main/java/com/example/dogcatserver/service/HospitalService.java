@@ -62,21 +62,28 @@ public class HospitalService {
 
     public JoinViewInfoDto.HospitalInfoChange ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto,MultipartFile hProfile, MultipartFile dProfile, String loginId){
         String address = dto.getHAddress();
-        double[] latlng = service.getCoordinates(address);
-        String base64HImage= "";
-        String base64DImage="";
+        double[] latlng = {0, 0};
+        if (address != null && !address.isBlank()) {
+            latlng = service.getCoordinates(address);
+        }
+
+        String base64HImage = "";
+        String base64DImage = "";
         try {
-            base64HImage = ProfileUtil.convertToBase64(hProfile);
-            base64DImage = ProfileUtil.convertToBase64(dProfile);
+            if (dto.getHProfile() != null && !dto.getHProfile().isEmpty()) {
+                base64HImage = ProfileUtil.convertToBase64(dto.getHProfile());
+            }
+            if (dto.getDProfile() != null && !dto.getDProfile().isEmpty()) {
+                base64DImage = ProfileUtil.convertToBase64(dto.getDProfile());
+            }
+        } catch (IOException e) {
+            System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
+        }
 
-            Hospital hospital = dto.toChangeEntity(latlng[0], latlng[1], base64HImage, base64DImage);
-
-            hospitalDao.changeInfo(hospital);
-
-        } catch(IOException e) {
-            System.out.println(e.getMessage());
+        HospitalMemberInfo existing = hospitalDao.getByUsername(loginId);
+        if (base64HImage.isEmpty() && existing != null) {
+            base64HImage = existing.getHProfile();
         }
         return hospitalDao.getByUsername(loginId).toChangeRead();
     }
 }
-

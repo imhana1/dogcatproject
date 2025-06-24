@@ -23,7 +23,7 @@ public class HospitalDto {
         private String hReptel;
         private String hAddress;
         private boolean hChoice;
-        private LocalDateTime hBirthDay;
+        private LocalDate hBirthDay;
 
                 public Hospital toSignEntity(Double hLocation, Double hLongitude){
             return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)

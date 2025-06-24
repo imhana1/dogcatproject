@@ -5,6 +5,7 @@ CREATE TABLE user_member (
 	role varchar2(4) NULL,
 	status varchar2(5) NULL,
 	e_code varchar2(20) NULL,
+	email varchar2(30) Null,
 	count number(1) NULL,
 	sign_dt date NULL,
 	is_locked number(1) NULL,
@@ -27,17 +28,17 @@ CREATE TABLE nomal_member (
 -- 3. hospital_member : user_member 참조
 CREATE TABLE hospital_member (
 	h_username varchar2(10) NOT NULL,
-	director varchar2(10) NOT NULL,
+	director varchar2(10)  NULL,
 	hospital varchar2(10) NULL,
-	h_tel number(11) NULL,
-	h_reptel number(10) NULL,
-	h_address varchar2(30) NULL,
+	h_tel varchar2(11) NULL,
+	h_reptel varchar2(10) NULL,
+	h_address varchar2(70) NULL,
 	h_choice number(1) NULL,
 	h_profile clob NULL,
 	h_location number(25,15) NULL,
 	h_longitude number(25,15) NULL,
-	open_time date NULL,
-	close_time date NULL,
+	open_time varchar2(15) NULL,
+	close_time varchar2(15) NULL,
 	d_profile clob NULL,
 	h_birthday date NULL,
 	h_Introduction varchar2(1000) NULL,
@@ -247,6 +248,7 @@ alter table user_member modify(status varchar2(10));
 alter table user_member modify(role varchar2(10));
 alter table hospital_member modify(h_location number(25,15));
 alter table hospital_member modify(h_longitude number(25,15));
+
 
 
 

@@ -1,37 +1,25 @@
-package com.example.dogcatserver.entity;
+package com.example.dogcatserver.dto;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import java.time.*;
-
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Hospital {
+public class HospitalInfoChangeResponse {
     private String hUsername;
     private String director;
     private String hospital;
     private String hTel;
     private String hReptel;
     private String hAddress;
-    private boolean hChoice;
-    @JsonIgnore
-    private String hProfile;
-    // 위도
-    @JsonProperty("y")
-    private Double hLocation;
-    // 경도
-    @JsonProperty("x")
-    private Double hLongitude;
+    private Integer hChoice;
+    private String hProfileUrl;   // <img src="...">에 바로 사용
     private String  openTime;
     private String closeTime;
-    @JsonIgnore
-    private String dProfile;
-    @JsonFormat(pattern = "yyyy년 MM월 dd일")
-    private LocalDate hBirthDay;
+    private String dProfileUrl;
     @JsonProperty("hIntroduction")
     private String hIntroduction;
-
 }

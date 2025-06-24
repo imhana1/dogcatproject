@@ -19,6 +19,7 @@ import org.springframework.web.multipart.*;
 @Controller
 public class HospitalController {
 
+
     @Autowired
     private HospitalService service;
 
@@ -46,15 +47,25 @@ public class HospitalController {
 
 
     @Operation(summary = "정보 변경", description = "내 정보를 변경")
-    @PutMapping("/hospital/profile")
-    public ResponseEntity<JoinViewInfoDto.HospitalInfoChange> changeInfo(
+    @PostMapping(value = "/hospital/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<HospitalInfoChangeResponse> changeInfo(
             @RequestPart("dto") @Valid JoinViewInfoDto.HospitalInfoChange dto,
-            @RequestPart("uDto") @Valid UseMemberDto.UsernameCheck uDto,
             @RequestPart(value = "hProfile", required = false) MultipartFile hProfile,
-            @RequestPart(value = "dProfile", required = false) MultipartFile dProfile) {
+            @RequestPart(value = "dProfile", required = false) MultipartFile dProfile
+    ) {
+        dto.setHProfile(hProfile);
+        dto.setDProfile(dProfile);
 
-        JoinViewInfoDto.HospitalInfoChange hInfo = service.ChangeInfo(dto, hProfile,dProfile, uDto.getUsername());
+        HospitalInfoChangeResponse hInfo = service.ChangeInfo(dto, dto.getHUsername());
         return ResponseEntity.ok(hInfo);
+    }
+
+
+
+    @PostMapping("/aa")
+    public ResponseEntity<Aa>multipartTest(Aa a){
+        System.out.println(a.getDProfile().getOriginalFilename());
+        return  ResponseEntity.ok(null);
     }
 
 }
