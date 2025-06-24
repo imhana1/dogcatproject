@@ -29,5 +29,8 @@ public interface UseMemberDao {
 
     @Select("select username, password, role, is_locked from user_name where username=#{username}")
     Optional<UseMember>loadLoginData(String username);
+
+    @Delete("delete from USER_MEMBER where USERNAME=#{loginId}")
+    int delete(String loginId);
 }
 
