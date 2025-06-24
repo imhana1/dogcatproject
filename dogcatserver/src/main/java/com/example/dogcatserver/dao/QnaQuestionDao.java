@@ -14,6 +14,9 @@ public interface QnaQuestionDao {
   @Select("select * from qna_question where qno=#{qno}")
   Optional<QnaQuestion> findQnaQuestionByQno(int qno);
 
+  // qna 질문 답변과 함께 출력
+  Optional<Map<String, Object>> findQnaQuestionByQnoWithAnswer(int qno);
+
   // qna 전체 질문 목록 출력
   //@Select("select * from qna_question")
   List<QnaQuestion> findAllQnaQuestion(int pageno, int pagesize);

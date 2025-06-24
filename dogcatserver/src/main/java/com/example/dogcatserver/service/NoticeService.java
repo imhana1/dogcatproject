@@ -28,7 +28,7 @@ public class NoticeService {
   // 단일 글 불러오기 (여기 리턴타입 optional 하면 컨트롤러 오류나지 그냥 notice 하고 예외처리)
   public Notice findNoticeByNno(int nno, String loginId) {
     // 수정, 삭제버튼 유무 결정하려면 작성자인지 판단해야해서 loginId 넣음(이건 컨트롤러에서 작성)
-    Notice notice = noticeDao.findNoticeByNno(nno).orElseThrow(()->new EntityNotFoundException("글 없음"));
+    Notice notice = noticeDao.findNoticeByNno(nno).orElseThrow(()->new EntityNotFoundException("글을 찾지 못했습니다."));
     return notice;
   }
 
