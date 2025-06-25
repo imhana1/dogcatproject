@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dogcatserver.dao.AdoptionDao">
+
+    <!-- 전체 목록 가져오기 -->
+    <select id="findAllAdoption" resultType="com.example.dogcatserver.entity.Notice">
+        select ano, n_title, n_write_day from notice order by nno desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+    </select>
+
+</mapper>
