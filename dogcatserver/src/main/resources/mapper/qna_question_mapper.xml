@@ -22,4 +22,5 @@
             q.qno, q.q_title, q.username as question_username, q.q_write_day, q.q_content, q.q_is_answered, q.q_image, a.qno, a.username as answer_username, a.answer_write_day, a.answer_content
         from qna_question q left join qna_answer a on q.qno = a.qno order by q.qno desc
     </select>
+
 </mapper>

@@ -37,6 +37,7 @@ public class NoticeDto {
 
   // 글 등록
   @Data
+  @Builder
   public static class Write {
     @NotNull
     private String nTitle;
@@ -46,6 +47,14 @@ public class NoticeDto {
 
     public Notice toEntity(String loginId) {
       return Notice.builder().nTitle(nTitle).nContent(nContent).nIsTop(nIsTop).username(loginId).build();
+
+//      Notice notice = new Notice();
+//      notice.setNTitle(nTitle);
+//      notice.setNContent(nContent);
+//      notice.setNIsTop(nIsTop);
+//      notice.setUsername(loginId);
+//      return notice;
+
       // db 등록할 때 username에 관리자 id를 넣을거야. 관리자 id는 controller 만들면서 toEntity로 보낼거야. 이후에 꼭 넣기
     }
   }
