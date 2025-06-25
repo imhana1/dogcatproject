@@ -39,7 +39,7 @@ public class NoticeService {
     return notice;
   }
   // 글 수정
-  public int updateNotice(NoticeDto.Update updateDto, String loginId) {
+  public Notice updateNotice(NoticeDto.Update updateDto, String loginId) {
     // 글 찾아 없으면 예외
     Notice notice = noticeDao.findNoticeByNno(updateDto.getNno()).orElseThrow(()-> new EntityNotFoundException("글을 찾지 못했습니다"));
     // 작성자 아니면 예외처리
@@ -48,7 +48,7 @@ public class NoticeService {
     }
     //찾았으면 수정
     noticeDao.updateNotice(updateDto);
-    return updateDto.getNno();
+    return notice;
   }
 
   // 글 삭제

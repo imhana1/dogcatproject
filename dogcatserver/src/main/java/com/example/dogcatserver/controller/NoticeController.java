@@ -50,9 +50,9 @@ public class NoticeController {
   @Operation(summary = "공지사항 글 수정", description = "공지사항 제목, 내용, 상단고정 수정 후 수정완료 메시지 반환")
   @PutMapping("/api/notices/notice")
   @Secured("ROLE_ADMIN")
-  public ResponseEntity<String> updateNotice(@ModelAttribute NoticeDto.Update updateDto, BindingResult br, Principal principal) {
-    noticeService.updateNotice(updateDto, principal.getName());
-    return ResponseEntity.ok("공지사항 글 수정이 완료되었습니다.");
+  public ResponseEntity<Notice> updateNotice(@ModelAttribute NoticeDto.Update updateDto, BindingResult br, Principal principal) {
+    Notice notice = noticeService.updateNotice(updateDto, principal.getName());
+    return ResponseEntity.ok(notice);
   }
 
   @Operation(summary = "공지사항 글 삭제", description = "글 번호로 공지사항 글 삭제 후 삭제 완료 문구 반환")

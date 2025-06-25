@@ -58,7 +58,7 @@ public class AdoptionService {
   }
 
   // 글 수정: updateAdoption
-  public int updateAdoption(AdoptionDto.Update updateDto, MultipartFile profileImage, String loginId) {
+  public Adoption updateAdoption(AdoptionDto.Update updateDto, MultipartFile profileImage, String loginId) {
     // 글 찾아
     Adoption adoption = adoptionDao.findAdoptionByAno(updateDto.getAno()).orElseThrow(()->new EntityNotFoundException("글을 찾지 못했습니다."));
 
@@ -84,7 +84,7 @@ public class AdoptionService {
     // 작성자는 수정하자
     adoptionDao.updateAdoption(updateDto);
     // 수정한 후 글 번호 리턴
-    return updateDto.getAno();
+    return adoption;
   }
 
   // 글 삭제: deleteAdoptionByAno
