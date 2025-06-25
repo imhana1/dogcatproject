@@ -10,11 +10,14 @@ import com.example.dogcatserver.dto.UseMemberDto;
 import com.example.dogcatserver.entity.Pet;
 import com.example.dogcatserver.service.NuserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @Validated
@@ -48,6 +51,14 @@ public class NuserController {
 
         JoinViewInfoDto.NuserInfo nInfo = nuserservice.ChangeInfo(dto, uDto.getUsername());
         return ResponseEntity.ok(nInfo);
+    }
+
+    @Operation(summary = "회원 탈퇴", description = "로그아웃 시킨 후 회원 탈퇴")
+    @DeleteMapping("/nuser/nuser") // url 미정
+    public ResponseEntity<String> nresign(Principal principal, HttpSession session) {
+        nuserservice.nresign(principal.getName());
+        session.invalidate();
+        return ResponseEntity.ok("회원 탈퇴");
     }
 }
 

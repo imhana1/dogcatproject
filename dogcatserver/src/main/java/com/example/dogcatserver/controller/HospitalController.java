@@ -46,19 +46,19 @@ public class HospitalController {
     }
 
 
-    @Operation(summary = "정보 변경", description = "내 정보를 변경")
-    @PostMapping(value = "/hospital/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<HospitalInfoChangeResponse> changeInfo(
-            @RequestPart("dto") @Valid JoinViewInfoDto.HospitalInfoChange dto,
-            @RequestPart(value = "hProfile", required = false) MultipartFile hProfile,
-            @RequestPart(value = "dProfile", required = false) MultipartFile dProfile
-    ) {
-        dto.setHProfile(hProfile);
-        dto.setDProfile(dProfile);
-
-        HospitalInfoChangeResponse hInfo = service.ChangeInfo(dto, dto.getHUsername());
-        return ResponseEntity.ok(hInfo);
-    }
+//    @Operation(summary = "정보 변경", description = "내 정보를 변경")
+//    @PostMapping(value = "/hospital/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<HospitalInfoChangeResponse> changeInfo(
+//            @RequestPart("dto") @Valid JoinViewInfoDto.HospitalInfoChange dto,
+//            @RequestPart(value = "hProfile", required = false) MultipartFile hProfile,
+//            @RequestPart(value = "dProfile", required = false) MultipartFile dProfile
+//    ) {
+//        dto.setHProfile(hProfile);
+//        dto.setDProfile(dProfile);
+//
+//        HospitalInfoChangeResponse hInfo = service.ChangeInfo(dto, dto.getHUsername());
+//        return ResponseEntity.ok(hInfo);
+//    }
 
 
 
