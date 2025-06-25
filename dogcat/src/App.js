@@ -12,6 +12,7 @@ import Booking from "./pages/hospitals/Booking";
 import Notice from "./pages/hospitals/Notice";
 import ChangeMyPage from "./pages/hospitals/ChangeMyPage";
 import BookingDetails from "./pages/hospitals/BookingDetails";
+import FindAccount from "./pages/FindAccount";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<HospitalIntro />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<LoginPage />} />
+            <Route path="/find-account" element={<FindAccount />} />
             <Route path="/hospital-signup" element={<SignupHospitalForm />} />
             <Route path="/hospital-checkpassword" element={<HospitalCheckPassword />} />
             <Route path="/hospital-mypage" element={<MyPage />} />
