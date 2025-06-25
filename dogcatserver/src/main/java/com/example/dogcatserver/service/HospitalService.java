@@ -60,7 +60,7 @@ public class HospitalService {
         return hospitalMemberInfo.toRead();
     }
 
-    public JoinViewInfoDto.HospitalInfoChange ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto,MultipartFile hProfile, MultipartFile dProfile, String loginId){
+    public HospitalInfoChangeResponse ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto, String loginId){
         String address = dto.getHAddress();
         double[] latlng = {0, 0};
         if (address != null && !address.isBlank()) {

@@ -17,7 +17,7 @@
     </select>
 
     <!-- 1:1 문의 글 답변과 함께 출력. 답변 없으면 null -->
-    <select id="findQnaQuestionByQnoWithAnswer" resultMap="mapForRead">
+    <select id="findQnaQuestionByQnoWithAnswer" resultType="java.util.HashMap">
         select
             q.qno, q.q_title, q.username as question_username, q.q_write_day, q.q_content, q.q_is_answered, q.q_image, a.qno, a.username as answer_username, a.answer_write_day, a.answer_content
         from qna_question q left join qna_answer a on q.qno = a.qno order by q.qno desc
