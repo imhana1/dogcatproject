@@ -15,8 +15,6 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class ReservationService {
-  @Autowired ReservationDao reservationDao;
-
   @Autowired
   private HospitalDao hospitalDao;
   @Autowired
