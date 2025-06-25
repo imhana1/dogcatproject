@@ -13,12 +13,20 @@ import Notice from "./pages/hospitals/Notice";
 import ChangeMyPage from "./pages/hospitals/ChangeMyPage";
 import BookingDetails from "./pages/hospitals/BookingDetails";
 import FindAccount from "./pages/FindAccount";
+import BookingResult from "./pages/hospitals/BookingResult";
+import Doctor from "./hospital/introduction/Doctor";
+import ProtectedRoute from "./routes/ ProtectedRoute";
+import HospitalReservation from "./hospital/introduction/HospitalReservation";
+import HospitalReview from "./hospital/introduction/HospitalReview";
 
 function App() {
   return (
     <div className="App">
         <Routes>
             <Route path="/" element={<HospitalIntro />} />
+            <Route path="/hospital-doctor" element={<Doctor />} />
+            <Route path="/hospital-reservation" element={<ProtectedRoute><HospitalReservation /></ProtectedRoute>} />
+            <Route path="/hospital-review" element={<HospitalReview />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<LoginPage />} />
             <Route path="/find-account" element={<FindAccount />} />
@@ -28,7 +36,10 @@ function App() {
             <Route path="/change-mypage" element={<ChangeMyPage />} />
             <Route path="/hospital-time" element={<HospitalTime />} />
             <Route path="/booking" element={<Booking />} />
+            {/* 예약 내역 페이지 */}
             <Route path="/booking/:id" element={<BookingDetails />} />
+            {/* 진료 결과 페이지 */}
+            <Route path="/result/:id" element={<BookingResult />} />
             <Route path="/notice" element={<Notice />} />
         </Routes>
     </div>

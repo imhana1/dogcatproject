@@ -30,6 +30,7 @@ function SignupHospitalForm() {
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
 
+    // 에러메시지
     const validate = () => {
       const newErrors = {};
 
