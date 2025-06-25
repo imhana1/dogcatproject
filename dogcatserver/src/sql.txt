@@ -42,6 +42,7 @@ CREATE TABLE hospital_member (
 	d_profile clob NULL,
 	h_birthday date NULL,
 	h_Introduction varchar2(1000) NULL,
+	educational varchar2(200) NULL,
 	CONSTRAINT PK_HOSPITAL_MEMBER PRIMARY KEY (h_username),
 	CONSTRAINT FK_user_member_TO_hospital_member_1 FOREIGN KEY (h_username) REFERENCES user_member (username)
 );
@@ -124,13 +125,6 @@ CREATE TABLE pay (
                      CONSTRAINT FK_nomal_member_TO_pay_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username)
 );
 
--- 9. d_history : hospital_member 참조
-CREATE TABLE d_history (
-	h_username varchar2(10) NOT NULL,
-	educational varchar2(30) NULL,
-	CONSTRAINT PK_D_HISTORY PRIMARY KEY (h_username),
-	CONSTRAINT FK_hospital_member_TO_d_history_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username)
-);
 
 -- 10. schedule : hospital_member 참조 기본키 s_id 추가 미용 시간과 진료 시간을 구분하기 위한 기본키
 CREATE TABLE schedule (
