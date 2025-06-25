@@ -13,9 +13,7 @@ import java.time.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class
-
-ReservationDaoTest {
+public class ReservationDaoTest {
   @Autowired
   private ReservationDao reservationDao;
 

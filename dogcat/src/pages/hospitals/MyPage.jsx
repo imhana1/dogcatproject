@@ -21,23 +21,20 @@ function MyPage() {
 
   return (
     <div>
-      <nav>
-        <ul style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: 10, padding: 0, fontSize: "18px" }}>
-          <li>
-            <Link to="/hospital-mypage" style={{ textDecoration: "none", color: "black" }}>내정보 보기</Link>
-          </li>
-          <li>
-            <Link to="/hospital-time" style={{ textDecoration: "none" , color: "black" }} >병원 예약 시간 설정</Link>
-          </li>
-          <li>
-            <Link to="/booking" style={{ textDecoration: "none" , color: "black" }}>예약내역</Link>
-          </li>
-          <li>
-            <Link to="/notice" style={{ textDecoration: "none", color: "black" }}>공지사항</Link>
-          </li>
-          <button type="submit" className="btn btn-light">로그아웃</button>
-        </ul>
-      </nav>
+      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
+        <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d" }}>너도멍냥 동물병원</div>
+        <nav>
+          <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
+            <li><Link to="#" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>내정보 보기</span></Link></li>
+            <li><Link to="/hospital-time" style={{ color: "#333", textDecoration: "none" }}>병원예약 시간설정</Link></li>
+            <li><Link to="/booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
+            <li><Link to="/notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
+          </ul>
+        </nav>
+        <Link to="/login">
+          <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>로그인</button>
+        </Link>
+      </header>
       <div style={{ display: "flex", marginTop: "38px" }}>
         {/* 왼쪽: 병원 정보 */}
         <div style={{ flex: 1, background: "#fff", border: "1.7px solid #222", borderRadius: "20px", padding: "60px 60px 58px 58px", marginRight: "54px" }}>

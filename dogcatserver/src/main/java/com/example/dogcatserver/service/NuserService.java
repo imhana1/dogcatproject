@@ -68,6 +68,9 @@ public class NuserService {
     }
 
 
+    public void nresign(String loginId) {
+        nuserDao.delete(loginId);
+    }
 }
 
 

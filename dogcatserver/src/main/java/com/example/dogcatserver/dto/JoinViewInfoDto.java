@@ -21,6 +21,7 @@ public class JoinViewInfoDto {
         private String hAddress;
         private String email;
     }
+
     @Data
     @AllArgsConstructor
     @Builder

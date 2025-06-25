@@ -39,15 +39,16 @@ public class NoticeService {
     return notice;
   }
   // 글 수정
-  public void updateNotice(NoticeDto.Update updateDto, String loginId) {
+  public Notice updateNotice(NoticeDto.Update updateDto, String loginId) {
     // 글 찾아 없으면 예외
     Notice notice = noticeDao.findNoticeByNno(updateDto.getNno()).orElseThrow(()-> new EntityNotFoundException("글을 찾지 못했습니다"));
     // 작성자 아니면 예외처리
     if(!notice.getUsername().equals(loginId)) {
-      throw new JobFailException("잘못된 작업입니다");
+      throw new JobFailException("잘못된 작업입니다.");
     }
     //찾았으면 수정
     noticeDao.updateNotice(updateDto);
+    return notice;
   }
 
   // 글 삭제

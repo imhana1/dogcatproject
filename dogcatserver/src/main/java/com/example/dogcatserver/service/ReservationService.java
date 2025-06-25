@@ -4,19 +4,15 @@ import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import lombok.*;
-import lombok.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
-import java.sql.*;
 import java.time.*;
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class ReservationService {
-  @Autowired ReservationDao reservationDao;
-
   @Autowired
   private HospitalDao hospitalDao;
   @Autowired
@@ -42,9 +38,6 @@ public class ReservationService {
     Reservation reservation = dtoToEntity(dto);
     reservationDao.save(reservation);
 
-    Timestamp ts = Timestamp.valueOf(dto.getSchedule());
-    reservation.setSchedule(ts.toLocalDateTime());
-
     return reservation.getRno();
   }
   private Reservation dtoToEntity(ReservationRequestDto dto) {
@@ -56,4 +49,24 @@ public class ReservationService {
       .rStatus("WAIT")
       .build();
   }
+
+  // 병원 시간 불러오기
+  public List<Schedule> getHospitalSchedule (String hUsername, LocalDate date) {
+    return reservationDao.getHospitalSchedule(hUsername, date);
+  }
+
+
+  // 예약 취소
+  public void cancelReservation (int rno) {
+    int updated = reservationDao.cancelReservation(rno);
+    if (updated==0) {
+      throw new IllegalArgumentException("예약을 찾을 수 없거나 이미 취소된 예약입니다.");
+    }
+  }
+
+  // 예약 내역 불러오기
+//  public List<Reservation> getMyReservation (String nUsername) {
+//
+//  }
+
 }

@@ -7,5 +7,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 public class EntityNotFoundException extends RuntimeException {
-  private String message;
+  public EntityNotFoundException(String message) {
+    super(message);  // 부모 클래스에 메시지 전달
+  } // 이전에 했던것처럼 하니까 오류나서 수정
 }

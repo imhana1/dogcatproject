@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dogcatserver.dao.AdoptionDao">
+
+    <!-- 전체 목록 가져오기 (findAllAdoption) -->
+    <select id="findAllAdoption" resultType="com.example.dogcatserver.entity.Adoption">
+        select a_profile, a_name, a_breed, a_city from adoption order by ano desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+    </select>
+
+    <!-- 지역으로 분류해서 목록 가져오기 (findAllAdoption) -->
+    <select id="findAllAdoptionByACity" resultType="com.example.dogcatserver.entity.Adoption">
+        select a_profile, a_name, a_breed, a_city from adoption where a_city=#{aCity} order by ano offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+    </select>
+
+    <!-- 유기동물 게시판 글 등록 -->
+    <insert id="writeAdoption">
+        <selectKey resultType="int" keyProperty="ano" order="BEFORE">
+            select adoption_seq.nextval from dual
+        </selectKey>
+        insert into adoption values(#{ano}, #{aProfile}, #{aName}, #{aAge}, #{aBreed}, #{aCity},
+                                #{aLocation}, #{aFoundLocation}, #{username}, #{aWriteDay}, #{aContent}, #{aAdopted})
+    </insert>
+
+
+    <!-- 글 수정 -->
+    <update id="updateAdoption">
+        update adoption set
+                a_profile = #{aProfile}, a_name = #{aName}, a_age = #{aAge}, a_gender = #{aGender}, a_breed = #{aBreed},
+                a_city = #{aCity}, a_location = #{aLocation}, a_found_location = #{aFoundLocation}, a_content = #{aContent}, a_is_adopted = #{aIsAdopted}
+                WHERE ano = #{ano}
+    </update>
+
+
+</mapper>

@@ -19,4 +19,7 @@ public interface NuserDao {
 
     @Update("update NOMAL_MEMBER set N_TEL=#{ntel}, N_ADDRESS=#{naddr}, N_LONGITUDE=#{nlongitude}, N_LOCATION=#{nlocation}")
     void nchangeInfo(Nuser nuser);
+
+    @Delete("delete from NOMAL_MEMBER where N_USERNAME=#{loginId}")
+    int delete(String loginId);
 }

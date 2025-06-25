@@ -15,6 +15,7 @@ public class Adoption {
   private String aProfile;
   private String aName;
   private int aAge;
+  private AGender aGender; // 상수
   private String aBreed;
   private ACity aCity;  // 상수로 뺌
   private String aLocation;
@@ -24,6 +25,5 @@ public class Adoption {
   @JsonFormat(pattern="yyyy년 MM월 dd일 hh:mm")
   private LocalDateTime aWriteDay = LocalDateTime.now();  // 기본값
   private String aContent;
-  @Builder.Default
-  private boolean aIsAdopted = false; // 기본값: 입양안됨
+  private boolean aIsAdopted; // 기본값 없앰 ∵필수입력할거야
 }

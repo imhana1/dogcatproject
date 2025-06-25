@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.io.*;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.security.core.*;
+import org.springframework.security.core.context.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.multipart.*;
 
@@ -23,8 +25,7 @@ public class QnaImageService {
   private QnaQuestionDao qnaQuestionDao;
   @Value("${upload.directory}")
   private String uploadDirectory;  // 사진 파일 업로드 경로 선언
-  @Autowired
-  private QnaService qnaService;
+
 
   // 사진 파일 저장
   public String saveQnaImage(MultipartFile qnaImage) {
@@ -40,6 +41,14 @@ public class QnaImageService {
     }
   }
 
+  // 관리자인지 확인하는  **
+  public boolean isAdmin(String loginId) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // Autnehtication 객체 가져와
+    UseMember useMember = (UseMember) authentication.getPrincipal();  // useMember 객체 꺼내
+    return useMember.getRole() == Role.ADMIN;  // 확인해서 true/false 반환
+
+  }
+
   // 사진 파일 다운로드
   public Resource downloadQnaImage (int qno, String loginId) {
 
@@ -47,7 +56,7 @@ public class QnaImageService {
     QnaQuestion question = qnaQuestionDao.findQnaQuestionByQno(qno).orElseThrow(()->new EntityNotFoundException("질문글을 찾을 수 없습니다"));
 
     // 로그인 아이디 / 권한 확인
-    if(!loginId.equals(question.getUsername()) && !qnaService.isAdmin(loginId)) {
+    if(!loginId.equals(question.getUsername()) && !isAdmin(loginId)) {
       throw new JobFailException("작성자와 관리자만 가능한 작업입니다.");
     }
 

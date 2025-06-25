@@ -7,5 +7,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 public class JobFailException extends RuntimeException{
-  private String message;
+  public JobFailException(String message) {
+    super(message);  // 부모 클래스에 메시지 전달
+  }  // 여기도 이전처럼 하니까 오류나서 수정
 }
