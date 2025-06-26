@@ -47,12 +47,13 @@ CREATE TABLE hospital_member (
 	CONSTRAINT FK_user_member_TO_hospital_member_1 FOREIGN KEY (h_username) REFERENCES user_member (username)
 );
 
--- 4. adoption : user_member 참조
+-- 4. adoption : user_member 참조 (0626: a_gender 추가)
 CREATE TABLE adoption (
 	ano number(10) NOT NULL,
 	a_profile clob NULL,
 	a_name varchar2(10) NULL,
 	a_age number(5) NULL,
+	a_gender varchar2(10) NULL,
 	a_breed varchar2(10) NULL,
 	a_city varchar2(50) NULL,
 	a_location varchar2(50) NULL,

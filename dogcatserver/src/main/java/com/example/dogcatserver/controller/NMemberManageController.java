@@ -16,7 +16,7 @@ public class NMemberManageController {
   // 전체 목록 출력
   @Operation(summary = "전체 목록 출력", description = "전체 회원 목록 출력")
   @GetMapping("/api/n-members/list")
-  public ResponseEntity<NMemberManageDto.Pages> findAllNotice(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize) {
+  public ResponseEntity<NMemberManageDto.Pages> findAllNormalMember(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize) {
     return ResponseEntity.ok(manageService.findAllNormalMember(pageno, pagesize));
   }
 

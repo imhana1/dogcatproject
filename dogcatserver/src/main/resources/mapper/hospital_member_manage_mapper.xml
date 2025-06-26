@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dogcatserver.dao.HMemberManageDao">
+    <!-- 전체 회원 목록 -->
+    <select id="findAllHospitalMember" resultType="com.example.dogcatserver.dto.HMemberManageDto$HospitalMemberList"> <!-- 내부클래스 적을떈 $ -->
+        select u.username, h.hospital, u.sign_dt, u.status from user_member u join hospital_member h on  u.username= h.h_username order by u.sign_dt desc
+                offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+    </select>
+
+    <!-- 상태별 회원 목록 출력 -->
+    <select id="findAllHospitalMemberByStatus" resultType="com.example.dogcatserver.dto.HMemberManageDto$HospitalMemberList">
+        select u.username, h.n_name, u.sign_dt, u.status from user_member u join hospital_member h on  u.username= h.h_username  where u.status=#{status} order by u.sign_dt desc
+        offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+    </select>
+
+    <!-- id+이름, id, 이름으로 검색해서 회원 찾아 목록 출력 -->
+    <select id="findHospitalMemberByWord" resultType="com.example.dogcatserver.dto.HMemberManageDto$HospitalMemberList">
+            select u.username, h.hospital, u.sign_dt, u.status from user_member u join hospital_member h on u.username = h.h_username
+            <where>
+                <choose>
+                    <when test="searchType=='both'">
+                        upper(u.username) like '%' || upper(#{searchWord}) || '%'
+                        or
+                        upper(h.hospital) like '%' || upper(#{searchWord}) || '%'
+                    </when>
+                    <when test="searchType=='id'">
+                        upper(u.username) like '%' || upper(#{searchWord}) || '%'
+                    </when>
+                    <when test="searchType=='name'">
+                        upper(h.hospital) like '%' || upper(#{searchWord}) || '%'
+                    </when>
+                    <otherwise>
+                        <!-- where절이 비어서 전체 리스트 출력되는 경우 방지. 이름/id로 찾는 경우에만 넣음 -->
+                        1=0
+                    </otherwise>
+                </choose>
+            </where>
+            order by u.sign_dt desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+    </select>
+
+    <!-- 검색 결과에 따른 회원수 세기 -->
+    <select id="countSearchMember" resultType="int">
+        select count(*) from user_member u join normal_member n on u.username = n.n_username
+        <where>
+            <choose>
+                <when test="searchType=='both'">
+                    upper(u.username) like '%' || upper(#{searchWord}) || '%'
+                    or
+                    upper(n.n_name) like '%' || upper(#{searchWord}) || '%'
+                </when>
+                <when test="searchType=='id'">
+                    upper(u.username) like '%' || upper(#{searchWord}) || '%'
+                </when>
+                <when test="searchType=='name'">
+                    upper(n.n_name) like '%' || upper(#{searchWord}) || '%'
+                </when>
+                <otherwise>
+                    <!-- where절이 비어서 전체 리스트 출력되는 경우 방지. 이름/id로 찾는 경우에만 넣음 -->
+                    1=0
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>
