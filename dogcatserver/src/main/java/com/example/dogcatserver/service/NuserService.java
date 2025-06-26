@@ -2,9 +2,7 @@ package com.example.dogcatserver.service;
 
 import com.example.dogcatserver.dao.NuserDao;
 import com.example.dogcatserver.dao.UseMemberDao;
-import com.example.dogcatserver.dto.JoinViewInfoDto;
-import com.example.dogcatserver.dto.PetDto;
-import com.example.dogcatserver.dto.SignupDto;
+import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.Nuser;
 import com.example.dogcatserver.entity.NuserInfo;
 import com.example.dogcatserver.entity.UseMember;
@@ -29,7 +27,7 @@ public class NuserService {
 
 
     @Transactional
-    public SignupDto nsignup(SignupDto.SignupRequestDto dto) {
+    public SignupNdto nsignup(SignupNdto.SignupRequestDto dto) {
         String useMemberName = dto.getUseMember().getUsername();
         String nname = dto.getNuser().getNname();
 
@@ -49,7 +47,7 @@ public class NuserService {
         memberDao.signupUpdate(usemember);
         nuserDao.save(nuser);
 
-        return new SignupDto(dto);
+        return new SignupNdto(dto);
     }
 
     public JoinViewInfoDto.NuserInfo Read(String loginId) {

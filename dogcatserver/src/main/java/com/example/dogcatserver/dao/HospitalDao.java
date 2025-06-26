@@ -26,4 +26,12 @@ public interface HospitalDao {
     @Select("Select h_username from hospital_member")
     List<String> findAllUserNames();
 
+    @Select("select h_location, h_longitude from hospital_member where h_address=#{hAddress}")
+    Hospital findAddress(String hAddress);
+
+
+
+    @Delete("delete from hospital_member where h_username=#{loginId}")
+    int deletehospital(String loginId);
+
 }

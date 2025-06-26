@@ -31,7 +31,7 @@ public class Hospital {
     private String dProfile;
     @JsonFormat(pattern = "yyyy년 MM월 dd일")
     private LocalDate hBirthDay;
-    @JsonProperty("hIntroduction")
     private String hIntroduction;
+    private String educational;
 
 }

@@ -12,6 +12,7 @@ import java.time.*;
 public class JoinViewInfoDto {
     @Data
     @AllArgsConstructor
+    @Builder
     public static class HospitalInfo {
         private String hUsername;
         private String hospital;
@@ -20,33 +21,55 @@ public class JoinViewInfoDto {
         private String hReptel;
         private String hAddress;
         private String email;
+        private String hProfile;
+        private String  openTime;
+        private String  closeTime;
+        private String dProfile;
+        private String hIntroduction;
+        @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+        private LocalDate hBirthDay;
+        private String educational;
     }
 
     @Data
     @AllArgsConstructor
     @Builder
-    public static class HospitalInfoChange{
+    public static class HospitalInfoChange {
 
         private String hUsername;
-
         private String director;
-
         private String hospital;
-
         private String hTel;
-
         private String hReptel;
-
         private String hAddress;
-        private Integer hChoice;
-        private MultipartFile hProfile;
-        private String  openTime;
-        private String  closeTime;
-        private MultipartFile dProfile;
+        private boolean hChoice;
+        private String openTime;
+        private String closeTime;
         private String hIntroduction;
-        public HospitalMemberInfo toChangeEntity(Double hLocation, Double hLongitude, String base64HImage, String bas64DImage){
-             return HospitalMemberInfo.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
-                     .hProfile(base64HImage).openTime(openTime).closeTime(closeTime).dProfile(bas64DImage).hLocation(hLocation).hLongitude(hLongitude).hIntroduction(hIntroduction).build();
+        private String educational;
+
+        // 이미지 파일은 이 DTO에서 제거됨
+        // private MultipartFile hProfile;
+        // private MultipartFile dProfile;
+
+        // toChangeEntity는 이미지 base64 문자열을 외부에서 주입받음
+        public HospitalMemberInfo toChangeEntity(Double hLocation, Double hLongitude, String base64HImage, String base64DImage) {
+            return HospitalMemberInfo.builder()
+                    .hUsername(hUsername)
+                    .director(director)
+                    .hospital(hospital)
+                    .hTel(hTel)
+                    .hReptel(hReptel)
+                    .hAddress(hAddress)
+                    .hChoice(hChoice)
+                    .hProfile(base64HImage) // 문자열로 주입된 값
+                    .openTime(openTime)
+                    .closeTime(closeTime)
+                    .dProfile(base64DImage) // 문자열로 주입된 값
+                    .hLocation(hLocation)
+                    .hLongitude(hLongitude)
+                    .hIntroduction(hIntroduction)
+                    .build();
         }
     }
 

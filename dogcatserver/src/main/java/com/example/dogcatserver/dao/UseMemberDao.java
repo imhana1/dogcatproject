@@ -27,10 +27,11 @@ public interface UseMemberDao {
     @Update("update user_member set password=#{password},role=#{role}, status=#{status}, count=#{count}, sign_dt=#{signDt} where username=#{username}")
     int signupUpdate(UseMember useMember);
 
-    @Select("select username, password, role, is_locked from user_name where username=#{username}")
+    @Select("select username, password, role, is_locked from user_member where username=#{username}")
     Optional<UseMember>loadLoginData(String username);
 
     @Delete("delete from USER_MEMBER where USERNAME=#{loginId}")
     int delete(String loginId);
+
 }
 

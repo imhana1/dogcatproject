@@ -31,6 +31,7 @@ public class HospitalService {
     @Autowired
     private PasswordEncoder encoder;
 
+    // 병원 주소 좌표화 + 회원 가입 정보 입력
     @Transactional
     public SignupDto signup(SignupDto.SignupRequestDto dto) {
         String useMemberName = dto.getUseMember().getUsername();
@@ -55,35 +56,53 @@ public class HospitalService {
         return new SignupDto(dto);
     }
 
+    // 병원 정보 읽어오는 기능
     public JoinViewInfoDto.HospitalInfo Read(String loginId) {
         HospitalMemberInfo hospitalMemberInfo = hospitalDao.getByUsername(loginId);
         return hospitalMemberInfo.toRead();
     }
 
-    public HospitalInfoChangeResponse ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto, String loginId){
+    public HospitalInfoChangeResponse ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto, String base64HImage, String base64DImage) {
         String address = dto.getHAddress();
         double[] latlng = {0, 0};
+
         if (address != null && !address.isBlank()) {
             latlng = service.getCoordinates(address);
         }
 
-        String base64HImage = "";
-        String base64DImage = "";
-        try {
-            if (dto.getHProfile() != null && !dto.getHProfile().isEmpty()) {
-                base64HImage = ProfileUtil.convertToBase64(dto.getHProfile());
-            }
-            if (dto.getDProfile() != null && !dto.getDProfile().isEmpty()) {
-                base64DImage = ProfileUtil.convertToBase64(dto.getDProfile());
-            }
-        } catch (IOException e) {
-            System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
-        }
+        HospitalMemberInfo existing = hospitalDao.getByUsername(dto.getHUsername());
 
-        HospitalMemberInfo existing = hospitalDao.getByUsername(loginId);
-        if (base64HImage.isEmpty() && existing != null) {
+        // 업로드한 이미지가 없으면 기존 이미지 유지
+        if ((base64HImage == null || base64HImage.isEmpty()) && existing != null) {
             base64HImage = existing.getHProfile();
         }
-        return hospitalDao.getByUsername(loginId).toChangeRead();
+        if ((base64DImage == null || base64DImage.isEmpty()) && existing != null) {
+            base64DImage = existing.getDProfile();
+        }
+
+        HospitalMemberInfo hospitalMemberInfo = dto.toChangeEntity(
+                latlng[0], latlng[1], base64HImage, base64DImage
+        );
+
+        hospitalDao.changeInfo(hospitalMemberInfo);
+
+        return hospitalDao.getByUsername(dto.getHUsername()).toChangeRead();
+    }
+
+    public LocationResult findloaction(String address){
+        Hospital hospital = hospitalDao.findAddress(address);
+        if (hospital == null) {
+            throw new RuntimeException("해당 주소로 등록된 병원이 없습니다: " + address);
+        }
+        return LocationResult.builder().hLocation(hospital.getHLocation()).hLongitude(hospital.getHLongitude()).build();
+    }
+
+
+
+    // 회원 탈퇴
+    @Transactional
+    public void resign (String loginId){
+        hospitalDao.deletehospital(loginId);
+        memberDao.delete(loginId);
     }
 }

@@ -83,4 +83,20 @@ public class ScheduleService {
         }
         return dtoList;
     }
+
+
+    public boolean updateNotice(String hUsername, String notice) {
+        return scheduleDao.updateNotice(notice, hUsername) > 0;
+    }
+
+    public String getNotice(String hUsername) {
+        return scheduleDao.findNoticeByUsername(hUsername);
+    }
+
+    public int blockDate(String loginId, String sChoice, LocalDate date) {
+        return scheduleDao.blockTimes(loginId, date, sChoice);
+    }
+    public int blockTime(String loginId, LocalDate date, LocalTime time, String sChoice) {
+        return scheduleDao.blockTime(loginId, date, time, sChoice);
+    }
 }

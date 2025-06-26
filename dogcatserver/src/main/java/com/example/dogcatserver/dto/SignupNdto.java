@@ -2,16 +2,15 @@ package com.example.dogcatserver.dto;
 
 import lombok.*;
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SignupDto {
+@NoArgsConstructor
+public class SignupNdto {
     private SignupRequestDto data;
-   @Data
+    @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class SignupRequestDto{
-        private HospitalDto.create hospital;
+        private NuserDto.Ncreate nuser;
         private UseMemberDto.hospitalSignup useMember;
     }
-
 }

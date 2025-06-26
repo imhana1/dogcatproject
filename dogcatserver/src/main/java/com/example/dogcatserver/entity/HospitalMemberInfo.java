@@ -18,7 +18,7 @@ public class HospitalMemberInfo {
     private String hReptel;
     private String hAddress;
     private String email;
-    private Integer hChoice;
+    private boolean hChoice;
     // 위도
     @JsonProperty("y")
     private Double hLocation;
@@ -31,15 +31,30 @@ public class HospitalMemberInfo {
     private String dProfile;
     private String  openTime;
     private String closeTime;
-//    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+    private LocalDate hBirthDay;
 //    @JsonProperty("hIntroduction")
     private String hIntroduction;
+    private String educational;
 
     // 기존 toRead()는 그대로 유지
     public JoinViewInfoDto.HospitalInfo toRead() {
-        return new JoinViewInfoDto.HospitalInfo(
-                hUsername, director, hospital, hTel, hReptel, hAddress, email
-        );
+        return JoinViewInfoDto.HospitalInfo.builder()
+                .hUsername(hUsername)
+                .hospital(hospital)
+                .director(director)
+                .hTel(hTel)
+                .hReptel(hReptel)
+                .hAddress(hAddress)
+                .email(email)
+                .hProfile(hProfile)
+                .openTime(openTime)
+                .closeTime(closeTime)
+                .dProfile(dProfile)
+                .hIntroduction(hIntroduction)
+                .educational(educational)
+                .hBirthDay(hBirthDay)
+                .build();
     }
 
     // 파일명/경로를 이용해 URL로 변환해서 DTO로 반환
@@ -57,6 +72,7 @@ public class HospitalMemberInfo {
                 .closeTime(closeTime)
                 .dProfileUrl(dProfile != null ? "/files/profile/" + dProfile : null)
                 .hIntroduction(hIntroduction)
+                .educational(educational)
                 .build();
     }
 }

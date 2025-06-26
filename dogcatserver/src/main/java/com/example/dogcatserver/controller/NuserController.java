@@ -3,10 +3,7 @@ package com.example.dogcatserver.controller;
 
 import com.example.dogcatserver.dao.NuserDao;
 import com.example.dogcatserver.dao.PetDao;
-import com.example.dogcatserver.dto.JoinViewInfoDto;
-import com.example.dogcatserver.dto.PetDto;
-import com.example.dogcatserver.dto.SignupDto;
-import com.example.dogcatserver.dto.UseMemberDto;
+import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.Pet;
 import com.example.dogcatserver.service.NuserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,8 +27,8 @@ public class NuserController {
 
     @Operation(summary = "일반 회원 회원가입", description = "회원가입 확인")
     @PostMapping(value = "/nuser/signup")
-    public ResponseEntity<SignupDto> signup (@RequestBody SignupDto.SignupRequestDto dto) {
-        SignupDto result = nuserservice.nsignup(dto);
+    public ResponseEntity<SignupNdto> signup (@RequestBody SignupNdto.SignupRequestDto dto) {
+        SignupNdto result = nuserservice.nsignup(dto);
         System.out.println("200 응답");
         return ResponseEntity.status(200).body(result);
     }
