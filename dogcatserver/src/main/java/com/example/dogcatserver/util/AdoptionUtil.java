@@ -11,6 +11,7 @@ import org.springframework.web.multipart.*;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+
 @Component
 public class AdoptionUtil {
   @Value("${file.upload.path:dogcatserver/upload/adoptionImage/}")

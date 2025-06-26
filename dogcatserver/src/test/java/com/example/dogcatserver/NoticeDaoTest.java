@@ -53,7 +53,7 @@ public class NoticeDaoTest {
     noticeDao.findNoticeByNno(1);
   }
 
-//  @Test
+  @Test
   @Transactional
   public void countAllNoticeTest() {
     noticeDao.countAllNotice();

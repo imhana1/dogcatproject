@@ -20,9 +20,9 @@ public class NoticeService {
 
   // 한 페이지에 공지사항글들 목록 불러오기(pagination해서)
   public NoticeDto.Pages findAllNotice(int pageno, int pagesize) {
-    int totalcount = noticeDao.countAllNotice();
+    int totalCount = noticeDao.countAllNotice();
     List<Notice> notices = noticeDao.findAllNotice(pageno, pagesize);
-    return NoticeUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalcount, notices);
+    return NoticeUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, notices);
   }
 
   // 단일 글 불러오기 (여기 리턴타입 optional 하면 컨트롤러 오류나지 그냥 notice 하고 예외처리)

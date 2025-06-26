@@ -29,7 +29,7 @@ public class AdoptionService {
   }
 
   // 지역별 글 목록: findAllAdoptionByACity
-  public AdoptionDto.Pages findAllAdoptionByACity(String aCity, int pageno, int pageszie) {
+  public AdoptionDto.Pages findAllAdoptionByACity(ACity aCity, int pageno, int pageszie) {
     int totalCountByACity = adoptionDao.countAllAdoption();
     List<Adoption> adoptionsByACity = adoptionDao.findAllAdoptionByACity(aCity, pageno, pageszie);
     return AdoptionUtil.getPages(pageno, pageszie, BLOCK_SIZE, totalCountByACity, adoptionsByACity);

@@ -12,7 +12,7 @@ public interface AdoptionDao {
   List<Adoption> findAllAdoption(int pageno, int pagesize);
 
   // 지역분류 글 목록 불러오기
-  List<Adoption> findAllAdoptionByACity(String aCity, int pageno, int pagesize);
+  List<Adoption> findAllAdoptionByACity(ACity aCity, int pageno, int pagesize);
 
   // 글 등록 (+ 사진)
   int writeAdoption(Adoption adoption);
