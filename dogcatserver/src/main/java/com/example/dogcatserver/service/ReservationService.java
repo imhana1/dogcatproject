@@ -4,6 +4,7 @@ import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import lombok.*;
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -20,12 +21,12 @@ public class ReservationService {
 
   // 예약 생성 (createReservation)
     // 예약을 생성해 사용자에게 보여야하기 때문에 RequestDto 사용
-  public int createReservation(ReservationRequestDto dto) {
-    String hUsername = dto.getHUsername();
+  public int createReservation(ReservationRequestDto.Create dto) {
+//    String hUsername = reservation.getHUsername();
 
     // 병원 유효성 체크
-    int exists = hospitalDao.findByUsername(dto.getHUsername());
-    if (exists == 0) throw new IllegalArgumentException("존재하지 않는 병원입니다.");
+//    int exists = hospitalDao.findByUsername(reservation.getHUsername());
+//    if (exists == 0) throw new IllegalArgumentException("존재하지 않는 병원입니다.");
 
     // 중복 검사
 //    String dateStr = dto.getDate().toString();
@@ -35,10 +36,10 @@ public class ReservationService {
 //      throw new IllegalArgumentException("이미 예약된 시간입니다");
 //    }
     // 저장
-    ReservationResponseDto responseDto = dtoToEntity(dto);
-    reservationDao.save(responseDto);
-
-    return responseDto.getRno();
+//    ReservationResponseDto responseDto = dtoToEntity(reservation);
+    Reservation reservation = dto.toEntity(); // 변환 메서드 작성
+    reservationDao.save(reservation);
+    return reservation.getRno();
   }
   private ReservationResponseDto dtoToEntity(ReservationRequestDto dto) {
     return ReservationResponseDto.builder()
@@ -52,7 +53,7 @@ public class ReservationService {
   }
 
   // 병원 시간 불러오기
-  public List<Schedule> getHospitalSchedule (String hUsername, LocalDate date) {
+  public List<Schedule> getHospitalSchedule ( String hUsername, LocalDate date) {
     return reservationDao.getHospitalSchedule(hUsername, date);
   }
 

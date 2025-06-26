@@ -15,10 +15,10 @@ public interface ReservationDao {
 
   // 예약 생성
   // reservation_mapper.xml 으로 sql문 옮김
-  int save(ReservationResponseDto responseDto);
+  int save(Reservation reservation);
 
   // 병원 시간 불러오기
-  List<Schedule> getHospitalSchedule(String hUsername, LocalDate date);
+  List<Schedule> getHospitalSchedule( String hUsername, LocalDate date);
 
   // 예약 취소
   int cancelReservation (int rno);

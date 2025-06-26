@@ -29,7 +29,10 @@
     
     <!--  병원 시간 불러오기  -->
     <select id="getHospitalSchedule" resultType="com.example.dogcatserver.entity.Schedule">
-        select * from schedule where h_username = #{hUsername} and trunc(schedule) = TO_DATE(#{date}, 'YYYY-MM-DD HH:mm')
+        SELECT *
+        FROM schedule
+        WHERE h_username = #{hUsername}
+          AND TRUNC(schedule) = TRUNC(#{date})
     </select>
 
     <!--  마이 페이지에서 병원 예약한 내역 출력  -->
