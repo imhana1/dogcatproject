@@ -19,6 +19,10 @@ function MyPage() {
     navigate("/change-mypage")
   }
 
+  const handleDelete = () => {
+    navigate("/delete-account");
+  };
+
   return (
     <div>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
@@ -64,10 +68,11 @@ function MyPage() {
             </div>
           </div>
         </div>
-        {/* 오른쪽: 회원정보 변경 */}
+          {/* 오른쪽: 회원정보 변경 */}
         <aside style={{ width: "180px", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "40px" }}>
           <div style={{ marginBottom: "30px" }}>회원정보변경</div>
-          <button className="btn btn-dark" onClick={handleEdit}>수정하기</button>
+          <button className="btn btn-outline-dark" onClick={handleEdit} style={{ marginBottom: "20px", width: "100%" }}>수정하기</button>
+          <button className="btn btn-outline-danger" onClick={handleDelete} style={{ marginBottom: "20px", width: "100%" }}>회원탈퇴</button>
         </aside>
       </div>
     </div>

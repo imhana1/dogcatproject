@@ -18,6 +18,7 @@ import Doctor from "./hospital/introduction/Doctor";
 import ProtectedRoute from "./routes/ ProtectedRoute";
 import HospitalReservation from "./hospital/introduction/HospitalReservation";
 import HospitalReview from "./hospital/introduction/HospitalReview";
+import DeleteAccount from "./pages/hospitals/DeleteAccount";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/hospital-checkpassword" element={<HospitalCheckPassword />} />
             <Route path="/hospital-mypage" element={<MyPage />} />
             <Route path="/change-mypage" element={<ChangeMyPage />} />
+            <Route path="/delete-account" element={<DeleteAccount />} />
             <Route path="/hospital-time" element={<HospitalTime />} />
             <Route path="/booking" element={<Booking />} />
             {/* 예약 내역 페이지 */}

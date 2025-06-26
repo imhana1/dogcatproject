@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import './ChangeMyPage.css';
+import {VscLocation} from "react-icons/vsc";
 
 function ChangeMyPage() {
   const navigate = useNavigate();
@@ -77,6 +78,9 @@ function ChangeMyPage() {
             <input className="inputStyle" type="email" name="email" onChange={handleChange} placeholder="you@example.com" value={form.email} required />
             <label className="labelStyle">
               주소 <span style={{ color: "red" }}>*</span>
+                <button type="button" className="mb-2 mt-2 btn btn-dark">
+                  <span role="img" aria-label="search"><VscLocation size="20" /></span>
+                </button>
             </label>
             <input type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "180px", height:"35px", minWidth: 100, display: "inline-block" }} required />
             <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="사업자 주소 입력해주세요" value={form.address1} required />

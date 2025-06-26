@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 
 const reservation = [
-  { id: 1, hospital: "너도먹냥병원", content: "진료", date: "2025-06-25", time: "13:00", name: "신짱구", status: "대기중" },
-  { id: 2, hospital: "너도먹냥병원", content: "미용", date: "2025-06-26",time: "09:00", name: "신형만", status: "대기중" },
-  { id: 3, hospital: "너도먹냥병원", content: "진료", date: "2025-06-27",time: "11:00", name: "봉미선", status: "대기중" },
-  { id: 4, hospital: "너도먹냥병원", content: "미용", date: "2025-06-28",time: "18:00", name: "신짱아", status: "대기중" },
-  { id: 5, hospital: "너도먹냥병원", content: "진료", date: "2025-06-29",time: "10:00", name: "김철수", status: "대기중" },
-  { id: 6, hospital: "너도먹냥병원", content: "미용", date: "2025-06-30",time: "16:00", name: "나미리", status: "대기중" },
+  { id: 1, hospital: "너도멍냥병원", content: "진료", date: "2025-06-25", time: "13:00", name: "신짱구", status: "대기중" },
+  { id: 2, hospital: "너도멍냥병원", content: "미용", date: "2025-06-26",time: "09:00", name: "신형만", status: "대기중" },
+  { id: 3, hospital: "너도멍냥병원", content: "진료", date: "2025-06-27",time: "11:00", name: "봉미선", status: "대기중" },
+  { id: 4, hospital: "너도멍냥병원", content: "미용", date: "2025-06-28",time: "18:00", name: "신짱아", status: "대기중" },
+  { id: 5, hospital: "너도멍냥병원", content: "진료", date: "2025-06-29",time: "10:00", name: "김철수", status: "대기중" },
+  { id: 6, hospital: "너도멍냥병원", content: "미용", date: "2025-06-30",time: "16:00", name: "나미리", status: "대기중" },
 ];
 
 const BLOCK_SIZE = 5; // 한페이지당 예약 개수
