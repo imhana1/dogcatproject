@@ -28,24 +28,25 @@ public class ReservationService {
     if (exists == 0) throw new IllegalArgumentException("존재하지 않는 병원입니다.");
 
     // 중복 검사
-    String dateStr = dto.getSchedule().toLocalDate().toString();
-    List<String> reservedTimes = reservationDao.findReservedTimeByDate(dateStr, hUsername);
-    String requestedTime = dto.getSchedule().toLocalTime().toString();
-    if (reservedTimes.contains(requestedTime)) {
-      throw new IllegalArgumentException("이미 예약된 시간입니다");
-    }
+//    String dateStr = dto.getDate().toString();
+//    List<String> reservedTimes = reservationDao.findReservedTimeByDate(dateStr, hUsername);
+//    String requestedTime = dto.getTime().toString();
+//    if (reservedTimes.contains(requestedTime)) {
+//      throw new IllegalArgumentException("이미 예약된 시간입니다");
+//    }
     // 저장
-    Reservation reservation = dtoToEntity(dto);
-    reservationDao.save(reservation);
+    ReservationResponseDto responseDto = dtoToEntity(dto);
+    reservationDao.save(responseDto);
 
-    return reservation.getRno();
+    return responseDto.getRno();
   }
-  private Reservation dtoToEntity(ReservationRequestDto dto) {
-    return Reservation.builder()
+  private ReservationResponseDto dtoToEntity(ReservationRequestDto dto) {
+    return ReservationResponseDto.builder()
       .nUsername(dto.getNUsername())
       .hUsername(dto.getHUsername())
       .pno(dto.getPno())
-      .schedule(dto.getSchedule())
+      .date(dto.getDate())
+      .time(dto.getTime())
       .rStatus("WAIT")
       .build();
   }
@@ -57,16 +58,41 @@ public class ReservationService {
 
 
   // 예약 취소
-  public void cancelReservation (int rno) {
-    int updated = reservationDao.cancelReservation(rno);
-    if (updated==0) {
-      throw new IllegalArgumentException("예약을 찾을 수 없거나 이미 취소된 예약입니다.");
+  public boolean cancelReservation(Reservation reservation) {
+    // 상태 변경하기
+    Reservation db = reservationDao.getReservationByRno(reservation.getRno());
+    // 실패 분야 늘리기
+    if (db == null) {
+      System.out.println("예약 취소 실패 : 예약이 존재하지 않습니다");
+      return false;
+    }
+    if ("CANCE".equals(db.getRStatus())) {
+      System.out.println("예약 취소 실패 : 이미 취소된 예약입니다.");
+      return false;
+    }
+    int updateNo = reservationDao.cancelReservation(reservation.getRno());
+    // 변경이 안되면 안된다고 출력
+    if (updateNo == 1) {
+      // 변경 성공
+      return true;
+    } else {
+      // 실패
+      System.out.println("예약 취소 실패: 번호 = " + reservation.getRno());
+      return false;
     }
   }
 
+  // 예약 삭제
+  public int deleteReservation (int rno) {
+    return reservationDao.deleteReservation(rno);
+  }
+
   // 예약 내역 불러오기
-//  public List<Reservation> getMyReservation (String nUsername) {
-//
-//  }
+  public List<Reservation> getMyReservation (String nUsername) {
+    if(nUsername == null || nUsername.isBlank()) {
+      throw new IllegalArgumentException("사용자 이름이 유효하지 않습니다");
+    }
+    return reservationDao.getMyReservation(nUsername);
+  }
 
 }

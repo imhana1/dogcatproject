@@ -16,5 +16,5 @@ public class Reservation {
   private int pno;
   // 기본값 WAITING
   @Builder.Default
-  private String rStatus = "WAITING";
+  private String rStatus = "WAIT";
 }
