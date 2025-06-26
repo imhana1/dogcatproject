@@ -16,6 +16,7 @@ public class UseMember {
     @Builder.Default
     private String status = "일반";
     private String eCode;
+
     private String email;
     @Builder.Default
     // 경고 횟수

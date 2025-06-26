@@ -5,12 +5,13 @@ import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.exception.*;
 import jakarta.mail.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 import org.springframework.web.multipart.*;
 
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-
+@Component
 public class AdoptionUtil {
   @Value("${file.upload.path:dogcatserver/upload/adoptionImage/}")
   private String uploadPath;

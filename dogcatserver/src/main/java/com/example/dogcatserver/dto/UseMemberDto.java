@@ -16,6 +16,7 @@ public class UseMemberDto {
     @Data
     public static class UseMemberCode{
         private String username;
+        @Email
         private String email;
 
         public UseMember toEntity(String code){
@@ -76,10 +77,33 @@ public class UseMemberDto {
         @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
     }
-//    @Data
-//    @AllArgsConstructor
-//    public static class HospitalInfoRead{
-//        private String email;
-//    }
+
+    @Data
+    public static class changePassword{
+        @NotEmpty
+        @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
+        private String currentPassword;
+
+        @NotEmpty
+        @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
+        private String newPassword;
+    }
+
+    @Data
+    public static class CheckPassword{
+        @NotEmpty
+        @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
+        private String Password;
+    }
+
+
+    @Data
+    public static class findPassword{
+        @NotEmpty
+        @Pattern(regexp = "^[a-z0-9]{6,10}$")
+        private String username;
+    }
+
+
 
 }

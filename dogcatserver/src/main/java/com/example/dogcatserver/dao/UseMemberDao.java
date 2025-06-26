@@ -30,6 +30,19 @@ public interface UseMemberDao {
     @Select("select username, password, role, is_locked from user_member where username=#{username}")
     Optional<UseMember>loadLoginData(String username);
 
+
+    @Select("select username, password, email from user_member where username=#{username}")
+    UseMember findUsername(String username);
+
+    @Update("update user_member set password=#{newPassword} where username=#{username}")
+    int updatePassword(String username, String newPassword);
+
+    @Select("select password from user_member where username=#{loginId}")
+    String findPasswordByUsername(String loginId);
+
+    @Select("select username from user_member where email=#{email} and rownum=1")
+    Optional<String> findUsernameByEmail(String email);
+
     @Delete("delete from USER_MEMBER where USERNAME=#{loginId}")
     int delete(String loginId);
 

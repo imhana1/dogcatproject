@@ -48,6 +48,7 @@ public class HospitalController {
         return ResponseEntity.status(200).body(result);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "내 정보 보기", description = "내 정보 보기")
     @GetMapping("/hospital")
     public ResponseEntity<JoinViewInfoDto.HospitalInfo>read(@ModelAttribute UseMemberDto.UsernameCheck uDto){
@@ -56,6 +57,7 @@ public class HospitalController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "정보 변경", description = "내 정보를 변경")
     @PostMapping(value = "/hospital/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<HospitalInfoChangeResponse> changeInfo(
