@@ -33,7 +33,7 @@ public class HospitalService {
 
     // 병원 주소 좌표화 + 회원 가입 정보 입력
     @Transactional
-    public SignupDto signup(SignupDto.SignupRequestDto dto) {
+    public SignUpResponse.HospitalResponse signup(SignupDto.SignupRequestDto dto) {
         String useMemberName = dto.getUseMember().getUsername();
         String hospitalName = dto.getHospital().getHUsername();
         if (!useMemberName.equals(hospitalName)) {
@@ -47,13 +47,16 @@ public class HospitalService {
         System.out.println("위도: " + latlng[0] + ", 경도: " + latlng[1]);
 
         String encodedPassword = encoder.encode(dto.getUseMember().getPassword());
-        UseMember useMember = dto.getUseMember().toUseMemberEntity(encodedPassword);
+        RoleUserUsermemberResponse.RoleHospital useMember = dto.getUseMember().toUseMemberEntity(encodedPassword);
         Hospital hospital = dto.getHospital().toSignEntity(latlng[0], latlng[1]);
 
-        memberDao.signupUpdate(useMember);
+        memberDao.signupHUpdate(useMember);
         hospitalDao.save(hospital);
 
-        return new SignupDto(dto);
+        return SignUpResponse.HospitalResponse.builder()
+                .hospital(hospital)
+                .roleHospital(useMember)
+                .build();
     }
 
     // 병원 정보 읽어오는 기능

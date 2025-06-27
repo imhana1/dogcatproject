@@ -1,5 +1,6 @@
 package com.example.dogcatserver.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import java.time.*;
 

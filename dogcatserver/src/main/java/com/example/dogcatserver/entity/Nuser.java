@@ -17,10 +17,8 @@ public class Nuser {
     // 일반 회원에게 받아올 값
     private String nid;     // 아이디
 
-    @JsonIgnore
     private String nname;       // 이름
-    private String npassword;   // 비밀번호
-    private String email;       // 이메일
+
     private String naddr;       // 주소
     private String ntel;           // 연락처
     @JsonFormat(pattern = "yyyy년 MM월 dd일")

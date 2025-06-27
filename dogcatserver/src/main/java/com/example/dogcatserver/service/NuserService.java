@@ -1,16 +1,24 @@
 package com.example.dogcatserver.service;
 
 import com.example.dogcatserver.dao.NuserDao;
+import com.example.dogcatserver.dao.PetDao;
 import com.example.dogcatserver.dao.UseMemberDao;
+import com.example.dogcatserver.dao.WishDao;
 import com.example.dogcatserver.dto.*;
-import com.example.dogcatserver.entity.Nuser;
-import com.example.dogcatserver.entity.NuserInfo;
-import com.example.dogcatserver.entity.UseMember;
+import com.example.dogcatserver.entity.*;
+import com.example.dogcatserver.exception.EntityNotFoundException;
+import com.example.dogcatserver.util.AdoptionUtil;
+import com.example.dogcatserver.util.WishUtil;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
+import java.util.List;
+
+@Transactional
 @Service
 public class NuserService {
     @Autowired
@@ -20,18 +28,28 @@ public class NuserService {
     private UseMemberDao memberDao;
 
     @Autowired
+    private PetDao petDao;
+
+    @Autowired
+    private UseMemberDao useMemberDao;
+
+    @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
     private KakaoAddressService service;
 
+    @Autowired
+    private WishDao wishDao;
 
+
+    // 회원가입
     @Transactional
-    public SignupNdto nsignup(SignupNdto.SignupRequestDto dto) {
+    public SignUpResponse.NormalResponse nsignup(SignupNdto.SignupRequestDto dto) {
         String useMemberName = dto.getUseMember().getUsername();
-        String nname = dto.getNuser().getNname();
+        String nid = dto.getNuser().getNid();
 
-        if (!useMemberName.equals(nname)) {
+        if (!useMemberName.equals(nid)) {
             throw new IllegalArgumentException("UseMember 이름과 Nname 이름이 일치하지 않습니다");
         }
 
@@ -41,20 +59,25 @@ public class NuserService {
         System.out.println("위도: " + latlng[0] + ", 경도: " + latlng[1]);
 
         String encodedPassword = encoder.encode(dto.getUseMember().getPassword());
-        UseMember usemember = dto.getUseMember().toUseMemberEntity(encodedPassword);
+        RoleUserUsermemberResponse.RoleNormal usemember = dto.getUseMember().toUseMemberEntity(encodedPassword);
         Nuser nuser = dto.getNuser().toSignEntity(latlng[0], latlng[1]);
 
-        memberDao.signupUpdate(usemember);
+        memberDao.signupNUpdate(usemember);
         nuserDao.save(nuser);
 
-        return new SignupNdto(dto);
+        return SignUpResponse.NormalResponse.builder()
+                .nuser(nuser)
+                .roleNormal(usemember)
+                .build();
     }
 
+    // 회원 정보 보기
     public JoinViewInfoDto.NuserInfo Read(String loginId) {
         NuserInfo nuserInfo = nuserDao.getBynUsername(loginId);
         return nuserInfo.toRead();
     }
 
+    // 회원 정보 수정
     public JoinViewInfoDto.NuserInfo ChangeInfo(JoinViewInfoDto.NuserInfoChange dto, String loginId) {
     String address = dto.getNaddr();
     double[] latlng = service.getCoordinates(address);
@@ -65,15 +88,25 @@ public class NuserService {
     return nuserDao.getBynUsername(loginId).tonChangeRead();
     }
 
-
+    @Transactional
     public void nresign(String loginId) {
+        petDao.deletepet(loginId);
         nuserDao.delete(loginId);
+        useMemberDao.delete(loginId);
     }
+
+
+    private static final int BLOCK_SIZE = 5;
+
+    public WishDto.WishPages AdoptionLikelist(int pageno, int pagesize, String loginId) {
+        int totalCount = wishDao.AdoptionLike();
+        List<Wish> wish = wishDao.AdoptionLikeList(pageno, pagesize, loginId);
+        return WishUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, wish);
+    }
+
 }
 
 
-
-//
 
 
 

@@ -8,6 +8,7 @@ import jakarta.mail.internet.*;
 import org.apache.commons.lang3.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.mail.javamail.*;
+import org.springframework.scheduling.annotation.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import org.springframework.stereotype.Service;
@@ -124,6 +125,14 @@ public class UserMemberService {
      public Optional<String> searchUsername(String email){
         return useMemberDao.findUsernameByEmail(email);
      }
+
+
+    // 5분마다 실행
+    //@Scheduled(fixedRate = 5 * 60 * 1000)
+     public void delete(){
+        memberDao.DeleteTemporaryData(); // 이메일 인증 후 30분이 자니면 삭제
+     }
+
 
 
     public void resign(String loginId) {

@@ -1,5 +1,6 @@
 package com.example.dogcatserver.dao;
 
+import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import org.apache.ibatis.annotations.*;
 
@@ -25,7 +26,10 @@ public interface UseMemberDao {
     String findUsernameByCode(String code);
 
     @Update("update user_member set password=#{password},role=#{role}, status=#{status}, count=#{count}, sign_dt=#{signDt} where username=#{username}")
-    int signupUpdate(UseMember useMember);
+    int signupNUpdate(RoleUserUsermemberResponse.RoleNormal useMember);
+
+    @Update("update user_member set password=#{password},role=#{role}, status=#{status}, count=#{count}, sign_dt=#{signDt} where username=#{username}")
+    int signupHUpdate(RoleUserUsermemberResponse.RoleHospital useMember);
 
     @Select("select username, password, role, is_locked from user_member where username=#{username}")
     Optional<UseMember>loadLoginData(String username);
@@ -45,6 +49,9 @@ public interface UseMemberDao {
 
     @Delete("delete from USER_MEMBER where USERNAME=#{loginId}")
     int delete(String loginId);
+
+    @Delete("DELETE FROM user_member WHERE password IS NULL AND sign_dt < SYSDATE - (30 / 1440) ")
+    int DeleteTemporaryData ();  // 이메일 가입시 저장되는데이터 삭제
 
 }
 
