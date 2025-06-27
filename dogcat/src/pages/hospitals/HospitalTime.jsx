@@ -16,7 +16,7 @@ function HospitalTime({ options = ["진료"], option = ["미용"]  }) {
   const [notice, setNotice] = useState("");
 
   useEffect(() => {
-    axios.get('/notice')
+    axios.get('/hospital-notice')
       .then(res => setNotice(res.data.notice))
       .catch(() => setNotice("공지사항이 없습니다"));
   }, []);
