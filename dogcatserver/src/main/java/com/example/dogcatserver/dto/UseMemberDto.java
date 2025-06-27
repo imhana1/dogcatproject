@@ -52,15 +52,15 @@ public class UseMemberDto {
 //        private int count=0;
         @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
-
         public UseMember toUseMemberEntity(String encodedPassword){
             return UseMember.builder().username(username).password(encodedPassword).role(role).signDt(signDt).build();
         }
+
     }
     @Data
     @Builder
     @AllArgsConstructor
-    public static class noamlSignup{
+    public static class nomalSignup{
         @NotEmpty
         @Pattern(regexp = "^[a-z0-9]{6,10}$")
         private String username;
@@ -76,6 +76,9 @@ public class UseMemberDto {
         private int count=0;
         @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
+        public UseMember toUseMemberEntity(String encodedPassword){
+            return UseMember.builder().username(username).password(encodedPassword).role(role).signDt(signDt).build();
+        }
     }
 
     @Data

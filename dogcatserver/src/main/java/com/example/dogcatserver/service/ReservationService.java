@@ -58,6 +58,8 @@ public class ReservationService {
   }
 
 
+
+
   // 예약 취소
   public boolean cancelReservation(Reservation reservation) {
     // 상태 변경하기
@@ -95,5 +97,4 @@ public class ReservationService {
     }
     return reservationDao.getMyReservation(nUsername);
   }
-
 }

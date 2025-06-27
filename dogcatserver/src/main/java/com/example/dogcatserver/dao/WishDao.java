@@ -1,6 +1,9 @@
 package com.example.dogcatserver.dao;
 
+import com.example.dogcatserver.entity.Wish;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface WishDao {
@@ -15,4 +18,10 @@ public interface WishDao {
   // 찜취소
   @Delete("delete from wish where ano=#{ano} and username=#{username}")
   int removeWishByAno(int ano, String username);
+
+  @Select("select count(*) from WISH where USERNAME=#{username}")
+  int AdoptionLike();
+
+  @Select("select * from WISH where USERNAME=#{username}")
+  List<Wish> AdoptionLikeList(int pageno, int pagesize, String name);
 }

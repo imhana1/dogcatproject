@@ -1,20 +1,31 @@
 package com.example.dogcatserver.controller;
 
 
+import com.example.dogcatserver.dao.AdoptionDao;
 import com.example.dogcatserver.dao.NuserDao;
 import com.example.dogcatserver.dao.PetDao;
+import com.example.dogcatserver.dao.WishDao;
 import com.example.dogcatserver.dto.*;
+import com.example.dogcatserver.entity.Adoption;
 import com.example.dogcatserver.entity.Pet;
+import com.example.dogcatserver.entity.Wish;
 import com.example.dogcatserver.service.NuserService;
+import com.example.dogcatserver.service.PetService;
+import com.example.dogcatserver.util.AdoptionUtil;
+import com.example.dogcatserver.util.WishUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @Validated
@@ -23,7 +34,7 @@ public class NuserController {
     private NuserService nuserservice;
 
     @Autowired
-    private NuserDao nuserDao;
+    private WishDao wishDao;
 
     @Operation(summary = "일반 회원 회원가입", description = "회원가입 확인")
     @PostMapping(value = "/nuser/signup")
@@ -56,6 +67,13 @@ public class NuserController {
         nuserservice.nresign(principal.getName());
         session.invalidate();
         return ResponseEntity.ok("회원 탈퇴");
+    }
+
+
+    @Operation(summary = "유기동물 관심 목록", description = "유기동물 관심 목록")
+    @PutMapping("/nuser/adoption")
+    public ResponseEntity<WishDto.WishPages> findAllAdoptionLikelist(int pageno, int pagesize, Principal principal) {
+        return ResponseEntity.ok(nuserservice.AdoptionLikelist(pageno, pagesize, principal.getName()));
     }
 }
 
