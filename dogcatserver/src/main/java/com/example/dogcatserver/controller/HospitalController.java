@@ -39,12 +39,12 @@ public class HospitalController {
 
     @PostMapping("/hospital/signup")
     @Operation(summary = "병원 회원가입", description = "회원가입 확인")
-    public ResponseEntity<SignupDto> signup(@RequestBody SignupDto.SignupRequestDto dto) {
+    public ResponseEntity<SignUpResponse.HospitalResponse> signup(@RequestBody SignupDto.SignupRequestDto dto) {
         System.out.println("Received DTO: " + dto);
         if (dto == null || dto.getUseMember() == null || dto.getHospital() == null) {
             return ResponseEntity.badRequest().body(null);
         }
-        SignupDto result = service.signup(dto);
+        SignUpResponse.HospitalResponse result = service.signup(dto);
         return ResponseEntity.status(200).body(result);
     }
 

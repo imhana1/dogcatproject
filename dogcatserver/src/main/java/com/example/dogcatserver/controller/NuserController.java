@@ -38,8 +38,8 @@ public class NuserController {
 
     @Operation(summary = "일반 회원 회원가입", description = "회원가입 확인")
     @PostMapping(value = "/nuser/signup")
-    public ResponseEntity<SignupNdto> signup (@RequestBody SignupNdto.SignupRequestDto dto) {
-        SignupNdto result = nuserservice.nsignup(dto);
+    public ResponseEntity<SignUpResponse.NormalResponse> signup (@RequestBody SignupNdto.SignupRequestDto dto) {
+        SignUpResponse.NormalResponse result = nuserservice.nsignup(dto);
         System.out.println("200 응답");
         return ResponseEntity.status(200).body(result);
     }

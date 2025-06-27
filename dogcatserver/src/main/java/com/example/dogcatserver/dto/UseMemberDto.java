@@ -52,8 +52,8 @@ public class UseMemberDto {
 //        private int count=0;
         @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
-        public UseMember toUseMemberEntity(String encodedPassword){
-            return UseMember.builder().username(username).password(encodedPassword).role(role).signDt(signDt).build();
+        public RoleUserUsermemberResponse.RoleHospital toUseMemberEntity(String encodedPassword){
+            return RoleUserUsermemberResponse.RoleHospital.builder().username(username).password(encodedPassword).role(role).signDt(signDt).build();
         }
 
     }
@@ -68,16 +68,10 @@ public class UseMemberDto {
         @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
         private String password;
         @Builder.Default
-        private Role role= Role.USER;
-        @Builder.Default
-        private String status = "일반";
-        @Builder.Default
-        // 경고 횟수
-        private int count=0;
-        @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
-        public UseMember toUseMemberEntity(String encodedPassword){
-            return UseMember.builder().username(username).password(encodedPassword).role(role).signDt(signDt).build();
+
+        public RoleUserUsermemberResponse.RoleNormal toUseMemberEntity(String encodedPassword){
+            return RoleUserUsermemberResponse.RoleNormal.builder().username(username).password(encodedPassword).signDt(signDt).build();
         }
     }
 

@@ -45,11 +45,11 @@ public class NuserService {
 
     // 회원가입
     @Transactional
-    public SignupNdto nsignup(SignupNdto.SignupRequestDto dto) {
+    public SignUpResponse.NormalResponse nsignup(SignupNdto.SignupRequestDto dto) {
         String useMemberName = dto.getUseMember().getUsername();
-        String nname = dto.getNuser().getNname();
+        String nid = dto.getNuser().getNid();
 
-        if (!useMemberName.equals(nname)) {
+        if (!useMemberName.equals(nid)) {
             throw new IllegalArgumentException("UseMember 이름과 Nname 이름이 일치하지 않습니다");
         }
 
@@ -59,13 +59,16 @@ public class NuserService {
         System.out.println("위도: " + latlng[0] + ", 경도: " + latlng[1]);
 
         String encodedPassword = encoder.encode(dto.getUseMember().getPassword());
-        UseMember usemember = dto.getUseMember().toUseMemberEntity(encodedPassword);
+        RoleUserUsermemberResponse.RoleNormal usemember = dto.getUseMember().toUseMemberEntity(encodedPassword);
         Nuser nuser = dto.getNuser().toSignEntity(latlng[0], latlng[1]);
 
-        memberDao.signupUpdate(usemember);
+        memberDao.signupNUpdate(usemember);
         nuserDao.save(nuser);
 
-        return new SignupNdto(dto);
+        return SignUpResponse.NormalResponse.builder()
+                .nuser(nuser)
+                .roleNormal(usemember)
+                .build();
     }
 
     // 회원 정보 보기
