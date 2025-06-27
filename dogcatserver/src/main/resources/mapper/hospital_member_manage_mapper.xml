@@ -9,7 +9,7 @@
 
     <!-- 상태별 회원 목록 출력 -->
     <select id="findAllHospitalMemberByStatus" resultType="com.example.dogcatserver.dto.HMemberManageDto$HospitalMemberList">
-        select u.username, h.n_name, u.sign_dt, u.status from user_member u join hospital_member h on  u.username= h.h_username  where u.status=#{status} order by u.sign_dt desc
+        select u.username, h.hospital, u.sign_dt, u.status from user_member u join hospital_member h on  u.username= h.h_username  where u.status=#{status} order by u.sign_dt desc
         offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
     </select>
 
@@ -40,7 +40,7 @@
 
     <!-- 검색 결과에 따른 회원수 세기 -->
     <select id="countSearchMember" resultType="int">
-        select count(*) from user_member u join normal_member n on u.username = n.n_username
+        select count(*) from user_member u join hospital_member h on u.username = h.hospital
         <where>
             <choose>
                 <when test="searchType=='both'">

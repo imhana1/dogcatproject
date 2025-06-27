@@ -42,7 +42,7 @@ public class NoticeController {
   @Operation(summary = "공지사항 글 쓰기", description = "공지사항 글 쓰기")
   @Secured("ROLE_ADMIN")
   @PostMapping("/api/notices/write")
-  public ResponseEntity<Notice> writeNotice(@ModelAttribute @Validated NoticeDto.Write writeDto, BindingResult br, Principal principal) {
+  public ResponseEntity<Notice> writeNotice(@RequestBody @Validated NoticeDto.Write writeDto, BindingResult br, Principal principal) {
     Notice notice = noticeService.writeNotice(writeDto, principal.getName());  // 글쓰기가 writeDto로 작성한거랑 id 필요하니까
     return ResponseEntity.ok(notice);
   }
@@ -50,7 +50,7 @@ public class NoticeController {
   @Operation(summary = "공지사항 글 수정", description = "공지사항 제목, 내용, 상단고정 수정 후 수정완료 메시지 반환")
   @PutMapping("/api/notices/notice")
   @Secured("ROLE_ADMIN")
-  public ResponseEntity<Notice> updateNotice(@ModelAttribute NoticeDto.Update updateDto, BindingResult br, Principal principal) {
+  public ResponseEntity<Notice> updateNotice(@RequestBody NoticeDto.Update updateDto, BindingResult br, Principal principal) {
     Notice notice = noticeService.updateNotice(updateDto, principal.getName());
     return ResponseEntity.ok(notice);
   }

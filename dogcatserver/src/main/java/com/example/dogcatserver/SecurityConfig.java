@@ -29,7 +29,11 @@ public class SecurityConfig {
     private final AuthenticationFailureHandler authenticationFailureHandler;
     // 로그아웃 성공 - 200으로 응답
     private final LogoutSuccessHandler logoutSuccessHandler;
-
+//    // PasswordEncoder Bean 추가
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return NoOpPasswordEncoder.getInstance(); // 평문 비밀번호용
+//    }
 
     // 스프링 시큐리티는 11개의 필터들의 집합체(FilterChain)
     // 필터를 생성, 등록하는 설정 함수

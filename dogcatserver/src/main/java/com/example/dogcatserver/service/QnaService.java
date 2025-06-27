@@ -3,13 +3,16 @@ package com.example.dogcatserver.service;
 import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
+import com.example.dogcatserver.entity.Role;
 import com.example.dogcatserver.exception.*;
 import com.example.dogcatserver.util.*;
+import org.apache.catalina.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.context.*;
 import org.springframework.stereotype.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.*;
 
 import java.io.*;
@@ -47,12 +50,33 @@ public class QnaService {
     return qnaQuestion;
   }
 
-  // 관리자인지 확인하는  **
-  public boolean isAdmin(String loginId) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // Autnehtication 객체 가져와
-    UseMember useMember = (UseMember) authentication.getPrincipal();  // useMember 객체 꺼내
-    return useMember.getRole() == Role.ADMIN;  // 확인해서 true/false 반환
+//  // 관리자인지 확인하는  **
+//  public boolean isAdmin(String loginId) {
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // Autnehtication 객체 가져와
+//    UseMember useMember = (UseMember) authentication.getPrincipal();  // useMember 객체 꺼내
+//    return useMember.getRole() == Role.ADMIN;  // 확인해서 true/false 반환
+//
+//  }
 
+  public boolean isAdmin(String loginId) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // Authentication 객체 가져와
+    Object principal = authentication.getPrincipal();  // principal 객체 꺼내
+
+    // UserDetails가 UseMember 타입인지 확인
+    if (principal instanceof UseMember) {
+      UseMember useMember = (UseMember) principal;  // UseMember로 캐스팅
+      return useMember.getRole() == Role.ADMIN;  // 관리자 확인
+    }
+
+    // 만약 principal이 UseMember가 아니라면, 일반 User 객체라면 그에 맞게 처리
+    if (principal instanceof org.springframework.security.core.userdetails.User) {
+      org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) principal;
+      return user.getAuthorities().stream()
+          .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+    }
+
+    // 그 외의 경우는 관리자 권한이 없다고 가정
+    return false;
   }
 
   // 질문 단일 글 답변과 함께 출력  **
@@ -66,11 +90,7 @@ public class QnaService {
   }
 
   // 1:1 문의글 작성 (사진 저장 포함)
-  public QnaQuestion writeQnaQuestion (QnaQuestion qnaQuestion, MultipartFile qnaImage) {
-    if(qnaImage != null && !qnaImage.isEmpty()) {
-      String qnaImageName = qnaImageService.saveQnaImage(qnaImage);// 이미지 저장
-      qnaQuestion.setQImage(qnaImageName);  // 저장한 경로를 qna question에 저장
-    }
+  public QnaQuestion writeQnaQuestion (QnaQuestion qnaQuestion) {
       qnaQuestionDao.writeQnaQuestion(qnaQuestion);  // 글 작성
       return qnaQuestion;
   }

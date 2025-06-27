@@ -13,6 +13,8 @@ import java.util.*;
 public class HMemberManageService {
   @Autowired
   private HMemberManageDao manageDao;
+  @Autowired
+  private MemberWarningDao warningDao;
 
   // 블록 사이즈는 5로 고정
   private static final int BLOCK_SIZE = 5;
@@ -50,12 +52,12 @@ public class HMemberManageService {
   // 경고 횟수 증가 (3 이상일 때 막는 건 프론트)
   public HMemberManageDto.HospitalMemberDetails incWarningCount(String username) {
     // 경고횟수 증가 먼저
-    manageDao.incWarningCount(username);
+    warningDao.incWarningCount(username);
 
     // 경고 횟수 증가 후 횟수가 3 이상이면 차단으로 바꿀거야
-    int currentCount = manageDao.countWarning(username);
+    int currentCount = warningDao.countWarning(username);
     if (currentCount >= 3) {
-      manageDao.blockOn(username);
+      warningDao.blockOn(username);
     }
 
     // 해당 회원의 상세정보 반환
@@ -65,13 +67,13 @@ public class HMemberManageService {
   // 경고 횟수 감소 (0 이하일 때 막는 건 프로트)
   public HMemberManageDto.HospitalMemberDetails decWarningCount(String username) {
     // 현재 경고횟수 파악
-    int currentCount = manageDao.countWarning(username);
+    int currentCount = warningDao.countWarning(username);
     // 경고횟수가 3 이상이면 감소 후 차단 해제
     if (currentCount >= 3) {
-      manageDao.decWarningCount(username);
-      manageDao.blockOff(username);  // 이 경우는 경고 횟수 증가로 인해 차단되었던 회원의 경고 횟수 감소시킬때를 생각해서 넣음
+      warningDao.decWarningCount(username);
+      warningDao.blockOff(username);  // 이 경우는 경고 횟수 증가로 인해 차단되었던 회원의 경고 횟수 감소시킬때를 생각해서 넣음
     } else {  // 3 미만이면 감소만 하고 끝
-      manageDao.decWarningCount(username);
+      warningDao.decWarningCount(username);
     }
     // 해당 회원의 상세정보 반환
     return manageDao.findHospitalMemberByUsername(username);
@@ -79,7 +81,7 @@ public class HMemberManageService {
 
   // 강제 차단
   public HMemberManageDto.HospitalMemberDetails blockOn(String username) {
-    int result = manageDao.blockOn(username);
+    int result = warningDao.blockOn(username);
     // 실패했으면 예외
     if (result == 0) {
       throw new JobFailException("차단에 실패하였습니다");
@@ -89,7 +91,7 @@ public class HMemberManageService {
 
   // 차단 해제
   public HMemberManageDto.HospitalMemberDetails blockOff(String username) {
-    int result = manageDao.blockOff(username);
+    int result = warningDao.blockOff(username);
     // 실패했으면 예외
     if(result==0) {
       throw new JobFailException("차단 해제에 실패하였습니다.");

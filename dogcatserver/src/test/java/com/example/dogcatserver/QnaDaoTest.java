@@ -68,5 +68,10 @@ public class QnaDaoTest {
     int qno = qnaQuestion.getQno();
     qnaAnswerDao.findQnaAnswerByQno(qno).orElseThrow(()->new EntityNotFoundException("답변이 작성되지 않음"));
   }
+
+  @Test
+  public void findAllQnaQuestionByIsAnsweredTest() {
+    qnaQuestionDao.findAllQnaQuestionByIsAnswered(1, 10, true);
+  }
 }
 

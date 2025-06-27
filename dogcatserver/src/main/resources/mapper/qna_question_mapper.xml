@@ -7,11 +7,11 @@
         <selectKey resultType="int" keyProperty="qno" order="BEFORE">
             select qna_question_seq.nextval from dual
         </selectKey>
-        insert into qna_question values(#{qno}, #{qTitle}, #{username}, #{qWriteDay}, #{qContent},#{qIsAnswered}, #{qImage})
-
+        insert into qna_question (qno, q_title, username, q_write_day, q_content, q_is_answered, q_image)
+        values (#{qno}, #{qTitle}, #{username}, #{qWriteDay}, #{qContent}, #{qIsAnswered}, #{qImage, jdbcType=VARCHAR})
     </insert>
 
-    <!-- 글 번호, 글 제목, 작성일, 답변 여부 -->
+    <!-- 전체 질문 목록: 글 번호, 글 제목, 작성일, 답변 여부 -->
     <select id="findAllQnaQuestion" resultType="com.example.dogcatserver.entity.QnaQuestion">
         select qno, q_title, q_write_day, q_is_answered from qna_question order by qno desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
     </select>
@@ -21,6 +21,11 @@
         select
             q.qno, q.q_title, q.username as question_username, q.q_write_day, q.q_content, q.q_is_answered, q.q_image, a.qno, a.username as answer_username, a.answer_write_day, a.answer_content
         from qna_question q left join qna_answer a on q.qno = a.qno where q.qno=#{qno}
+    </select>
+
+    <!-- 답변 상태에 따라 질문 목록 출력 -->
+    <select id="findAllQnaQuestionByIsAnswered" resultType="com.example.dogcatserver.entity.QnaQuestion">
+        select qno, q_title, q_write_day, q_is_answered from qna_question where q_is_answered=#{qIsAnswered} order by qno offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
     </select>
 
 </mapper>
