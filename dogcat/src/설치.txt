@@ -18,3 +18,6 @@ npm install react-toastify
 
 날짜 선택, 예약, 생년월일 입력 등 달력
 npm install react-datepicker
+
+카카오 api 라이브러리
+npm install react-daum-postcode

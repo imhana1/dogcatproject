@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import './ChangeMyPage.css';
 import {VscLocation} from "react-icons/vsc";
+import PostcodeSearch from "../../components/hospitals/PostcodeSearch";
 
 function ChangeMyPage() {
   const navigate = useNavigate();
+  const [showPostcode, setShowPostcode] = useState(false);
+  const [directorPhoto, setDirectorPhoto] = useState(null);
+  const [directorPhotoPreview, setDirectorPhotoPreview] = useState(null); // 미리보기용
+  const [directorCareer, setDirectorCareer] = useState(""); // 경력 입력
+
 
   const [form, setForm] = useState({
     hospital: "",
@@ -16,16 +22,47 @@ function ChangeMyPage() {
     ceoPhone2: "",
     ceoBirth: "",
     email: "",
+    directorPhoto: "",
+    directorCareer: ""
   });
 
   const handleUpdate = () => {
-    // 가입 성공 시 로그인 페이지로 이동
     navigate("/hospital-mypage");
   };
 
   const handleChange = e => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+  };
+
+  // 카카오 우편번호 검색 기능
+  const handleComplete = (data) => {
+    setForm({
+      ...form,
+      zip: data.zonecode,
+      address1: data.address,
+    });
+    setShowPostcode(false);
+  };
+
+  // 사진 업로드 핸들러
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    setDirectorPhoto(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setDirectorPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setDirectorPhotoPreview(null);
+    }
+  };
+
+  // 경력 입력 핸들러
+  const handleCareerChange = (e) => {
+    setDirectorCareer(e.target.value);
   };
 
   return (
@@ -37,7 +74,7 @@ function ChangeMyPage() {
             <li><Link to="#" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>내정보 보기</span></Link></li>
             <li><Link to="/hospital-time" style={{ color: "#333", textDecoration: "none" }}>병원예약 시간설정</Link></li>
             <li><Link to="/booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
-            <li><Link to="/notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
+            <li><Link to="/hospital-notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
           </ul>
         </nav>
         <Link to="/login">
@@ -78,14 +115,23 @@ function ChangeMyPage() {
             <input className="inputStyle" type="email" name="email" onChange={handleChange} placeholder="you@example.com" value={form.email} required />
             <label className="labelStyle">
               주소 <span style={{ color: "red" }}>*</span>
-                <button type="button" className="mb-2 mt-2 btn btn-dark">
-                  <span role="img" aria-label="search"><VscLocation size="20" /></span>
-                </button>
+                <button type="button" className="mb-2 mt-2 btn btn-dark" onClick={() => setShowPostcode(true)}>우편번호 찾기</button>
+              {showPostcode && (
+                  <PostcodeSearch onComplete={handleComplete} />
+              )}
             </label>
             <input type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "180px", height:"35px", minWidth: 100, display: "inline-block" }} required />
             <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="사업자 주소 입력해주세요" value={form.address1} required />
             <input className="inputStyle" type="text" name="address2" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address2} required />
           </div>
+        </div>
+        <div className="columnStyle">
+          <label className="labelStyle">의료진 사진</label>
+          <input type="file" accept="image/*" onChange={handlePhotoChange} style={{ marginBottom: "10px" }}/>
+          {directorPhotoPreview && (
+              <img src={directorPhotoPreview} alt="의료진 미리보기" style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px", marginBottom: "10px" }} />)}
+          <label className="labelStyle">의사 경력</label>
+          <textarea className="inputStyle" name="doctorCareer" rows={4} placeholder="의사 경력을 입력해주세요" value={directorCareer} onChange={handleCareerChange} style={{ resize: "vertical", minHeight: "80px" }}/>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button type="button" className="btn btn-outline-dark btn-block" style={{ width: "40%", padding: "10px", fontSize: "1.1rem" }} onClick={handleUpdate}>수정하기</button>
