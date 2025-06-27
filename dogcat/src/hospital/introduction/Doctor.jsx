@@ -11,7 +11,7 @@ const director  = [
     career: [
       "서울대학교 의과대학 졸업",
       "서울대학교 의과대학 99학번",
-      "너도먹냥병원 대표원장"
+      "너도멍냥병원 대표원장"
     ],
     intro: "환자와의 소통을 최우선으로 생각합니다."
   }
@@ -24,7 +24,7 @@ function Doctor() {
         <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d" }}>너도멍냥 동물병원</div>
         <nav>
           <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
-            <li><Link to="/" style={{ color: "#333", textDecoration: "none" }}>병원소개</Link></li>
+            <li><Link to="/hospital" style={{ color: "#333", textDecoration: "none" }}>병원소개</Link></li>
             <li><Link to="#" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>의료진 소개</span></Link></li>
             <li><Link to="/hospital-reservation" style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
           </ul>

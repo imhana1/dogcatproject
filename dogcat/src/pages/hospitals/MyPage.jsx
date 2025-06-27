@@ -12,7 +12,9 @@ function MyPage() {
     ceo: "",
     email: "",
     birth: "",
-    phone: ""
+    phone: "",
+    directorPhotoUrl: "",   // 의사 사진 URL
+    directorCareer: ""    // 의사 경력
   };
 
   const handleEdit = () => {
@@ -52,6 +54,16 @@ function MyPage() {
               <div style={{ marginBottom: "32px" }}>{user.hospitalName}</div>
               <div style={{ fontWeight: 500, marginBottom: "18px" }}>주소</div>
               <div>{user.address}</div>
+              {/* 의료진 사진, 의료진 경력 */}
+              <div style={{ minWidth: "220px" }}>
+                <div style={{ fontWeight: 500, marginBottom: "10px" }}>의료진 사진</div>
+                {user.directorPhotoUrl ? (
+                    <img src={"https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F076%2F2020%2F04%2F16%2F2020041701001313800081452_20200416211912354.jpg&type=sc960_832"} alt="의료진 사진" style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px", marginBottom: "18px" }} />
+                ) : (<div style={{ marginBottom: "18px" }}>등록된 사진이 없습니다</div> )}
+                <div style={{ fontWeight: 500, marginBottom: "10px" }}>의사 경력</div>
+                <div style={{ marginBottom: "18px", whiteSpace: "pre-line" }}>{user.directorCareer}</div>
+              </div>
+
             </div>
             {/* 오른쪽: 아이디 및 상세정보 */}
             <div style={{ minWidth: "220px" }}>

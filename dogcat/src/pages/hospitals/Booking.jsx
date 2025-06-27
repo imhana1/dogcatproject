@@ -45,7 +45,7 @@ function Booking() {
             <li><Link to="/hospital-mypage" style={{ color: "#333", textDecoration: "none" }}>내정보 보기</Link></li>
             <li><Link to="/hospital-time" style={{ color: "#333", textDecoration: "none" }}>병원예약 시간설정</Link></li>
             <li><Link to="#" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>예약내역</span></Link></li>
-            <li><Link to="/notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
+            <li><Link to="/hospital-notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
           </ul>
         </nav>
         <Link to="/login">

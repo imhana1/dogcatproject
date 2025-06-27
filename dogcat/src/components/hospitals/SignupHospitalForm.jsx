@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { VscLocation } from "react-icons/vsc";
 import './SignupHospitalForm.css';
 import { useNavigate } from "react-router-dom";
+import PostcodeSearch from "./PostcodeSearch";
 
 // 병원 회원가입 화면 입력창 컴포넌트
 function SignupHospitalForm() {
@@ -29,6 +29,7 @@ function SignupHospitalForm() {
     });
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+    const [showPostcode, setShowPostcode] = useState(false);
 
     // 에러메시지
     const validate = () => {
@@ -48,12 +49,6 @@ function SignupHospitalForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-    const handleSignup = () => {
-      if (validate()) {
-        // 가입 처리 및 페이지 이동
-        navigate("/login");
-      }
-    }
     const handleChange = e => {
         const {name, value} = e.target;
         setForm({ ...form, [name]: value });
@@ -61,8 +56,26 @@ function SignupHospitalForm() {
         setErrors(prev => ({ ...prev, [name]: undefined }));
     }
 
+    // 카카오 우편번호 검색 기능
+    const handleComplete = (data) => {
+        setForm({
+            ...form,
+            zip: data.zonecode,
+            address1: data.address,
+        });
+        setShowPostcode(false);
+    };
+
+    // 가입 처리 로직
+    const handleSubmit = (e) => {
+        e.preventDefault(); // 폼 제출시 새로고침 방지
+        alert("가입이 완료되었습니다 !");
+        navigate("/login");
+    };
+
+
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
             <h2 style={{ textAlign: "center" }}>JOIN</h2>
         <div className="formContainer">
           <div>
@@ -81,9 +94,15 @@ function SignupHospitalForm() {
                 </label>
               <div>
                 <input className="inputStyle" type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "160px" }} required />
-                <button type="button" className="mb-2 mt-2 btn btn-dark">
-                    <span role="img" aria-label="search"><VscLocation size="20" /></span>
-                </button>
+                <button type="button" className="mb-2 mt-2 btn btn-dark" onClick={() => setShowPostcode(true)}>우편번호찾기</button>
+                  {/*
+                  회원가입 폼에서 "우편번호 검색" 버튼을 누르면 PostcodeSearch 컴포넌트가 나타나
+                                             ↓
+                  사용자가 주소를 선택하면 halndleComplete가 실행되어 주소/우편번호 칸이 채워짐 !
+                   */}
+                  {showPostcode && (
+                      <PostcodeSearch onComplete={handleComplete} />
+                  )}
               </div>
               <div>
                 <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="사업자 주소 입력해주세요" value={form.address1} required />
@@ -166,9 +185,11 @@ function SignupHospitalForm() {
             </div>
            </div>
         </div>
-        <div className="d-grid">
-          <button type="button" className="btn btn-outline-dark btn-block" onClick={handleSignup}>가입하기</button>
-        </div>
+          <div>
+              <div className="d-grid">
+                  <button type="submit" className="btn btn-outline-dark btn-block">가입하기</button>
+              </div>
+          </div>
       </form>
     );
 }

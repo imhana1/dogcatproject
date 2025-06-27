@@ -43,7 +43,7 @@ function HospitalTime({ options = ["진료"], option = ["미용"]  }) {
             <li><Link to="/hospital-mypage" style={{ color: "#333", textDecoration: "none" }}>내정보 보기</Link></li>
             <li><Link to="#" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>병원예약 시간설정</span></Link></li>
             <li><Link to="/booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
-            <li><Link to="/notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
+            <li><Link to="/hospital-notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
           </ul>
         </nav>
         <Link to="/login">
