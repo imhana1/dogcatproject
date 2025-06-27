@@ -12,14 +12,14 @@ public class Pay {
   // rno, h_username, nusername 외래키
   // p_name : 결제명
   // pay_seq : 시퀀스
-  private int rno;
-  private String h_username;
-  private String nusername;
-  private String orderId;
-  private String paymentKey;
-  private String p_username;
-  private String p_name;
-  private LocalDateTime p_time;
-  private int p_price;
-  private PaymentStatus p_status;
+  private int rno;                // 결제 번호
+  private String h_username;      // 병원 아이디
+  private String nusername;       // 고객 아이디
+  private String orderId;         // 주문번호
+  private String paymentKey;      // API 키
+  private String p_username;      // 주문자
+  private String p_name;          // 결제명 (결제 찍힐 때 나오는 이름)
+  private LocalDateTime p_time;   // 결제 시간
+  private int p_price;            // 결제 금액
+  private PaymentStatus p_status; // 결제 상태
 }

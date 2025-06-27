@@ -25,10 +25,14 @@ public class RoleUserUsermemberResponse {
     public static class RoleNormal{
         private String username;
         private String password;
-        private String status;
-        private boolean isLocked;
+        @Builder.Default
+        private String status="AA";
+        @Builder.Default
+        private boolean isLocked =false;
         @Builder.Default
         private Role role= Role.USER;
+        @Builder.Default
+        private int count = 0;
         @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
     }

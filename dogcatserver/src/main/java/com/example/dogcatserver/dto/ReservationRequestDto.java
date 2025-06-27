@@ -27,16 +27,13 @@ public class ReservationRequestDto {
     private LocalDateTime schedule;
     private String hUsername;
     private int pno;
-    // 기본값 WAITING
-    @Builder.Default
-    private String rStatus = "WAIT";
+
     public Reservation toEntity() {
       return Reservation.builder()
               .nUsername(this.nUsername)
               .schedule(this.schedule)
               .hUsername(this.hUsername)
               .pno(this.pno)
-              .rStatus(this.rStatus)
               .build();
     }
   }

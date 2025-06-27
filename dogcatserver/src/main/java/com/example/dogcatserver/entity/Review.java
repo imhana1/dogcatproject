@@ -10,9 +10,13 @@ import java.time.*;
 @Builder
 public class Review {
   // rev_no 기본키
-  private int rev_no;
-  private int rno;
-  private String r_writer;
-  private LocalDateTime write_day;
-  private String content;
+  // 외래키 : rno, rWriter, hUsername
+  // 리뷰는 사용자가 작성해서 병원 소개 페이지에 띄운다
+
+  private int revNo; // 리뷰 번호
+  private int rno; // 예약 번호
+  private String rWriter; // 작성자
+  private LocalDateTime writeDay; // 작성일
+  private String content; // 내용
+  private String hUsername; // 병원 아이디
 }

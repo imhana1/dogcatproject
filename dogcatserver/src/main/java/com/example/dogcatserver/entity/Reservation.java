@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import java.time.*;
 
+import static com.example.dogcatserver.entity.ReservationStatus.WAITING;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -17,5 +19,5 @@ public class Reservation {
   private int pno;
   // 기본값 WAITING
   @Builder.Default
-  private String rStatus = "WAIT";
+  private ReservationStatus rStatus = WAITING;
 }
