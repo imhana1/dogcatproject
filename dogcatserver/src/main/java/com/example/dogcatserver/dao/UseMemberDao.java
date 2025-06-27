@@ -46,5 +46,8 @@ public interface UseMemberDao {
     @Delete("delete from USER_MEMBER where USERNAME=#{loginId}")
     int delete(String loginId);
 
+    @Delete("DELETE FROM user_member WHERE password IS NULL AND sign_dt < SYSDATE - (30 / 1440) ")
+    int DeleteTemporaryData ();  // 이메일 가입시 저장되는데이터 삭제
+
 }
 

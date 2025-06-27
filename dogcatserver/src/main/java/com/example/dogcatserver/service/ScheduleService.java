@@ -9,6 +9,7 @@ import org.springframework.stereotype.*;
 
 import java.time.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 @Service
 public class ScheduleService {
@@ -85,18 +86,42 @@ public class ScheduleService {
     }
 
 
+    // 공지 사항 업데이트
     public boolean updateNotice(String hUsername, String notice) {
         return scheduleDao.updateNotice(notice, hUsername) > 0;
     }
 
+    // 공지 사항 읽어오기
     public String getNotice(String hUsername) {
         return scheduleDao.findNoticeByUsername(hUsername);
     }
 
+    // 날짜에 대한 블록처리
     public int blockDate(String loginId, String sChoice, LocalDate date) {
         return scheduleDao.blockTimes(loginId, date, sChoice);
     }
+    // 시간에 대한 블록처리
     public int blockTime(String loginId, LocalDate date, LocalTime time, String sChoice) {
         return scheduleDao.blockTime(loginId, date, time, sChoice);
     }
+
+    // 삭제 된 시간을 저장해 중복 삭제를 방지
+    private final Set<LocalDateTime> deletedSet = new HashSet<>();
+
+//    @Scheduled(fixedDelay = 6000) // 60초 한번 실행
+    public void deletePastSchedules(){
+        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        List<Schedule> schedules = scheduleDao.findAll(); // 스케즐 전체 리스트
+
+        for(Schedule schedule: schedules){
+            LocalDateTime scheduleTime = schedule.getSchedule();
+            if(now.equals(scheduleTime) && !deletedSet.contains(scheduleTime)){
+                scheduleDao.scheduleDelete(scheduleTime.toLocalDate(), scheduleTime.toLocalTime());
+            }
+            deletedSet.add(scheduleTime); // 삭제된 시간 저장
+        }
+
+
+    }
+
 }

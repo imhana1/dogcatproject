@@ -43,7 +43,8 @@ public class UseMemberController {
                 result.getUsername(),
                 result.getEmail(),
                 result.getStatus(),
-                result.isLocked()
+                result.isLocked(),
+                result.getSignDt()
         );
         return ResponseEntity.ok(response);
     }
