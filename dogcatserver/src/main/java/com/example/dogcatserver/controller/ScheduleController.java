@@ -43,7 +43,7 @@ public class ScheduleController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/hospital/notice")
     @Operation(summary = "병원 공지사항 ", description = "병원 공지")
     public ResponseEntity<String> getNotice(Principal principal) {

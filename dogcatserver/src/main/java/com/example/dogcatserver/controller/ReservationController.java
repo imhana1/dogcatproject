@@ -23,6 +23,9 @@ public class ReservationController {
     private ReservationService service;
     @Autowired
     private ReservationDao reservationDao;
+
+    @Autowired
+    private ScheduleService scheduleService;
     //
 
     @Operation(summary = "예약 생성", description = "예약 생성이 되었는지 확인")
@@ -73,5 +76,12 @@ public class ReservationController {
     public ResponseEntity<List<Reservation>> getMyReservation(Principal principal) {
         List<Reservation> reservations = service.getMyReservation(principal.getName());
         return ResponseEntity.ok(reservations);
+    }
+
+    @Operation(summary = "예약 공지 사항 읽어오기", description = "병원 아이디를 입력 해서 예약 공지 사항을 입력")
+    @GetMapping("reservat/on/notice")
+    public ResponseEntity<String>getHospitalNotice(@RequestParam String hUsername){
+        String notice = scheduleService.getNotice(hUsername);
+        return ResponseEntity.ok(notice);
     }
 }

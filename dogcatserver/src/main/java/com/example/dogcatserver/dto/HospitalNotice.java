@@ -6,6 +6,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HospitalNotice {
-    private String hUsername;
     private String sNotice;
 }
