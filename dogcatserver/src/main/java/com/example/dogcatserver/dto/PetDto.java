@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+
 public class PetDto {
     @Data
     @AllArgsConstructor
@@ -37,6 +39,9 @@ public class PetDto {
         private int pweight;    // 몸무게
         private int palg;   // 알러지유무
         private int pins;   // 펫보험 여부
+        private String pchronic; // 선천적 지병
+        private String psname;  // 수술 이름
+        private LocalDate psdate;   // 수술 날짜
         public String petprofile;    // 펫 프사
     }
 }

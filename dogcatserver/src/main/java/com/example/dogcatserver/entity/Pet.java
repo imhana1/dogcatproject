@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -21,10 +23,13 @@ public class Pet {
     private int page;   // 나이
     private int palg;   // 알러지유무
     private int pins;   // 펫보험 여부
+    private String pchronic; // 선천적 지병
+    private String psname;  // 수술 이름
+    private LocalDate psdate;   // 수술 날짜
     private String pporf;   // 펫 프사
 
     public PetDto.pread toRead() {
-        return new PetDto.pread(pno, pname, pmichipe, ptype, pbreed, pweight, page, palg, pins, pporf);
+        return new PetDto.pread(pno, pname, pmichipe, ptype, pbreed, pweight, page, palg, pins, pchronic, psname, psdate, pporf);
     }
 
 }

@@ -11,6 +11,6 @@ public class SignupNdto {
     @AllArgsConstructor
     public static class SignupRequestDto{
         private NuserDto.Ncreate nuser;
-        private UseMemberDto.hospitalSignup useMember;
+        private UseMemberDto.nomalSignup useMember;
     }
 }

@@ -33,4 +33,5 @@ public interface AdoptionDao {
   int countAllAdoption();
 
 
+  int AdoptionLikeList();
 }
