@@ -44,6 +44,13 @@ public class QnaService {
     return QnaUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, qnaQuestions);
   }
 
+  // 답변 상태에 따른 질문 리스트 출력 (관리자)
+  public QnaQuestionDto.Pages findAllQnaQuestionByIsAnswered (boolean qIsAnswered, int pageno, int pagesize) {
+    int totalCount = qnaQuestionDao.countAllQnaQuestion();
+    List<QnaQuestion> qnaQuestions = qnaQuestionDao.findAllQnaQuestionByIsAnswered(qIsAnswered, pageno, pagesize);
+    return QnaUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, qnaQuestions);
+  }
+
   // 질문 단일 글 출력 ** 보류 이거 말고 답변이랑 같이 출력하는거 사용 예정 **
   public QnaQuestion findQnaQuestionByQno (int qno) {//일단 loginId 제외
     QnaQuestion qnaQuestion = qnaQuestionDao.findQnaQuestionByQno(qno).orElseThrow(()->new EntityNotFoundException("글을 찾지 못했습니다."));

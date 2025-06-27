@@ -53,14 +53,17 @@ public class NMemberManageService {
 
   // 경고 횟수 증가 (3 이상일 때 막는 건 프론트)
   public NMemberManageDto.NormalMemberDetails incWarningCount(String username) {
-    // 경고횟수 증가 먼저
-    warningDao.incWarningCount(username);
-
-    // 경고 횟수 증가 후 횟수가 3 이상이면 차단으로 바꿀거야
     int currentCount = warningDao.countWarning(username);
-    if (currentCount >= 3) {
-
-      warningDao.blockOn(username);
+    // 지금 경고횟수가 2면 횟수 증가 후 상태를 차단으로
+    if (currentCount >= 2) {
+      warningDao.incWarningCount(username);  // 경고횟수 증가
+      warningDao.blockOn(username);  // isLocked를 true로
+      warningDao.setStatusBlock(username);  // status를 차단으로
+    } else if(currentCount>=0) { // 지금 경고횟수가 0이면 횟수 증가 후 상태를 경고로 변경
+      warningDao.incWarningCount(username);  // 경고횟수 증가
+      warningDao.setStatusWarning(username);  // 여기는 isLocked 안건드리고 status만 변경
+    } else { // 아니면(= 지금 경고횟수가 1이면) 증가만 하고 끝(이미 상태는 경고니까)
+      warningDao.incWarningCount(username);
     }
 
     // 해당 회원의 상세정보 반환
@@ -71,16 +74,25 @@ public class NMemberManageService {
   public NMemberManageDto.NormalMemberDetails decWarningCount(String username) {
     // 현재 경고횟수 파악
     int currentCount = warningDao.countWarning(username);
+    if(currentCount<=0) {
+      throw new JobFailException("경고 횟수가 이미 0입니다.");
+    }
     // 경고횟수가 3 이상이면 감소 후 차단 해제
     if (currentCount >= 3) {
-      warningDao.decWarningCount(username);
+      warningDao.decWarningCount(username);  // 경고횟수 감소
+      warningDao.setStatusWarning(username);  // 상태를 차단에서 경고로 바꿈
       warningDao.blockOff(username);  // 이 경우는 경고 횟수 증가로 인해 차단되었던 회원의 경고 횟수 감소시킬때를 생각해서 넣음
-    } else {  // 3 미만이면 감소만 하고 끝
+    } else if(currentCount<=1) {  // 감소 전 경고 횟수가 1이면 감소 후 상태 일반으로 변경
+      warningDao.decWarningCount(username);  // 경고 횟수 감소
+      warningDao.setStatusNormal(username);  // 상태를 일반으로 변경
+    }else {  // 3 미만이면 감소만 하고 끝
       warningDao.decWarningCount(username);
     }
     // 해당 회원의 상세정보 반환
     return manageDao.findNormalMemberByUsername(username);
   }
+
+  // 횟수를 사용하지 않는 강제차단/차단해제는 상태 변경 안건드릴거야
 
   // 강제 차단
   public NMemberManageDto.NormalMemberDetails blockOn(String username) {

@@ -22,7 +22,7 @@ public interface QnaQuestionDao {
   List<QnaQuestion> findAllQnaQuestion(int pageno, int pagesize);
 
   // 답변 상태에 따른 질문 목록 출력
-  List<Adoption> findAllQnaQuestionByIsAnswered(int pageno, int pagesize, Boolean qIsAnswered);
+  List<QnaQuestion> findAllQnaQuestionByIsAnswered(boolean qIsAnswered, int pageno, int pagesize);
 
   // qna 전체 글 개수 확인 for pagination
   @Select("select count(*) from qna_question")

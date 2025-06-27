@@ -82,6 +82,14 @@ public class QnaController {
      return ResponseEntity.ok(qnaService.findAllQnaQuestion(pageno, pagesize));
   }
 
+  // 답변 상태에 따른 질문 리스트 조회 (관리자)
+  @Operation(summary = "답변 상태에 따른 질문 리스트 출력", description = "답변 상태 선택하면 해당 상태인 질문 리스트 출력")
+  @GetMapping("/api/qna/type-questions")
+  @Secured("ROLE_ADMIN")
+  public ResponseEntity<QnaQuestionDto.Pages> findAllQnaQuestionByIsAnswered(@RequestParam boolean qIsAnswered, @RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize) {
+    return ResponseEntity.ok(qnaService.findAllQnaQuestionByIsAnswered(qIsAnswered, pageno, pagesize));
+  }
+
   // 답변 작성 (관리자)
   @Operation(summary = "답변 작성", description = "글 번호의 질문에 대한 답변 작성")
   @PostMapping("/api/qna/write-answer")
