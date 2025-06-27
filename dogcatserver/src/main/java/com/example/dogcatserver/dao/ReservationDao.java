@@ -9,16 +9,12 @@ import java.util.*;
 
 @Mapper
 public interface ReservationDao {
-  // 사용자가 선택한 시간 불러오기
-  @Select("select * from reservation where trunc(schedule) = to_date(#{date},'yyyy-MM-DD') and h_username = #{hUsername} and to_char(#{time},'HH:mm')")
-  Reservation findReservedTimeByDate(LocalDate date,LocalTime time, String hUsername);
-
   // 예약 생성
   // reservation_mapper.xml 으로 sql문 옮김
   int save(Reservation reservation);
 
   // 병원 시간 불러오기
-  List<Schedule> getHospitalSchedule( String hUsername, LocalDate date);
+  List<Schedule> getHospitalSchedule(String hUsername, LocalDate date);
 
   // 예약 취소
   int cancelReservation (int rno);

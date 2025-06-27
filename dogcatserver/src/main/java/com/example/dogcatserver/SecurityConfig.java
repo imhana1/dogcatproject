@@ -18,7 +18,7 @@ import java.util.*;
 @Configuration
 // final로 선언한 필드를 대상으로 하는 생성자를 만들어준다 - 스프링에서 생성자를 이용해 객체를 주입할 때 사용가능
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class  SecurityConfig {
     // 401 오류 처리(로그인이 필요하다)
     private final AuthenticationEntryPoint authenticationEntryPoint;
     // 403 오류처리(권한 오류) -> 로그인 했는데 권한이 없다
@@ -33,6 +33,7 @@ public class SecurityConfig {
 
     // 스프링 시큐리티는 11개의 필터들의 집합체(FilterChain)
     // 필터를 생성, 등록하는 설정 함수
+    // localhost:8080/login 에서 로그인 가능
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity config) throws Exception {
         config.cors(cors -> cors.configurationSource(corsConfigurationSource()));
