@@ -14,7 +14,7 @@ public class UseMember {
     private String password;
     private Role role;
     @Builder.Default
-    private String status = "일반";
+    private Status status = Status.NORMAL;
     private String eCode;
 
     private String email;

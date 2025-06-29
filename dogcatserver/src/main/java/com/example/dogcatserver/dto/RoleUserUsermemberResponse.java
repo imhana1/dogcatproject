@@ -12,7 +12,10 @@ public class RoleUserUsermemberResponse {
     public static class RoleHospital{
         private String username;
         private String password;
-        private String status;
+        @Builder.Default
+        private Status status = Status.NORMAL;
+        @Builder.Default
+        private int count = 0;
         private boolean isLocked;
         @Builder.Default
         private Role role= Role.HOSPITAL;
@@ -26,13 +29,12 @@ public class RoleUserUsermemberResponse {
         private String username;
         private String password;
         @Builder.Default
-        private String status="AA";
-        @Builder.Default
-        private boolean isLocked =false;
-        @Builder.Default
-        private Role role= Role.USER;
+        private Status status = Status.NORMAL;
         @Builder.Default
         private int count = 0;
+        private boolean isLocked;
+        @Builder.Default
+        private Role role= Role.USER;
         @Builder.Default
         private LocalDateTime signDt = LocalDateTime.now();
     }

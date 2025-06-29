@@ -37,6 +37,7 @@ public class HospitalController {
     private TreatService treatService;
 
 
+    // 디폴트 값으로 지정된 정보를 뺀  나머지 정보만 입력하도록 수정
     @PostMapping("/hospital/signup")
     @Operation(summary = "병원 회원가입", description = "회원가입 확인")
     public ResponseEntity<SignUpResponse.HospitalResponse> signup(@RequestBody SignupDto.SignupRequestDto dto) {

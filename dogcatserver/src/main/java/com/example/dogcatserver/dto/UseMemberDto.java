@@ -33,6 +33,7 @@ public class UseMemberDto {
         }
     }
 
+    // role, count, status는 결과를 받는 dto에서 default 처리 할 내용 여기는 입력 하는 값만 받는 dto
     @Data
     @Builder
     @AllArgsConstructor
@@ -43,23 +44,21 @@ public class UseMemberDto {
         @NotEmpty
         @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
         private String password;
-        @Builder.Default
-        private Role role= Role.HOSPITAL;
+
 //        @Builder.Default
 //        private String status = "일반";
 //        @Builder.Default
 //        // 경고 횟수
 //        private int count=0;
-        @Builder.Default
-        private LocalDateTime signDt = LocalDateTime.now();
         public RoleUserUsermemberResponse.RoleHospital toUseMemberEntity(String encodedPassword){
-            return RoleUserUsermemberResponse.RoleHospital.builder().username(username).password(encodedPassword).role(role).signDt(signDt).build();
+            return RoleUserUsermemberResponse.RoleHospital.builder().username(username).password(encodedPassword).build();
         }
 
     }
     @Data
     @Builder
     @AllArgsConstructor
+    // role, count, status는 결과를 받는 dto에서 default 처리 할 내용 여기는 입력 하는 값만 받는 dto
     public static class nomalSignup{
         @NotEmpty
         @Pattern(regexp = "^[a-z0-9]{6,10}$")
@@ -67,11 +66,9 @@ public class UseMemberDto {
         @NotEmpty
         @Pattern(regexp = "^[a-zA-Z0-9]{6,10}$")
         private String password;
-        @Builder.Default
-        private LocalDateTime signDt = LocalDateTime.now();
 
         public RoleUserUsermemberResponse.RoleNormal toUseMemberEntity(String encodedPassword){
-            return RoleUserUsermemberResponse.RoleNormal.builder().username(username).password(encodedPassword).signDt(signDt).build();
+            return RoleUserUsermemberResponse.RoleNormal.builder().username(username).password(encodedPassword).build();
         }
     }
 

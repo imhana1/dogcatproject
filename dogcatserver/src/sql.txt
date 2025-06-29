@@ -2,7 +2,7 @@
 CREATE TABLE user_member (
 	username varchar2(10) NOT NULL,
 	password varchar2(70) NULL,
-	role varchar2(4) NULL,
+	role varchar2(10) NULL,
 	status varchar2(15) NULL,
 	e_code varchar2(20) NULL,
 	email varchar2(30) Null,
@@ -79,6 +79,8 @@ CREATE TABLE pet (
 	has_allergies number(1) NULL,
 	has_insurance number(1) NULL,
 	p_profile clob NULL,
+	illness_name varchar2(10) NULL,
+	surgery_name varchar2(10) NULL,
 	CONSTRAINT PK_PET PRIMARY KEY (pno, n_username),
 	CONSTRAINT FK_nomal_member_TO_pet_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username)
 );
@@ -148,27 +150,6 @@ CREATE TABLE wish_list (
 	CONSTRAINT FK_user_member_TO_wish_list_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
 
--- 12. surgical_history : pet 참조
-CREATE TABLE surgical_history (
-	sno number(10) NOT NULL,
-	pno number(10) NOT NULL,
-	n_username varchar2(10) NOT NULL,
-	s_name varchar2(10) NULL,
-	s_content varchar2(50) NULL,
-	s_day date NULL,
-	CONSTRAINT PK_SURGICAL_HISTORY PRIMARY KEY (sno, pno, n_username),
-	CONSTRAINT FK_pet_TO_surgical_history_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
-);
-
--- 13. chronic_illness : pet 참조
-CREATE TABLE chronic_illness (
-	cno number(10) NOT NULL,
-	pno number(10) NOT NULL,
-	n_username varchar2(10) NOT NULL,
-	i_name varchar2(10) NULL,
-	CONSTRAINT PK_CHRONIC_ILLNESS PRIMARY KEY (cno, pno, n_username),
-	CONSTRAINT FK_pet_TO_chronic_illness_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
-);
 
 -- 14. wish : adoption, user_member 참조
 CREATE TABLE wish (
