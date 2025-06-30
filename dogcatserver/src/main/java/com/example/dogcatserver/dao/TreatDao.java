@@ -14,4 +14,7 @@ public interface TreatDao {
 
     @Select("select * from treat where tno=#{tno}")
     Optional<Treat> findbyTno(int tno);
+
+    @Delete("delete from treat where h_username=#{loginId}")
+    int deleteTreat(String loginId);
 }

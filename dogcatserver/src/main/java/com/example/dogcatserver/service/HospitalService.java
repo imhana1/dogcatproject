@@ -31,6 +31,9 @@ public class HospitalService {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private TreatDao treatDao;
+
     // 병원 주소 좌표화 + 회원 가입 정보 입력
     @Transactional
     public SignUpResponse.HospitalResponse signup(SignupDto.SignupRequestDto dto) {
@@ -105,6 +108,7 @@ public class HospitalService {
     // 회원 탈퇴
     @Transactional
     public void resign (String loginId){
+        treatDao.deleteTreat(loginId);
         hospitalDao.deletehospital(loginId);
         memberDao.delete(loginId);
     }
