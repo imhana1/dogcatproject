@@ -19,7 +19,7 @@ function Home() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/notice" style={{ color: "#333", textDecoration: "none" }}>
+                        <Link to="/notices" style={{ color: "#333", textDecoration: "none" }}>
                             공지사항
                         </Link>
                     </li>

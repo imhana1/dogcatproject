@@ -114,16 +114,20 @@ CREATE TABLE reservation (
 
 -- 8. pay : reservation, hospital_member, normal_member 참조
 CREATE TABLE pay (
-                     rno number(10) NOT NULL,
-                     h_username varchar2(10) NOT NULL,
-                     n_username varchar2(10) NOT NULL,
-                     orderId varchar2(200) NOT NULL,
-                     paymentKey varchar2(64) NOT NULL,
-                     p_username varchar2(10) NULL,
-                     p_name varchar2(100) NULL,
-                     p_time date NULL,
-                     p_price number(10) NULL,
-                     p_status varchar2(20),
+                     rno number(10) NOT NULL,           -- 예약 번호
+                     h_username varchar2(10) NOT NULL,  -- 병원 아이디
+                     n_username varchar2(10) NOT NULL,  -- 고객 아이디
+                     order_no varchar2(200) NOT NULL,   -- 주문번호
+                     payment_key varchar2(64) NOT NULL, -- 결제 요청 후 떨어지는 키
+                     p_username varchar2(10) NULL,      -- 결제자 이름
+                     product_desc varchar2(100) NULL,   -- 결제명
+                     amount number(10) NULL,            -- 결제 가격
+                     amount_tax_free number(10) NULL,   -- 비과세
+                     auto_execute number(2) NULL,       -- 자동 승인 설정
+                     result_callback varchar2 (200),    -- 결제 결과 CallbackURL
+                     ret_url varchar2 (200),            -- 인증 완료 후 연결할 URL
+                     ret_cancel_url varchar2 (200),     -- 결제 중단 시 사용자를 이동시킬 홈페이지
+                     p_status varchar2(20),             -- 결제 상태
                      CONSTRAINT PK_PAY PRIMARY KEY (rno, h_username, n_username),
                      CONSTRAINT FK_reservation_TO_pay_1 FOREIGN KEY (rno) REFERENCES reservation (rno),
                      CONSTRAINT FK_hospital_member_TO_pay_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
@@ -226,8 +230,6 @@ alter table user_member modify(status varchar2(10));
 alter table user_member modify(role varchar2(10));
 alter table hospital_member modify(h_location number(25,15));
 alter table hospital_member modify(h_longitude number(25,15));
-
-
 
 
 create sequence schedule_seq;

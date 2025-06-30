@@ -27,7 +27,7 @@ public class ReservationDaoTest {
       .hUsername("summer")
       .pno(100)
       .schedule(LocalDateTime.of(2025, 6, 25, 10, 0))
-      .rStatus("WAIT")
+//      .rStatus("WAIT")
       .build();
 //    reservationDao.save(responseDao);
 

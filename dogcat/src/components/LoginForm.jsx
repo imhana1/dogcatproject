@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 // 공통
 // LOGIN 화면 입력창 컴포넌트
@@ -22,6 +23,33 @@ function LoginForm({ onLogin }) {
       navigate("/find-account");
     }
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const params = new URLSearchParams();
+        params.append("username", form.id);
+        params.append("password", form.password);
+        try {
+            const res = await axios.post("http://localhost:8080/login", params, {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            });
+            if (res.status === 200) {
+                alert("로그인 성공!");
+                // 토큰 저장, 페이지 이동 등 추가 처리
+                // 병원 여부에 따라 이동
+                if (res.data.hospital) {
+                    navigate("/hospital-mypage");
+                } else {
+                    navigate("/user-mypage");
+                }
+            }
+        } catch (error) {
+            alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+
     return (
         <form onSubmit={handleSignup} className="mb-3 mt-3 table table-border">
             <h2 className="text-center">LOGIN</h2>
@@ -35,7 +63,7 @@ function LoginForm({ onLogin }) {
                 <input type="password" name='password' placeholder="비밀번호를 입력하세요" className='form-control' value={form.password} onChange={handleChange} required />
             </div>
             <div className="d-grid mb-3 mt-3">
-                <button type="submit" className="btn btn-outline-dark btn-block">로그인</button>
+                <button type="submit" className="btn btn-outline-dark btn-block" onClick={handleLogin}>로그인</button>
             </div>
             <div style={{ textAlign: "center", marginTop: "20px" }}>
                 <button type="button" className="btn btn-outline-light text-dark" style={{ fontSize: "1.1rem", padding: "7px 80px" }} onClick={handleFind}>아이디/비밀번호 찾기</button>
