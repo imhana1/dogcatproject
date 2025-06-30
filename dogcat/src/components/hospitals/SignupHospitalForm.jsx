@@ -7,13 +7,17 @@ import api from "../../utils/api";
 // 병원 회원가입 화면 입력창 컴포넌트
 function SignupHospitalForm() {
     const [form, setForm] = useState({
+        // 병원이름
         hospital: "",
         director: "",
+        // 우편번호
         zip: "",
         address1: "",
         address2: "",
+        // 아이디
         id: "",
         password: "",
+        // 비밀번호확인
         passwordCheck: "",
         ceoName: "",
         ceoGender: "",
@@ -26,7 +30,8 @@ function SignupHospitalForm() {
         managerPhone2: "",
         managerPhone3: "",
         email: "",
-        emailCheck: ""
+        // 이메일 코드인증
+        emailCode: ""
     });
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -78,9 +83,27 @@ function SignupHospitalForm() {
             alert('인증 이메일이 발송되었습니다. 메일함을 확인해보세요.')
         } catch(err) {
             alert('이메일 발송에 실패했습니다.')
-            console.log(err);
         }
     }
+
+    // 이메일 코드 인증
+    const emailCheck = async() => {
+        try {
+            const res = await api.put('/email-check',null, {
+                params: {
+                    code: form.emailCode
+                }
+            });
+            alert('이메일 인증이 완료되었습니다 !');
+        } catch(err) {
+            if(err.response && err.response.status === 409) {
+                alert('인증에 실패했습니다. 인증코드를 다시 확인하세요.');
+            } else {
+                alert('서버오류가 발생했습니다.')
+            }
+            console.log(err);
+        }
+    };
 
     const handleChange = e => {
         const {name, value} = e.target;
@@ -213,8 +236,8 @@ function SignupHospitalForm() {
             </div>
             <div>
               <label className="labelStyle">코드 인증</label>
-              <input type="text" name="emailCheck" onChange={handleChange} placeholder="이메일에 받은 코드를 입력해주세요" value={form.emailCheck} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
-              <button type="button" className="buttonStyle">확인</button>
+              <input type="text" name="emailCode" onChange={handleChange} placeholder="이메일에 받은 코드를 입력해주세요" value={form.emailCode} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
+              <button type="button" className="buttonStyle" onClick={() => emailCheck(form.emailCode)}>확인</button>
             </div>
            </div>
         </div>
