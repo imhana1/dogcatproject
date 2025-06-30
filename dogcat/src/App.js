@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import HospitalIntro from "./hospital/introduction/HospitalIntro";
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import LoginForm from "./components/LoginForm";
 import SignupHospitalForm from "./components/hospitals/SignupHospitalForm";
@@ -21,10 +21,35 @@ import HospitalReservation from "./hospital/introduction/HospitalReservation";
 import HospitalReview from "./hospital/introduction/HospitalReview";
 import DeleteAccount from "./pages/hospitals/DeleteAccount";
 import Home from "./pages/Home";
+import NoticeList from './pages/notice/NoticeList';
 
 function App() {
   return (
     <div className="App">
+      <Routes>
+        {/* 루트페이지 */}
+        <Route path="/" element={<Home />} />
+        <Route path="/hospital" element={<HospitalIntro />} />
+        <Route path="/hospital-doctor" element={<Doctor />} />
+        <Route path="/hospital-reservation" element={<ProtectedRoute><HospitalReservation /></ProtectedRoute>} />
+        <Route path="/hospital-review" element={<HospitalReview />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<LoginPage />} />
+        <Route path="/find-account" element={<FindAccount />} />
+        <Route path="/hospital-signup" element={<SignupHospitalForm />} />
+        <Route path="/hospital-checkpassword" element={<HospitalCheckPassword />} />
+        <Route path="/hospital-mypage" element={<MyPage />} />
+        <Route path="/change-mypage" element={<ChangeMyPage />} />
+        <Route path="/delete-account" element={<DeleteAccount />} />
+        <Route path="/hospital-time" element={<HospitalTime />} />
+        <Route path="/booking" element={<Booking />} />
+        {/* 예약 내역 페이지 */}
+        <Route path="/booking/:id" element={<BookingDetails />} />
+        {/* 진료 결과 페이지 */}
+        <Route path="/result/:id" element={<BookingResult />} />
+        <Route path="/hospital-notice" element={<Notice />} />
+        <Route path='/notices' element={<NoticeList />} />
+      </Routes>
         <Routes>
             {/* 루트페이지 */}
             <Route path="/" element={<Home />} />

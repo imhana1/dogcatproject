@@ -15,7 +15,7 @@ public class MemberManageTest {
   @Autowired
   private MemberWarningDao warningDao;
 
-//  @Test
+  @Test
   public void findAllNormalMemberTest() {
     normalDao.findAllNormalMember(1, 20);
   }
