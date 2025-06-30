@@ -1,9 +1,9 @@
-// 커밋용 임시 파일
+커밋용 임시 파일
 
-// import axios from "axios";
+import axios from "axios";
 
 
 
-// const api = axios.create({baseURL:'http://localhost:8080', withCredentials: true});
+const api = axios.create({baseURL:'http://localhost:8080', withCredentials: true});
 
-// export default api;
+export default api;
