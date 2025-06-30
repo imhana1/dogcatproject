@@ -7,14 +7,14 @@ import styles from './Notice.module.css';
 
 function NoticeList() {
     return (
-        <div>
+        <div className={styles.ntcQnaWrapper}>
             <HeaderNoticeQna />
             <main>
-                <NavNoticeQna />
+                <NavNoticeQna activeTab="notice" /> {/* nav css 적용 속성 */}
                 <section>
 
-                </section>
-                <AsideNoticeQna />
+                </section >
+                {/* 현재 디자인 보니까  aside 안쓸것같아서 일단 제외 */}
             </main>
             <FooterNoticeQna />
         </div>

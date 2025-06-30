@@ -25,16 +25,30 @@
     letter-spacing: -0.005em;
 }
 
+.ntcQnaWrapper header>div {
+    display: felx;
+    margin-left: auto;
+}
+
+
+.ntcQnaWrapper header>div>* {
+    display: inline;
+    font-weight: normal;
+    letter-spacing: 0.25em;
+    margin: 0 5px;
+    font-size: 15px;
+}
+
 
 .ntcQnaWrapper nav {
-    width: 200px;
-    height: 300px;
+    width: 250px;
+    min-height: 1000px;
     line-height: 200px;
-    background-color: #bbb;
+    /* background-color: #bbb; */
     text-align: center;
     /* nav>a들 위치조정하는데 배경까지 내려오는거 해결 */
     overflow: hidden;
-    border-right: 1px solid gray;
+    border-right: 1px solid #bbb;
 }
 
 .ntcQnaWrapper footer {
@@ -65,8 +79,10 @@
 
 .ntcQnaWrapper nav>a {
     display: block;
-    width: 150px;
-    margin: 30px 20px;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    margin: 30px 25px;
 
 }
 
