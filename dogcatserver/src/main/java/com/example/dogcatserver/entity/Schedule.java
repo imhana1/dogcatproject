@@ -10,6 +10,7 @@ import java.time.*;
 public class Schedule {
     private LocalDateTime schedule;
     private String hUsername;
+    private String hospital;
     @Builder.Default
     private boolean blockStatus = false;
     private String sNotice;
