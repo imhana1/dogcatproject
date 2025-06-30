@@ -58,7 +58,7 @@ function HospitalTime({ options = ["진료"], option = ["미용"]  }) {
         <h2>진료<br/><span style={{ fontSize: 18, color: "#888" }}>treatment</span></h2>
         <select>
           value={selectedOption}
-          onChange={e => setSelectedOption(e.target.value)}>{options.map(opt => (<option key={opt}>{opt}</option>))}
+          onChange={e => setSelectedOption(e.target.value)}{options.map(opt => (<option key={opt}>{opt}</option>))}
         </select>
          <div style={{ marginBottom: 30 }} className="section-input">
            {dates1.map((date, idx) => (<DatePicker key={idx} selected={date} onChange={date => handleDateChange1(date, idx)} placeholderText="날짜" dateFormat="yyyy-MM-dd" />))}
@@ -69,7 +69,7 @@ function HospitalTime({ options = ["진료"], option = ["미용"]  }) {
         <h2>미용<br/><span style={{ fontSize: 18, color: "#888" }}>beauty treatment</span></h2>
         <select>
           value={selectedOption}
-          onChange={e => setSelectedOption(e.target.value)}>{option.map(opt => (<option key={opt}>{opt}</option>))}
+          onChange={e => setSelectedOption(e.target.value)}{option.map(opt => (<option key={opt}>{opt}</option>))}
         </select>
          <div style={{ marginBottom: 30 }} className="section-input">
            {dates2.map((date, idx) => (<DatePicker key={idx} selected={date} onChange={date => handleDateChange2(date, idx)} placeholderText="날짜" dateFormat="yyyy-MM-dd" />))}

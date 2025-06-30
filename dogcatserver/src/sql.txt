@@ -12,8 +12,8 @@ CREATE TABLE user_member (
 	CONSTRAINT PK_USER_MEMBER PRIMARY KEY (username)
 );
 
--- 2. nomal_member : user_member 참조
-CREATE TABLE nomal_member (
+-- 2. normal_member : user_member 참조
+CREATE TABLE normal_member (
 	n_username varchar2(10) NOT NULL,
 	n_name varchar2(10) NULL,
 	n_address varchar2(30) NULL,
@@ -21,8 +21,8 @@ CREATE TABLE nomal_member (
 	n_birthday date NULL,
 	n_location number(25,15) NULL,
 	n_longitude number(25,15) NULL,
-	CONSTRAINT PK_NOMAL_MEMBER PRIMARY KEY (n_username),
-	CONSTRAINT FK_user_member_TO_nomal_member_1 FOREIGN KEY (n_username) REFERENCES user_member (username)
+	CONSTRAINT PK_normal_member PRIMARY KEY (n_username),
+	CONSTRAINT FK_user_member_TO_normal_member_1 FOREIGN KEY (n_username) REFERENCES user_member (username)
 );
 
 -- 3. hospital_member : user_member 참조
@@ -66,7 +66,7 @@ CREATE TABLE adoption (
 	CONSTRAINT FK_user_member_TO_adoption_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
 
--- 5. pet : nomal_member 참조
+-- 5. pet : normal_member 참조
 CREATE TABLE pet (
 	pno number(10) NOT NULL,
 	n_username varchar2(10) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE pet (
 	illness_name varchar2(10) NULL,
 	surgery_name varchar2(10) NULL,
 	CONSTRAINT PK_PET PRIMARY KEY (pno, n_username),
-	CONSTRAINT FK_nomal_member_TO_pet_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username)
+	CONSTRAINT FK_normal_member_TO_pet_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username)
 );
 
 -- 6. treat : hospital_member 참조
@@ -95,7 +95,7 @@ CREATE TABLE treat (
 	CONSTRAINT FK_hospital_member_TO_treat_1 FOREIGN KEY (t_writer) REFERENCES hospital_member (h_username)
 );
 
--- 7. reservation : nomal_member, hospital_member, pet 참조 s_id 추가
+-- 7. reservation : normal_member, hospital_member, pet 참조 s_id 추가
 CREATE TABLE reservation (
 	rno number(10) NOT NULL,
 	n_username varchar2(10) NOT NULL,
@@ -105,12 +105,12 @@ CREATE TABLE reservation (
 	r_status varchar2(10) NULL,
 	s_id number(10) NULL,
 	CONSTRAINT PK_RESERVATION PRIMARY KEY (rno),
-	CONSTRAINT FK_nomal_member_TO_reservation_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username),
+	CONSTRAINT FK_normal_member_TO_reservation_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username),
 	CONSTRAINT FK_hospital_member_TO_reservation_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
 	CONSTRAINT FK_pet_TO_reservation_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
 );
 
--- 8. pay : reservation, hospital_member, nomal_member 참조
+-- 8. pay : reservation, hospital_member, normal_member 참조
 CREATE TABLE pay (
                      rno number(10) NOT NULL,
                      h_username varchar2(10) NOT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE pay (
                      CONSTRAINT PK_PAY PRIMARY KEY (rno, h_username, n_username),
                      CONSTRAINT FK_reservation_TO_pay_1 FOREIGN KEY (rno) REFERENCES reservation (rno),
                      CONSTRAINT FK_hospital_member_TO_pay_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
-                     CONSTRAINT FK_nomal_member_TO_pay_1 FOREIGN KEY (n_username) REFERENCES nomal_member (n_username)
+                     CONSTRAINT FK_normal_member_TO_pay_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username)
 );
 
 
