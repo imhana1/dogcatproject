@@ -18,7 +18,7 @@ public class Nuser {
     private String nid;     // 아이디
 
     private String nname;       // 이름
-
+    private Integer zip; // 우편번호
     private String naddr;       // 주소
     private String ntel;           // 연락처
     @JsonFormat(pattern = "yyyy년 MM월 dd일")

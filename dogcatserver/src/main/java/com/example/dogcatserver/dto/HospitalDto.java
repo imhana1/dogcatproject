@@ -21,13 +21,14 @@ public class HospitalDto {
         private String hTel;
         @Pattern(regexp = "^0\\d{1,2}-?\\d{3,4}-?\\d{4}$")
         private String hReptel;
+        private Integer zip; // 우편번호
         private String hAddress;
         private boolean hChoice;
         private LocalDate hBirthDay;
 
                 public Hospital toSignEntity(Double hLocation, Double hLongitude){
             return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
-                    .hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).build();
+                    .zip(zip).hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).build();
         }
 
         }

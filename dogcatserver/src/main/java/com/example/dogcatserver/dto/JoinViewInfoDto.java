@@ -19,6 +19,7 @@ public class JoinViewInfoDto {
         private String director;
         private String hTel;
         private String hReptel;
+        private Integer zip; // 우편번호
         private String hAddress;
         private String email;
         private String hProfile;
@@ -41,6 +42,7 @@ public class JoinViewInfoDto {
         private String hospital;
         private String hTel;
         private String hReptel;
+        private Integer zip; // 우편번호
         private String hAddress;
         private boolean hChoice;
         private String openTime;
@@ -60,6 +62,7 @@ public class JoinViewInfoDto {
                     .hospital(hospital)
                     .hTel(hTel)
                     .hReptel(hReptel)
+                    .zip(zip)
                     .hAddress(hAddress)
                     .hChoice(hChoice)
                     .hProfile(base64HImage) // 문자열로 주입된 값
@@ -79,6 +82,7 @@ public class JoinViewInfoDto {
         private String nid;
         private String nname;
         private String ntel;
+        private Integer zip; // 우편번호
         private String naddr;
         private String email;
         @JsonFormat(pattern = "yyyy년 MM월 dd일")
@@ -94,9 +98,10 @@ public class JoinViewInfoDto {
         private String nTel;
         @NotEmpty
         private String naddr;
+        private Integer zip; // 우편번호
 
         public Nuser tonChangeEntity(Double nlocation, Double nlongitude) {
-            return Nuser.builder().ntel(nTel).naddr(naddr).nlocation(nlocation).nlongitude(nlongitude).build();
+            return Nuser.builder().ntel(nTel).naddr(naddr).zip(zip).nlocation(nlocation).nlongitude(nlongitude).build();
         }
     }
 }

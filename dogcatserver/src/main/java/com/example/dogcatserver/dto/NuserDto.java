@@ -26,11 +26,12 @@ public class NuserDto {
         private String npwd;
         @Pattern(regexp = "^01[016789]-?\\d{3,4}-?\\d{4}$")
         private String ntel;
+        private Integer zip; // 우편번호
         private String naddr;
         private LocalDate nbirth;
 
         public Nuser toSignEntity(Double nlocation, Double nlongitude) {
-            return Nuser.builder().nid(nid).nname(nname).ntel(ntel).naddr(naddr).nbirth(nbirth).nlocation(nlocation).nlongitude(nlongitude).
+            return Nuser.builder().nid(nid).nname(nname).ntel(ntel).naddr(naddr).nbirth(nbirth).nlocation(nlocation).nlongitude(nlongitude).zip(zip).
                     build();
         }
     }

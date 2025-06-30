@@ -16,6 +16,7 @@ CREATE TABLE user_member (
 CREATE TABLE normal_member (
 	n_username varchar2(10) NOT NULL,
 	n_name varchar2(10) NULL,
+	zip number(10) null, -- 우편번호
 	n_address varchar2(30) NULL,
 	n_tel varchar2(15) NULL,
 	n_birthday date NULL,
@@ -32,6 +33,7 @@ CREATE TABLE hospital_member (
 	hospital varchar2(10) NULL,
 	h_tel varchar2(11) NULL,
 	h_reptel varchar2(11) NULL,
+	zip number(10) null, -- 우편번호
 	h_address varchar2(70) NULL,
 	h_choice number(1) NULL,
 	h_profile clob NULL,

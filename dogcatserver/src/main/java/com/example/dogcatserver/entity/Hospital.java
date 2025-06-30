@@ -15,6 +15,7 @@ public class Hospital {
     private String hospital;
     private String hTel;
     private String hReptel;
+    private Integer zip; // 우편번호
     private String hAddress;
     private boolean hChoice;
     @JsonIgnore
