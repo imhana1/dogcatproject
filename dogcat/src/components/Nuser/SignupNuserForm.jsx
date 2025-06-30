@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import { VscLocation } from "react-icons/vsc";
 import './SignupNuserForm.css';
 import { useNavigate } from "react-router-dom";
+import api from "../../utils/api";
+import PostcodeSearch from "../hospitals/PostcodeSearch";
 
 // 병원 회원가입 화면 입력창 컴포넌트
-function SignupHospitalForm() {
+function SignupNuserForm() {
     const [form, setForm] = useState({
         nid: "",
         nname: "",
@@ -13,10 +14,12 @@ function SignupHospitalForm() {
         ntel: "",
         nbirth: "",
         email: "",
-        emailCheck: ""
+        emailCode: ""
     });
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+    const [showPostcode, setShowPostcode] = useState(false);
+    const [isSent, setIsSent] = useState(false);
 
     const validate = () => {
       const newErrors = {};
@@ -34,12 +37,56 @@ function SignupHospitalForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-    const handleSignup = () => {
-      if (validate()) {
-        // 가입 처리 및 페이지 이동
-        navigate("/login");
+  // 아이디 중복확인
+  async function checkUsername(username) {
+      try {
+          const res = await api.get('/api/hospital/check-username', {
+              params: { username }
+          });
+            alert(res.data); // 사용가능합니다
+          } catch(err) {
+           if (err.response && err.response.status === 409) {
+              alert(err.response.data); // "사용중인 아이디입니다"
+              } else {
+              alert("오류가 발생했습니다");
+              }
+          }
       }
+
+    // 이메일 인증
+    const emailSend = async() => {
+        try {
+            await api.post('/email-send', {
+                email: form.email,
+                username: form.id
+            });
+            setIsSent(true);
+            alert('인증 이메일이 발송되었습니다. 메일함을 확인해보세요.')
+        } catch(err) {
+            alert('이메일 발송에 실패했습니다.')
+        }
     }
+
+    
+        // 이메일 코드 인증
+        const emailCheck = async() => {
+            try {
+                const res = await api.put('/email-check',null, {
+                    params: {
+                        code: form.emailCode
+                    }
+                });
+                alert('이메일 인증이 완료되었습니다 !');
+            } catch(err) {
+                if(err.response && err.response.status === 409) {
+                    alert('인증에 실패했습니다. 인증코드를 다시 확인하세요.');
+                } else {
+                    alert('서버오류가 발생했습니다.')
+                }
+                console.log(err);
+            }
+        };
+
     const handleChange = e => {
         const {name, value} = e.target;
         setForm({ ...form, [name]: value });
@@ -47,15 +94,32 @@ function SignupHospitalForm() {
         setErrors(prev => ({ ...prev, [name]: undefined }));
     }
 
+        // 카카오 우편번호 검색 기능
+    const handleComplete = (data) => {
+        setForm({
+            ...form,
+            zip: data.zonecode,
+            address1: data.address,
+        });
+        setShowPostcode(false);
+    };
+
+    // 가입 처리 로직
+    const handleSubmit = (e) => {
+        e.preventDefault(); // 폼 제출시 새로고침 방지
+        alert("가입이 완료되었습니다 !");
+        navigate("/login");
+    };
+
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
             <h2 style={{ textAlign: "center" }}>JOIN</h2>
         <div className="formContainer">
           <div>
             <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}><span style={{ color: "red"  }}>*</span> 표시 필수 입력</div>
             <div>
                 <label className="labelStyle">
-                    ID <span style={{ color: "red" }}>*   <button type="button" className="buttonStyle">ID 중복 확인</button></span>
+                    ID <span style={{ color: "red" }}>*   <button type="button" className="buttonStyle" onClick={() => checkUsername(form.id)}>ID 중복 확인</button></span>
                 </label>
                 <input className="inputStyle" type="text" name="id" onChange={handleChange} placeholder="아이디를 입력해주세요" value={form.id} required />
                 {errors.id && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.id}</div>}
@@ -75,16 +139,20 @@ function SignupHospitalForm() {
                 {errors.passwordCheck && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.passwordCheck}</div>}
             </div>
             <div>
+                <label className="labelStyle">
+                    주소 <span style={{ color: "red" }}>*</span>
+                </label>
               <div>
                 <input className="inputStyle" type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "160px" }} required />
-                <button type="button" className="mb-2 mt-2 btn btn-dark">
-                    <span role="img" aria-label="search"><VscLocation size="20" /></span>
-                </button>
-              </div>
-              <div>
-                <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="주소를 입력해주세요" value={form.address1} required />
-                <input className="inputStyle" type="text" name="address2" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address2} required />
-                {errors.address1 && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.address1}</div>}
+                <button type="button" className="mb-2 mt-2 btn btn-dark" onClick={() => setShowPostcode(true)}>우편번호찾기</button>
+                  {/*
+                  회원가입 폼에서 "우편번호 검색" 버튼을 누르면 PostcodeSearch 컴포넌트가 나타나
+                                             ↓
+                  사용자가 주소를 선택하면 halndleComplete가 실행되어 주소/우편번호 칸이 채워짐 !
+                   */}
+                  {showPostcode && (
+                      <PostcodeSearch onComplete={handleComplete} />
+                  )}
               </div>
             </div>
           </div>
@@ -123,21 +191,21 @@ function SignupHospitalForm() {
              {errors.ceoPhone && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.ceoPhone}</div>}
             <div>
               {/* 버튼 일부러 이렇게 한거임 ! 옆에 공간 스페이스바로 주고 옆에 딱 나오게 */}
-              <label className="labelStyle">Email  <button type="button" className="buttonStyle">Email 발송</button></label>
+              <label className="labelStyle">Email  <button type="button" className="buttonStyle" onClick={emailSend} disabled={!form.email}>Email 발송</button></label>
               <input type="email" name="email" onChange={handleChange} placeholder="you@example.com" value={form.email} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
             </div>
             <div>
               <label className="labelStyle">코드 인증</label>
-              <input type="text" name="emailCheck" onChange={handleChange} placeholder="이메일에 받은 코드를 입력해주세요" value={form.emailCheck} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
-              <button type="button" className="buttonStyle">확인</button>
+              <input type="text" name="emailCode" onChange={handleChange} placeholder="이메일에 받은 코드를 입력해주세요" value={form.emailCode} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
+              <button type="button" className="buttonStyle" onClick={() => emailCheck(form.emailCode)}>확인</button>
             </div>
            </div>
         </div>
         <div className="d-grid">
-          <button type="button" className="btn btn-outline-dark btn-block" onClick={handleSignup}>가입하기</button>
+          <button type="button" className="btn btn-outline-dark btn-block">가입하기</button>
         </div>
       </form>
     );
 }
 
-export default SignupHospitalForm;
+export default SignupNuserForm;
