@@ -12,5 +12,5 @@ public class PayRequestDto {
   private String orderId; // 주문아이디
 
   @NotBlank
-  private int p_price; // 결제 금액
+  private String p_price; // 결제 금액
 }

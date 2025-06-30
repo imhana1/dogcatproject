@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dogcatserver.dao.PayDao">
+    <!-- pay 생성 -->
+    <insert id="insertPay" parameterType="com.example.dogcatserver.entity.Pay">
+        insert into pay (
+            rno, h_username, n_username, order_no, payment_key, p_username, product_desc,
+            amount, amount_tax_free, auto_execute, result_callback, ret_url, ret_cancel_url, p_status
+        ) values (
+            #{rno}, #{hUsername}, #{nUsername}, #{orderNo}, #{paymentKey}, #{pUsername}, #{productDesc},
+            #{amount}, #{amountTaxFree}, #{autoExecute}, #{resultCallback}, #{retUrl}, #{retCancelUrl}, #{pStatus}
+        )
+    </insert>
+
+    <!-- orderId 를 이용해 pay 정보 찾기 -->
+    <select id="selectPayByOrderId" resultType="com.example.dogcatserver.entity.Pay" >
+        select * from pay where order_no = #{orderNo}
+    </select>
+
+    <!-- 결제 상태 업데이트 하기 -->
+    <update id="updatePayByStatus">
+        update pay set p_status = #{pStatus} where order_no = #{orderNo}
+    </update>
+
+    <!-- 병원 아이디로 pay 불러오기 -->
+    <select id="selectPayByHospitalId" resultType="com.example.dogcatserver.entity.Pay">
+        select * from pay where h_username = #{hUsername}
+    </select>
+
+
+
+</mapper>
