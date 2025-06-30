@@ -31,7 +31,7 @@
     <select id="getHospitalSchedule" resultType="com.example.dogcatserver.entity.Schedule">
         SELECT *
         FROM schedule
-        WHERE h_username = #{hUsername}
+        WHERE hospital = #{hospital}
           AND TRUNC(schedule) = TRUNC(#{date})
     </select>
 
