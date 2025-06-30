@@ -1,5 +1,6 @@
 package com.example.dogcatserver.dto;
 
+import com.example.dogcatserver.entity.Status;
 import lombok.*;
 
 import java.time.*;
@@ -10,7 +11,7 @@ import java.time.*;
 public class UseMemberResponseDto {
     private String username;
     private String email;
-    private String status;
+    private Status status;
     private boolean isLocked;
     @Builder.Default
     private LocalDateTime signDt = LocalDateTime.now();

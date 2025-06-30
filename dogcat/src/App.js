@@ -5,6 +5,7 @@ import {Route, Routes} from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import LoginForm from "./components/LoginForm";
 import SignupHospitalForm from "./components/hospitals/SignupHospitalForm";
+import SignupNuserForm from "./components/Nuser/SignupNuserForm";
 import HospitalCheckPassword from "./pages/hospitals/HospitalCheckPassword";
 import MyPage from "./pages/hospitals/MyPage";
 import HospitalTime from "./pages/hospitals/HospitalTime";
@@ -35,6 +36,7 @@ function App() {
             <Route path="/signup" element={<LoginPage />} />
             <Route path="/find-account" element={<FindAccount />} />
             <Route path="/hospital-signup" element={<SignupHospitalForm />} />
+            <Route path="/nmembersignup" element={<SignupNuserForm />} />
             <Route path="/hospital-checkpassword" element={<HospitalCheckPassword />} />
             <Route path="/hospital-mypage" element={<MyPage />} />
             <Route path="/change-mypage" element={<ChangeMyPage />} />
