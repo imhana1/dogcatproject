@@ -12,6 +12,7 @@ public class Pay {
   // rno, h_username, nusername 외래키
   // p_name : 결제명
   // pay_seq : 시퀀스
+
   private int rno;                // 결제 번호
   private String h_username;      // 병원 아이디
   private String nusername;       // 고객 아이디
