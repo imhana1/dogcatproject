@@ -8,6 +8,7 @@ import com.example.dogcatserver.service.*;
 import io.swagger.v3.oas.annotations.*;
 import jakarta.validation.*;
 import jakarta.validation.constraints.*;
+import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.security.access.annotation.*;
@@ -25,6 +26,8 @@ public class ReviewController {
     private ReviewService service;
 
 
+    @Operation(summary = "페이징", description = "기본 페이지 1, 페이지 크기 10으로 페이징")
+    @GetMapping("/review")
     public ResponseEntity<ReviewDto.pages> findAll(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize){
         return ResponseEntity.ok(service.findAll(pageno, pagesize));
     }
@@ -59,7 +62,7 @@ public class ReviewController {
         return ResponseEntity.ok("리뷰 내용을 변경했습니다");
     }
     @Secured("Role_USER")
-    @PutMapping("/review/delete")
+    @DeleteMapping("/review/delete")
     @Operation(summary = "리뷰 삭제", description = "리뷰번호로 리뷰 삭제")
     public ResponseEntity<String> delete(@RequestParam @NotNull Integer revNo,BindingResult br, Principal principal){
         service.delete(revNo, principal.getName());
