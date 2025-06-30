@@ -26,8 +26,28 @@ function SignupHospitalForm() {
         managerPhone2: "",
         managerPhone3: "",
         email: "",
-        emailCheck: ""
+        emailCode: ""
     });
+    const payload = {
+        hospital: {
+            hUsername: form.id,
+            director: form.director,
+            hospital: form.hospital,
+            hTel: `${form.ceoPhone1}-${form.ceoPhone2}-${form.ceoPhone3}`,
+            hReptel: `${form.managerPhone1}-${form.managerPhone2}-${form.managerPhone3}`,
+            zip: parseInt(form.zip, 10), // 숫자형 zip
+            hAddress: `${form.address1} ${form.address2}`,
+            hChoice: form.ceoGender === "예",
+            hBirthDay: form.ceoBirth // ISO 날짜 문자열 or yyyy-MM-dd
+        },
+        useMember: {
+            username: form.id,
+            password: form.password,
+            email: form.email,
+            name: form.code
+        }
+    };
+
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     const [showPostcode, setShowPostcode] = useState(false);
@@ -172,7 +192,7 @@ function SignupHospitalForm() {
               <label className="labelStyle">
               대표자 이름 <span style={{ color: "red" }}>*</span>
               </label>
-              <input type="text" name="ceoName" onChange={handleChange} placeholder="대표자이름을 입력해주세요" value={form.ceoName} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
+              <input type="text" name="ceoName" onChange={handleChange} placeholder="대표자이름을 입력해주세요" value={form.director} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
                {errors.ceoName && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.ceoName}</div>}
              </div>
              <div>

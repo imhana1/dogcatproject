@@ -27,4 +27,8 @@ public interface ReservationDao {
 
   // 예약 번호로 상세 조회
   Reservation getReservationByRno (int rno);
+
+  // 로그인한 아이디로 예약 번호 조회
+  @Select("select h_username from reservation where =#{rno}")
+  String FindhUsrnameByRno(int rno);
 }
