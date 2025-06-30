@@ -41,7 +41,6 @@ public class PetDto {
         private int pins;   // 펫보험 여부
         private String pchronic; // 선천적 지병
         private String psname;  // 수술 이름
-        private LocalDate psdate;   // 수술 날짜
         public String petprofile;    // 펫 프사
     }
 }
