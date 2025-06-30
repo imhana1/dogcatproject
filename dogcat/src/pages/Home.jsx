@@ -12,17 +12,7 @@ function Home() {
 
             {/* 아래 네비게이션 링크 */}
             <nav>
-                <ul
-                    style={{
-                        display: "flex",
-                        gap: "48px",
-                        listStyle: "none",
-                        padding: 0,
-                        margin: 0,
-                        fontSize: "1.3rem",
-                        fontWeight: "bold"
-                    }}
-                >
+                <ul style={{ display: "flex", gap: "48px", listStyle: "none", padding: 0, margin: 0, fontSize: "1.3rem", fontWeight: "bold" }}>
                     <li>
                         <Link to="/login" style={{ color: "#333", textDecoration: "none" }}>
                             로그인
