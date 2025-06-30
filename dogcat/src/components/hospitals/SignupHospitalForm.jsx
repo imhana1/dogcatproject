@@ -19,20 +19,40 @@ function SignupHospitalForm() {
         password: "",
         // 비밀번호확인
         passwordCheck: "",
-        ceoName: "",
         ceoGender: "",
         ceoBirth: "",
         ceoPhone1: "",
         ceoPhone2: "",
         ceoPhone3: "",
-        managerName: "",
-        managerPhone1: "",
-        managerPhone2: "",
-        managerPhone3: "",
+        hospitalPhone1: "",
+        hospitalPhone2: "",
+        hospitalPhone3: "",
         email: "",
         // 이메일 코드인증
         emailCode: ""
     });
+
+    // 백 입력 dto
+    const payload = {
+        hospital: {
+            hUsername: form.id,
+            director: form.director,
+            hospital: form.hospital,
+            hTel: `${form.ceoPhone1}-${form.ceoPhone2}-${form.ceoPhone3}`,
+            hReptel: `${form.hospitalPhone1}-${form.hospitalPhone2}-${form.hospitalPhone3}`,
+            zip: parseInt(form.zip, 10), // 숫자형 zip
+            hAddress: `${form.address1} ${form.address2}`,
+            hChoice: form.ceoGender === "예",
+            hBirthDay: form.ceoBirth // ISO 날짜 문자열 or yyyy-MM-dd
+        },
+        useMember: {
+            username: form.id,
+            password: form.password,
+            email: form.email,
+            name: form.code
+        }
+    };
+
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     const [showPostcode, setShowPostcode] = useState(false);
@@ -51,6 +71,7 @@ function SignupHospitalForm() {
       if (!form.ceoGender) newErrors.ceoGender = "미용여부 선택은 필수입니다";
       if (!form.ceoBirth) newErrors.ceoBirth = "생년월일은 필수 입력입니다";
       if (!form.ceoPhone1 || !form.ceoPhone2 || !form.ceoPhone3) newErrors.ceoPhone = "전화번호는 필수 입력입니다";
+      if (!form.hospitalPhone1 || !form.hospitalPhone2 || !form.hospitalPhone3) newErrors.hospitalPhone = "전화번호는 필수 입력입니다";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -195,7 +216,7 @@ function SignupHospitalForm() {
               <label className="labelStyle">
               대표자 이름 <span style={{ color: "red" }}>*</span>
               </label>
-              <input type="text" name="ceoName" onChange={handleChange} placeholder="대표자이름을 입력해주세요" value={form.ceoName} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
+              <input type="text" name="director" onChange={handleChange} placeholder="대표자이름을 입력해주세요" value={form.director} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
                {errors.ceoName && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.ceoName}</div>}
              </div>
              <div>
@@ -229,6 +250,23 @@ function SignupHospitalForm() {
                <input type="text" name="ceoPhone3" onChange={handleChange} value={form.ceoPhone3} style={{ width: "80px", padding: "8px 10px", fontSize: "1rem", flexGrow: 1, border: "1px solid #ccc", borderRadius: "5px", boxSizing: "border-box"}} required />
               </div>
              {errors.ceoPhone && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.ceoPhone}</div>}
+               {/* 병원 전화번호 */}
+               <label className="labelStyle">
+                   병원 전화번호 <span style={{ color: "red" }}>*</span>
+               </label>
+               <div className="phone-row" style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px", flexWrap: "wrap" }}>
+                   <select name="hospitalPhone1" onChange={handleChange} value={form.hospitalPhone1}  style={{ width: "80px", padding: "8px 10px", fontSize: "1rem", flexGrow: 1, border: "1px solid #ccc", borderRadius: "5px", boxSizing: "border-box" }} required>
+                       <option value="">선택</option>
+                       <option value="010">010</option>
+                       <option value="011">011</option>
+                       <option value="02">02</option>
+                   </select>
+                   <span>-</span>
+                   <input type="text" name="hospitalPhone2" onChange={handleChange} value={form.hospitalPhone2} style={{ width: "80px", padding: "8px 10px", fontSize: "1rem", flexGrow: 1, border: "1px solid #ccc", borderRadius: "5px", boxSizing: "border-box"}} required />
+                   <span>-</span>
+                   <input type="text" name="hospitalPhone3" onChange={handleChange} value={form.hospitalPhone3} style={{ width: "80px", padding: "8px 10px", fontSize: "1rem", flexGrow: 1, border: "1px solid #ccc", borderRadius: "5px", boxSizing: "border-box"}} required />
+               </div>
+               {errors.hospitalPhone && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.hospitalPhone}</div>}
             <div>
               {/* 버튼 일부러 이렇게 한거임 ! 옆에 공간 스페이스바로 주고 옆에 딱 나오게 */}
               <label className="labelStyle">Email  <button type="button" className="buttonStyle" onClick={emailSend} disabled={!form.email}>Email 발송</button></label>
