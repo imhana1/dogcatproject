@@ -17,7 +17,7 @@ CREATE TABLE normal_member (
 	n_username varchar2(10) NOT NULL,
 	n_name varchar2(10) NULL,
 	zip number(10) null, -- 우편번호
-	n_address varchar2(30) NULL,
+	n_address varchar2(100) NULL,
 	n_tel varchar2(15) NULL,
 	n_birthday date NULL,
 	n_location number(25,15) NULL,
