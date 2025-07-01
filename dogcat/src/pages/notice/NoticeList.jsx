@@ -50,7 +50,7 @@ function NoticeList() {
                         </thead>
                     </table>
                 </section >
-                {/* 현재 디자인 보니까  aside 안쓸것같아서 일단 제외 */}
+                {/* 현재 디자인 보니까  aside 안쓸것같아서 일단 제외하고 작성 */}
             </main>
             <FooterNoticeQna />
         </div>
