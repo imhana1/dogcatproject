@@ -30,6 +30,5 @@ public class HospitalDto {
             return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
                     .zip(zip).hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).build();
         }
-
         }
     }
