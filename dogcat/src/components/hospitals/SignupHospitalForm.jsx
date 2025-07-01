@@ -3,6 +3,7 @@ import './SignupHospitalForm.css';
 import { useNavigate } from "react-router-dom";
 import PostcodeSearch from "./PostcodeSearch";
 import api from "../../utils/api";
+import axios from "axios";
 
 // 병원 회원가입 화면 입력창 컴포넌트
 function SignupHospitalForm() {
@@ -31,27 +32,6 @@ function SignupHospitalForm() {
         // 이메일 코드인증
         emailCode: ""
     });
-
-    // 백 입력 dto
-    const payload = {
-        hospital: {
-            hUsername: form.id,
-            director: form.director,
-            hospital: form.hospital,
-            hTel: `${form.ceoPhone1}-${form.ceoPhone2}-${form.ceoPhone3}`,
-            hReptel: `${form.hospitalPhone1}-${form.hospitalPhone2}-${form.hospitalPhone3}`,
-            zip: parseInt(form.zip, 10), // 숫자형 zip
-            hAddress: `${form.address1} ${form.address2}`,
-            hChoice: form.ceoGender === "예",
-            hBirthDay: form.ceoBirth // ISO 날짜 문자열 or yyyy-MM-dd
-        },
-        useMember: {
-            username: form.id,
-            password: form.password,
-            email: form.email,
-            name: form.code
-        }
-    };
 
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -144,10 +124,44 @@ function SignupHospitalForm() {
     };
 
     // 가입 처리 로직
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); // 폼 제출시 새로고침 방지
-        alert("가입이 완료되었습니다 !");
-        navigate("/login");
+        console.log("🟦 username(useMember.username):", form.id);
+        console.log("🟦 hUsername(hospital.hUsername):", form.id);
+        // 백 입력 dto
+        const payload = {
+            hospital: {
+                husername: form.id,
+                director: form.director,
+                hospital: form.hospital,
+                htel: `${form.ceoPhone1}-${form.ceoPhone2}-${form.ceoPhone3}`,
+                hreptel: `${form.hospitalPhone1}-${form.hospitalPhone2}-${form.hospitalPhone3}`,
+                zip: parseInt(form.zip, 10), // 숫자형 zip
+                haddress: `${form.address1}`,
+                hchoice: form.ceoGender === "예",
+                hbirthDay: form.ceoBirth // ISO 날짜 문자열 or yyyy-MM-dd
+            },
+            useMember: {
+                username: form.id,
+                password: form.password,
+                role: "HOSPITAL" // 병원 담당자 역할
+            }
+        };
+        console.log("🟩 최종 payload 전송 데이터:", payload);
+
+        try {
+            const response = await axios.post('http://localhost:8080/hospital/signup', payload, {withCredentials:true});
+            console.log(response.data);
+            alert("가입이 완료되었습니다 !");
+            navigate("/login");
+        }catch (error) {
+            if (error.response) {
+                alert(`에러 발생: ${error.response.data.message || '회원가입 실패'}`);
+                console.error(error.response.data);
+            } else {
+                alert('서버 연결 실패');
+            }
+        }
     };
 
 
