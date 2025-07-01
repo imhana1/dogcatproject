@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useAuthStore from "../stores/useAuthStore";
 
 function Home() {
+    // username과 role을 Zustand에서 꺼냄
+    const { username, role } = useAuthStore();
+
+
     return (
         <div
             style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", // 수직 중앙
@@ -24,9 +29,16 @@ function Home() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/search" style={{ color: "#333", textDecoration: "none" }}>
-                            병원검색
-                        </Link>
+                        {/* 권한별로 다른 페이지로 이동 */}
+                        {role === "ROLE_HOSPITAL" ? (
+                            <Link to="/booking" style={{ color: "#333", textDecoration: "none" }}>
+                                예약내역
+                            </Link>
+                        ) : (
+                            <Link to="/search" style={{ color: "#333", textDecoration: "none" }}>
+                                병원검색
+                            </Link>
+                        )}
                     </li>
                 </ul>
             </nav>

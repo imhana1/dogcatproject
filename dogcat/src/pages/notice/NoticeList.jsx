@@ -1,8 +1,8 @@
 import React from 'react'
-import HeaderNoticeQna from '../../fragments/HeaderNoticeQna'
-import NavNoticeQna from '../../fragments/NavNoticeQna'
-import AsideNoticeQna from '../../fragments/AsideNoticeQna'
-import FooterNoticeQna from '../../fragments/FooterNoticeQna'
+import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna'
+import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna'
+import AsideNoticeQna from '../../fragments/noticeQna/AsideNoticeQna'
+import FooterNoticeQna from '../../fragments/noticeQna/FooterNoticeQna'
 import styles from './Notice.module.css';
 
 function NoticeList() {
