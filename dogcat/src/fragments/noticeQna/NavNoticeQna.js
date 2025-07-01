@@ -1,6 +1,6 @@
 import { Button } from 'bootstrap'
 import React from 'react'
-import styles from '../pages/notice/Notice.module.css';
+import styles from '../../pages/notice/Notice.module.css';
 
 
 function NavNoticeQna({ activeTab }) {
