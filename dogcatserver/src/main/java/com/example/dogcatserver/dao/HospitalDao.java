@@ -10,7 +10,7 @@ import java.util.*;
 public interface HospitalDao {
 
 
-    @Insert("insert into hospital_member(h_username,director,hospital,h_tel,h_reptel, zip, h_address,h_choice,h_location, h_longitude, h_birthday) values(#{hUsername}, #{director},#{hospital}," +
+    @Insert("insert into hospital_member(h_username,director,hospital,h_tel,h_reptel, ZIP, h_address,h_choice,h_location, h_longitude, h_birthday) values(#{hUsername}, #{director},#{hospital}," +
             "#{hTel}, #{hReptel},#{zip}, #{hAddress},#{hChoice},#{hLocation},#{hLongitude}, #{hBirthDay})")
     int save(Hospital hospital);
 

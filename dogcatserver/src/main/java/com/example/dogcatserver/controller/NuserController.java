@@ -45,7 +45,7 @@ public class NuserController {
     }
 
     @Operation(summary = "내 정보 보기", description = "일반 회원 내정보 보기")
-    @GetMapping("/nuser")
+    @GetMapping("/user-mypage")
     public ResponseEntity<JoinViewInfoDto.NuserInfo> read(@ModelAttribute UseMemberDto.UsernameCheck uDto) {
         JoinViewInfoDto.NuserInfo dto = nuserservice.Read(uDto.getUsername());
         return ResponseEntity.ok(dto);

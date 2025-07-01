@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface NuserDao {
 
-    @Insert("insert into NORMAL_MEMBER(N_USERNAME, N_NAME, N_ADDRESS, N_TEL, n_birthday, N_LOCATION, N_LONGITUDE) values (#{nid}, #{nname}, #{naddr}," +
+    @Insert("insert into NORMAL_MEMBER(N_USERNAME, N_NAME, zip, N_ADDRESS, N_TEL, n_birthday, N_LOCATION, N_LONGITUDE) values (#{nid}, #{nname}, #{zip}, #{naddr}," +
            "#{ntel}, #{nbirth}, #{nlocation}, #{nlongitude})")
     int save(Nuser nuser);
 
@@ -17,7 +17,7 @@ public interface NuserDao {
     @Select("select n.*, m.email from NORMAL_MEMBER n left join USER_MEMBER m on n.N_USERNAME = m.USERNAME where n.N_USERNAME = #{loginId}")
     NuserInfo getBynUsername(String loginId);
 
-    @Update("update NORMAL_MEMBER set N_TEL=#{ntel}, N_ADDRESS=#{naddr}, N_LONGITUDE=#{nlongitude}, N_LOCATION=#{nlocation}")
+    @Update("update NORMAL_MEMBER set N_TEL=#{ntel}, N_ADDRESS=#{naddr}, N_LONGITUDE=#{nlongitude}, N_LOCATION=#{nlocation} where N_USERNAME=#{nid}")
     void nchangeInfo(Nuser nuser);
 
     @Delete("delete from NORMAL_MEMBER where N_USERNAME=#{loginId}")

@@ -16,7 +16,6 @@ import java.time.LocalDate;
 public class Nuser {
     // 일반 회원에게 받아올 값
     private String nid;     // 아이디
-
     private String nname;       // 이름
     private Integer zip; // 우편번호
     private String naddr;       // 주소
@@ -25,6 +24,4 @@ public class Nuser {
     private LocalDate nbirth;        // 생년월일
     private Double nlongitude;     // 위도
     private Double nlocation;      // 경도
-    @JsonFormat(pattern = "yyyy년 MM월 dd일")
-    private LocalDate nsigndt;  // 가입 일자
 }

@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
+import api from "../../utils/api";
 import './SignupNuserForm.css';
 import { useNavigate } from "react-router-dom";
-import api from "../../utils/api";
 import PostcodeSearch from "../hospitals/PostcodeSearch";
+import axios from 'axios';
 
 // 병원 회원가입 화면 입력창 컴포넌트
 function SignupNuserForm() {
@@ -10,7 +11,9 @@ function SignupNuserForm() {
         nid: "",
         nname: "",
         npwd: "",
+        zip: "",
         naddr: "",
+        address1: "",
         ntel: "",
         nbirth: "",
         email: "",
@@ -21,37 +24,21 @@ function SignupNuserForm() {
     const [showPostcode, setShowPostcode] = useState(false);
     const [isSent, setIsSent] = useState(false);
 
-    const validate = () => {
-      const newErrors = {};
-
-      if (!form.nid) newErrors.hospital = "ID는 필수 입력입니다";
-      if (!form.nname) newErrors.address1 = "이름은 필수 입력입니다";
-      if (!form.npwd) newErrors.id = "비밀번호는 필수 입력입니다";
-      if (!form.npasswordCheck) newErrors.password = "비밀번호 확인은 필수 입력입니다";
-      if (!form.naddr) newErrors.passwordCheck = "주소는 필수 입력입니다";
-      if (!form.ntel) newErrors.ceoName = "연락처는 필수 입력입니다";
-      if (!form.email) newErrors.ceoGender = "E-mail은 필수 입력입니다";
-      if (!form.emailCheck) newErrors.ceoBirth = "E-mail로 발송된 인증코드를 입력하세요";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // 아이디 중복확인
-  async function checkUsername(username) {
-      try {
-          const res = await api.get('/api/hospital/check-username', {
-              params: { username }
-          });
+    // 아이디 중복확인
+    async function checkUsername(username) {
+        try {
+            const res = await api.get('/api/hospital/check-username', {
+                params: { username }
+            });
             alert(res.data); // 사용가능합니다
-          } catch(err) {
-           if (err.response && err.response.status === 409) {
-              alert(err.response.data); // "사용중인 아이디입니다"
-              } else {
-              alert("오류가 발생했습니다");
-              }
-          }
-      }
+        } catch(err) {
+            if (err.response && err.response.status === 409) {
+                alert(err.response.data); // "사용중인 아이디입니다"
+            } else {
+                alert("오류가 발생했습니다");
+            }
+        }
+    }
 
     // 이메일 인증
     const emailSend = async() => {
@@ -67,25 +54,43 @@ function SignupNuserForm() {
         }
     }
 
+
     
-        // 이메일 코드 인증
-        const emailCheck = async() => {
-            try {
-                const res = await api.put('/email-check',null, {
-                    params: {
-                        code: form.emailCode
-                    }
-                });
-                alert('이메일 인증이 완료되었습니다 !');
-            } catch(err) {
-                if(err.response && err.response.status === 409) {
-                    alert('인증에 실패했습니다. 인증코드를 다시 확인하세요.');
-                } else {
-                    alert('서버오류가 발생했습니다.')
+    // 이메일 코드 인증
+    const emailCheck = async() => {
+        try {
+            const res = await api.put('/email-check',null, {
+                params: {
+                    code: form.emailCode
                 }
-                console.log(err);
+            });
+            alert('이메일 인증이 완료되었습니다 !');
+        } catch(err) {
+            if(err.response && err.response.status === 409) {
+                alert('인증에 실패했습니다. 인증코드를 다시 확인하세요.');
+            } else {
+                alert('서버오류가 발생했습니다.')
             }
-        };
+            console.log(err);
+        }
+    };
+
+    const validate = () => {
+      const newErrors = {};
+
+      if (!form.nid) newErrors.hospital = "ID는 필수 입력입니다";
+      if (!form.nname) newErrors.address1 = "이름은 필수 입력입니다";
+      if (!form.npwd) newErrors.id = "비밀번호는 필수 입력입니다";
+      if (!form.npasswordCheck) newErrors.password = "비밀번호 확인은 필수 입력입니다";
+      if (!form.naddr) newErrors.passwordCheck = "주소는 필수 입력입니다";
+      if (!form.nbirth) newErrors.nbirth = "생년월일은 필수 입력입니다";
+      if (!form.ntel) newErrors.ceoName = "연락처는 필수 입력입니다";
+      if (!form.email) newErrors.ceoGender = "E-mail은 필수 입력입니다";
+      if (!form.emailCheck) newErrors.ceoBirth = "E-mail로 발송된 인증코드를 입력하세요";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
     const handleChange = e => {
         const {name, value} = e.target;
@@ -99,16 +104,45 @@ function SignupNuserForm() {
         setForm({
             ...form,
             zip: data.zonecode,
-            address1: data.address,
+            naddr: data.naddr,
         });
         setShowPostcode(false);
     };
 
     // 가입 처리 로직
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); // 폼 제출시 새로고침 방지
-        alert("가입이 완료되었습니다 !");
-        navigate("/login");
+        console.log("🟦 nid(nuser.nid):", form.id);
+        // 백 입력 dto
+        const payload = {
+            nuser: {
+                nid: form.id,
+                nname: form.nname,
+                ntel: `${form.ceoPhone1}-${form.ceoPhone2}-${form.ceoPhone3}`,
+                zip: parseInt(form.zip, 10), // 숫자형 zip
+                naddr: `${form.naddr}`,
+                nbirth: form.nbirth // ISO 날짜 문자열 or yyyy-MM-dd
+            },
+            useMember: {
+                username: form.id,
+                password: form.password
+            }
+        };
+        console.log("🟩 최종 payload 전송 데이터:", payload);
+
+        try {
+            const response = await axios.post('http://localhost:8080/nmembersignup', payload, {withCredentials:true});
+            console.log(response.data);
+            alert("가입이 완료되었습니다 !");
+            navigate("/login");
+        }catch (error) {
+            if (error.response) {
+                alert(`에러 발생: ${error.response.data.message || '회원가입 실패'}`);
+                console.error(error.response.data);
+            } else {
+                alert('서버 연결 실패');
+            }
+        }
     };
 
     return (
@@ -154,6 +188,11 @@ function SignupNuserForm() {
                       <PostcodeSearch onComplete={handleComplete} />
                   )}
               </div>
+                <div>
+                <input className="inputStyle" type="text" name="naddr" onChange={handleChange} placeholder="주소 입력해주세요" value={form.naddr} required />
+                <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address1} required />
+                {errors.naddr && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.naddr}</div>}
+              </div>
             </div>
           </div>
            <div>
@@ -163,15 +202,15 @@ function SignupNuserForm() {
               <label className="labelStyle">
               이름 <span style={{ color: "red" }}>*</span>
               </label>
-              <input type="text" name="ceoName" onChange={handleChange} placeholder="이름을 입력해주세요" value={form.ceoName} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
-               {errors.ceoName && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.ceoName}</div>}
+              <input type="text" name="nname" onChange={handleChange} placeholder="이름을 입력해주세요" value={form.nname} style={{ width: "120%", padding: "8px 10px", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px", boxSizing: "border-box"}} required />
+               {errors.nname && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.nname}</div>}
              </div>
              <div>
               <label className="labelStyle">
               생년월일 <span style={{ color: "red" }}>*</span>
               </label>
-              <input className="inputStyle" type="date" name="ceoBirth" onChange={handleChange} placeholder="YYYY-DD-MM" value={form.ceoBirth} required />
-               {errors.ceoBirth && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.ceoBirth}</div>}
+              <input className="inputStyle" type="date" name="nbirth" onChange={handleChange} placeholder="YYYY-DD-MM" value={form.nbirth} required />
+               {errors.nbirth && <div style={{ color: 'red', fontSize: '0.9em' }}>{errors.nbirth}</div>}
              </div>
              <label className="labelStyle">
                연락처 <span style={{ color: "red" }}>*</span>
@@ -202,7 +241,7 @@ function SignupNuserForm() {
            </div>
         </div>
         <div className="d-grid">
-          <button type="button" className="btn btn-outline-dark btn-block">가입하기</button>
+          <button type="submit" className="btn btn-outline-dark btn-block">가입하기</button>
         </div>
       </form>
     );
