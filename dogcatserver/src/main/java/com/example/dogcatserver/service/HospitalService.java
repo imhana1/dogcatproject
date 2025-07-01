@@ -68,6 +68,7 @@ public class HospitalService {
         return hospitalMemberInfo.toRead();
     }
 
+    // 병원 정보 변경 하는 기능 좌표 + 프로필(병원 사진은 null로 통일)
     public HospitalInfoChangeResponse ChangeInfo(JoinViewInfoDto.HospitalInfoChange dto, String base64HImage, String base64DImage) {
         String address = dto.getHAddress();
         double[] latlng = {0, 0};

@@ -27,7 +27,7 @@ public class JoinViewInfoDto {
         private String  closeTime;
         private String dProfile;
         private String hIntroduction;
-        @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+        @JsonFormat(pattern = "yyyy-MM-dd")
         private LocalDate hBirthDay;
         private String educational;
     }

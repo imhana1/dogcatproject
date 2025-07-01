@@ -52,13 +52,13 @@ public class HospitalController {
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "내 정보 보기", description = "내 정보 보기")
     @GetMapping("/hospital")
-    public ResponseEntity<JoinViewInfoDto.HospitalInfo>read(@ModelAttribute UseMemberDto.UsernameCheck uDto){
-        JoinViewInfoDto.HospitalInfo dto = service.Read(uDto.getUsername());
+    public ResponseEntity<JoinViewInfoDto.HospitalInfo>read(Principal principal){
+        JoinViewInfoDto.HospitalInfo dto = service.Read(principal.getName());
         return ResponseEntity.ok(dto);
     }
 
 
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "정보 변경", description = "내 정보를 변경")
     @PostMapping(value = "/hospital/profile")
     public ResponseEntity<HospitalInfoChangeResponse> changeInfo(
