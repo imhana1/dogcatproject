@@ -30,13 +30,14 @@ function LoginForm({ onLogin }) {
         params.append("username", form.id);
         params.append("password", form.password);
         try {
-            const res = await axios.post("http://localhost:8080/login", params, {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
+            const res = await axios.post("http://localhost:8080/login", params,  {
+                withCredentials: true,
+                    headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
             });
             const userRole = res.data.role;
-            const username = res.data.id; // 또는 res.data.username
+            const username = res.data.id || res.data.username;
 
             // Zustand에 로그인 정보 저장
             useAuthStore.getState().setUserInfo(username, userRole);

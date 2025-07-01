@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link, useNavigate} from "react-router-dom";
+import useAuthStore from "../../stores/useAuthStore";
+import api from "../../utils/api";
 
 // 병원 마이페이지
 function MyPage() {
   const navigate = useNavigate();
 
-  const user = {
+  const huser = {
     hospitalName: "",
     address: "",
     id: "",
@@ -16,6 +18,15 @@ function MyPage() {
     directorPhotoUrl: "",   // 의사 사진 URL
     directorCareer: ""    // 의사 경력
   };
+
+  // 로그인 정보 저장
+  const { username, resetUserInfo } = useAuthStore();
+  console.log("Booking username:", username);
+
+  const checkAuth = useAuthStore(state => state.checkAuth);
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const handleEdit = () => {
     navigate("/change-mypage")
@@ -37,9 +48,17 @@ function MyPage() {
             <li><Link to="/notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
           </ul>
         </nav>
-        <Link to="/login">
-          <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>로그인</button>
-        </Link>
+        {username ? (
+            <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
+                    onClick={() => {resetUserInfo(); window.location.href = "/"; // 로그아웃 후 홈으로 이동
+                    }}>로그아웃</button>
+        ) : (
+            <Link to="/login">
+              <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
+                로그인
+              </button>
+            </Link>
+        )}
       </header>
       <div style={{ display: "flex", marginTop: "38px" }}>
         {/* 왼쪽: 병원 정보 */}
@@ -51,32 +70,23 @@ function MyPage() {
             {/* 왼쪽: 병원명, 주소 */}
             <div style={{ minWidth: "220px" }}>
               <div style={{ fontWeight: 500, marginBottom: "18px" }}>병원이름</div>
-              <div style={{ marginBottom: "32px" }}>{user.hospitalName}</div>
+              <div style={{ marginBottom: "32px" }}>{huser.hospitalName}</div>
               <div style={{ fontWeight: 500, marginBottom: "18px" }}>주소</div>
-              <div>{user.address}</div>
-              {/* 의료진 사진, 의료진 경력 */}
-              <div style={{ minWidth: "220px" }}>
-                <div style={{ fontWeight: 500, marginBottom: "10px" }}>의료진 사진</div>
-                {user.directorPhotoUrl ? (
-                    <img src={"https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F076%2F2020%2F04%2F16%2F2020041701001313800081452_20200416211912354.jpg&type=sc960_832"} alt="의료진 사진" style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px", marginBottom: "18px" }} />
-                ) : (<div style={{ marginBottom: "18px" }}>등록된 사진이 없습니다</div> )}
-                <div style={{ fontWeight: 500, marginBottom: "10px" }}>의사 경력</div>
-                <div style={{ marginBottom: "18px", whiteSpace: "pre-line" }}>{user.directorCareer}</div>
-              </div>
+              <div>{huser.address}</div>
 
             </div>
             {/* 오른쪽: 아이디 및 상세정보 */}
             <div style={{ minWidth: "220px" }}>
               <div style={{ fontWeight: 500, marginBottom: "18px" }}>아이디</div>
-              <div style={{ marginBottom: "22px" }}>{user.id}</div>
+              <div style={{ marginBottom: "22px" }}>{huser.id}</div>
               <div style={{ fontWeight: 500, marginBottom: "10px" }}>이름</div>
-              <div style={{ marginBottom: "18px" }}>{user.ceo}</div>
+              <div style={{ marginBottom: "18px" }}>{huser.ceo}</div>
               <div style={{ fontWeight: 500, marginBottom: "10px" }}>생년월일</div>
-              <div style={{ marginBottom: "18px" }}>{user.birth}</div>
+              <div style={{ marginBottom: "18px" }}>{huser.birth}</div>
               <div style={{ fontWeight: 500, marginBottom: "10px" }}>전화번호</div>
-              <div style={{ marginBottom: "18px" }}>{user.phone}</div>
+              <div style={{ marginBottom: "18px" }}>{huser.phone}</div>
               <div style={{ fontWeight: 500, marginBottom: "10px" }}>Email</div>
-              <div>{user.email}</div>
+              <div>{huser.email}</div>
             </div>
           </div>
         </div>

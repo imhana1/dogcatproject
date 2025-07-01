@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
 
 // 진료 결과
+// 게시판처럼 작성하면 목록으로 -> 선택하면 수정으로 넘어감 -> 웹소켓으로
 function BookingResult() {
   const { id } = useParams();
 

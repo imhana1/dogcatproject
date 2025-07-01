@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
+import useAuthStore from "../../stores/useAuthStore";
 
 const reservation = [
   { id: 1, hospital: "너도멍냥병원", content: "진료", date: "2025-06-25", time: "13:00", name: "신짱구", status: "대기중" },
@@ -17,6 +18,16 @@ function Booking() {
   const [bookings, setBookings] = useState(reservation);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
+
+  // 로그인 정보 저장
+  const { username, resetUserInfo } = useAuthStore();
+  console.log("Booking username:", username);
+
+  const checkAuth = useAuthStore(state => state.checkAuth);
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   // 총 페이지
   const totalPages = Math.ceil(bookings.length/BLOCK_SIZE);
   const countOfPage = bookings.slice((page-1) * BLOCK_SIZE, page * BLOCK_SIZE);
@@ -48,9 +59,17 @@ function Booking() {
             <li><Link to="/hospital-notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
           </ul>
         </nav>
-        <Link to="/login">
-          <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>로그인</button>
-        </Link>
+        {username ? (
+            <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
+                onClick={() => {resetUserInfo(); window.location.href = "/"; // 로그아웃 후 홈으로 이동
+                }}>로그아웃</button>
+        ) : (
+            <Link to="/login">
+              <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
+                로그인
+              </button>
+            </Link>
+        )}
       </header>
       <br />
       <table style={{ margin: "0 auto", width: "90%", borderCollapse: "collapse", textAlign: "center" }}>

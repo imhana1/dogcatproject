@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './HospitalTime.css';
 import axios from "axios";
+import useAuthStore from "../../stores/useAuthStore";
 
 // 병원 예약 시간 설정
 function HospitalTime({ options = ["진료"], option = ["미용"]  }) {
@@ -34,6 +35,15 @@ function HospitalTime({ options = ["진료"], option = ["미용"]  }) {
     setDates2(newDates);
   }
 
+    // 로그인 정보 저장
+    const { username, resetUserInfo } = useAuthStore();
+    console.log("Booking username:", username);
+
+    const checkAuth = useAuthStore(state => state.checkAuth);
+    useEffect(() => {
+        checkAuth();
+    }, [checkAuth]);
+
   return (
     <div>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
@@ -46,9 +56,17 @@ function HospitalTime({ options = ["진료"], option = ["미용"]  }) {
             <li><Link to="/hospital-notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
           </ul>
         </nav>
-        <Link to="/login">
-          <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>로그인</button>
-        </Link>
+          {username ? (
+              <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
+                      onClick={() => {resetUserInfo(); window.location.href = "/"; // 로그아웃 후 홈으로 이동
+                      }}>로그아웃</button>
+          ) : (
+              <Link to="/login">
+                  <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
+                      로그인
+                  </button>
+              </Link>
+          )}
       </header>
       <div className="notice-bar">
         📢 <strong>[공지] 병원에 관한 안내 : </strong>{notice}

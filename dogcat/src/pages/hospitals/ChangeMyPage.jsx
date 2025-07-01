@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import './ChangeMyPage.css';
 import {VscLocation} from "react-icons/vsc";
 import PostcodeSearch from "../../components/hospitals/PostcodeSearch";
+import useAuthStore from "../../stores/useAuthStore";
 
 function ChangeMyPage() {
   const navigate = useNavigate();
@@ -34,6 +35,15 @@ function ChangeMyPage() {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
+
+  // 로그인 정보 저장
+  const { username, resetUserInfo } = useAuthStore();
+  console.log("Booking username:", username);
+
+  const checkAuth = useAuthStore(state => state.checkAuth);
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   // 카카오 우편번호 검색 기능
   const handleComplete = (data) => {
@@ -77,9 +87,17 @@ function ChangeMyPage() {
             <li><Link to="/hospital-notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
           </ul>
         </nav>
-        <Link to="/login">
-          <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>로그인</button>
-        </Link>
+        {username ? (
+            <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
+                    onClick={() => {resetUserInfo(); window.location.href = "/"; // 로그아웃 후 홈으로 이동
+                    }}>로그아웃</button>
+        ) : (
+            <Link to="/login">
+              <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
+                로그인
+              </button>
+            </Link>
+        )}
       </header>
       <div className="boxStyle">
         <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}>
@@ -124,14 +142,6 @@ function ChangeMyPage() {
             <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="사업자 주소 입력해주세요" value={form.address1} required />
             <input className="inputStyle" type="text" name="address2" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address2} required />
           </div>
-        </div>
-        <div className="columnStyle">
-          <label className="labelStyle">의료진 사진</label>
-          <input type="file" accept="image/*" onChange={handlePhotoChange} style={{ marginBottom: "10px" }}/>
-          {directorPhotoPreview && (
-              <img src={directorPhotoPreview} alt="의료진 미리보기" style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px", marginBottom: "10px" }} />)}
-          <label className="labelStyle">의사 경력</label>
-          <textarea className="inputStyle" name="doctorCareer" rows={4} placeholder="의사 경력을 입력해주세요" value={directorCareer} onChange={handleCareerChange} style={{ resize: "vertical", minHeight: "80px" }}/>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button type="button" className="btn btn-outline-dark btn-block" style={{ width: "40%", padding: "10px", fontSize: "1.1rem" }} onClick={handleUpdate}>수정하기</button>
