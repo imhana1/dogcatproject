@@ -34,15 +34,14 @@ function LoginForm({ onLogin }) {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             });
-            if (res.status === 200) {
-                alert("로그인 성공!");
-                // 토큰 저장, 페이지 이동 등 추가 처리
-                // 병원 여부에 따라 이동
-                if (res.data.hospital) {
-                    navigate("/hospital-mypage");
-                } else {
-                    navigate("/user-mypage");
-                }
+            console.log("로그인 응답:", res.data);
+            const userRole = res.data.role; // 또는 res.data.role 등 실제 응답 구조에 맞게
+            if (userRole && userRole.toUpperCase() === "ROLE_HOSPITAL") {
+                navigate("/hospital-mypage");
+            } else if (userRole && userRole.toUpperCase() === "ROLE_USER") {
+                navigate("/user-mypage");
+            } else {
+                navigate("/");
             }
         } catch (error) {
             alert("아이디 또는 비밀번호가 일치하지 않습니다.");

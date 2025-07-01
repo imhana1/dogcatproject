@@ -3,7 +3,6 @@ import './SignupHospitalForm.css';
 import { useNavigate } from "react-router-dom";
 import PostcodeSearch from "./PostcodeSearch";
 import api from "../../utils/api";
-import {signup} from "../../utils/hospitalApi";
 import axios from "axios";
 
 // 병원 회원가입 화면 입력창 컴포넌트
@@ -33,8 +32,6 @@ function SignupHospitalForm() {
         // 이메일 코드인증
         emailCode: ""
     });
-
-
 
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -127,7 +124,7 @@ function SignupHospitalForm() {
     };
 
     // 가입 처리 로직
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); // 폼 제출시 새로고침 방지
         console.log("🟦 username(useMember.username):", form.id);
         console.log("🟦 hUsername(hospital.hUsername):", form.id);
@@ -146,13 +143,13 @@ function SignupHospitalForm() {
             },
             useMember: {
                 username: form.id,
-                password: form.password,
+                password: form.password
             }
         };
         console.log("🟩 최종 payload 전송 데이터:", payload);
 
         try {
-            const response = await axios.post("http://localhost:8080/hospital/signup",payload, {withCredentials: true});
+            const response = await axios.post('http://localhost:8080/hospital/signup', payload, {withCredentials:true});
             console.log(response.data);
             alert("가입이 완료되었습니다 !");
             navigate("/login");

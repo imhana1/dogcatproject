@@ -18,6 +18,15 @@ public class Demo6AuthenticationSuccessHandler implements AuthenticationSuccessH
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String loginId = authentication.getName();
-        ResponseUtil.sendJsonResponse(response,200,loginId);
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse("");
+
+        // JSON 형태로 응답
+        String json = String.format("{\"loginId\": \"%s\", \"role\": \"%s\"}", loginId, role);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(json);
+        response.getWriter().flush();
     }
 }
