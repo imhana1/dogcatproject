@@ -97,8 +97,12 @@ public class ScheduleService {
     }
 
     // 날짜에 대한 블록처리
-    public int blockDate(String loginId, String sChoice, LocalDate date) {
-        return scheduleDao.blockTimes(loginId, date, sChoice);
+    public int blockDate(String loginId, String sChoice, List<LocalDate> dates) {
+        int result = 0;
+        for (LocalDate date: dates){
+            result += scheduleDao.blockTimes(loginId, date, sChoice);
+        }
+        return result;
     }
     // 시간에 대한 블록처리
     public int blockTime(String loginId, LocalDate date, LocalTime time, String sChoice) {

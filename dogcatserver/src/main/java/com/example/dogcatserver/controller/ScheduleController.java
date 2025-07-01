@@ -3,12 +3,14 @@ package com.example.dogcatserver.controller;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.service.*;
 import io.swagger.v3.oas.annotations.*;
+import jakarta.validation.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.format.annotation.*;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.*;
 import org.springframework.stereotype.*;
+import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.*;
@@ -54,15 +56,15 @@ public class ScheduleController {
     @PreAuthorize("isAuthenticated()")
     @PatchMapping("/schedule/dateBlock")
     @Operation(summary = "날짜 블록", description = "날짜 블록")
-    public ResponseEntity<Integer> blockDate(@RequestParam LocalDate date, String sChoice,  Principal principal) {
-        int update = service.blockDate(principal.getName(),sChoice, date);
+    public ResponseEntity<Integer> blockDate(@RequestBody ScheduleDto.ScheduleDateBlock dto, Principal principal) {
+        int update = service.blockDate(principal.getName(),dto.getSChoice(), dto.getDates());
         return ResponseEntity.ok(update);  // 200 + update 숫자
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/schedule/timeBlock")
     @Operation(summary = "시간 블록", description = "시간 블록")
-    public ResponseEntity<Integer> blockTimeSchedule(ScheduleDto.ScheduleBlock dto, Principal principal) {
+    public ResponseEntity<Integer> blockTimeSchedule(@RequestBody @Valid ScheduleDto.ScheduleBlock dto, BindingResult br, Principal principal) {
         int update = service.blockTime(principal.getName(), dto.getDate(), dto.getTime(), dto.getSChoice());
         return ResponseEntity.ok(update);  // 200 + update 숫자
     }

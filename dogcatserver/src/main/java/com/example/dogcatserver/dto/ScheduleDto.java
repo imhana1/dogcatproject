@@ -21,4 +21,9 @@ public class ScheduleDto {
         private LocalTime time;
         private String sChoice;
     }
+    @Data
+    public static class ScheduleDateBlock{
+        private List<LocalDate> dates;
+        private String sChoice;
+    }
 }
