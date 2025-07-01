@@ -9,11 +9,13 @@ function Home() {
 
     return (
         <div
-            style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", // 수직 중앙
+            style={{
+                minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", // 수직 중앙
                 // 수평 중앙
-                alignItems: "center" }}>
+                alignItems: "center"
+            }}>
             {/* 가운데 큰 로고 */}
-            <img src="/dogcat_logo.png" alt="너도멍냥 동물병원" style={{ width: 500, height: 500, objectFit: "contain", marginBottom: 40}} />
+            <img src="/dogcat_logo.png" alt="너도멍냥 동물병원" style={{ width: 500, height: 500, objectFit: "contain", marginBottom: 40 }} />
 
             {/* 아래 네비게이션 링크 */}
             <nav>

@@ -32,9 +32,9 @@ function HeaderNoticeQna() {
 
     // 권한에 따라 다른 마이페이지 주소로 보내 (이름, 권한 체크는 이미 useEffect에서 했어)
     const goToMypage = async () => {
-        if (username && role === 'NORMAL') {
+        if (username && role === 'ROLE_NORMAL') {
             navigate(`/hospital-mypage?username=${username}`);
-        } else if (username && role === 'HOSPITAL') {
+        } else if (username && role === 'ROLE_HOSPITAL') {
             navigate(`/normal-mypage?username=${username}`);  // 이거 임시주소야
         }
     }
