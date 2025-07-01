@@ -37,11 +37,11 @@ public class HospitalService {
     // 병원 주소 좌표화 + 회원 가입 정보 입력
     @Transactional
     public SignUpResponse.HospitalResponse signup(SignupDto.SignupRequestDto dto) {
-        String useMemberName = dto.getUseMember().getUsername();
-        String hospitalName = dto.getHospital().getHUsername();
-        if (!useMemberName.equals(hospitalName)) {
-            throw new IllegalArgumentException("UseMember 이름과 Hospital 이름이 일치하지 않습니다.");
-        }
+//        String useMemberName = dto.getUseMember().getUsername();
+//        String hospitalName = dto.getHospital().getHUsername();
+//        if (!useMemberName.equals(hospitalName)) {
+//            throw new IllegalArgumentException("UseMember 이름과 Hospital 이름이 일치하지 않습니다.");
+//        }
 
         String address = dto.getHospital().getHAddress();
         double[] latlng = service.getCoordinates(address);

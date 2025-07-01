@@ -31,8 +31,8 @@ CREATE TABLE hospital_member (
 	h_username varchar2(10) NOT NULL,
 	director varchar2(10)  NULL,
 	hospital varchar2(10) NULL,
-	h_tel varchar2(11) NULL,
-	h_reptel varchar2(11) NULL,
+	h_tel varchar2(15) NULL,
+	h_reptel varchar2(15) NULL,
 	zip number(10) null, -- 우편번호
 	h_address varchar2(70) NULL,
 	h_choice number(1) NULL,
