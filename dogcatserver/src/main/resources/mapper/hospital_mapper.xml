@@ -16,7 +16,8 @@
             d_profile = #{dProfile},
             h_Introduction = #{hIntroduction},
             h_location = #{hLocation},
-            h_longitude = #{hLongitude}
+            h_longitude = #{hLongitude},
+            educational = #{educational}
         where h_username = #{hUsername}
     </update>
 

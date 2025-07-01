@@ -72,6 +72,7 @@ public class JoinViewInfoDto {
                     .hLocation(hLocation)
                     .hLongitude(hLongitude)
                     .hIntroduction(hIntroduction)
+                    .educational(educational)
                     .build();
         }
     }
