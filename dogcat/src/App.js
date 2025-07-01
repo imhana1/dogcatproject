@@ -8,6 +8,8 @@ import SignupHospitalForm from "./components/hospitals/SignupHospitalForm";
 import SignupNuserForm from "./components/Nuser/SignupNuserForm";
 import HospitalCheckPassword from "./pages/hospitals/HospitalCheckPassword";
 import MyPage from "./pages/hospitals/MyPage";
+import NmyPage from "./pages/Nuser/NmyPage";
+import ChangenMyPage from "./pages/Nuser/ChangenMyPage";
 import HospitalTime from "./pages/hospitals/HospitalTime";
 import Booking from "./pages/hospitals/Booking";
 import Notice from "./pages/hospitals/Notice";
@@ -41,6 +43,8 @@ function App() {
         <Route path="/hospital-checkpassword" element={<HospitalCheckPassword />} />
         <Route path="/hospital-mypage" element={<MyPage />} />
         <Route path="/change-mypage" element={<ChangeMyPage />} />
+        <Route path='/nuser-mypage' element={<NmyPage />} />
+        <Route path='/change-nmypage' element={<ChangenMyPage />} />
         <Route path="/delete-account" element={<DeleteAccount />} />
         <Route path="/hospital-time" element={<HospitalTime />} />
         <Route path="/booking" element={<Booking />} />
