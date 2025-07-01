@@ -1,13 +1,25 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 import api from "../../utils/api";
+import axios from "axios";
 
 // 병원 마이페이지
 function MyPage() {
   const navigate = useNavigate();
 
-  const huser = {
+  // const huser = {
+  //   hospitalName: "",
+  //   address: "",
+  //   id: "",
+  //   ceo: "",
+  //   email: "",
+  //   birth: "",
+  //   phone: "",
+  //   directorPhotoUrl: "",   // 의사 사진 URL
+  //   directorCareer: ""    // 의사 경력
+  // };
+  const [huser, setUser] = useState({
     hospitalName: "",
     address: "",
     id: "",
@@ -17,7 +29,30 @@ function MyPage() {
     phone: "",
     directorPhotoUrl: "",   // 의사 사진 URL
     directorCareer: ""    // 의사 경력
-  };
+  })
+
+  useEffect(() => {
+    const fetch=async()=>{
+      try{
+        const response = await axios.get("http://localhost:8080/hospital", {withCredentials:true});
+        const data = response.data.data;
+        setUser({
+          hospitalName: data.hospital,
+          address: data.haddress,
+          id: data.husername,
+          ceo: data.director,
+          email: data.email,
+          birth: data.hbirthDay,
+          phone: data.htel,
+          directorPhotoUrl: data.hprofile,   // 의사 사진 URL
+          directorCareer: data.educational
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetch();
+  }, []);
 
   // 로그인 정보 저장
   const { username, resetUserInfo } = useAuthStore();
