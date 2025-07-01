@@ -4,19 +4,29 @@ import com.example.dogcatserver.entity.*;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
+import java.util.*;
+
 // 결제 생성 응답
 
 @Data
 public class TossPaymentCreateResponseDto {
-
-  @JsonProperty("paymentId")
-  private String paymentKey;
-
-  private String checkoutUrl;
+  private String paymentKey;      // 토스에서 떨어뜨려 주는 값
 
   @JsonProperty("orderId")
-  private String orderNo;
+  private String orderNo;         // 주문 번호
+
+  private int amount;             // 가격
 
   @JsonProperty("status")
-  private PaymentStatus rStatus;
+  private PaymentStatus pStatus; // 상태
+
+  @JsonProperty("checkout")
+  private Checkout checkout;    // checkoutUrl
+
+  @Data
+  public static class Checkout {
+    private String url;
+  }
 }
+
+

@@ -27,6 +27,6 @@ public class Pay {
   private String resultCallback;  // 결제 결과 CallbackURL
   private String retUrl;          // 인증 완료 후 연결할 URL
   private String retCancelUrl;    // 결제 중단 시 사용자를 이동시킬 홈페이지 URL
-  private PaymentStatus p_status; // 결제 상태
+  private PaymentStatus pStatus; // 결제 상태
 
 }

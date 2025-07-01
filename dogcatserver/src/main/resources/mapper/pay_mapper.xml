@@ -26,7 +26,4 @@
     <select id="selectPayByHospitalId" resultType="com.example.dogcatserver.entity.Pay">
         select * from pay where h_username = #{hUsername}
     </select>
-
-
-
 </mapper>

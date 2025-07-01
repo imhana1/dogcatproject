@@ -13,8 +13,11 @@ public class TossPaymentConfirmResponseDto {
   @JsonProperty("orderId")
   private String orderNo;         // 주문 번호
 
-  private PaymentStatus rStatus;  // 결제 진행 상태
+  @JsonProperty("status")
+  private PaymentStatus pStatus;  // 결제 진행 상태
+
   private String method;          // 결제 종류
   private int totalAmount;        // 총 금액
   private String approcedAt;      // 결제 승인 완료 시간
+  private String checkoutUrl;     // 결제창 url
 }
