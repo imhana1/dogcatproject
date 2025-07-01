@@ -12,6 +12,9 @@ public interface UseMemberDao {
     @Select("Select count(*) from user_member where username=#{username}")
     boolean existsByUsername(String username);
 
+    @Insert("insert into user_member(username, role, password)values(#{username}, #{role}, #{password})")
+    int save(UseMember useMember);
+
 
     @Insert("insert into user_member(username, e_code, email)values(#{username}, #{eCode}, #{email})")
     int emailSave(UseMember useMember);
@@ -37,6 +40,10 @@ public interface UseMemberDao {
 
     @Select("select username, password, email from user_member where username=#{username}")
     UseMember findUsername(String username);
+
+    @Select("select username, password, email from user_member where username=#{username}")
+    Optional<UseMember> findByUsername(String username);
+
 
     @Update("update user_member set password=#{newPassword} where username=#{username}")
     int updatePassword(String username, String newPassword);

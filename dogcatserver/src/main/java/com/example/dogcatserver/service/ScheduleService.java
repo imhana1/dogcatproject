@@ -69,7 +69,7 @@ public class ScheduleService {
         }
         return slots;
     }
-
+    // 추가 된 시간을 담는 리스트
     public List<ScheduleDto> findSchedulesByCondition(String hUsername, LocalDate date, String sChoice) {
         List<Schedule> entityList = scheduleDao.selectByCondition(hUsername, date, sChoice);
         List<ScheduleDto> dtoList = new ArrayList<>();
