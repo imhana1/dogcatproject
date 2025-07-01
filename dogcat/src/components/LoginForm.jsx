@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import useAuthStore from "../stores/useAuthStore";
 
 // 공통
 // LOGIN 화면 입력창 컴포넌트
@@ -34,15 +35,13 @@ function LoginForm({ onLogin }) {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             });
+            const userRole = res.data.role;
+            const username = res.data.id; // 또는 res.data.username
+
+            // Zustand에 로그인 정보 저장
+            useAuthStore.getState().setUserInfo(username, userRole);
             console.log("로그인 응답:", res.data);
-            const userRole = res.data.role; // 또는 res.data.role 등 실제 응답 구조에 맞게
-            if (userRole && userRole.toUpperCase() === "ROLE_HOSPITAL") {
-                navigate("/hospital-mypage");
-            } else if (userRole && userRole.toUpperCase() === "ROLE_USER") {
-                navigate("/user-mypage");
-            } else {
-                navigate("/");
-            }
+            navigate('/');
         } catch (error) {
             alert("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
