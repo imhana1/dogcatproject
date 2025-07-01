@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import './ChangenMyPage.css';
+import PostcodeSearch from '../../components/hospitals/PostcodeSearch';
 
 function ChangeMyPage() {
   const navigate = useNavigate();
+  const [showPostcode, setShowPostcode] = useState(false);
 
   const [form, setForm] = useState({
     nid: "",
     nname: "",
+    zip: "",
+    naddr: "",
+    address1: "",
     nbirth: "",
     ntel: "",
-    naddr: "",
     email: ""
   });
 
@@ -23,6 +27,22 @@ function ChangeMyPage() {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
+
+  
+  // 카카오 우편번호 검색 기능
+  const handleComplete = (data) => {
+    setForm({
+      ...form,
+      zip: data.zonecode,
+      address1: data.address,
+    });
+    setShowPostcode(false);
+  };
+
+  const handleDelete = {
+
+  }
+  
 
   return (
     <form>
@@ -63,10 +83,14 @@ function ChangeMyPage() {
             <input className="inputStyle" type="email" name="email" onChange={handleChange} placeholder="you@example.com" value={form.email} required />
             <label className="labelStyle">
               주소 <span style={{ color: "red" }}>*</span>
+                <button type="button" className="mb-2 mt-2 btn btn-dark" onClick={() => setShowPostcode(true)}>우편번호 찾기</button>
+              {showPostcode && (
+                  <PostcodeSearch onComplete={handleComplete} />
+              )}
             </label>
             <input type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "180px", height:"35px", minWidth: 100, display: "inline-block" }} required />
-            <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="사업자 주소 입력해주세요" value={form.address1} required />
-            <input className="inputStyle" type="text" name="address2" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address2} required />
+            <input className="inputStyle" type="text" name="naddr" onChange={handleChange} placeholder="주소 입력해주세요" value={form.naddr} required />
+            <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address1} required />
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
