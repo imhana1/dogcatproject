@@ -35,7 +35,7 @@ function HeaderNoticeQna() {
         if (username && role === 'ROLE_NORMAL') {
             navigate(`/hospital-mypage?username=${username}`);
         } else if (username && role === 'ROLE_HOSPITAL') {
-            navigate(`/normal-mypage?username=${username}`);  // 이거 임시주소야
+            navigate(`/nuser-mypage?username=${username}`);  // 이거 임시주소야
         }
     }
 
@@ -49,12 +49,12 @@ function HeaderNoticeQna() {
                     <p onClick={logInlogOutHandler} style={{ cursor: 'pointer' }}>
                         {username ? '로그아웃' : '로그인'}
                     </p>
-                    {username && role === 'NORMAL' && `<p>|</p>
+                    {username && role === 'ROLE_NORMAL' && `<p>|</p>
                     <Link to="/search" style={{ color: "#333", textDecoration: "none" }}>
                             병원검색
                         </Link>`
                     }
-                    {username && role === 'HOSPITAL' && `<p>|</p>
+                    {username && role === 'ROLE_HOSPITAL' && `<p>|</p>
                     <p onClick={()=>navigate(hospitalMyPage(username))}>마이페이지</p>`
                     }
                     <p>|</p>

@@ -4,7 +4,7 @@ import api from "./api";
 export const findAll = (pageno = 1, pagesize = 10) => api.get(`/api/notices?pageno=${pageno}&pagesize=${pagesize}`)
 
 // 공지사항 글읽기
-export const findNoticeByNno = (nno) => api.get(`/api/api/notices?nno=${nno}`)
+export const findNoticeByNno = (nno) => api.get(`/api/notices/notice?nno=${nno}`)
 
 // 공지사항 글 작성
 export const writeNotice = (object) => api.post(`/api/notices/write`, object)

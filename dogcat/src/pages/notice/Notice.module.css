@@ -108,6 +108,9 @@
     padding: 20px;
 }
 
-.ntcQnaWrapper th {
-    text-align: center;
+/* table font size */
+.ntcQnaWrapper table>* {
+    font-size: medium;
 }
+
+/* table margin 안먹어서 밖으로 뺌 */
