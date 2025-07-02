@@ -44,11 +44,10 @@ function HospitalTime({options = ["진료"], option = ["미용"]}) {
         checkAuth();
     }, [checkAuth]);
 
-    const handleBlock = async () => {
-        // 선택된 sChoice에 따라 보낼 날짜 배열 결정
-        const targetDates = selectedOption === "진료" ? dates1 : dates2;
+    const handleBlock = async (sChoice, datesArray) => {
+
         // null 제거 후 yyyy-MM-dd 문자열 변환  추가 설명 toISOString() // => "2025-07-01T00:00:00.000Z" split("T") -> toISOString() // => "2025-07-01 00:00:00.000Z"
-        const filterDates = targetDates.filter(date => date !== null).map(date => date.toISOString().split("T")[0]);
+        const filterDates = datesArray.filter(date => date !== null).map(date => date.toISOString().split("T")[0]);
 
         if (filterDates.length === 0) {
             alert("하나 이상의 날짜를 선택하세요.");
@@ -57,7 +56,7 @@ function HospitalTime({options = ["진료"], option = ["미용"]}) {
         try {
             const response = await axios.patch("http://localhost:8080/schedule/dateBlock",
                 {
-                    schoice: selectedOption,
+                    schoice: sChoice,
                     dates: filterDates
                 }, { withCredentials:true})
             alert(`블록 처리 완료: ${response.data}건 업데이트됨`);
@@ -121,7 +120,7 @@ function HospitalTime({options = ["진료"], option = ["미용"]}) {
                             <DatePicker key={idx} selected={date} onChange={date => handleDateChange1(date, idx)}
                                         placeholderText="날짜" dateFormat="yyyy-MM-dd"/>))}
                     </div>
-                    <button className="btn btn-danger" onClick={handleBlock}>Block</button>
+                    <button className="btn btn-danger" onClick={()=>handleBlock('진료', dates1)}>Block</button>
                 </div>
                 <div>
                     <h2>미용<br/><span style={{fontSize: 18, color: "#888"}}>beauty treatment</span></h2>
@@ -135,7 +134,7 @@ function HospitalTime({options = ["진료"], option = ["미용"]}) {
                             <DatePicker key={idx} selected={date} onChange={date => handleDateChange2(date, idx)}
                                         placeholderText="날짜" dateFormat="yyyy-MM-dd"/>))}
                     </div>
-                    <button className="btn btn-danger" onClick={handleBlock}>Block</button>
+                    <button className="btn btn-danger" onClick={()=>handleBlock('미용', dates2)}>Block</button>
                 </div>
             </div>
         </div>

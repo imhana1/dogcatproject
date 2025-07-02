@@ -4,6 +4,7 @@ import './ChangeMyPage.css';
 import {VscLocation} from "react-icons/vsc";
 import PostcodeSearch from "../../components/hospitals/PostcodeSearch";
 import useAuthStore from "../../stores/useAuthStore";
+import axios from "axios";
 
 function ChangeMyPage() {
   const navigate = useNavigate();
@@ -23,12 +24,73 @@ function ChangeMyPage() {
     ceoPhone2: "",
     ceoBirth: "",
     email: "",
+    hospitalPhoto:"",
     directorPhoto: "",
     directorCareer: ""
   });
 
-  const handleUpdate = () => {
-    navigate("/hospital-mypage");
+  useEffect(() => {
+    const fetch=async()=>{
+      try{
+        const response = await axios.get("http://localhost:8080/hospital", {withCredentials:true});
+        const data = response.data;
+        console.log(data);
+        setForm({
+          hospitalName: data.hospital,
+          address1: data.haddress,
+          hospital: data.husername,
+          ceoName: data.director,
+          zip: data.zip,
+          email: data.email,
+          ceoBirth: data.hbirthDay,
+          ceoPhone2: data.htel,
+          hospitalPhoto: data.hprofile,
+          directorPhoto: data.hprofile,   // 의사 사진 URL
+          directorCareer: data.educational
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetch();
+  }, []);
+
+  const handleUpdate = async() => {
+    const formData = new FormData()
+
+    const dto={
+      hUsername: form.hospital,             // 병원 아이디
+      director: form.ceoName,               // 대표자 이름
+      hospital: form.hospitalName,          // 병원 이름
+      hTel: form.ceoPhone2,                 // 대표자 전화번호
+      hReptel: "",                          // (없으면 빈 문자열 또는 null)
+      zip: form.zip ? Number(form.zip) : null, // 우편번호 (Integer로 매핑)
+      hAddress: form.address1,              // 주소
+      openTime: "",                         // (시간 입력 없으므로 빈 문자열)
+      closeTime: "",                        // (시간 입력 없으므로 빈 문자열)
+      hIntroduction: "",                    // (병원 소개 없으면 빈 문자열)
+      educational: form.directorCareer
+    }
+    formData.append("dto", new Blob([JSON.stringify(dto)],{ type: "application/json" }));
+
+    if(form.directorPhoto){
+      formData.append("dprofile",form.directorPhoto);
+    }
+    if(form.hospitalPhoto){
+      formData.append("hprofile", form.hospitalPhoto);
+    }
+
+    try {
+      const response = await  axios.post("http://localhost:8080/hospital/change",formData, {
+        withCredentials:true,
+        headers: {
+        "Content-Type": "multipart/form-data"}
+      });
+      navigate("/hospital-mypage");
+    } catch (err) {
+      console.error(err);
+      alert("정보 변경 중 오류가 발생했습니다: " + err.message);
+    }
   };
 
   const handleChange = e => {
@@ -45,12 +107,13 @@ function ChangeMyPage() {
     checkAuth();
   }, [checkAuth]);
 
+
   // 카카오 우편번호 검색 기능
-  const handleComplete = (data) => {
+  const handleComplete = (form) => {
     setForm({
       ...form,
-      zip: data.zonecode,
-      address1: data.address,
+      zip: form.zonecode,
+      address1: form.address,
     });
     setShowPostcode(false);
   };
@@ -64,7 +127,7 @@ function ChangeMyPage() {
       reader.onloadend = () => {
         setDirectorPhotoPreview(reader.result);
       };
-      reader.readAsDataURL(file);
+      reader.readAsformURL(file);
     } else {
       setDirectorPhotoPreview(null);
     }
@@ -108,7 +171,7 @@ function ChangeMyPage() {
             <label className="labelStyle">
               병원 아이디 <span style={{ color: "red" }}>*</span>
             </label>
-            <input className="inputStyle" type="text" name="hospital" onChange={handleChange} placeholder="병원 아이디를 입력해주세요" value={form.hospital} required />
+            <input className="inputStyle" type="text" name="hospital" onChange={handleChange} placeholder="병원 아이디를 입력해주세요" value={form.hospital} required readOnly={true} />
             <label className="labelStyle">
               병원 이름
             </label>
@@ -130,7 +193,7 @@ function ChangeMyPage() {
           {/* 오른쪽 컬럼 */}
           <div className="columnStyle">
             <label className="labelStyle">Email</label>
-            <input className="inputStyle" type="email" name="email" onChange={handleChange} placeholder="you@example.com" value={form.email} required />
+            <input className="inputStyle" type="email" name="email" onChange={handleChange} placeholder="you@example.com" value={form.email} required readOnly={true} />
             <label className="labelStyle">
               주소 <span style={{ color: "red" }}>*</span>
                 <button type="button" className="mb-2 mt-2 btn btn-dark" onClick={() => setShowPostcode(true)}>우편번호 찾기</button>

@@ -35,7 +35,8 @@ function MyPage() {
     const fetch=async()=>{
       try{
         const response = await axios.get("http://localhost:8080/hospital", {withCredentials:true});
-        const data = response.data.data;
+        const data = response.data;
+        console.log(data);
         setUser({
           hospitalName: data.hospital,
           address: data.haddress,

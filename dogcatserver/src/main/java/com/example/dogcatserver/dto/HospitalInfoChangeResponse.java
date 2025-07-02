@@ -13,6 +13,7 @@ public class HospitalInfoChangeResponse {
     private String director;
     private String hospital;
     private String hTel;
+    private Integer zip; // 우편번호
     private String hReptel;
     private String hAddress;
     private boolean hChoice;

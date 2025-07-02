@@ -44,7 +44,7 @@ public class JoinViewInfoDto {
         private String hReptel;
         private Integer zip; // 우편번호
         private String hAddress;
-        private boolean hChoice;
+//        private boolean hChoice;
         private String openTime;
         private String closeTime;
         private String hIntroduction;
@@ -64,7 +64,7 @@ public class JoinViewInfoDto {
                     .hReptel(hReptel)
                     .zip(zip)
                     .hAddress(hAddress)
-                    .hChoice(hChoice)
+//                    .hChoice(hChoice)
                     .hProfile(base64HImage) // 문자열로 주입된 값
                     .openTime(openTime)
                     .closeTime(closeTime)
