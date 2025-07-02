@@ -24,6 +24,9 @@ import HospitalReview from "./hospital/introduction/HospitalReview";
 import DeleteAccount from "./pages/hospitals/DeleteAccount";
 import Home from "./pages/Home";
 import NoticeList from './pages/notice/NoticeList';
+import NoticeRead from './pages/notice/NoticeRead';
+import NoticeWrite from './pages/notice/NoticeWrite';
+import NoticeUpdate from './pages/notice/NoticeUpdate';
 
 function App() {
   return (
@@ -54,6 +57,9 @@ function App() {
         <Route path="/result/:id" element={<BookingResult />} />
         <Route path="/hospital-notice" element={<Notice />} />
         <Route path='/notices' element={<NoticeList />} />
+        <Route path='/notices/notice' element={<NoticeRead />} />
+        <Route path='/notices/write' element={<NoticeWrite />} />
+        <Route path='/notices/update' element={<NoticeUpdate />} />
       </Routes>
     </div>
   );
