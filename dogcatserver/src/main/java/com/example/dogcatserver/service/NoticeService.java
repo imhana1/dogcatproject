@@ -18,11 +18,15 @@ public class NoticeService {
   // 블록 사이즈는 5로 고정
   private static final int BLOCK_SIZE = 5;
 
-  // 한 페이지에 공지사항글들 목록 불러오기(pagination해서)
+  // 상단에 상단고정 목록 + 한 페이지에 상단고정x 공지사항글들 목록 불러오기(pagination해서)
   public NoticeDto.Pages findAllNotice(int pageno, int pagesize) {
-    int totalCount = noticeDao.countAllNotice();
-    List<Notice> notices = noticeDao.findAllNotice(pageno, pagesize);
-    return NoticeUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, notices);
+    // 상단고정 글
+    List<Notice> topNotices = noticeDao.findTopNotices();
+
+    // 일반 글들 페이징
+    int totalNormalCount = noticeDao.countNormalNotices();
+    List<Notice> normalNotices = noticeDao.findNormalNotice(pageno, pagesize);
+    return NoticeUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalNormalCount, topNotices, normalNotices);
   }
 
   // 단일 글 불러오기 (여기 리턴타입 optional 하면 컨트롤러 오류나지 그냥 notice 하고 예외처리)

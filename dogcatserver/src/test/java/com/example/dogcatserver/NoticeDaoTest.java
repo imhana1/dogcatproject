@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.*;
 public class NoticeDaoTest {
   @Autowired
   private NoticeDao noticeDao;
-  @Autowired
-  private NoticeService noticeService;
+//  @Autowired
+//  private NoticeService noticeService;
 
 
 
@@ -43,8 +43,14 @@ public class NoticeDaoTest {
 
 //  @Test
   @Transactional
-  public void findAllNoticeTest() {
-    noticeDao.findAllNotice(2, 5);
+  public void findNormalNoticeTest() {
+    noticeDao.findNormalNotice(1, 5);
+  }
+
+//    @Test
+  @Transactional
+  public void findTopNoticeTest() {
+    noticeDao.findTopNotices();
   }
 
 //  @Test
@@ -53,10 +59,10 @@ public class NoticeDaoTest {
     noticeDao.findNoticeByNno(1);
   }
 
-  @Test
+//  @Test
   @Transactional
-  public void countAllNoticeTest() {
-    noticeDao.countAllNotice();
+  public void countNormalNoticesTest() {
+    noticeDao.countNormalNotices();
   }
 
 //  @Test
