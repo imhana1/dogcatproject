@@ -17,7 +17,7 @@ CREATE TABLE normal_member (
 	n_username varchar2(10) NOT NULL,
 	n_name varchar2(10) NULL,
 	zip number(10) null, -- 우편번호
-	n_address varchar2(100) NULL,
+	n_address varchar2(100) NULL, -- 길이 100으로 수정
 	n_tel varchar2(15) NULL,
 	n_birthday date NULL,
 	n_location number(25,15) NULL,
@@ -34,7 +34,7 @@ CREATE TABLE hospital_member (
 	h_tel varchar2(15) NULL,
 	h_reptel varchar2(15) NULL,
 	zip number(10) null, -- 우편번호
-	h_address varchar2(70) NULL,
+	h_address varchar2(100) NULL, -- 길이 100으로 수정
 	h_choice number(1) NULL,
 	h_profile clob NULL,
 	h_location number(25,15) NULL,
@@ -76,7 +76,7 @@ CREATE TABLE pet (
 	microchipped number(1) NULL,
 	breed varchar2(10) NULL,
 	p_name varchar2(10) NULL,
-	p_age number(5) NULL,
+	p_age date NULL, -- 날짜로 변경
 	p_weight number(5) NULL,
 	has_allergies number(1) NULL,
 	has_insurance number(1) NULL,
