@@ -19,7 +19,8 @@ public class NoticeDto {
     private int end;
     private int next;
     private int pageno;
-    private List<Notice> notices;
+    private List<Notice> topNotices;  // 상단 고정
+    private List<Notice> normalNotices;  // 상단 고정x
   }
 
 

@@ -1,13 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 import api from "../../utils/api";
+import axios from "axios";
 
 // 병원 마이페이지
 function MyPage() {
   const navigate = useNavigate();
 
-  const huser = {
+  const [huser, setUser] = useState({
     hospitalName: "",
     address: "",
     id: "",
@@ -16,8 +17,35 @@ function MyPage() {
     birth: "",
     phone: "",
     directorPhotoUrl: "",   // 의사 사진 URL
-    directorCareer: ""    // 의사 경력
-  };
+    directorCareer: "",    // 의사 경력
+    treatmentStart: "",  // 진료 시작 시간
+    treatmentEnd: ""    // 진료 종료 시간
+  })
+
+  useEffect(() => {
+    const fetch=async()=>{
+      try{
+        const response = await axios.get("http://localhost:8080/hospital", {withCredentials:true});
+        const data = response.data;
+        setUser({
+          hospitalName: data.hospital,
+          address: data.haddress,
+          id: data.husername,
+          ceo: data.director,
+          email: data.email,
+          birth: data.hbirthDay,
+          phone: data.htel,
+          directorPhotoUrl: data.hprofile,   // 의사 사진 URL
+          directorCareer: data.educational,
+          treatmentStart: data.openTime,  // 진료 시작 시간
+          treatmentEnd: data.closeTime
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetch();
+  }, []);
 
   // 로그인 정보 저장
   const { username, resetUserInfo } = useAuthStore();
@@ -64,7 +92,7 @@ function MyPage() {
         {/* 왼쪽: 병원 정보 */}
         <div style={{ flex: 1, background: "#fff", border: "1.7px solid #222", borderRadius: "20px", padding: "60px 60px 58px 58px", marginRight: "54px" }}>
           <div style={{ fontSize: "1.5rem", fontWeight: 600, marginBottom: "42px", textAlign: "center" }}>
-            <span>(사업자 회원)</span>님 회원정보
+            <span>{huser.id}</span>님 회원정보
           </div>
           <div style={{ display: "flex", gap: "38px" }}>
             {/* 왼쪽: 병원명, 주소 */}
@@ -73,7 +101,13 @@ function MyPage() {
               <div style={{ marginBottom: "32px" }}>{huser.hospitalName}</div>
               <div style={{ fontWeight: 500, marginBottom: "18px" }}>주소</div>
               <div>{huser.address}</div>
-
+              {/* 진료시간 */}
+              <div style={{ fontWeight: 500, marginBottom: "18px" }}>진료시간</div>
+              <div style={{ marginBottom: "32px" }}>
+                {huser.treatmentStart && huser.treatmentEnd
+                    ? `${huser.treatmentStart} ~ ${huser.treatmentEnd}`
+                    : "등록된 진료시간 없음"}
+              </div>
             </div>
             {/* 오른쪽: 아이디 및 상세정보 */}
             <div style={{ minWidth: "220px" }}>

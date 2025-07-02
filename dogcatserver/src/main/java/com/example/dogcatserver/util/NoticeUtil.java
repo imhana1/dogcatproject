@@ -7,7 +7,7 @@ import java.util.*;
 
 public class NoticeUtil {
   // pagination
-  public static NoticeDto.Pages getPages(int pageno, int pagesize, int blocksize, int totalcount, List<Notice> notices) {
+  public static NoticeDto.Pages getPages(int pageno, int pagesize, int blocksize, int totalcount, List<Notice> topNotices, List<Notice> normalNotices) {
     // 전체 페이지 수
     int numberOfPages = (int)(Math.ceil((double)totalcount/pagesize));
 
@@ -21,6 +21,6 @@ public class NoticeUtil {
       end = numberOfPages;
       next = 0;
     }
-    return new NoticeDto.Pages(prev, start, end, next, pageno, notices);
+    return new NoticeDto.Pages(prev, start, end, next, pageno, topNotices, normalNotices);
   }
 }

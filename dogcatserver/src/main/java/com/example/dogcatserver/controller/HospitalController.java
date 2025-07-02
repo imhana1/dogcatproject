@@ -60,7 +60,7 @@ public class HospitalController {
 
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "정보 변경", description = "내 정보를 변경")
-    @PostMapping(value = "/hospital/profile")
+    @PostMapping(value = "/hospital/change")
     public ResponseEntity<HospitalInfoChangeResponse> changeInfo(
             @RequestPart("dto") @Valid JoinViewInfoDto.HospitalInfoChange dto,
             @RequestPart(value = "hProfile", required = false) MultipartFile hProfile,
