@@ -44,11 +44,16 @@ function HospitalTime({options = ["진료"], option = ["미용"]}) {
         checkAuth();
     }, [checkAuth]);
 
-    const handleBlock = async (sChoice, datesArray) => {
+    const handleBlock = async (Schoice, dateArray) => {
+        // 선택된 sChoice에 따라 보낼 날짜 배열 결정
+        // const targetDates = selectedOption === "진료" ? dates1 : dates2;
 
         // null 제거 후 yyyy-MM-dd 문자열 변환  추가 설명 toISOString() // => "2025-07-01T00:00:00.000Z" split("T") -> toISOString() // => "2025-07-01 00:00:00.000Z"
-        const filterDates = datesArray.filter(date => date !== null).map(date => date.toISOString().split("T")[0]);
-
+        const filterDates = dateArray.filter(date => date !== null).map(date => {
+            const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+            return offsetDate.toISOString().split("T")[0];
+        });
+        console.log("📦 실제 전송될 날짜 배열:", filterDates);
         if (filterDates.length === 0) {
             alert("하나 이상의 날짜를 선택하세요.");
             return;
@@ -56,9 +61,10 @@ function HospitalTime({options = ["진료"], option = ["미용"]}) {
         try {
             const response = await axios.patch("http://localhost:8080/schedule/dateBlock",
                 {
-                    schoice: sChoice,
+                    schoice: Schoice,
                     dates: filterDates
                 }, { withCredentials:true})
+            console.log(response.data);
             alert(`블록 처리 완료: ${response.data}건 업데이트됨`);
         } catch (err) {
             console.log(err);

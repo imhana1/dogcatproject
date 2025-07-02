@@ -25,8 +25,12 @@ public interface ScheduleDao {
 
     List<Schedule> selectByCondition(String hUsername, LocalDate date, String sChoice);
 
-    @Update("update schedule set block_status=1 where h_username=#{loginId} AND TRUNC(schedule) = TRUNC(#{date}) and s_choice=#{sChoice}")
-    int blockTimes(String loginId, LocalDate date, String sChoice);
+    @Update("UPDATE schedule SET block_status=1 " +
+            "WHERE h_username=#{loginId} " +
+            "AND schedule >= TO_DATE(#{date}, 'YYYY-MM-DD') " +
+            "AND schedule < TO_DATE(#{date}, 'YYYY-MM-DD') + 1 " +
+            "AND s_choice=#{sChoice}")
+    int blockTimes(@Param("loginId") String loginId, @Param("date") String date, @Param("sChoice") String sChoice);
 
     @Update("update schedule set block_status=1 where h_username=#{loginId}  AND TRUNC(schedule) = TRUNC(#{date})   AND TO_CHAR(schedule, 'HH24:MI:SS') = TO_CHAR(#{time}, 'HH24:MI:SS') and s_choice=#{sChoice}")
     int blockTime(String loginId, LocalDate date, LocalTime time,String sChoice);

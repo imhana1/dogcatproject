@@ -6,8 +6,10 @@ import com.example.dogcatserver.entity.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -97,11 +99,16 @@ public class ScheduleService {
     }
 
     // 날짜에 대한 블록처리
+    @Transactional
     public int blockDate(String loginId, String sChoice, List<LocalDate> dates) {
         int result = 0;
-        for (LocalDate date: dates){
-            result += scheduleDao.blockTimes(loginId, date, sChoice);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (LocalDate date : dates) {
+            String formattedDate = date.format(formatter); // ← LocalDate → String 변환
+            result += scheduleDao.blockTimes(loginId, formattedDate, sChoice);
         }
+
         return result;
     }
     // 시간에 대한 블록처리

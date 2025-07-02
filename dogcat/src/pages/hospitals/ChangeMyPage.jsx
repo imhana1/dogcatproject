@@ -25,8 +25,11 @@ function ChangeMyPage() {
     ceoBirth: "",
     email: "",
     hospitalPhoto:"",
+    introtext: "",  // 소개글
     directorPhoto: "",
-    directorCareer: ""
+    directorCareer: "",  // 의사 경력
+    treatmentStart: "",  // 진료 시작 시간
+    treatmentEnd: ""    // 진료 종료 시간
   });
 
   useEffect(() => {
@@ -107,13 +110,12 @@ function ChangeMyPage() {
     checkAuth();
   }, [checkAuth]);
 
-
   // 카카오 우편번호 검색 기능
-  const handleComplete = (form) => {
+  const handleComplete = (data) => {
     setForm({
       ...form,
-      zip: form.zonecode,
-      address1: form.address,
+      zip: data.zonecode,
+      address1: data.address,
     });
     setShowPostcode(false);
   };
@@ -127,7 +129,7 @@ function ChangeMyPage() {
       reader.onloadend = () => {
         setDirectorPhotoPreview(reader.result);
       };
-      reader.readAsformURL(file);
+      reader.readAsDataURL(file);
     } else {
       setDirectorPhotoPreview(null);
     }
@@ -189,6 +191,15 @@ function ChangeMyPage() {
               대표자 전화번호 <span style={{ color: "red" }}>*</span>
             </label>
             <input className="inputStyle" type="text" name="ceoPhone2" placeholder="000-0000-0000" onChange={handleChange} value={form.ceoPhone2} required />
+            <label className="labelStyle">
+              진료시간 <span style={{ color: "red" }}>*</span>
+            </label>
+            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+              <input className="inputStyle" type="time" name="treatmentStart" onChange={handleChange} value={form.treatmentStart} style={{ width: 140 }} required/>
+              ~
+              <input className="inputStyle" type="time" name="treatmentEnd" onChange={handleChange} value={form.treatmentEnd} style={{ width: 140 }} required />
+            </div>
+
           </div>
           {/* 오른쪽 컬럼 */}
           <div className="columnStyle">
@@ -204,6 +215,19 @@ function ChangeMyPage() {
             <input type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "180px", height:"35px", minWidth: 100, display: "inline-block" }} required />
             <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="사업자 주소 입력해주세요" value={form.address1} required />
             <input className="inputStyle" type="text" name="address2" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address2} required />
+            <label className="labelStyle">
+              의료진 사진
+            </label>
+            <input className="inputStyle" type="file" accept="image/*" onChange={handlePhotoChange} />
+            {directorPhotoPreview && (
+                <div style={{ margin: "10px 0" }}>
+                  <img src={directorPhotoPreview} alt="의사 사진 미리보기" style={{ width: 120, height: 120, objectFit: "cover", borderRadius: 10, border: "1px solid #ddd" }} />
+                </div>
+            )}
+            <label className="labelStyle">
+              소개글
+            </label>
+            <textarea className="inputStyle" name="introtext" onChange={handleChange} placeholder="소개글 내용을 작성해주세요" value={form.introtext} required />
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>

@@ -8,17 +8,6 @@ import axios from "axios";
 function MyPage() {
   const navigate = useNavigate();
 
-  // const huser = {
-  //   hospitalName: "",
-  //   address: "",
-  //   id: "",
-  //   ceo: "",
-  //   email: "",
-  //   birth: "",
-  //   phone: "",
-  //   directorPhotoUrl: "",   // 의사 사진 URL
-  //   directorCareer: ""    // 의사 경력
-  // };
   const [huser, setUser] = useState({
     hospitalName: "",
     address: "",
@@ -28,7 +17,9 @@ function MyPage() {
     birth: "",
     phone: "",
     directorPhotoUrl: "",   // 의사 사진 URL
-    directorCareer: ""    // 의사 경력
+    directorCareer: "",    // 의사 경력
+    treatmentStart: "",  // 진료 시작 시간
+    treatmentEnd: ""    // 진료 종료 시간
   })
 
   useEffect(() => {
@@ -36,7 +27,6 @@ function MyPage() {
       try{
         const response = await axios.get("http://localhost:8080/hospital", {withCredentials:true});
         const data = response.data;
-        console.log(data);
         setUser({
           hospitalName: data.hospital,
           address: data.haddress,
@@ -100,7 +90,7 @@ function MyPage() {
         {/* 왼쪽: 병원 정보 */}
         <div style={{ flex: 1, background: "#fff", border: "1.7px solid #222", borderRadius: "20px", padding: "60px 60px 58px 58px", marginRight: "54px" }}>
           <div style={{ fontSize: "1.5rem", fontWeight: 600, marginBottom: "42px", textAlign: "center" }}>
-            <span>(사업자 회원)</span>님 회원정보
+            <span>{huser.id}</span>님 회원정보
           </div>
           <div style={{ display: "flex", gap: "38px" }}>
             {/* 왼쪽: 병원명, 주소 */}
@@ -109,7 +99,13 @@ function MyPage() {
               <div style={{ marginBottom: "32px" }}>{huser.hospitalName}</div>
               <div style={{ fontWeight: 500, marginBottom: "18px" }}>주소</div>
               <div>{huser.address}</div>
-
+              {/* 진료시간 */}
+              <div style={{ fontWeight: 500, marginBottom: "18px" }}>진료시간</div>
+              <div style={{ marginBottom: "32px" }}>
+                {huser.treatmentStart && huser.treatmentEnd
+                    ? `${huser.treatmentStart} ~ ${huser.treatmentEnd}`
+                    : "등록된 진료시간 없음"}
+              </div>
             </div>
             {/* 오른쪽: 아이디 및 상세정보 */}
             <div style={{ minWidth: "220px" }}>
