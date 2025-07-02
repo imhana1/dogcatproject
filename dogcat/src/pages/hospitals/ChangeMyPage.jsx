@@ -11,6 +11,8 @@ function ChangeMyPage() {
   const [showPostcode, setShowPostcode] = useState(false);
   const [directorPhoto, setDirectorPhoto] = useState(null);
   const [directorPhotoPreview, setDirectorPhotoPreview] = useState(null); // 미리보기용
+  const [hospitalPhoto, setHospitalPhoto] = useState(null);
+  const [hospitalPhotoPreview, setHospitalPhotoPreview] = useState(null);// 병원 미리보기
   const [directorCareer, setDirectorCareer] = useState(""); // 경력 입력
 
 
@@ -47,10 +49,12 @@ function ChangeMyPage() {
           email: data.email,
           ceoBirth: data.hbirthDay,
           ceoPhone2: data.htel,
-          hospitalPhoto: data.hprofile,
-          directorPhoto: data.hprofile,   // 의사 사진 URL
-          directorCareer: data.educational
+          directorCareer: data.educational,
+          treatmentStart: data.openTime,  // 진료 시작 시간
+          treatmentEnd: data.closeTime
         });
+        if (data.dprofile) setDirectorPhotoPreview(data.dprofile);
+        if (data.hprofile) setHospitalPhotoPreview(data.hprofile);
       } catch (err) {
         console.log(err);
       }
@@ -69,19 +73,15 @@ function ChangeMyPage() {
       hReptel: "",                          // (없으면 빈 문자열 또는 null)
       zip: form.zip ? Number(form.zip) : null, // 우편번호 (Integer로 매핑)
       hAddress: form.address1,              // 주소
-      openTime: "",                         // (시간 입력 없으므로 빈 문자열)
-      closeTime: "",                        // (시간 입력 없으므로 빈 문자열)
-      hIntroduction: "",                    // (병원 소개 없으면 빈 문자열)
+      openTime: form.treatmentStart,                         // (시간 입력 없으므로 빈 문자열)
+      closeTime: form.treatmentEnd,                        // (시간 입력 없으므로 빈 문자열)
+      hIntroduction: form.introtext,                    // (병원 소개 없으면 빈 문자열)
       educational: form.directorCareer
     }
     formData.append("dto", new Blob([JSON.stringify(dto)],{ type: "application/json" }));
 
-    if(form.directorPhoto){
-      formData.append("dprofile",form.directorPhoto);
-    }
-    if(form.hospitalPhoto){
-      formData.append("hprofile", form.hospitalPhoto);
-    }
+    if (directorPhoto) formData.append("dProfile", directorPhoto);
+    if (hospitalPhoto) formData.append("hProfile", hospitalPhoto);
 
     try {
       const response = await  axios.post("http://localhost:8080/hospital/change",formData, {
@@ -123,14 +123,15 @@ function ChangeMyPage() {
   // 사진 업로드 핸들러
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-    setDirectorPhoto(file);
     if (file) {
+      setDirectorPhoto(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setDirectorPhotoPreview(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
+      setDirectorPhoto(null);
       setDirectorPhotoPreview(null);
     }
   };

@@ -36,7 +36,9 @@ function MyPage() {
           birth: data.hbirthDay,
           phone: data.htel,
           directorPhotoUrl: data.hprofile,   // 의사 사진 URL
-          directorCareer: data.educational
+          directorCareer: data.educational,
+          treatmentStart: data.openTime,  // 진료 시작 시간
+          treatmentEnd: data.closeTime
         });
       } catch (err) {
         console.log(err);
