@@ -27,6 +27,8 @@ public class UserMemberService {
     private UseMemberDao useMemberDao;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     // 아이디 사용 여부 확인
@@ -108,7 +110,10 @@ public class UserMemberService {
             return false;
         }
         String newPassword = RandomStringUtils.secure().nextAlphanumeric(10);
-        useMemberDao.updatePassword(dto.getUsername(), newPassword);
+        // 2. 인코딩
+        String encodedPassword = passwordEncoder.encode(newPassword);
+
+        useMemberDao.updatePassword(dto.getUsername(), encodedPassword);
         String html = "<p>아래 임시비밀번호로 로그인하세요</p>";
         html += "<p>" + newPassword + "</p>";
         sendMail("midoriya2109@gmail.com", member.getEmail(), "임시비밀번호", html);
