@@ -17,7 +17,7 @@ public class QnaDaoTest {
 //  @Test
   public void writeQnaQuestions() {
     for (int i = 0; i < 25; i++) {
-      QnaQuestion qnaQuestion = QnaQuestion.builder().qTitle((i + 1) + "번째 질문 제목").qContent((i + 1) + "번째 공지 내용").username("winter").build();
+      QnaQuestion qnaQuestion = QnaQuestion.builder().qTitle((i + 4) + "번째 질문 제목").qContent((i + 1) + "번째 공지 내용").username("winter").build();
       qnaQuestionDao.writeQnaQuestion(qnaQuestion);
     }
   }

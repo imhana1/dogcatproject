@@ -98,14 +98,15 @@ public class QnaService {
 
   // 1:1 문의글 작성 (사진 저장 포함)
   public QnaQuestion writeQnaQuestion (QnaQuestion qnaQuestion) {
-      qnaQuestionDao.writeQnaQuestion(qnaQuestion);  // 글 작성
-      return qnaQuestion;
+    qnaQuestionDao.writeQnaQuestion(qnaQuestion);  // 글 작성
+    return qnaQuestion;
   }
 
   // 답변 작성
   public QnaAnswer writeQnaAnswer (int qno, String answerContent, String loginId) {
     QnaAnswer qnaAnswer = new QnaAnswer().toEntity(loginId, qno, answerContent);
     qnaAnswerDao.writeQnaAnswer(qnaAnswer);
+    qnaQuestionDao.updateQIsAnswered(qno);
     return qnaAnswer;
   }
 

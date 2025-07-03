@@ -77,7 +77,7 @@ public class QnaImageService {
 
 
     return resource;
-    }
+  }
 
 
 }
