@@ -176,7 +176,7 @@ CREATE TABLE wish (
 	CONSTRAINT FK_user_member_TO_wish_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
 
--- 15. qna_question : user_member 참조
+-- 15. qna_question : user_member 참조 (0703.thu 수정)
 CREATE TABLE qna_question (
 	qno number(10) NOT NULL,
 	q_title varchar2(50) NULL,
@@ -184,6 +184,7 @@ CREATE TABLE qna_question (
 	q_write_day date NULL,
 	q_content varchar2(1000) NULL,
 	q_is_answered number(1) NULL,
+	q_image VARCHAR2(255) NULL,
 	CONSTRAINT PK_QNA_QUESTION PRIMARY KEY (qno),
 	CONSTRAINT FK_user_member_TO_qna_question_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );
