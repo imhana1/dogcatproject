@@ -60,6 +60,7 @@ public class ScheduleService {
             scheduleDao.insertSchedule(s);
         }
     }
+    // 날짜와 시간 for문으로 반복문
     private List<LocalDateTime> generateTimeSlots(int days, int startHour, int endHour, int intervalHour) {
         List<LocalDateTime> slots = new ArrayList<>();
         LocalDate today = LocalDate.now();
@@ -96,6 +97,10 @@ public class ScheduleService {
     // 공지 사항 읽어오기
     public String getNotice(String hUsername) {
         return scheduleDao.findNoticeByUsername(hUsername);
+    }
+
+    public String findNotice(String hospital){
+        return hospital;
     }
 
     // 날짜에 대한 블록처리

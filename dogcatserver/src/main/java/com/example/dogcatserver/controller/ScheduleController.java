@@ -53,6 +53,12 @@ public class ScheduleController {
         return ResponseEntity.ok(notice);
     }
 
+    public ResponseEntity<String>findNotice(@RequestParam String hospital){
+        String notice = service.findNotice(hospital);
+        return ResponseEntity.ok(notice);
+    }
+
+
     @PreAuthorize("isAuthenticated()")
     @PatchMapping("/schedule/dateBlock")
     @Operation(summary = "날짜 블록", description = "날짜 블록")
