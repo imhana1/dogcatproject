@@ -21,8 +21,6 @@ public class TossPaymentCreateRequestDto {
 
   private boolean autoExecute;    // 자동결제 승인 설정
 
-  private String resultCallback; // 결제 결과 Callback
-
   @JsonProperty("successUrl")
   private String retUrl;         // 인증 완료 후 연결할 url
 

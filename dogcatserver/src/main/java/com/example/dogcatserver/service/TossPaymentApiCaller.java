@@ -38,6 +38,10 @@ public class TossPaymentApiCaller {
       requestMap.put("orderId", orderNo);
       requestMap.put("amount", amount);
 
+      System.out.println("paymentKey: " + paymentKey);
+      System.out.println("orderNo: " + orderNo);
+      System.out.println("amount: " + amount);
+
       // JSON 문자열로 변환
       String requestBody = objectMapper.writeValueAsString(requestMap);
 

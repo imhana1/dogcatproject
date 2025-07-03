@@ -27,6 +27,9 @@ import NoticeList from './pages/notice/NoticeList';
 import NoticeRead from './pages/notice/NoticeRead';
 import NoticeWrite from './pages/notice/NoticeWrite';
 import NoticeUpdate from './pages/notice/NoticeUpdate';
+import TossCheckout from './toss/TossCheckout';
+import TossSuccess from './toss/TossSuccess';
+import TossFail from './toss/TossFail';
 
 function App() {
   return (
@@ -60,6 +63,10 @@ function App() {
         <Route path='/notices/notice' element={<NoticeRead />} />
         <Route path='/notices/write' element={<NoticeWrite />} />
         <Route path='/notices/update' element={<NoticeUpdate />} />
+        {/* 토스 예시 페이지 */}
+        <Route path='/toss/checkout' element={<TossCheckout />}/>
+        <Route path='/toss/success' element={<TossSuccess />}/>
+        <Route path='/toss/fail' element={<TossFail />}/>
       </Routes>
     </div>
   );

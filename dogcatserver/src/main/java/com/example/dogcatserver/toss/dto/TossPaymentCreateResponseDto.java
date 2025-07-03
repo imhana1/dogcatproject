@@ -10,6 +10,7 @@ import java.util.*;
 
 @Data
 public class TossPaymentCreateResponseDto {
+
   private String paymentKey;      // 토스에서 떨어뜨려 주는 값
 
   @JsonProperty("orderId")
