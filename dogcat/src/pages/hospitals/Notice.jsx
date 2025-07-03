@@ -1,25 +1,54 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
+import axios from "axios";
 
 // 병원 공지사항
 function Notice() {
   const [notice, setNotice] = useState("초기 공지사항입니다.");
   const [input, setInput] = useState(notice);
 
-  const handleChange = () => {
-    setNotice(input);
-    alert('공지사항이 변경되었습니다');
+  useEffect(()=>{
+    const fetchNotice=async()=>{
+      try {
+        const res = await  axios.get("http://localhost:8080/hospital/notice", {withCredentials:true});
+        setNotice(res.data);
+        setInput(res.data);
+      }catch (e) {
+        console.error("공지사항 불러오기 실패", e);
+        alert("공지사항 불로오기 실패");
+      }
+    }
+    fetchNotice();
+  },[])
+
+  const handleChange = async() => {
+    try{
+      const params = new URLSearchParams();
+      params.append("sNotice", input);
+      const response= await axios.put("http://localhost:8080/hospital/notice", params, {
+        withCredentials:true,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+      setNotice(input);
+      alert('공지사항이 변경되었습니다');
+    } catch (e) {
+      console.log(e)
+      alert('공지사항이 변경하지 못했습니다');
+    }
   };
 
   // 로그인 정보 저장
   const { username, resetUserInfo } = useAuthStore();
-  console.log("Booking username:", username);
+
 
   const checkAuth = useAuthStore(state => state.checkAuth);
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+    console.log("Booking username:", username);
+  }, []);
 
   return (
     <div>

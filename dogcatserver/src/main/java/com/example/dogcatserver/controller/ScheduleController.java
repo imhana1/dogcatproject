@@ -36,7 +36,7 @@ public class ScheduleController {
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/hospital/notice")
     @Operation(summary = "공지사항 작성", description = "공지 사항 작성")
-    public ResponseEntity<String>writeNotice(HospitalNotice dto, Principal principal){
+    public ResponseEntity<String>writeNotice(@ModelAttribute HospitalNotice dto, Principal principal){
         boolean success = service.updateNotice(principal.getName(), dto.getSNotice());
         if (success) {
             return ResponseEntity.ok("공지사항이 수정되었습니다.");
@@ -45,7 +45,7 @@ public class ScheduleController {
         }
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/hospital/notice")
     @Operation(summary = "병원 공지사항 ", description = "병원 공지")
     public ResponseEntity<String> getNotice(Principal principal) {
