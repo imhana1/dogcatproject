@@ -20,6 +20,8 @@ public interface HospitalDao {
     @Select("SELECT h.*, m.email FROM hospital_member h LEFT JOIN user_member m ON h.h_username = m.username WHERE h.h_username = #{loginId}")
     HospitalMemberInfo getByUsername(String loginId);
 
+    @Select("select h_username from hospital_member where hospital=#{hospital}")
+    String findhUsername(String hospital);
 
     int changeInfo(HospitalMemberInfo hospitalMemberInfo);
 

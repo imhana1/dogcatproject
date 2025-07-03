@@ -95,15 +95,15 @@ public class HospitalController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/hospital/treat")
     @Operation(summary = "진료내역 작성", description = "진료내열 작성")
-    public ResponseEntity<Treat>hospitalTreat(@ModelAttribute TreatDto.create dto, Principal principal, BindingResult br){
+    public ResponseEntity<Treat>hospitalTreat( @Valid @RequestBody TreatDto.create dto, Principal principal, BindingResult br){
         Treat treat = treatService.Write(dto, principal.getName());
         return ResponseEntity.ok(treat);
     }
 
     @GetMapping("/hospital/tread-read")
     @Operation(summary = "진료내역 읽기", description = "진료내열 읽기")
-    public ResponseEntity<Treat> treatRead(@NotNull Integer tno){
-        Treat treat = treatService.read(tno);
+    public ResponseEntity<Treat> treatRead(@RequestParam Integer rno){
+        Treat treat = treatService.read(rno);
         return ResponseEntity.ok(treat);
     }
 

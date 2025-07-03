@@ -78,10 +78,18 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
 
-    @Operation(summary = "예약 공지 사항 읽어오기", description = "병원 아이디를 입력 해서 예약 공지 사항을 입력")
+    @Operation(summary = "예약 내역 불러오기", description = "고객 예약 내역 마이 페이지에 불러오기")
+    @GetMapping("/hospital/reservation/info")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Reservation>> findReservation(Principal principal) {
+        List<Reservation> reservations = service.getReservation(principal.getName());
+        return ResponseEntity.ok(reservations);
+    }
+
+    @Operation(summary = "예약 공지 사항 읽어오기", description = "병원 이름을 입력 해서 예약 공지 사항을 입력")
     @GetMapping("reservat/on/notice")
-    public ResponseEntity<String>getHospitalNotice(@RequestParam String hUsername){
-        String notice = scheduleService.getNotice(hUsername);
+    public ResponseEntity<String>getHospitalNotice(@RequestParam String hospital){
+        String notice = scheduleService.getNotice(hospital);
         return ResponseEntity.ok(notice);
     }
 }

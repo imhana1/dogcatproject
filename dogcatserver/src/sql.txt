@@ -87,14 +87,24 @@ CREATE TABLE pet (
 	CONSTRAINT FK_normal_member_TO_pet_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username)
 );
 
--- 6. treat : hospital_member 참조
 CREATE TABLE treat (
-	tno number(10) NOT NULL,
-	t_writer varchar2(10) NOT NULL,
-	t_content varchar2(1000) NULL,
-	t_title varchar2(10) NULL,
-	CONSTRAINT PK_TREAT PRIMARY KEY (tno, t_writer),
-	CONSTRAINT FK_hospital_member_TO_treat_1 FOREIGN KEY (t_writer) REFERENCES hospital_member (h_username)
+    tno         NUMBER(10)      NOT NULL,                 -- 진료결과 번호
+    rno         NUMBER(10)      NOT NULL,                 -- 예약번호
+    t_writer    VARCHAR2(10)    NOT NULL,                 -- 작성자 (의사 ID)
+    t_content   VARCHAR2(1000),                           -- 진료 내용
+    t_title     VARCHAR2(100),                            -- 진료 제목
+    n_username  VARCHAR2(10),                             -- 환자 ID (일반 회원)
+
+    CONSTRAINT pk_treat PRIMARY KEY (tno, rno),           -- 복합 기본키
+    CONSTRAINT fk_treat_rno FOREIGN KEY (rno)
+        REFERENCES reservation(rno)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_treat_n_username FOREIGN KEY (n_username)
+        REFERENCES normal_member(n_username)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_treat_writer FOREIGN KEY (t_writer)
+        REFERENCES hospital_member(h_username)
+        ON DELETE CASCADE
 );
 
 -- 7. reservation : normal_member, hospital_member, pet 참조 s_id 추가

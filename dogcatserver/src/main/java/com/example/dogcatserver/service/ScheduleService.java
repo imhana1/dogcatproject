@@ -100,7 +100,8 @@ public class ScheduleService {
     }
 
     public String findNotice(String hospital){
-        return hospital;
+        String hUsername = hospitalDao.findhUsername(hospital);
+        return scheduleDao.findNoticeByUsername(hUsername);
     }
 
     // 날짜에 대한 블록처리

@@ -7,13 +7,15 @@ import lombok.*;
 public class TreatDto {
     @Data
     public static class  create{
+        @NotNull
+        Integer rno;
         @NotEmpty
         private String title;
         @NotEmpty
         private String content;
 
-        public Treat toEntity(String loginID){
-            return Treat.builder().tTitle(title).tContent(content).tWriter(loginID).build();
+        public Treat toEntity(String loginID, String nUsername){
+            return Treat.builder().tTitle(title).tContent(content).tWriter(loginID).rno(rno).nUsername(nUsername).build();
         }
     }
 }

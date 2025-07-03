@@ -8,12 +8,12 @@ import java.util.*;
 @Mapper
 public interface TreatDao {
 
-    @Insert("insert into treat (tno, t_title, t_writer, t_content) values(#{tno},#{tTitle},#{tWriter}, #{tContent})")
+    @Insert("insert into treat (tno,rno, t_title, t_writer, t_content, n_username) values(#{tno},#{tTitle}, #{rno}, #{tWriter}, #{tContent}, #{nUsername})")
     @SelectKey(statement = "select treat_seq.nextval from dual", keyProperty = "tno", before = true , resultType = int.class)
     int save(Treat treat);
 
-    @Select("select * from treat where tno=#{tno}")
-    Optional<Treat> findbyTno(int tno);
+    @Select("select * from treat where rno=#{rno}")
+    Optional<Treat> findByRno(int rno);
 
     @Delete("delete from treat where h_username=#{loginId}")
     int deleteTreat(String loginId);

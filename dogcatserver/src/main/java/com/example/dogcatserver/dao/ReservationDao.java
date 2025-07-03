@@ -25,10 +25,18 @@ public interface ReservationDao {
   // 마이 페이지에서 병원 예약한 내역
   List<Reservation> getMyReservation (String nUsername);
 
+  // 병원이 고객 예약 내역 읽기
+  @Select(" select * from reservation where h_username = #{hUsername} order by schedule desc")
+  List<Reservation> getReservation (String hUsername);
+
   // 예약 번호로 상세 조회
   Reservation getReservationByRno (int rno);
 
-  // 로그인한 아이디로 예약 번호 조회
+  // 예약 번호로 병원 아이디 조회
   @Select("select h_username from reservation where =#{rno}")
   String FindhUsrnameByRno(int rno);
+
+  @Select("select n_username from reservation where =#{rno}")
+  String FindnUsernameByRno(int rno);
+
 }

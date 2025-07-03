@@ -97,4 +97,10 @@ public class ReservationService {
     }
     return reservationDao.getMyReservation(nUsername);
   }
+  public List<Reservation> getReservation (String hUsername) {
+    if(hUsername == null || hUsername.isBlank()) {
+      throw new IllegalArgumentException("사용자 이름이 유효하지 않습니다");
+    }
+    return reservationDao.getReservation(hUsername);
+  }
 }
