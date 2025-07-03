@@ -65,7 +65,7 @@ function LoginForm({ onLogin }) {
                 <button type="submit" className="btn btn-outline-dark btn-block" onClick={handleLogin}>로그인</button>
             </div>
             <div style={{ textAlign: "center", marginTop: "20px" }}>
-                <button type="button" className="btn btn-outline-light text-dark" style={{ fontSize: "1.1rem", padding: "7px 80px" }} onClick={handleFind}>아이디/비밀번호 찾기</button>
+                <button type="button" className="btn btn-outline-light text-dark" style={{ fontSize: "1.1rem", padding: "7px 80px" }} onClick={handleFind}>비밀번호 찾기</button>
             </div>
             <div style={{ textAlign: "center", marginTop: "20px" }}>
                 회원이 아니신가요 ?
