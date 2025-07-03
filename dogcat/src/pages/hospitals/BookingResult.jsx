@@ -1,30 +1,35 @@
 import React, {useState} from 'react';
-import {useParams} from "react-router-dom";
+import axios from "axios";
 
 // 진료 결과
-// 게시판처럼 작성하면 목록으로 -> 선택하면 수정으로 넘어감 -> 웹소켓으로
-function BookingResult() {
-  const { id } = useParams();
+function BookingResult({bookingId, userId}) {
+    // 진단명, 처방, 특이사항
+    const [form, setForm] = useState({diagnosis: '', prescription: '', note: ''})
 
-  const [results, setResults] = useState({
-    1: { diagnosis: "감기", prescription: "약 처방", note: "특이사항 없음" },
-    2: { diagnosis: "피부병", prescription: "연고 처방", note: "재진 필요" },
-    // ... 등등
-  });
+    const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
+    const handleSubmit = async e => {
+        e.preventDefault();
+        try {
+            await axios.post('/hospital/treat', {...form, bookingId, userId});
+            alert('진료결과가 등록되었습니다.');
+            // 입력 폼 초기화 등 추가 동작
+        } catch (error) {
+            alert('진료결과 등록에 실패했습니다.');
+        }
+    };
   return (
-    <div>
+    <div className="boxStyle">
       <br />
-      <h3 style={{ textAlign: "center" }}>ㅇㅇㅇ 고객님 6월 25일 진료결과 알려드립니다</h3>
-      {results ? (
-        <>
-          <div>진단명: {results.diagnosis}</div>
-          <div>처방: {results.prescription}</div>
-          <div>특이사항: {results.note}</div>
-        </>
-      ) : (
-        <div>아직 진료결과가 등록되지 않았습니다.</div>
-      )}
+        <h3 style={{ textAlign: "center" }}>{userId} 고객님 진료결과입니다</h3>
+        <form onSubmit={handleSubmit}>
+            <textarea name="diagnosis" className="inputStyle" value={form.diagnosis} onChange={handleChange}  placeholder="진단명" />
+            <textarea name="prescription" className="inputStyle" value={form.prescription} onChange={handleChange} placeholder="처방" />
+            <input name="note" className="inputStyle" value={form.note} onChange={handleChange} placeholder="특이사항" />
+            <div className="d-grid mb-3 mt-3">
+                <button type="submit" className="btn btn-outline-dark btn-block">작성하기</button>
+            </div>
+        </form>
     </div>
   );
 }
