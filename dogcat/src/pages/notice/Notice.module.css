@@ -113,4 +113,8 @@
     font-size: medium;
 }
 
+.ntcQnaWrapper h4 {
+    font-weight: bold;
+}
+
 /* table margin 안먹어서 밖으로 뺌 */
