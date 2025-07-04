@@ -58,7 +58,7 @@ public class HospitalController {
     }
 
 
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "정보 변경", description = "내 정보를 변경")
     @PostMapping(value = "/hospital/change")
     public ResponseEntity<HospitalInfoChangeResponse> changeInfo(

@@ -80,8 +80,10 @@ function ChangeMyPage() {
     }
     formData.append("dto", new Blob([JSON.stringify(dto)],{ type: "application/json" }));
 
-    if (directorPhoto) formData.append("dProfile", directorPhoto);
-    if (hospitalPhoto) formData.append("hProfile", hospitalPhoto);
+    // if (directorPhoto) formData.append("dProfile", directorPhoto || new Blob([], { type: "application/octet-stream" }));
+    // if (hospitalPhoto) formData.append("hProfile", hospitalPhoto || new Blob([], { type: "application/octet-stream" }));
+    formData.append("dProfile", directorPhoto || new Blob([], { type: "application/octet-stream" }));
+    formData.append("hProfile", hospitalPhoto || new Blob([], { type: "application/octet-stream" }));
 
     try {
       const response = await  axios.post("http://localhost:8080/hospital/change",formData, {
@@ -226,8 +228,12 @@ function ChangeMyPage() {
                 </div>
             )}
             <label className="labelStyle">
-              소개글
+              원장이력
             </label>
+            <textarea className="inputStyle" name="directorCareer" onChange={handleChange} placeholder="소개글 내용을 작성해주세요" value={form.directorCareer} required />
+            <label className="labelStyle">
+            소개글
+          </label>
             <textarea className="inputStyle" name="introtext" onChange={handleChange} placeholder="소개글 내용을 작성해주세요" value={form.introtext} required />
           </div>
         </div>

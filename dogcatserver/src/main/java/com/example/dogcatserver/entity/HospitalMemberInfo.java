@@ -32,7 +32,8 @@ public class HospitalMemberInfo {
     private String dProfile;
     private String  openTime;
     private String closeTime;
-    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+//    @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate hBirthDay;
 //    @JsonProperty("hIntroduction")
     private String hIntroduction;
