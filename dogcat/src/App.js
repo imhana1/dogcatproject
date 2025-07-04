@@ -32,6 +32,8 @@ import TossSuccess from './toss/TossSuccess';
 import TossFail from './toss/TossFail';
 import MyPetChange from './pages/Nuser/MyPetChange';
 import MyPetPage from './pages/Nuser/MyPetPage';
+import BookingList from "./pages/hospitals/BookingList";
+import BookingRead from "./pages/hospitals/BookingRead";
 
 function App() {
   return (
@@ -62,6 +64,9 @@ function App() {
         <Route path="/booking/:id" element={<BookingDetails />} />
         {/* 진료 결과 페이지 */}
         <Route path="/result/:id" element={<BookingResult />} />
+        {/* 진료 결과 작성 목록들 */}
+        <Route path="/result-list" element={<BookingList />} />
+        <Route path='/result-read' element={<BookingRead />} />
         <Route path="/hospital-notice" element={<Notice />} />
         <Route path='/notices' element={<NoticeList />} />
         <Route path='/notices/notice' element={<NoticeRead />} />

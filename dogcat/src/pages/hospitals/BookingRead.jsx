@@ -47,7 +47,7 @@ function BookingResult({bookingId, userId}) {
             <input name="tTitle" className="inputStyle" value={form.tTitle} onChange={handleChange} placeholder="진단명" />
             <textarea name="tContent" className="inputStyle" value={form.tContent} onChange={handleChange} placeholder="처방내용" />
             <div className="d-grid mb-3 mt-3">
-                <button type="submit" className="btn btn-outline-dark btn-block">작성하기</button>
+                <button type="submit" className="btn btn-outline-dark btn-block">고객에게 보내기</button>
             </div>
         </form>
     </div>
