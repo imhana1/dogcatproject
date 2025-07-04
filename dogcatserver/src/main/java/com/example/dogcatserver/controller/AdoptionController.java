@@ -1,8 +1,10 @@
 package com.example.dogcatserver.controller;
 
+import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.service.*;
+import com.example.dogcatserver.util.*;
 import io.swagger.v3.oas.annotations.*;
 import jakarta.validation.*;
 import org.apache.ibatis.annotations.*;
@@ -15,6 +17,7 @@ import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
 
+import java.io.*;
 import java.security.*;
 
 @Controller
@@ -48,12 +51,39 @@ public class AdoptionController {
 
   // 글 작성
   @Operation(summary = "글 작성", description = "관심 등록을 하지 않았으면 등록, 관심 등록을 이미 했으면 등록을 취소")
-  @PostMapping("/api/adoptions/write")
+  @PostMapping(value = "/api/adoptions/write")
   @PreAuthorize("isAuthenticated()")
-  public ResponseEntity<Adoption> writeAdoption(@ModelAttribute @Validated AdoptionDto.Write writeDto, @RequestParam MultipartFile aProfileImage, BindingResult br, Principal principal) {
-    Adoption adoption = adoptionService.writeAdoption(writeDto, aProfileImage, principal.getName());
-    return ResponseEntity.ok(adoption);
+  public ResponseEntity<Adoption> writeAdoption(@RequestPart @Valid AdoptionDto.Write writeDto, @RequestPart(value = "aProfile") MultipartFile aProfile, BindingResult br, Principal principal) {
+    String base64Image = "";
+    try {
+      if(aProfile != null && !aProfile.isEmpty()) {
+        base64Image = Adoption2Util.convertToBase64(aProfile);
+      }
+    } catch (IOException e) {
+      System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
+    }
+    Adoption adoption = adoptionService.writeAdoption(writeDto, base64Image, principal.getName());
+    System.out.println("200응답");
+    return ResponseEntity.status(200).body(adoption);
   }
+
+//  // 글 작성 테스트끝
+//  @Operation(summary = "글 작성", description = "관심 등록을 하지 않았으면 등록, 관심 등록을 이미 했으면 등록을 취소")
+//  @PostMapping(value = "/api/adoptions/writeTest")
+//  public ResponseEntity<Adoption> writeAdoptionTest(@RequestPart @Valid AdoptionDto.WriteTest writeDto, @RequestPart(value = "aProfile") MultipartFile aProfile, BindingResult br, Principal principal) {
+//    String base64Image = "";
+//    try {
+//      if(aProfile != null && !aProfile.isEmpty()) {
+//        base64Image = Adoption2Util.convertToBase64(aProfile);
+//      }
+//    } catch (IOException e) {
+//      System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
+//    }
+//    Adoption adoption = adoptionService.writeAdoption(writeDto, base64Image);
+//    System.out.println("200응답");
+//    return ResponseEntity.status(200).body(adoption);
+//  }
+
 
   // 글 읽기
   @Operation(summary = "글 읽기", description = "단일 글 출력")
@@ -65,12 +95,23 @@ public class AdoptionController {
 
   // 글 수정
   @Operation(summary = "글 수정", description = "유기동물 게시판 글 수정")
-  @PreAuthorize("isAuthenticated()")
+//  @PreAuthorize("isAuthenticated()")
   @PutMapping("/api/adoptions/adoption")
-  public ResponseEntity<Adoption> updateAdoption(@ModelAttribute @Validated AdoptionDto.Update updateDto, @RequestParam MultipartFile aProfileImage, BindingResult br, Principal principal) {
+  public ResponseEntity<Adoption> updateAdoption(@RequestPart @Valid AdoptionDto.Update updateDto, @RequestPart(value = "aProfile") MultipartFile aProfile, BindingResult br) {
     // 로그인 아이디 = 작성자 확인하는 부분은 서비스에 있어
-    Adoption adoption = adoptionService.updateAdoption(updateDto, aProfileImage, principal.getName());  //
-    return ResponseEntity.ok(adoption);
+    String loginId = "winter";
+    Adoption existingAdoption = adoptionService.findAdoptionByAno(updateDto.getAno(), "winter");
+    String base64Image = existingAdoption.getAProfile();
+    try {
+      if(aProfile != null && !aProfile.isEmpty()) {
+        base64Image = Adoption2Util.convertToBase64(aProfile);
+      }
+    } catch (IOException e) {
+      System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
+    }
+    Adoption adoption = adoptionService.updateAdoption(updateDto, base64Image, "winter");
+    System.out.println("200응답");
+    return ResponseEntity.status(200).body(adoption);
   }
 
   // 글 삭제

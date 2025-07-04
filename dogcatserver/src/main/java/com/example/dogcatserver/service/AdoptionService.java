@@ -42,23 +42,23 @@ public class AdoptionService {
   }
 
   // 글 작성: writeAdoption
-  public Adoption writeAdoption(AdoptionDto.Write writeDto, MultipartFile profileImage, String loginId) {
-    if (profileImage == null || profileImage.isEmpty()) {
-      throw new JobFailException("프로필 사진은 필수입니다.");
-    }
-
-    // 프로필 사진 저장
-    String savedFileName = adoptionUtil.saveAProfile(profileImage);
-
-    // DTO를 Entity로 변환하면서 사진 파일명 설정
-    Adoption adoption = writeDto.toEntity(loginId, savedFileName);
-    adoptionDao.writeAdoption(adoption);  // DB에 글 등록
+  public Adoption writeAdoption(AdoptionDto.Write writeDto, String base64Image, String loginId) {
+    Adoption adoption = writeDto.toEntity(base64Image, loginId);
+    adoptionDao.writeAdoption(adoption);
     return adoption;
 
   }
 
+//  // 글 작성: writeAdoptionTEst 테스트끝
+//  public Adoption writeAdoptionTest(AdoptionDto.WriteTest writeTesteDto, String base64Image) {
+//    Adoption adoption = writeTesteDto.toEntity(base64Image);
+//    adoptionDao.writeAdoption(adoption);
+//    return adoption;
+//
+//  }
+
   // 글 수정: updateAdoption
-  public Adoption updateAdoption(AdoptionDto.Update updateDto, MultipartFile profileImage, String loginId) {
+  public Adoption updateAdoption(AdoptionDto.Update updateDto, String base64Image, String loginId) {
     // 글 찾아
     Adoption adoption = adoptionDao.findAdoptionByAno(updateDto.getAno()).orElseThrow(()->new EntityNotFoundException("글을 찾지 못했습니다."));
 
@@ -67,23 +67,8 @@ public class AdoptionService {
       throw new JobFailException("잘못된 작업입니다.");
     }
 
-    String savedFileName = null;
-
-    // 새로운 프로필 이미지가 있으면 교체
-    if (profileImage != null && !profileImage.isEmpty()) {
-      // 기존 파일 삭제
-      adoptionUtil.deleteAProfile(adoption.getAProfile());
-
-      // 새 이미지 저장
-      savedFileName = adoptionUtil.saveAProfile(profileImage);
-      updateDto.setAProfile(savedFileName); // 업데이트된 파일명 설정
-    } else {
-      // 이미지가 없다면 기존 이미지를 그대로 사용
-      updateDto.setAProfile(adoption.getAProfile());
-    }
-    // 작성자는 수정하자
+    Adoption updateAdoption = updateDto.toEntity(base64Image);
     adoptionDao.updateAdoption(updateDto);
-    // 수정한 후 글 번호 리턴
     return adoption;
   }
 
