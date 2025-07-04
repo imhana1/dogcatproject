@@ -22,7 +22,8 @@ public class Pet {
     private String pbreed;  // 품종
     private String pname;   // 이름
     private int pweight;    // 몸무게
-    @JsonFormat(pattern = "yyyy년 MM월 dd일")
+//    @JsonFormat(pattern = "yyyy년 MM월 dd일") 오라클 열 유형 오류 초래
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate page;   // 나이
     private int palg;   // 알러지유무
     private int pins;   // 펫보험 여부

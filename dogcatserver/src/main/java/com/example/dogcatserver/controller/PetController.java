@@ -3,6 +3,7 @@ package com.example.dogcatserver.controller;
 import com.example.dogcatserver.dto.PetDto;
 import com.example.dogcatserver.entity.Pet;
 import com.example.dogcatserver.service.PetService;
+import com.example.dogcatserver.util.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ public class PetController {
 
     @Operation(summary = "반려동물 정보 저장",description = "반려동물 정보 저장")
     @PostMapping(value = "/nuser-pet/save") // consumes : 컨트롤러로 돌아오는 파일 형식 지정
-    public ResponseEntity<Pet> petsave(@ModelAttribute @Valid PetDto.psave dto, BindingResult br,
+    public ResponseEntity<Pet> petsave(@RequestPart @Valid PetDto.psave dto, BindingResult br,
                                        @RequestPart(value = "pprof", required = false) MultipartFile pprof) {
         String base64Image = "";
         try {
