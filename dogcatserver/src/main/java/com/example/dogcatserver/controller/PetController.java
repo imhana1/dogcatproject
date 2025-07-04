@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 
 @RestController
@@ -23,9 +24,18 @@ public class PetController {
     private PetService petService;
 
     @Operation(summary = "반려동물 정보 저장",description = "반려동물 정보 저장")
-    @PostMapping(value = "/nuser-pet/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // consumes : 컨트롤러로 돌아오는 파일 형식 지정
-    public ResponseEntity<Pet> petsave(@ModelAttribute @Valid PetDto.psave dto, BindingResult br) {
-        Pet pet = petService.petsave(dto);
+    @PostMapping(value = "/nuser-pet/save") // consumes : 컨트롤러로 돌아오는 파일 형식 지정
+    public ResponseEntity<Pet> petsave(@ModelAttribute @Valid PetDto.psave dto, BindingResult br,
+                                       @RequestPart(value = "pprof", required = false) MultipartFile pprof) {
+        String base64Image = "";
+        try {
+            if(pprof != null && !pprof.isEmpty()) {
+                base64Image = ProfileUtil.convertToBase64(pprof);
+            }
+        } catch (IOException e) {
+            System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
+        }
+        Pet pet = petService.petsave(dto, base64Image);
         System.out.println("200응답");
         return ResponseEntity.status(200).body(pet);
     }

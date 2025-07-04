@@ -16,18 +16,7 @@ public class PetService {
     @Autowired
     private PetDao petDao;
 
-    public Pet petsave(PetDto.@Valid psave dto) {
-        MultipartFile petprofile = dto.getPetprofile();
-        boolean 프사_존재 = petprofile != null && !petprofile.isEmpty();
-
-        String base64Image;
-        try {
-            base64Image = 프사_존재
-                    ? PetUtil.convertToBase64(petprofile)
-                    : PetUtil.getDefaultBase64Profile();
-        } catch (IOException e) {
-            throw new RuntimeException("펫 프로필 이미지 처리 중 오류 발생", e);
-        }
+    public Pet petsave(PetDto.@Valid psave dto, String base64Image) {
 
         Pet pet = dto.toEntity(base64Image);
         petDao.petsave(pet);

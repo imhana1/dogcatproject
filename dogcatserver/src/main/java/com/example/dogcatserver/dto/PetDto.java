@@ -23,7 +23,6 @@ public class PetDto {
         private int pins;
         private String pchronic;
         private String psname;
-        private MultipartFile petprofile;
 
         public Pet toEntity(String base64image) {
             return Pet.builder()
