@@ -20,18 +20,16 @@ public class PetService {
         MultipartFile petprofile = dto.getPetprofile();
         boolean 프사_존재 = petprofile != null && !petprofile.isEmpty();
 
-        String base64Image = "";
+        String base64Image;
         try {
-            if(프사_존재) {
-                base64Image = PetUtil.convertToBase64(petprofile);
-            } else {
-                base64Image = PetUtil.getDefaultBase64Profile();
-            }
+            base64Image = 프사_존재
+                    ? PetUtil.convertToBase64(petprofile)
+                    : PetUtil.getDefaultBase64Profile();
         } catch (IOException e) {
-
+            throw new RuntimeException("펫 프로필 이미지 처리 중 오류 발생", e);
         }
-        Pet pet = dto.toEntity(base64Image);
 
+        Pet pet = dto.toEntity(base64Image);
         petDao.petsave(pet);
         return pet;
     }

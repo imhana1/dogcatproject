@@ -28,10 +28,10 @@ public class Pet {
     private int pins;   // 펫보험 여부
     private String pchronic; // 선천적 지병
     private String psname;  // 수술 이름
-    private String pporf;   // 펫 프사
+    private String pprof;   // 펫 프사
 
     public PetDto.pread toRead() {
-        return new PetDto.pread(pno, ptype, pmichipe, pbreed, pname, page, pweight, palg, pins, pchronic, psname, pporf);
+        return new PetDto.pread(pno, ptype, pmichipe, pbreed, pname, page, pweight, palg, pins, pchronic, psname, pprof);
     }
 
 }
