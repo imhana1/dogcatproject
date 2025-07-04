@@ -30,7 +30,8 @@ import NoticeUpdate from './pages/notice/NoticeUpdate';
 import TossCheckout from './toss/TossCheckout';
 import TossSuccess from './toss/TossSuccess';
 import TossFail from './toss/TossFail';
-import BookingList from "./pages/hospitals/BookingList";
+import MyPetChange from './pages/Nuser/MyPetChange';
+import MyPetPage from './pages/Nuser/MyPetPage';
 
 function App() {
   return (
@@ -51,6 +52,8 @@ function App() {
         <Route path="/hospital-mypage" element={<MyPage />} />
         <Route path="/change-mypage" element={<ChangeMyPage />} />
         <Route path='/nuser-mypage' element={<NmyPage />} />
+        <Route path='/nuser-pet' element={<MyPetPage />} />
+        <Route path='/nuser-petchange' element={<MyPetChange />} />
         <Route path='/change-nmypage' element={<ChangenMyPage />} />
         <Route path="/delete-account" element={<DeleteAccount />} />
         <Route path="/hospital-time" element={<HospitalTime />} />
@@ -59,8 +62,6 @@ function App() {
         <Route path="/booking/:id" element={<BookingDetails />} />
         {/* 진료 결과 페이지 */}
         <Route path="/result/:id" element={<BookingResult />} />
-        {/* 진료 결과 작성 목록들 */}
-        <Route path="/result-list" element={<BookingList />} />
         <Route path="/hospital-notice" element={<Notice />} />
         <Route path='/notices' element={<NoticeList />} />
         <Route path='/notices/notice' element={<NoticeRead />} />

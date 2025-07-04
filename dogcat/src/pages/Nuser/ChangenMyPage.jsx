@@ -75,7 +75,7 @@ function ChangeMyPage() {
             <label className="labelStyle" >
               연락처 <span style={{ color: "red" }}>*</span>
             </label>
-            <input className="inputStyle" type="text" name="ceoPhone2" placeholder="000-0000-0000" onChange={handleChange} value={form.ntel} required />
+            <input className="inputStyle" type="text" name="ntel" placeholder="000-0000-0000" onChange={handleChange} value={form.ntel} required />
           </div>
           {/* 오른쪽 컬럼 */}
           <div className="columnStyle">

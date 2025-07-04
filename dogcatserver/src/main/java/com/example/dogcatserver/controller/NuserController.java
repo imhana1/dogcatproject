@@ -45,10 +45,12 @@ public class NuserController {
     }
 
     @Operation(summary = "내 정보 보기", description = "일반 회원 내정보 보기")
-    @GetMapping("/user-mypage")
-    public ResponseEntity<JoinViewInfoDto.NuserInfo> read(@ModelAttribute UseMemberDto.UsernameCheck uDto) {
-        JoinViewInfoDto.NuserInfo dto = nuserservice.Read(uDto.getUsername());
+    @GetMapping("/nuser-mypage")
+    public ResponseEntity<JoinViewInfoDto.NuserInfo> read(Principal principal) {
+        JoinViewInfoDto.NuserInfo dto = nuserservice.Read(principal.getName());
+        System.out.println(dto);
         return ResponseEntity.ok(dto);
+
     }
 
     @Operation(summary = "일반 회원 정보 변경", description = "일반 회원 정보 변경")

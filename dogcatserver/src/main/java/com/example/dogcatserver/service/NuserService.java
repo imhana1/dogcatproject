@@ -46,12 +46,12 @@ public class NuserService {
     // 회원가입
     @Transactional
     public SignUpResponse.NormalResponse nsignup(SignupNdto.SignupRequestDto dto) {
-        String useMemberName = dto.getUseMember().getUsername();
-        String nid = dto.getNuser().getNid();
-
-        if (!useMemberName.equals(nid)) {
-            throw new IllegalArgumentException("UseMember 이름과 Nname 이름이 일치하지 않습니다");
-        }
+//        String useMemberName = dto.getUseMember().getUsername();
+//        String nid = dto.getNuser().getNid();
+//
+//        if (!useMemberName.equals(nid)) {
+//            throw new IllegalArgumentException("UseMember 이름과 Nname 이름이 일치하지 않습니다");
+//        }
 
         String address = dto.getNuser().getNaddr();
         double[] latlng = service.getCoordinates(address);
@@ -69,6 +69,7 @@ public class NuserService {
                 .nuser(nuser)
                 .roleNormal(usemember)
                 .build();
+
     }
 
     // 회원 정보 보기

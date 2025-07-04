@@ -14,7 +14,7 @@ public interface NuserDao {
     @Select("select n.*, m.email from NORMAL_MEMBER n left join USER_MEMBER m on n.N_USERNAME = m.USERNAME where n.N_USERNAME = #{loginId}")
     int findBynUsername(String loginId);
 
-    @Select("select n.*, m.email from NORMAL_MEMBER n left join USER_MEMBER m on n.N_USERNAME = m.USERNAME where n.N_USERNAME = #{loginId}")
+    @Select("select n.n_username as nid, n.n_name as nname, n_tel as ntel, n_address as naddr, n_birthday as nbirth, m.email from NORMAL_MEMBER n left join USER_MEMBER m on n.N_USERNAME = m.USERNAME where n.N_USERNAME = #{loginId}")
     NuserInfo getBynUsername(String loginId);
 
     @Update("update NORMAL_MEMBER set N_TEL=#{ntel}, N_ADDRESS=#{naddr}, N_LONGITUDE=#{nlongitude}, N_LOCATION=#{nlocation} where N_USERNAME=#{nid}")

@@ -78,15 +78,15 @@ function SignupNuserForm() {
     const validate = () => {
       const newErrors = {};
 
-      if (!form.nid) newErrors.hospital = "ID는 필수 입력입니다";
-      if (!form.nname) newErrors.address1 = "이름은 필수 입력입니다";
-      if (!form.npwd) newErrors.id = "비밀번호는 필수 입력입니다";
-      if (!form.npasswordCheck) newErrors.password = "비밀번호 확인은 필수 입력입니다";
-      if (!form.naddr) newErrors.passwordCheck = "주소는 필수 입력입니다";
+      if (!form.nid) newErrors.nid = "ID는 필수 입력입니다";
+      if (!form.nname) newErrors.nname = "이름은 필수 입력입니다";
+      if (!form.npwd) newErrors.npwd = "비밀번호는 필수 입력입니다";
+      if (!form.npasswordCheck) newErrors.npasswordCheck = "비밀번호 확인은 필수 입력입니다";
+      if (!form.naddr) newErrors.naddr = "주소는 필수 입력입니다";
       if (!form.nbirth) newErrors.nbirth = "생년월일은 필수 입력입니다";
-      if (!form.ntel) newErrors.ceoName = "연락처는 필수 입력입니다";
-      if (!form.email) newErrors.ceoGender = "E-mail은 필수 입력입니다";
-      if (!form.emailCheck) newErrors.ceoBirth = "E-mail로 발송된 인증코드를 입력하세요";
+      if (!form.ntel) newErrors.ntel = "연락처는 필수 입력입니다";
+      if (!form.email) newErrors.email = "E-mail은 필수 입력입니다";
+      if (!form.emailCheck) newErrors.emailCheck = "E-mail로 발송된 인증코드를 입력하세요";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -99,7 +99,7 @@ function SignupNuserForm() {
         setErrors(prev => ({ ...prev, [name]: undefined }));
     }
 
-        // 카카오 우편번호 검색 기능
+    // 카카오 우편번호 검색 기능
     const handleComplete = (data) => {
         setForm({
             ...form,
