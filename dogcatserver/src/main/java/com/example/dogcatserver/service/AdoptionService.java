@@ -67,7 +67,9 @@ public class AdoptionService {
       throw new JobFailException("잘못된 작업입니다.");
     }
 
-    Adoption updateAdoption = updateDto.toEntity(base64Image);
+    updateDto.setAProfile(base64Image);
+
+//    Adoption updateAdoption = updateDto.toEntity(base64Image);
     adoptionDao.updateAdoption(updateDto);
     return adoption;
   }

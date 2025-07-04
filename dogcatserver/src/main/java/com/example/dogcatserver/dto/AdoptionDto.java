@@ -83,7 +83,7 @@ public class AdoptionDto {
   public static class Update {
     private int ano;  // 글 수정하려면 글번호로 찾을거니까 글 번호 있어야해
 // not null 빼고 해보기
-//    private String aProfile;  // write에는 안넣고 왜 여기에는 넣어? 얘는 기존 값 있으니까
+    private String aProfile;  // write에는 안넣고 왜 여기에는 넣어? 얘는 기존 값 있으니까
     @NotNull
     private String aName;
     @Min(0)  // 0이상의 값 입력

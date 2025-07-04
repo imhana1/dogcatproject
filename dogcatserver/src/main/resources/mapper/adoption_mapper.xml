@@ -25,7 +25,7 @@
     <!-- 글 수정 -->
     <update id="updateAdoption">
         update adoption set
-                a_name = #{aName}, a_age = #{aAge}, a_gender = #{aGender}, a_breed = #{aBreed},
+                a_profile = #{aProfile}, a_name = #{aName}, a_age = #{aAge}, a_gender = #{aGender}, a_breed = #{aBreed},
                 a_city = #{aCity}, a_location = #{aLocation}, a_found_location = #{aFoundLocation}, a_content = #{aContent}, a_is_adopted = #{aIsAdopted}
                 WHERE ano = #{ano}
     </update>
