@@ -3,6 +3,7 @@ package com.example.dogcatserver.controller;
 import com.example.dogcatserver.dto.PetDto;
 import com.example.dogcatserver.entity.Pet;
 import com.example.dogcatserver.service.PetService;
+import com.example.dogcatserver.util.ProfileUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
