@@ -23,7 +23,7 @@ public class Pay {
   private String productDesc;     // 결제 명
   private int amount;             // 결제 금액
   private int amountTaxFree;      // 비과세
-  private String autoExecute;     // 자동 승인 설정
+  private Boolean autoExecute;     // 자동 승인 설정
   private String resultCallback;  // 결제 결과 CallbackURL
   private String retUrl;          // 인증 완료 후 연결할 URL
   private String retCancelUrl;    // 결제 중단 시 사용자를 이동시킬 홈페이지 URL

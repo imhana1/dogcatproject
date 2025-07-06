@@ -14,6 +14,10 @@ public class PayService {
 
   // 결제 정보 저장
   public void savePay (Pay pay) {
+    // pStatus 가 null 이면 기본값 PENDING 설정
+    if (pay.getPStatus()==null) {
+      pay.setPStatus(PaymentStatus.PENDING);
+    }
     payDao.insertPay(pay);
   }
 

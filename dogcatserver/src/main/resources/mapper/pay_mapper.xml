@@ -8,7 +8,7 @@
             amount, amount_tax_free, auto_execute, result_callback, ret_url, ret_cancel_url, p_status
         ) values (
             #{rno}, #{hUsername}, #{nUsername}, #{orderNo}, #{paymentKey}, #{pUsername}, #{productDesc},
-            #{amount}, #{amountTaxFree}, #{autoExecute}, #{resultCallback}, #{retUrl}, #{retCancelUrl}, #{pStatus}
+            #{amount}, #{amountTaxFree}, #{autoExecute}, #{resultCallback}, #{retUrl}, #{retCancelUrl}, #{pStatus, jdbcType=VARCHAR}
         )
     </insert>
 
@@ -19,11 +19,16 @@
 
     <!-- 결제 상태 업데이트 하기 -->
     <update id="updatePayByStatus">
-        update pay set p_status = #{pStatus} where order_no = #{orderNo}
+        update pay set p_status = #{pStatus, jdbcType=VARCHAR} where order_no = #{orderNo}
     </update>
 
     <!-- 병원 아이디로 pay 불러오기 -->
     <select id="selectPayByHospitalId" resultType="com.example.dogcatserver.entity.Pay">
         select * from pay where h_username = #{hUsername}
     </select>
+
+    <!-- typeHandler 불러오기 -->
+    <resultMap id="payResultMap" type="com.example.dogcatserver.entity.Pay">
+        <result property="pStatus" column="p_status" typeHandler="com.example.dogcatserver.toss.handler.PaymentStatusTypeHandler" />
+    </resultMap>
 </mapper>

@@ -41,7 +41,7 @@ public class TossPaymentService {
       .orderNo(orderNo)
       .paymentKey(paymentKey)
       .amount(amount)
-      .pStatus(responseDto.getPStatus())
+      .pStatus(PaymentStatus.PENDING)
       .build();
 
     // db 저장

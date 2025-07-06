@@ -38,6 +38,7 @@ public class TossPaymentApiCaller {
       requestMap.put("orderId", orderNo);
       requestMap.put("amount", amount);
 
+      // 데이터 보낸 거 확인하는 용도
       System.out.println("paymentKey: " + paymentKey);
       System.out.println("orderNo: " + orderNo);
       System.out.println("amount: " + amount);

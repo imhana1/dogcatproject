@@ -14,7 +14,7 @@ const TossSuccess=()=> {
 
     axios.post('http://localhost:8080/api/toss/confirm', {
         paymentKey,
-        orderNo : orderId,
+        orderId : orderId,
         amount
       }, {
         headers: {

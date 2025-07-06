@@ -8,7 +8,7 @@ const TossCheckout =()=> {
         const orderId = 'Order_' + uuidv4();
         tossPayments.requestPayment('카드', {
             amount : 5000,
-            orderId : 'Order0500',
+            orderId : orderId,
             orderName : '예약금',
             constomerName : '김모모',
             successUrl : 'http://localhost:3000/toss/success',
