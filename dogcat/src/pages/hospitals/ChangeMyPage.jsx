@@ -51,7 +51,9 @@ function ChangeMyPage() {
           ceoPhone2: data.htel,
           directorCareer: data.educational,
           treatmentStart: data.openTime,  // 진료 시작 시간
-          treatmentEnd: data.closeTime
+          treatmentEnd: data.closeTime,
+          introtext: data.hintroduction,
+          address2: data.hsubaddress
         });
         if (data.dprofile) setDirectorPhotoPreview(data.dprofile);
         if (data.hprofile) setHospitalPhotoPreview(data.hprofile);
@@ -76,7 +78,8 @@ function ChangeMyPage() {
       openTime: form.treatmentStart,                         // (시간 입력 없으므로 빈 문자열)
       closeTime: form.treatmentEnd,                        // (시간 입력 없으므로 빈 문자열)
       hIntroduction: form.introtext,                    // (병원 소개 없으면 빈 문자열)
-      educational: form.directorCareer
+      educational: form.directorCareer,
+      hSubaddress: form.address2
     }
     formData.append("dto", new Blob([JSON.stringify(dto)],{ type: "application/json" }));
 

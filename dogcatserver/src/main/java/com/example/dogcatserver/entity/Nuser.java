@@ -23,5 +23,6 @@ public class Nuser {
     @JsonFormat(pattern = "yyyy년 MM월 dd일")
     private LocalDate nbirth;        // 생년월일
     private Double nlongitude;     // 위도
-    private Double nlocation;      // 경도
+    private Double nlocation;     // 경도
+    private String nSubaddress; // 상세 주소 추가 - 재호
 }

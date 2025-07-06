@@ -28,6 +28,7 @@ public class TreatService {
     }
 
 
+    // rno로 진료 결과를 호출
     public Treat read(int rno) {
         return treatDao.findByRno(rno)
                 .orElseThrow(() -> new EntityNotFoundException("진료 기록을 찾을 수 없습니다"));

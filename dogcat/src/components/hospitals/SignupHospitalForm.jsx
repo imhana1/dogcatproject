@@ -138,6 +138,7 @@ function SignupHospitalForm() {
                 hreptel: `${form.hospitalPhone1}-${form.hospitalPhone2}-${form.hospitalPhone3}`,
                 zip: parseInt(form.zip, 10), // 숫자형 zip
                 haddress: `${form.address1}`,
+                hsubaddress:`${form.address2}`,
                 hchoice: form.ceoGender === "예",
                 hbirthDay: form.ceoBirth // ISO 날짜 문자열 or yyyy-MM-dd
             },

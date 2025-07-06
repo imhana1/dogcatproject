@@ -17,7 +17,8 @@
             h_Introduction = #{hIntroduction},
             h_location = #{hLocation},
             h_longitude = #{hLongitude},
-            educational = #{educational}
+            educational = #{educational},
+            h_subaddress = #{hSubaddress}
         where h_username = #{hUsername}
     </update>
 

@@ -12,7 +12,7 @@ CREATE TABLE user_member (
 	CONSTRAINT PK_USER_MEMBER PRIMARY KEY (username)
 );
 
--- 2. normal_member : user_member 참조
+-- 2. normal_member : user_member 참조 상세 주소 추가
 CREATE TABLE normal_member (
 	n_username varchar2(10) NOT NULL,
 	n_name varchar2(10) NULL,
@@ -22,11 +22,12 @@ CREATE TABLE normal_member (
 	n_birthday date NULL,
 	n_location number(25,15) NULL,
 	n_longitude number(25,15) NULL,
+	n_subaddress varchar2(100) NULL, -- 상세 주소
 	CONSTRAINT PK_normal_member PRIMARY KEY (n_username),
 	CONSTRAINT FK_user_member_TO_normal_member_1 FOREIGN KEY (n_username) REFERENCES user_member (username)
 );
 
--- 3. hospital_member : user_member 참조
+-- 3. hospital_member : user_member 참조 상세 주소 추가
 CREATE TABLE hospital_member (
 	h_username varchar2(10) NOT NULL,
 	director varchar2(10)  NULL,
@@ -45,6 +46,7 @@ CREATE TABLE hospital_member (
 	h_birthday date NULL,
 	h_Introduction varchar2(1000) NULL,
 	educational varchar2(200) NULL,
+	h_subaddress varchar2(100) NULL, -- 상세 주소
 	CONSTRAINT PK_HOSPITAL_MEMBER PRIMARY KEY (h_username),
 	CONSTRAINT FK_user_member_TO_hospital_member_1 FOREIGN KEY (h_username) REFERENCES user_member (username)
 );
@@ -87,6 +89,23 @@ CREATE TABLE pet (
 	CONSTRAINT FK_normal_member_TO_pet_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username)
 );
 
+
+-- 7. reservation : normal_member, hospital_member, pet 참조 s_id 추가
+CREATE TABLE reservation (
+	rno number(10) NOT NULL,
+	n_username varchar2(10) NOT NULL,
+	schedule date NULL,
+	h_username varchar2(10) NOT NULL,
+	pno number(10) NOT NULL,
+	r_status varchar2(10) NULL,
+	s_id number(10) NULL,
+	CONSTRAINT PK_RESERVATION PRIMARY KEY (rno),
+	CONSTRAINT FK_normal_member_TO_reservation_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username),
+	CONSTRAINT FK_hospital_member_TO_reservation_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
+	CONSTRAINT FK_pet_TO_reservation_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
+);
+
+-- treat : rno를 참조 해야 해서 reservation이 생성된 후에 생성 가능
 CREATE TABLE treat (
     tno         NUMBER(10)      NOT NULL,                 -- 진료결과 번호
     rno         NUMBER(10)      NOT NULL,                 -- 예약번호
@@ -107,20 +126,6 @@ CREATE TABLE treat (
         ON DELETE CASCADE
 );
 
--- 7. reservation : normal_member, hospital_member, pet 참조 s_id 추가
-CREATE TABLE reservation (
-	rno number(10) NOT NULL,
-	n_username varchar2(10) NOT NULL,
-	schedule date NULL,
-	h_username varchar2(10) NOT NULL,
-	pno number(10) NOT NULL,
-	r_status varchar2(10) NULL,
-	s_id number(10) NULL,
-	CONSTRAINT PK_RESERVATION PRIMARY KEY (rno),
-	CONSTRAINT FK_normal_member_TO_reservation_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username),
-	CONSTRAINT FK_hospital_member_TO_reservation_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
-	CONSTRAINT FK_pet_TO_reservation_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
-);
 
 -- 8. pay : reservation, hospital_member, normal_member 참조
 CREATE TABLE pay (
@@ -236,11 +241,13 @@ alter table reservation add constraint uniq_reservation_schedule UNIQUE (schedul
 -- uniq 설정 됐는지 확인
 select constraint_name, constraint_type from USER_CONSTRAINTS where TABLE_NAME='RESERVATION';
 
-alter table hospital_member modify(h_address varchar2(50));
-alter table user_member modify(status varchar2(10));
-alter table user_member modify(role varchar2(10));
-alter table hospital_member modify(h_location number(25,15));
-alter table hospital_member modify(h_longitude number(25,15));
+
+CREATE INDEX idx_schedule_search ON schedule(h_username, schedule, s_choice);
+--alter table hospital_member modify(h_address varchar2(50));
+--alter table user_member modify(status varchar2(10));
+--alter table user_member modify(role varchar2(10));
+--alter table hospital_member modify(h_location number(25,15));
+--alter table hospital_member modify(h_longitude number(25,15));
 
 
 create sequence schedule_seq;

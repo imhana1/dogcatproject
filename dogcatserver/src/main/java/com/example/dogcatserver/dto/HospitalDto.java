@@ -25,10 +25,11 @@ public class HospitalDto {
         private String hAddress;
         private boolean hChoice;
         private LocalDate hBirthDay;
+        private String hSubaddress;
 
                 public Hospital toSignEntity(Double hLocation, Double hLongitude){
             return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
-                    .zip(zip).hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).build();
+                    .zip(zip).hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).hSubaddress(hSubaddress).build();
         }
         }
     }

@@ -97,6 +97,8 @@ public class ReservationService {
     }
     return reservationDao.getMyReservation(nUsername);
   }
+  
+  // 병원 측 예약 내역 불러오기 서비스
   public List<Reservation> getReservation (String hUsername) {
     if(hUsername == null || hUsername.isBlank()) {
       throw new IllegalArgumentException("사용자 이름이 유효하지 않습니다");

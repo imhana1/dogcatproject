@@ -99,8 +99,8 @@ public class ScheduleService {
         return scheduleDao.findNoticeByUsername(hUsername);
     }
 
-    public String findNotice(String hospital){
-        String hUsername = hospitalDao.findhUsername(hospital);
+    public String findNotice(String hUsername){
+//        String hUsername = hospitalDao.findhUsername(hospital);
         return scheduleDao.findNoticeByUsername(hUsername);
     }
 

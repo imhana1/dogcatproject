@@ -23,4 +23,5 @@ public class HospitalInfoChangeResponse {
     private String dProfileUrl;
     private String hIntroduction;
     private String educational;
+    private String hSubaddress; // 상세 주소 추가
 }

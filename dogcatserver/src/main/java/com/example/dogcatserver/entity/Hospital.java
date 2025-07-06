@@ -10,9 +10,9 @@ import java.time.*;
 @NoArgsConstructor
 @Builder
 public class Hospital {
-    private String hUsername;
+    private String hUsername; // 병원 아이디
     private String director;
-    private String hospital;
+    private String hospital; // 병원 이름
     private String hTel;
     private String hReptel;
     private Integer zip; // 우편번호
@@ -30,9 +30,9 @@ public class Hospital {
     private String closeTime;
     @JsonIgnore
     private String dProfile;
-    @JsonFormat(pattern = "yyyy년 MM월 dd일")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate hBirthDay;
     private String hIntroduction;
     private String educational;
-
+    private String hSubaddress; // 상세주소
 }

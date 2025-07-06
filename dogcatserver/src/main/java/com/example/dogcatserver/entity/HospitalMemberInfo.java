@@ -38,6 +38,7 @@ public class HospitalMemberInfo {
 //    @JsonProperty("hIntroduction")
     private String hIntroduction;
     private String educational;
+    private String hSubaddress; // 상세 주소 추가
 
     // 기존 toRead()는 그대로 유지
     public JoinViewInfoDto.HospitalInfo toRead() {
@@ -57,6 +58,7 @@ public class HospitalMemberInfo {
                 .hIntroduction(hIntroduction)
                 .educational(educational)
                 .hBirthDay(hBirthDay)
+                .hSubaddress(hSubaddress)
                 .build();
     }
 
@@ -77,6 +79,7 @@ public class HospitalMemberInfo {
                 .dProfileUrl(dProfile != null ? "/files/profile/" + dProfile : null)
                 .hIntroduction(hIntroduction)
                 .educational(educational)
+                .hSubaddress(hSubaddress)
                 .build();
     }
 }

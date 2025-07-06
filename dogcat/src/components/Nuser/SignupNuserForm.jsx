@@ -121,7 +121,8 @@ function SignupNuserForm() {
                 ntel: `${form.ceoPhone1}-${form.ceoPhone2}-${form.ceoPhone3}`,
                 zip: parseInt(form.zip, 10), // 숫자형 zip
                 naddr: `${form.naddr}`,
-                nbirth: form.nbirth // ISO 날짜 문자열 or yyyy-MM-dd
+                nsubaddress: `${form.address1}`,
+                nbirth: form.nbirth, // ISO 날짜 문자열 or yyyy-MM-dd
             },
             useMember: {
                 username: form.id,
