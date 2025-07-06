@@ -34,6 +34,7 @@ import MyPetChange from './pages/Nuser/MyPetChange';
 import MyPetPage from './pages/Nuser/MyPetPage';
 import BookingList from "./pages/hospitals/BookingList";
 import BookingRead from "./pages/hospitals/BookingRead";
+import MapPage from './pages/maps/MapPage';
 
 function App() {
   return (
@@ -76,6 +77,8 @@ function App() {
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>
         <Route path='/toss/fail' element={<TossFail />}/>
+        {/* 지도 페이지 */}
+        <Route path='/map' element={<MapPage />} />
       </Routes>
     </div>
   );
