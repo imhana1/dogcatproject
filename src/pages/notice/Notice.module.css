@@ -1,0 +1,120 @@
+.ntcQnaWrapper * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ntcQnaWrapper .App {
+    width: 1400px;
+    margin: 0 auto
+}
+
+.ntcQnaWrapper header {
+    height: 100px;
+    line-height: 50px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.ntcQnaWrapper header>* {
+    margin: 10px;
+}
+
+.ntcQnaWrapper header>h1 {
+    letter-spacing: -0.005em;
+}
+
+.ntcQnaWrapper header>div {
+    display: felx;
+    margin-left: auto;
+}
+
+
+.ntcQnaWrapper header>div>* {
+    display: inline;
+    font-weight: normal;
+    letter-spacing: 0.25em;
+    margin: 0 5px;
+    font-size: 15px;
+}
+
+
+.ntcQnaWrapper nav {
+    width: 250px;
+    min-height: 1000px;
+    line-height: 200px;
+    /* background-color: #bbb; */
+    text-align: center;
+    /* nav>a들 위치조정하는데 배경까지 내려오는거 해결 */
+    overflow: hidden;
+    border-right: 1px solid #bbb;
+}
+
+.ntcQnaWrapper footer {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+
+.ntcQnaWrapper header {
+    border-bottom: 1px solid rgb(200, 200, 200);
+    font-size: 1.25em;
+    letter-spacing: 1em;
+    font-weight: bold;
+}
+
+.ntcQnaWrapper footer {
+    border: 1px solid darkcyan;
+}
+
+.ntcQnaWrapper aside {
+    width: 150px;
+    height: 300px;
+    line-height: 200px;
+    background-color: #bbb;
+    text-align: center;
+}
+
+
+.ntcQnaWrapper nav>a {
+    display: block;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    margin: 30px 25px;
+
+}
+
+.ntcQnaWrapper nav>ul>li>a {
+    text-decoration: none;
+    color: #797c7f;
+    font-weight: bold;
+    display: block;
+}
+
+.ntcQnaWrapper nav>ul>li>a:hover {
+    color: white;
+    background-color: #333;
+}
+
+.ntcQnaWrapper main {
+    display: flex;
+}
+
+.ntcQnaWrapper section {
+    width: 1100px;
+    min-height: 1000px;
+    padding: 20px;
+}
+
+/* table font size */
+.ntcQnaWrapper table>* {
+    font-size: medium;
+}
+
+.ntcQnaWrapper h4 {
+    font-weight: bold;
+}
+
+/* table margin 안먹어서 밖으로 뺌 */

@@ -1,0 +1,43 @@
+.formContainer {
+    display: flex;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background: #fff;
+}
+
+.labelStyle {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block
+}
+
+.inputStyle {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.buttonStyle {
+    padding: 6px 16px;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.phone-row {
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap; /* 줄바꿈 방지 */
+    margin-right: auto;
+}
