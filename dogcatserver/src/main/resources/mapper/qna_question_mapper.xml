@@ -8,7 +8,7 @@
             select qna_question_seq.nextval from dual
         </selectKey>
         insert into qna_question (qno, q_title, username, q_write_day, q_content, q_is_answered, q_image)
-        values (#{qno}, #{qTitle}, #{username}, #{qWriteDay}, #{qContent}, #{qIsAnswered}, #{qImage, jdbcType=VARCHAR})
+        values (#{qno}, #{qTitle}, #{username}, #{qWriteDay}, #{qContent}, #{qIsAnswered}, #{qImage})
     </insert>
 
     <!-- 전체 질문 목록: 글 번호, 글 제목, 작성일, 답변 여부 -->

@@ -3,6 +3,7 @@ package com.example.dogcatserver.controller;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.service.*;
+import com.example.dogcatserver.util.*;
 import io.swagger.v3.oas.annotations.*;
 import jakarta.annotation.*;
 import jakarta.validation.*;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
 
+import java.io.*;
 import java.security.*;
 import java.util.*;
 
@@ -27,8 +29,8 @@ public class QnaController {
 
   @Autowired
   private QnaService qnaService;
-  @Autowired
-  private QnaImageService qnaImageService;
+//  @Autowired
+//  private QnaImageService qnaImageService;
 
   // 본인이 작성한 질문 리스트(고객)
   @GetMapping("/api/qna/my-questions")
@@ -40,30 +42,38 @@ public class QnaController {
   // 질문글 작성 (고객)
   @Operation(summary = "질문 글 작성", description = "질문 글 작성")
   @PostMapping("/api/qna/write-question")
-  @PreAuthorize("isAuthenticated()")
-  public ResponseEntity<QnaQuestion> writeQnaQuestion( @RequestParam String qTitle,
-                                                       @RequestParam String qContent,
-                                                       @RequestParam(value = "qImage", required = false) MultipartFile qnaImage,
-                                                       Principal principal) {
-    // 이미지 저장 및 파일명 세팅
-    String savedFileName = null;
-    if (qnaImage != null && !qnaImage.isEmpty()) {
-      savedFileName = qnaImageService.saveQnaImage(qnaImage);
+//  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<QnaQuestion> writeQnaQuestion( @RequestPart @Valid QnaQuestionDto.Write writeDto, @RequestPart(value = "qImage", required = false) MultipartFile qImage, BindingResult br, Principal principal) {
+    String base64Image = null;
+    try {
+      if(qImage != null && !qImage.isEmpty()) {
+        base64Image = QnaUtil.convertToBase64(qImage);
+      }
+      }catch(IOException e) {
+      System.out.println("이미지 등록 실패: "  + e.getMessage());
     }
-
-// QnaQuestion 생성 시 이미지 파일명 포함
-    QnaQuestion qnaQuestion = QnaQuestion.builder()
-        .qTitle(qTitle)
-        .qContent(qContent)
-        .username(principal.getName())
-        .qImage(savedFileName)  // ← null 또는 파일명
-        .build();
-
-// DB 저장
-    QnaQuestion writeQuestion = qnaService.writeQnaQuestion(qnaQuestion);
-
-    return ResponseEntity.ok(writeQuestion);
+    QnaQuestion qnaQuestion = qnaService.writeQnaQuestion(writeDto, base64Image, principal.getName());
+    System.out.println("200응답");
+    return ResponseEntity.status(200).body(qnaQuestion);
   }
+
+//  // 질문글 작성 (고객)
+//  @Operation(summary = "질문 글 작성", description = "질문 글 작성")
+//  @PostMapping("/api/qna/write-questionTest")
+////  @PreAuthorize("isAuthenticated()")
+//  public ResponseEntity<QnaQuestion> writeQnaQuestionTest( @RequestPart @Valid QnaQuestionDto.Write writeDto, @RequestPart(value = "qImage", required = false) MultipartFile qImage, BindingResult br, Principal principal) {
+//    String base64Image = null;
+//    try {
+//      if(qImage != null && !qImage.isEmpty()) {
+//        base64Image = QnaUtil.convertToBase64(qImage);
+//      }
+//    }catch(IOException e) {
+//      System.out.println("이미지 등록 실패: "  + e.getMessage());
+//    }
+//    QnaQuestion qnaQuestion = qnaService.writeQnaQuestionTest(writeDto, base64Image);
+//    System.out.println("200응답");
+//    return ResponseEntity.status(200).body(qnaQuestion);
+//  }
 
   // 질문 단일글 조회
   @Operation(summary = "질문 글 조회", description = "글번호로 질문 글 조회")
@@ -100,12 +110,12 @@ public class QnaController {
     return ResponseEntity.ok(answer);
   }
 
-  // 질문글 사진 다운로드
-  @Operation(summary = "사진 다운로드", description = "질문 글에 첨부된 사진 다운로드")
-  @GetMapping("/api/qna/downloadImg")
-  @PreAuthorize("isAuthenticated()")
-  public ResponseEntity<Resource> downloadQnaImage(@RequestParam int qno, Principal principal) {
-    return ResponseEntity.ok(qnaImageService.downloadQnaImage(qno, principal.getName()));
-  }
+//  // 질문글 사진 다운로드
+//  @Operation(summary = "사진 다운로드", description = "질문 글에 첨부된 사진 다운로드")
+//  @GetMapping("/api/qna/downloadImg")
+//  @PreAuthorize("isAuthenticated()")
+//  public ResponseEntity<Resource> downloadQnaImage(@RequestParam int qno, Principal principal) {
+//    return ResponseEntity.ok(qnaImageService.downloadQnaImage(qno, principal.getName()));
+//  }
 
 }
