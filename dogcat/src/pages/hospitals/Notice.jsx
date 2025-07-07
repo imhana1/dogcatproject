@@ -36,7 +36,7 @@ function Notice() {
       alert('공지사항이 변경되었습니다');
     } catch (e) {
       console.log(e)
-      alert('공지사항이 변경하지 못했습니다');
+      alert('공지사항을 변경하지 못했습니다');
     }
   };
 
