@@ -18,7 +18,7 @@ import BookingDetails from "./pages/hospitals/BookingDetails";
 import FindAccount from "./pages/FindAccount";
 import BookingResult from "./pages/hospitals/BookingResult";
 import Doctor from "./hospital/introduction/Doctor";
-import ProtectedRoute from "./routes/ ProtectedRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
 import HospitalReservation from "./hospital/introduction/HospitalReservation";
 import HospitalReview from "./hospital/introduction/HospitalReview";
 import DeleteAccount from "./pages/hospitals/DeleteAccount";
