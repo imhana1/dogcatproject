@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import './MapStyle.css';
-import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
 import { useNavigate } from 'react-router-dom';
+import HeaderMaps from '../../fragments/maps/HeaderMaps';
 
 const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
 
@@ -18,7 +18,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
 
   // 사용자 위치 받아오기
   useEffect(()=> {
-    axios.get ("/nuser/location")
+    axios.get ("http://localhost:8080/nuser/location")
     .then((res)=> {
       // 위도, 경도 받아오기
       setUserLocation(res.data);
@@ -52,12 +52,28 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
 
   // 검색 핸들러
   const handleSearch =()=> {
+    // 디버깅 로그
+    if (!map) {
+      console.log('지도(map) 없음');
+    return;
+    }
+    if (!window.kakao) {
+      console.log('window.kakao 객체 없음');
+    return;
+    }
+    if (!keyword) {
+      console.log('검색어(keyword) 없음');
+      return;
+    }
+
     if(!map || !window.kakao) return;
 
     const ps = new window.kakao.maps.services.Places();
 
     // 장소 검색
     ps.keywordSearch(keyword, (data, status)=> {
+      console.log('검색 상태:', status);
+      console.log('검색 데이터:', data);
       if (status === window.kakao.maps.services.Status.ok) {
         // 마커 초기화
         markersRef.current.forEach(marker => marker.setMap(null));
@@ -148,16 +164,12 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
   return (
     <>
       {/* 헤더 */}
-      <HeaderNoticeQna
-        username={username}
-        role={role}
-        logInlogOutHandler={logInlogOutHandler}
-        navigate={navigate}
-        hospitalMyPage={hospitalMyPage}
+      <HeaderMaps 
+        username = {username}
+        role = {role}
+        logInlogOutHandler = {logInlogOutHandler}
+        hospitalMyPage = {hospitalMyPage}
       />
-
-      {/* 지도용 제목 (고객센터 -> 지도 검색) */}
-      <h1 className="map-header-title">지도 검색</h1>
 
       {/* 검색창 */}
       <div style={{ margin: '10px' }}>
@@ -174,17 +186,22 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
         </button>
       </div>
 
-      {/* 검색 결과 리스트 */}
-      <div>
-        {places.map((place, index) => (
-          <div key={place.id || index} onClick={() => handleListClick(place, index)} style={{ cursor: 'pointer' }}>
-            {place.place_name}
-          </div>
-        ))}
-      </div>
+      {/* 리스트 + 지도 감싸는 컨테이너 */}
+      <div className='map-container'>
+      
+        {/* 검색 결과 리스트 */}
+        <ul className='place-list'>
+          {places.map((place, index) => (
+            <li key={index} className='place-list-item' onClick={()=> handleListClick(place, index)}>
+              <div className='place-name'>{place.place_name}</div> 
+              <div className='place-address'>{place.road_address_name || place.address_name}</div>         
+            </li>
+          ))}
+        </ul>
 
-      {/* 지도 */}
-      <div ref={mapRef} style={{ width: '100%', height: '500px', border: '1px solid #ccc' }} />
+        {/* 지도 */}
+        <div ref={mapRef} style={{ width: '100%', height: '500px', border: '1px solid #ccc' }} />
+      </div>
     </>
   )
 }

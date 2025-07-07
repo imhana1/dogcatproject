@@ -6,7 +6,6 @@ import MapContainer from "../../components/maps/MapContainer";
 const MapPage = () => {
   return (
     <div>
-      <h2>동물병원 지도</h2>
       <MapContainer />
     </div>
   );
