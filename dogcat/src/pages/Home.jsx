@@ -36,7 +36,7 @@ function Home() {
                             <Link to="/booking" style={{ color: "#333", textDecoration: "none" }}>
                                 예약내역
                             </Link>
-                        ) : role === "ROLE_USER" || role === "ROLE_CUSTOMER" ? (
+                        ) : role === "ROLE_USER" ? (
                             <Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}>
                                 마이페이지
                             </Link>
