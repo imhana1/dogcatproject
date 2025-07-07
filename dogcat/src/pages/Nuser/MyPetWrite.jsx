@@ -72,6 +72,8 @@ const MyPetWrite = () => {
     }
     formData.append("dto", new Blob([JSON.stringify(dto)], { type : "application/json" }));
 
+    formData.append("pprof", petphoto || new Blob([], { type: "application/octet-stream"}));
+
     try {
         const response = await axios.post("http://localhost:8080/nuser-petsave", formData, {
             withCredentials : true,
