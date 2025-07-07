@@ -222,7 +222,7 @@ function ChangeMyPage() {
             <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="사업자 주소 입력해주세요" value={form.address1} required />
             <input className="inputStyle" type="text" name="address2" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address2} required />
             <label className="labelStyle">
-              의료진 사진
+              의료진 사진 <span style={{ color: "red" }}>*</span>
             </label>
             <input className="inputStyle" type="file" accept="image/*" onChange={handlePhotoChange} />
             {directorPhotoPreview && (
@@ -231,11 +231,11 @@ function ChangeMyPage() {
                 </div>
             )}
             <label className="labelStyle">
-              원장이력
+              원장이력 <span style={{ color: "red" }}>*</span>
             </label>
             <textarea className="inputStyle" name="directorCareer" onChange={handleChange} placeholder="소개글 내용을 작성해주세요" value={form.directorCareer} required />
             <label className="labelStyle">
-            소개글
+            소개글 <span style={{ color: "red" }}>*</span>
           </label>
             <textarea className="inputStyle" name="introtext" onChange={handleChange} placeholder="소개글 내용을 작성해주세요" value={form.introtext} required />
           </div>
