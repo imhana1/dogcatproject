@@ -35,6 +35,7 @@ import MyPetPage from './pages/Nuser/MyPetPage';
 import BookingList from "./pages/hospitals/BookingList";
 import BookingRead from "./pages/hospitals/BookingRead";
 import MapPage from './pages/maps/MapPage';
+import MyPetWrite from './pages/Nuser/MyPetWrite';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
         <Route path="/change-mypage" element={<ChangeMyPage />} />
         <Route path='/nuser-mypage' element={<NmyPage />} />
         <Route path='/nuser-pet' element={<MyPetPage />} />
+        <Route path='/nuser-petsave' element={<MyPetWrite />} />
         <Route path='/nuser-petchange' element={<MyPetChange />} />
         <Route path='/change-nmypage' element={<ChangenMyPage />} />
         <Route path="/delete-account" element={<DeleteAccount />} />
