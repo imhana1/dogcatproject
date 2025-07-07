@@ -86,7 +86,7 @@ function App() {
         <Route path='/toss/success' element={<TossSuccess />}/>
         <Route path='/toss/fail' element={<TossFail />}/>
         {/* 지도 페이지 */}
-        <Route path='/map' element={<MapPage />} />
+        <Route path='/search' element={<MapPage />} />
       </Routes>
     </div>
   );
