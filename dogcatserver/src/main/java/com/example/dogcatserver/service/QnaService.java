@@ -105,10 +105,10 @@ public class QnaService {
 
 
   // 답변 작성
-  public QnaAnswer writeQnaAnswer (int qno, String answerContent, String loginId) {
-    QnaAnswer qnaAnswer = new QnaAnswer().toEntity(loginId, qno, answerContent);
+  public QnaAnswer writeQnaAnswer (QnaAnswerDto.Write writeDto, String loginId) {
+    QnaAnswer qnaAnswer = writeDto.toEntity(loginId);
     qnaAnswerDao.writeQnaAnswer(qnaAnswer);
-    qnaQuestionDao.updateQIsAnswered(qno);
+    qnaQuestionDao.updateQIsAnswered(qnaAnswer.getQno());
     return qnaAnswer;
   }
 

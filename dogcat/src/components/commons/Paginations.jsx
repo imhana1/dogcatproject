@@ -14,7 +14,7 @@ const Paginations = ({ pagination }) => {
     }
 
     console.log(pagination);  // 확인용
-    const { prev, start, end, next, pageno } = pagination;  // 받아와
+    const { prev, start, end, next, pageno, moveUrl } = pagination;  // 받아와
 
     // 번호 넣어
     const pages = [];
@@ -23,7 +23,7 @@ const Paginations = ({ pagination }) => {
     }
 
     // 이동
-    const move = (pageno) => navigate(`/notices?pageno=${pageno}`);
+    const move = (pageno) => navigate(`${moveUrl}${pageno}`);
 
     return (
         <Pagination style={{ justifyContent: 'center' }} className="mt-5">

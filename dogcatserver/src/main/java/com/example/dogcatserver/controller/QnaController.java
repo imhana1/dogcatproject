@@ -2,6 +2,7 @@ package com.example.dogcatserver.controller;
 
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
+import com.example.dogcatserver.exception.*;
 import com.example.dogcatserver.service.*;
 import com.example.dogcatserver.util.*;
 import io.swagger.v3.oas.annotations.*;
@@ -22,7 +23,9 @@ import org.springframework.web.multipart.*;
 
 import java.io.*;
 import java.security.*;
+import java.sql.*;
 import java.util.*;
+import java.sql.Clob;
 
 @Controller
 public class QnaController {
@@ -31,6 +34,9 @@ public class QnaController {
   private QnaService qnaService;
 //  @Autowired
 //  private QnaImageService qnaImageService;
+
+  // 파일 크기 제한 (1MB)
+  private static final long MAX_FILE_SIZE = 1024 * 1024; // 1MB
 
   // 본인이 작성한 질문 리스트(고객)
   @GetMapping("/api/qna/my-questions")
@@ -42,7 +48,7 @@ public class QnaController {
   // 질문글 작성 (고객)
   @Operation(summary = "질문 글 작성", description = "질문 글 작성")
   @PostMapping("/api/qna/write-question")
-//  @PreAuthorize("isAuthenticated()")
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<QnaQuestion> writeQnaQuestion( @RequestPart @Valid QnaQuestionDto.Write writeDto, @RequestPart(value = "qImage", required = false) MultipartFile qImage, BindingResult br, Principal principal) {
     String base64Image = null;
     try {
@@ -52,7 +58,7 @@ public class QnaController {
       }catch(IOException e) {
       System.out.println("이미지 등록 실패: "  + e.getMessage());
     }
-    QnaQuestion qnaQuestion = qnaService.writeQnaQuestion(writeDto, base64Image, principal.getName());
+    QnaQuestion qnaQuestion = qnaService.writeQnaQuestion(writeDto, base64Image, "winter");
     System.out.println("200응답");
     return ResponseEntity.status(200).body(qnaQuestion);
   }
@@ -78,9 +84,24 @@ public class QnaController {
   // 질문 단일글 조회
   @Operation(summary = "질문 글 조회", description = "글번호로 질문 글 조회")
   @GetMapping("/api/qna/question")
-  @PreAuthorize("isAuthenticated()")  // 작성자/관리자 확인하는건 서비스에서 처리했어
+//  @PreAuthorize("isAuthenticated()")  // 작성자/관리자 확인하는건 서비스에서 처리했어
   public ResponseEntity<Map<String, Object>> findQnaQuestionByQnoWithAnswer(@RequestParam int qno, @AuthenticationPrincipal UserDetails userDetails) {
     Map<String, Object> question = qnaService.findQnaQuestionByQnoWithAnswer(qno, userDetails.getUsername());
+
+
+    // 모든 CLOB 필드 변환  * adoption은 map을 안써서 괜찮은데 질문글은 map을 무조건 써야해
+    for (Map.Entry<String, Object> entry : question.entrySet()) {
+      Object value = entry.getValue();
+      if (value instanceof java.sql.Clob) {
+        java.sql.Clob clob = (java.sql.Clob) value;
+        try {
+          String str = clob.getSubString(1, (int) clob.length());
+          entry.setValue(str);
+        } catch (Exception e) {
+          entry.setValue(null);
+        }
+      }
+    }
     return ResponseEntity.ok(question);
   }
 
@@ -104,8 +125,8 @@ public class QnaController {
   @Operation(summary = "답변 작성", description = "글 번호의 질문에 대한 답변 작성")
   @PostMapping("/api/qna/write-answer")
   @Secured("ROLE_ADMIN")
-  public ResponseEntity<QnaAnswer> writeQnaAnswer(@RequestParam int qno, @RequestParam String answerContent, Principal principal) {
-    QnaAnswer answer = qnaService.writeQnaAnswer(qno, answerContent, principal.getName());
+  public ResponseEntity<QnaAnswer> writeQnaAnswer(@RequestBody @Valid QnaAnswerDto.Write writeDto, BindingResult br, Principal principal) {
+    QnaAnswer answer = qnaService.writeQnaAnswer(writeDto, principal.getName());
     System.out.println("Logged in username: " + principal.getName()); // 로그로 확인
     return ResponseEntity.ok(answer);
   }

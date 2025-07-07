@@ -35,7 +35,9 @@ import MyPetPage from './pages/Nuser/MyPetPage';
 import BookingList from "./pages/hospitals/BookingList";
 import BookingRead from "./pages/hospitals/BookingRead";
 import MapPage from './pages/maps/MapPage';
-import MyPetWrite from './pages/Nuser/MyPetWrite';
+import QnaList from "./pages/qna/QnaList";
+import QnaRead from "./pages/qna/QnaRead";
+import QnaWriteAnswer from "./pages/qna/QnaWriteAnswer";
 
 function App() {
   return (
@@ -57,7 +59,6 @@ function App() {
         <Route path="/change-mypage" element={<ChangeMyPage />} />
         <Route path='/nuser-mypage' element={<NmyPage />} />
         <Route path='/nuser-pet' element={<MyPetPage />} />
-        <Route path='/nuser-petsave' element={<MyPetWrite />} />
         <Route path='/nuser-petchange' element={<MyPetChange />} />
         <Route path='/change-nmypage' element={<ChangenMyPage />} />
         <Route path="/delete-account" element={<DeleteAccount />} />
@@ -71,10 +72,15 @@ function App() {
         <Route path="/result-list" element={<BookingList />} />
         <Route path='/result-read' element={<BookingRead />} />
         <Route path="/hospital-notice" element={<Notice />} />
+        {/* 홈페이지 공지사항 */}
         <Route path='/notices' element={<NoticeList />} />
         <Route path='/notices/notice' element={<NoticeRead />} />
         <Route path='/notices/write' element={<NoticeWrite />} />
         <Route path='/notices/update' element={<NoticeUpdate />} />
+        {/* 1:1 문의 */}
+        <Route path='/qna' element={<QnaList />} />
+        <Route path='/qna/question' element={<QnaRead />} />
+        <Route path='/qna/write-answer' element={<QnaWriteAnswer />} />
         {/* 토스 예시 페이지 */}
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>

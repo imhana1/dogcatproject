@@ -27,6 +27,7 @@ public class QnaQuestionDto {
     private String username;
     @NotEmpty
     private String qContent;
+    private String qImage;
 
     public QnaQuestion toEntity(String savedFileName, String loginId) {
       return QnaQuestion.builder().qImage(savedFileName).qTitle(qTitle).username(loginId).qContent(qContent).build();
