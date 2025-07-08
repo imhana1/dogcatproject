@@ -67,14 +67,8 @@ public class   NuserController {
 
     @Operation(summary = "위치 정보 조회", description = "로그인한 회원 위치 정보 조회")
     @GetMapping("/api/nuser/location")
-    @PermitAll
     // 어떤 응답이든 리턴할 수 있게 ? 로 처리
     public ResponseEntity<?> getUserLocation(Principal principal) {
-        if (principal == null) {
-            // 인증 안된 상태면 401 Unauthorized 응답
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("로그인이 필요합니다.");
-        }
 
         String loginId = principal.getName();
 

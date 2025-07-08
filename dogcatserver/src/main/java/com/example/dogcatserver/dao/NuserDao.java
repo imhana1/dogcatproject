@@ -23,6 +23,6 @@ public interface NuserDao {
     @Delete("delete from NORMAL_MEMBER where N_USERNAME=#{loginId}")
     int delete(String loginId);
 
-    @Select("select n.N_USERNAME AS nid, n.N_NAME AS nname, n.N_ADDRESS AS naddr, n.N_TEL AS ntel, n.n_birthday AS nbirth, n.N_LOCATION AS nlocation, n.N_LONGITUDE AS nlongitude, n.N_SIGNDT AS nsigndt FROM NOMAL_MEMBER n WHERE n.N_USERNAME = #{loginId}")
+    @Select("select n.N_USERNAME AS nid, n.N_NAME AS nname, n.N_ADDRESS AS naddr, n.N_TEL AS ntel, n.n_birthday AS nbirth, n.N_LOCATION AS nlocation, n.N_LONGITUDE AS nlongitude FROM NORMAL_MEMBER n WHERE n.N_USERNAME = #{loginId}")
     Nuser LocationNusername(@Param("loginId") String loginId);
 }

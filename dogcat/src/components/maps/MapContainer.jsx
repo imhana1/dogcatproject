@@ -18,11 +18,11 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
 
   // 사용자 위치 받아오기
   useEffect(()=> {
-    axios.get ("/api/nuser/location")
+    axios.get ("http://localhost:8080/api/nuser/location", { withCredentials : true })
     .then((res)=> {
       // 위도, 경도 받아오기
       setUserLocation(res.data);
-    })
+    }) 
     .catch(()=> {
       // 실패 시 서울 시청이 기본 좌표가 된다
       setUserLocation({ latitude : 37.5665, longitude : 126.9780 });
@@ -150,6 +150,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
   const handleListClick = (place, index) => {
     if (!map || !window.kakao) return;
     const position = new window.kakao.maps.LatLng(place.y, place.x);
+    map.setLevel(2);
     map.panTo(position);
 
     overlaysRef.current.forEach(o=>o.setMap(null));
