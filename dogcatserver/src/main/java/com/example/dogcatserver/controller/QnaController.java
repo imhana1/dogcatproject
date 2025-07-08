@@ -42,7 +42,10 @@ public class QnaController {
   @GetMapping("/api/qna/my-questions")
   @PreAuthorize("isAuthenticated()")
   public ResponseEntity<QnaQuestionDto.Pages> findQnaQuestionsByUsername(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize, Principal principal) {
-    return ResponseEntity.ok(qnaService.findQnaQuestionsByUsername(pageno, pagesize, principal.getName()));
+    System.out.println("=== Controller 디버깅 ===");
+    System.out.println("Received pageno: " + pageno);
+    System.out.println("Received pagesize: " + pagesize);
+    return ResponseEntity.ok(qnaService.findQnaQuestionsByUsername(principal.getName(), pageno, pagesize));
   }
 
   // 질문글 작성 (고객)

@@ -18,7 +18,7 @@
 
 <!-- 본인이 작성한 질문 글 목록 -->
     <select id="findQnaQuestionsByUsername" resultType="com.example.dogcatserver.entity.QnaQuestion">
-        select qno, q_title as qTitle, username, q_write_day, q_is_answered from qna_question where username=#{username}
+        select qno, q_title, username, q_write_day, q_is_answered from qna_question where username=#{username} order by qno desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
 
     </select>
 

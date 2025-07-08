@@ -24,6 +24,7 @@ function QnaList() {
         start: 1,  // 초기값 0으로 했더니 데이터 없을 때 pageno가 0으로 나와서 수정
         end: 1,  // 초기값 0으로 했더니 데이터 없을 때 pageno가 0으로 나와서 수정
         next: 0,
+        pageno:pageno,
         qnaQuestions: []
     })
 
@@ -57,7 +58,7 @@ function QnaList() {
                     }
                     setData(response.data);
                 } else if (role !== 'ADMIN' && username) {  // 관리자 아닌 유저: 본인이 작성한 질문 목록 + 필터링x
-                    response = await findQnaQuestionsByUsername(pageno, PAGE_SIZE);
+                    response = await findQnaQuestionsByUsername(username, pageno, PAGE_SIZE);
                     setData(response.data);
                 }
 
@@ -71,6 +72,9 @@ function QnaList() {
 
     }, [pageno, filter, role, username])
     console.log(data);  // 확인용
+    console.log("URL params:", params.toString());
+    console.log("Original pageno from URL:", params.get('pageno'));
+    console.log("Parsed pageno:", pageno);
 
     return (
         <div className={styles.ntcQnaWrapper}>
