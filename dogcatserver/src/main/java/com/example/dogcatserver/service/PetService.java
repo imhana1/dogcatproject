@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -27,12 +30,14 @@ public class PetService {
         return pet;
     }
 
-    public PetDto.pread petread(String nid) {
-        Pet pet = petDao.findByNid(nid);
-        if (pet == null) {
+    public List<PetDto.pread> petread(String nid) {
+        List<Pet> pet = petDao.findByNid(nid);
+        if (pet == null || pet.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"해당 사용자의 반려동물이 없습니다.");
         }
-        return pet.toRead();
+        return pet.stream()
+                .map(Pet::toRead)
+                .collect(Collectors.toList());
     }
 
     public PetDto.pread changepetProfile(MultipartFile petprofile, String pno) {

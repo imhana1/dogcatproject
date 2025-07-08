@@ -3,10 +3,12 @@ package com.example.dogcatserver.dao;
 import com.example.dogcatserver.entity.Pet;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface PetDao {
     @Select("select PNO, P_WEIGHT, ANIMAL_TYPES, MICROCHIPPED, P_BREED, P_NAME, P_AGE, P_WEIGHT, HAS_ALLERGIES, P_PROFILE from PET where N_USERNAME = #{nid}")
-    Pet findByNid(String nid);
+    List<Pet> findByNid(String nid);
 
     @Select("select PNO, P_WEIGHT, ANIMAL_TYPES, MICROCHIPPED, P_BREED, P_NAME, P_AGE, P_WEIGHT, HAS_ALLERGIES, P_PROFILE from PET where N_USERNAME = #{nid}")
     Pet findByPname(String pno);

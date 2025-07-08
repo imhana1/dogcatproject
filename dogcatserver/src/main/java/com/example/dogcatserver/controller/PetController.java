@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @Validated
@@ -45,9 +46,9 @@ public class PetController {
     }
 
     @Operation(summary = "반려동물 정보 보기", description = "반려동물 정보 보기")
-    @GetMapping("/nuser-petchange")
-    public ResponseEntity<PetDto.pread> petread(Principal principal) {
-        PetDto.pread dto = petService.petread(principal.getName());
+    @GetMapping("/nuser-pet")
+    public ResponseEntity<List<PetDto.pread>> petread(Principal principal) {
+        List<PetDto.pread> dto = petService.petread(principal.getName());
         return ResponseEntity.ok(dto);
     }
 
