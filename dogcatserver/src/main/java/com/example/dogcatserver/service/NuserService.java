@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -103,6 +103,16 @@ public class NuserService {
         int totalCount = wishDao.AdoptionLike();
         List<Wish> wish = wishDao.AdoptionLikeList(pageno, pagesize, loginId);
         return WishUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, wish);
+    }
+
+    // 회원 좌표 조회 메소드
+    public Optional<NuserLocationDto> getUserLocation(String loginId) {
+        Nuser user = nuserDao.LocationNusername(loginId);
+
+        if(user == null || user.getNlocation() == null || user.getNlongitude() == null) {
+            return Optional.empty();
+        }
+        return Optional.of(new NuserLocationDto(user.getNlocation(), user.getNlongitude()));
     }
 
 }

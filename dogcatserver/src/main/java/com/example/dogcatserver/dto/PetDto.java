@@ -1,8 +1,10 @@
 package com.example.dogcatserver.dto;
 
 import com.example.dogcatserver.entity.Pet;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.time.LocalDate;
 public class PetDto {
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class psave {
         private int pno;
         private String nid;
@@ -23,6 +26,7 @@ public class PetDto {
         private int pins;
         private String pchronic;
         private String psname;
+        private MultipartFile pprof;
 
         public Pet toEntity(String base64image) {
             return Pet.builder()

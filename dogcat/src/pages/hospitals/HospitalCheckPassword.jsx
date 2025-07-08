@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import useAppStore from "../../stores/useAppStore";
 import axios from "axios";
+import useAuthStore from "../../stores/useAuthStore";
 
 function HospitalCheckPassword() {
   const [password, setPassword] = useState('');
@@ -11,21 +12,36 @@ function HospitalCheckPassword() {
   // 상태 업데이트
   const setPasswordVerified = useAppStore(state => state.setPasswordVerified);
 
+  // 로그인 정보 저장
+  const { username, resetUserInfo } = useAuthStore();
+  console.log("Booking username:", username);
+
+  const checkAuth = useAuthStore(state => state.checkAuth);
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     try {
-      const res = await axios.post('/api/hospital/check-password', {password}); // 백엔드에 비밀번호 확인 요청
+      // 서버에서 받는 key 이름이 password가 맞는지 확인
+      const res = await axios.get('http://localhost:8080/checkPassword', {params: { password }, withCredentials: true} );
 
-      if (res.data.success) {
-        setPasswordVerified(true); // 인증 상태 저장
-        navigate('/hospital-mypage'); // 정보 변경 페이지로 이동
+      if (res.data === "확인 성공") {
+        setPasswordVerified(true);
+        navigate('/hospital-mypage');
       } else {
         setError('비밀번호가 일치하지 않습니다');
       }
     } catch (err) {
-      setError('서버 오류가 발생했습니다');
+      // 409 등 에러 응답은 여기로 들어옴
+      if (err.response && err.response.data) {
+        setError(err.response.data);
+      } else {
+        setError('서버 오류가 발생했습니다');
+      }
       console.log(err);
     }
   };
@@ -47,9 +63,17 @@ function HospitalCheckPassword() {
                 <li><Link to="/notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>
               </ul>
             </nav>
-            <Link to="/login">
-              <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>로그인</button>
-            </Link>
+            {username ? (
+                <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
+                        onClick={() => {resetUserInfo(); window.location.href = "/"; // 로그아웃 후 홈으로 이동
+                        }}>로그아웃</button>
+            ) : (
+                <Link to="/login">
+                  <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
+                    로그인
+                  </button>
+                </Link>
+            )}
           </header>
           <div className="formContainer">
             <form>

@@ -52,7 +52,7 @@ function QnaList() {
 
             } catch (err) {
                 console.log('데이터를 불러오지 못했습니다: ', err);
-                alert('데이터를 불러오지 못했습니다.')
+                // alert('데이터를 불러오지 못했습니다.')
             }
         }
         fetchQnas();
@@ -62,7 +62,7 @@ function QnaList() {
         <div className={styles.ntcQnaWrapper}>
             <HeaderNoticeQna />
             <main>
-                <NavNoticeQna activeTab="notice" /> {/* nav css 적용 속성 */}
+                <NavNoticeQna activeTab="qna" /> {/* nav css 적용 속성 */}
                 <section>
                     <div style={{ padding: '0 20px' }}>
                         <h4 className='mb-4 mt-3'>1:1 문의</h4>

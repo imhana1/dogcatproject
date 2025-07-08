@@ -4,7 +4,7 @@ import api from "./api"
 export const findAllQnaQuestion = (pageno = 1, pagesize = 10) => api.get(`/api/qna/all-questions?pageno=${pageno}&pagesize=${pagesize}`)
 
 // 답변 상태에 따른 리스트 조회 findAllQnaQuestionByIsAnswered /api/qna/my-questions
-export const findAllQnaQuestionByIsAnswered = (qIsAnswered, pageno = 1, pagesize = 10) => api.get(`/api/qna/ype-questions?qIsAnswered=${qIsAnswered}&pageno=${pageno}&pagesize=${pagesize}`)
+export const findAllQnaQuestionByIsAnswered = (qIsAnswered, pageno = 1, pagesize = 10) => api.get(`/api/qna/type-questions?qIsAnswered=${qIsAnswered}&pageno=${pageno}&pagesize=${pagesize}`)
 
 // 본인이 작성한 질문 리스트 조회 (고객)
 export const findQnaQuestionsByUsername = (username, pageno = 1, pagesize = 10) => api.get(`/api/qna/my-questions?username=${username}&pageno=${pageno}&pagesize=${pagesize}`)
@@ -16,7 +16,7 @@ export const writeQnaQuestion = (object) => api.post('/api/qna/write-question', 
 export const findQnaQuestionByQnoWithAnswer = (qno) => api.get(`/api/qna/question?qno=${qno}`)
 
 // 답변 작성 writeQnaAnswer
-export const writeQnaAnswer = (qno, object) => api.post(`/api/qna/write-answer?qno=${qno}`, object)
+export const writeQnaAnswer = (object) => api.post(`/api/qna/write-answer`, object)
 
-// 질문 글 사진 다운로드 downloadQnaImage
-export const downloadQnaImage = (qno) => api.get(`/api/qna/downloadImg?qno=${qno}`)
+// // 질문 글 사진 다운로드 downloadQnaImage
+// export const downloadQnaImage = (qno) => api.get(`/api/qna/downloadImg?qno=${qno}`)

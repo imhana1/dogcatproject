@@ -1,31 +1,18 @@
 package com.example.dogcatserver.controller;
 
-
-import com.example.dogcatserver.dao.AdoptionDao;
-import com.example.dogcatserver.dao.NuserDao;
-import com.example.dogcatserver.dao.PetDao;
 import com.example.dogcatserver.dao.WishDao;
 import com.example.dogcatserver.dto.*;
-import com.example.dogcatserver.entity.Adoption;
-import com.example.dogcatserver.entity.Pet;
-import com.example.dogcatserver.entity.Wish;
 import com.example.dogcatserver.service.NuserService;
-import com.example.dogcatserver.service.PetService;
-import com.example.dogcatserver.util.AdoptionUtil;
-import com.example.dogcatserver.util.WishUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.security.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @Validated
@@ -76,6 +63,24 @@ public class NuserController {
     @PutMapping("/nuser/adoption")
     public ResponseEntity<WishDto.WishPages> findAllAdoptionLikelist(int pageno, int pagesize, Principal principal) {
         return ResponseEntity.ok(nuserservice.AdoptionLikelist(pageno, pagesize, principal.getName()));
+    }
+
+    @Operation(summary = "위치 정보 조회", description = "로그인한 회원 위치 정보 조회")
+    @GetMapping("/nuser/location")
+    @PermitAll
+    // 어떤 응답이든 리턴할 수 있게 ? 로 처리
+    public ResponseEntity<?> getUserLocation(Principal principal) {
+        if (principal == null) {
+            // 인증 안된 상태면 401 Unauthorized 응답
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("로그인이 필요합니다.");
+        }
+
+        String loginId = principal.getName();
+
+        return nuserservice.getUserLocation(loginId)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.noContent().build());
     }
 }
 

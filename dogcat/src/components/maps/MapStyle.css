@@ -1,0 +1,153 @@
+
+/* 카카오 지도 내에 있는 커스텀 오버레이 박스 스타일 */
+.custom-overlay {
+  position: relative;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px 15px 10px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  font-size: 14px;
+  min-width: 220px;
+  max-width: 260px;
+}
+
+/* 닫기 버튼 위치와 스타일 */
+.custom-overlay .close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+}
+
+/* 제목 스타일 */
+.custom-overlay .title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 15px;
+}
+
+/* 본문 문단 스타일 */
+.custom-overlay .body p {
+  margin: 4px 0;
+  color: #555;
+}
+
+/* 링크 그룹을 가로 배치하고 간격 조절하기 */
+.custom-overlay .link-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* 링크 버튼 스타일 */
+.custom-overlay .link-group a {
+  background: #f2f2f2;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #007bff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+/* 링크에 마우스 올렸을 때 효과 */
+.custom-overlay .link-group a:hover {
+  background: #e0e0e0;
+}
+
+/* 닫기를 눌렀을 때 호버 효과 넣기 */
+.custom-overlay .close:hover {
+  color:#000;
+  transform: scale(1.1);
+  transition: color 0.2s, transform 0.2s;
+}
+
+/* 링크에 포커스 스타일 추가 */
+.custom-overlay .link-group a:focus {
+  outline : 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* 오버레이가 맵 바깥으로 튀어나가는 것을 방지하기 위한 스타일 */
+@media (max-width:400px) {
+  .custom-overlay {
+    max-width: 90vw;
+    font-size: 13px;
+  }
+}
+
+/* 텍스트 줄바꿈 처리 */
+.custom-overlay p, .custom-overlay .title {
+  word-break : break-word;
+}
+
+/* 오버레이 내용 DOM 스타일 */
+.infoDiv {
+  position: relative;
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-width: 200px;
+  box-shadow: 0 2px 6px black;
+}
+
+/* closeBtn 위치, 상태 스타일 */
+.closeBtn {
+  position : absolute;
+  top: 4px;
+  right: 4px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* 검색 결과 리스트 전체 스타일 */
+.place-list {
+  width: 30%;
+  margin: 0;
+  padding: 10px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  list-style: none;
+  box-sizing: border-box;
+  height: 500px;
+}
+
+/* 각 리스트 아이템 스타일 */
+.place-list-item {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+/* 컨테이너 */
+.map-container {
+  display: flex;
+  height: 500px;
+}
+
+/* 마우스 올렸을 때 */
+.place-list-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* 장소 이름 스타일 */
+.place-name {
+  font-weight: bold;
+  color: #333;
+}
+
+/* 주소 텍스트 */
+.place-address {
+  font-size: 13px;
+  color: #777;
+}

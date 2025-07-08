@@ -24,8 +24,8 @@ public class QnaService {
   private QnaQuestionDao qnaQuestionDao;
   @Autowired
   private QnaAnswerDao qnaAnswerDao;
-  @Autowired
-  private QnaImageService qnaImageService;
+//  @Autowired
+//  private QnaImageService qnaImageService;
 
   // 블록 사이즈는 5로 고정
   private static final int BLOCK_SIZE = 5;
@@ -96,17 +96,19 @@ public class QnaService {
     return question;
   }
 
-  // 1:1 문의글 작성 (사진 저장 포함)
-  public QnaQuestion writeQnaQuestion (QnaQuestion qnaQuestion) {
+  // 1:1 문의글 작성 (사진 첨부x 화면에 출력되게 수정)
+  public QnaQuestion writeQnaQuestion (QnaQuestionDto.Write writeDto, String base64Image, String loginId) {
+    QnaQuestion qnaQuestion = writeDto.toEntity(base64Image, loginId);
     qnaQuestionDao.writeQnaQuestion(qnaQuestion);  // 글 작성
     return qnaQuestion;
   }
 
+
   // 답변 작성
-  public QnaAnswer writeQnaAnswer (int qno, String answerContent, String loginId) {
-    QnaAnswer qnaAnswer = new QnaAnswer().toEntity(loginId, qno, answerContent);
+  public QnaAnswer writeQnaAnswer (QnaAnswerDto.Write writeDto, String loginId) {
+    QnaAnswer qnaAnswer = writeDto.toEntity(loginId);
     qnaAnswerDao.writeQnaAnswer(qnaAnswer);
-    qnaQuestionDao.updateQIsAnswered(qno);
+    qnaQuestionDao.updateQIsAnswered(qnaAnswer.getQno());
     return qnaAnswer;
   }
 

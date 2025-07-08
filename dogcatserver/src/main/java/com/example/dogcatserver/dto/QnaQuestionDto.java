@@ -1,6 +1,7 @@
 package com.example.dogcatserver.dto;
 
 import com.example.dogcatserver.entity.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.*;
@@ -16,5 +17,20 @@ public class QnaQuestionDto {
     private int next;
     private int pageno;
     private List<QnaQuestion> qnaQuestions;
+  }
+
+  @Data
+  public static class Write {
+    @NotEmpty
+    private String qTitle;
+    @NotEmpty
+    private String username;
+    @NotEmpty
+    private String qContent;
+    private String qImage;
+
+    public QnaQuestion toEntity(String savedFileName, String loginId) {
+      return QnaQuestion.builder().qImage(savedFileName).qTitle(qTitle).username(loginId).qContent(qContent).build();
+    }
   }
 }

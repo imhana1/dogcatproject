@@ -33,7 +33,8 @@ function NoticeList() {
         start: data.start,
         end: data.end,
         next: data.next,
-        pageno
+        pageno: pageno,
+        moveUrl: `/notices?pageno=`
     };
 
     // 컴포넌트 로딩되면 불러와

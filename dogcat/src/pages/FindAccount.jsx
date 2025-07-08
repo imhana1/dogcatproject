@@ -40,7 +40,7 @@ function FindAccount() {
       <div className="mb-3">
         <label htmlFor="name" className="form-label">ID</label>
         {/* required 빈 값 막기 */}
-        <input type="text" name='id' placeholder="이름을 입력하세요" className='form-control' value={form.id} onChange={handleChange} required/>
+        <input type="text" name='id' placeholder="아이디를 입력하세요" className='form-control' value={form.id} onChange={handleChange} required/>
       </div>
       <div className="d-grid mb-3 mt-3">
         <button type="submit" className="btn btn-outline-dark btn-block">인증메일 보내기</button>

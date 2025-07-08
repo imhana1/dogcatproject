@@ -31,10 +31,14 @@ function Home() {
                         </Link>
                     </li>
                     <li>
-                        {/* 권한별로 다른 페이지로 이동 */}
+                        {/* 병원은 예약내역, 고객은 마이페이지, 비로그인은 병원검색 */}
                         {role === "ROLE_HOSPITAL" ? (
                             <Link to="/booking" style={{ color: "#333", textDecoration: "none" }}>
                                 예약내역
+                            </Link>
+                        ) : role === "ROLE_USER" ? (
+                            <Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}>
+                                마이페이지
                             </Link>
                         ) : (
                             <Link to="/search" style={{ color: "#333", textDecoration: "none" }}>

@@ -1,28 +1,209 @@
-import React, { useEffect, useRef } from "react";
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react'
+import './MapStyle.css';
+import { useNavigate } from 'react-router-dom';
+import HeaderMaps from '../../fragments/maps/HeaderMaps';
 
+const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
 
-// 지도 UI 컴포넌트
+  // 상태 선언
+  const mapRef = useRef(null);                              // 지도를 표시할 div 참조
+  const [map, setMap] = useState(null);                     // 생성된 kakao map 객체 저장
+  const [userLocation, setUserLocation] = useState(null);   // 지도 중심 좌표 저장할 변수
+  const [keyword, setKeyword] = useState("");               // 검색어
+  const [places, setPlaces] = useState([]);                 // 검색 결과 장소 목록
+  const markersRef = useRef([]);                            // 마커 목록
+  const overlaysRef = useRef([]);                           // 오버레이를 여러 개 저장할 변수
+  const navigate = useNavigate();                           // 헤더에 사용할 네비 불러오기
 
-const MapContainer = () => {
-  const mapRef = useRef(null);
+  // 사용자 위치 받아오기
+  useEffect(()=> {
+    axios.get ("http://localhost:8080/nuser/location")
+    .then((res)=> {
+      // 위도, 경도 받아오기
+      setUserLocation(res.data);
+    })
+    .catch(()=> {
+      // 실패 시 서울 시청이 기본 좌표가 된다
+      setUserLocation({ latitude : 37.5665, longitude : 126.9780 });
+    });
+  },[]);
 
-  useEffect(() => {
-    const { kakao } = window;
-    const center = new kakao.maps.LatLng(37.5665, 126.9780); // 서울 시청 기준
-    const options = { center, level: 3 };
+  // 카카오 지도 SDK 가 로드됐는지 검증
+  useEffect(()=> {
+    if(!userLocation) return;
 
-    const map = new kakao.maps.Map(mapRef.current, options);
+    const checkKakao = setInterval(()=> {
+      if(window.kakao && window.kakao.maps) {
+        clearInterval(checkKakao);
 
-    // 테스트 마커 표시
-    new kakao.maps.Marker({ map, position: center });
-  }, []);
+        const { latitude, longitude } = userLocation;
+        const center = new window.kakao.maps.LatLng(latitude, longitude);
 
+        const options = { center, level:3 }; // 중심 좌표, 확대 레벨
+      
+        const newMap = new window.kakao.maps.Map(mapRef.current, options);
+        setMap(newMap); // map 객체 저장
+      }
+    },100);
+
+    return ()=> clearInterval(checkKakao);
+  }, [userLocation]);
+
+  // 검색 핸들러
+  const handleSearch =()=> {
+    // 디버깅 로그
+    if (!map) {
+      console.log('지도(map) 없음');
+    return;
+    }
+    if (!window.kakao) {
+      console.log('window.kakao 객체 없음');
+    return;
+    }
+    if (!keyword) {
+      console.log('검색어(keyword) 없음');
+      return;
+    }
+
+    if(!map || !window.kakao) return;
+
+    const ps = new window.kakao.maps.services.Places();
+
+    // 장소 검색
+    ps.keywordSearch(keyword, (data, status)=> {
+      console.log('검색 상태:', status);
+      console.log('검색 데이터:', data);
+      if (status === window.kakao.maps.services.Status.ok) {
+        // 마커 초기화
+        markersRef.current.forEach(marker => marker.setMap(null));
+        overlaysRef.current.forEach(overlay => overlay.setMap(null));
+        markersRef.current = [];
+        overlaysRef.current = [];
+
+        const bounds = new window.kakao.maps.LatLngBounds();
+        const newMarkers = [];
+        const newOverlays = [];
+
+        data.forEach ((place, index) => {
+          const position = new window.kakao.maps.LatLng(place.y, place.x);
+          
+          // 마커 생성
+          const marker = new window.kakao.maps.Marker({ map, position, });
+          
+          // 커스텀 오버레이 내용 생성
+          const overlayContent = document.createElement("div");
+          overlayContent.className = "custom-overlay";
+
+          // overlay 내부 HTML 구조
+          overlayContent.innerHTML = `
+            <div class = "title">${place.place_name}</div>
+            <div class = "body">
+              <p>${place.road_address_name || place.address_name || ""}</p>
+            </div>
+            <div class = "link-group">
+              <a href ="${place.place_url}" target="_blank" rel="noopener noreferrer">상세보기</a>
+            </div>
+            <div class ="close">x</div>
+          `;
+
+          // 닫기 버튼 이벤트 등록
+          overlayContent.querySelector(".close").onclick=()=> {
+            overlay.setMap(null);
+          };
+          
+          // 커스텀 오버레이 생성
+          const overlay = new window.kakao.maps.CustomOverlay({
+            content: overlayContent,
+            position,
+            yAnchor: 1,
+            clickable:true,
+          });
+
+          // 마커 클릭 시 기존 오버레이 닫고 새 오버레이 열기
+          window.kakao.maps.event.addListener(marker, "click", ()=> {
+            // 기존 오버레이가 있으면 닫기
+            overlaysRef.current.forEach(o=>o.setMap(null));
+            // 새로운 오버레이 열기
+            overlay.setMap(map);
+          });
+
+          newMarkers.push(marker);    // 마커를 배열에 저장
+          newOverlays.push(overlay);  // 오버레이 저장
+          bounds.extend(position);    // 마커가 보이도록 지도의 범위를 자동 조정
+        });
+
+        // 마커, 오버레이 상태 저장
+        markersRef.current = newMarkers;
+        overlaysRef.current = newOverlays;
+
+        map.setBounds(bounds);   // 검색 결과 전체를 지도에 맞게 보기
+        setPlaces(data);         // 리스트로 보여주기
+      } else {
+        setPlaces([]);
+      }
+    });
+  };
+
+  // 엔터키 검색 이벤트
+  const handleKeyPress =(e)=> {
+    if (e.key=== "Enter") handleSearch();
+  };
+  
+  // 리스트 클릭 시 해당 위치로 지도 이동 + 오버레이 열기
+  const handleListClick = (place, index) => {
+    if (!map || !window.kakao) return;
+    const position = new window.kakao.maps.LatLng(place.y, place.x);
+    map.panTo(position);
+
+    overlaysRef.current.forEach(o=>o.setMap(null));
+    overlaysRef.current[index].setMap(map);
+  };
+
+  // 화면 구성
   return (
-    <div
-      ref={mapRef}
-      style={{ width: "100%", height: "500px", border: "1px solid #ddd" }}
-    />
-  );
-};
+    <>
+      {/* 헤더 */}
+      <HeaderMaps 
+        username = {username}
+        role = {role}
+        logInlogOutHandler = {logInlogOutHandler}
+        hospitalMyPage = {hospitalMyPage}
+      />
 
-export default MapContainer;
+      {/* 검색창 */}
+      <div style={{ margin: '10px' }}>
+        <input
+          type="text"
+          placeholder="장소를 입력하세요 (예: 동물병원)"
+          value={keyword}
+          onChange={e => setKeyword(e.target.value)}
+          onKeyPress={handleKeyPress}
+          style={{ width: '300px', padding: '8px', fontSize: '14px' }}
+        />
+        <button onClick={handleSearch} style={{ marginRight: 8, padding: '8px 12px' }}>
+          검색
+        </button>
+      </div>
+
+      {/* 리스트 + 지도 감싸는 컨테이너 */}
+      <div className='map-container'>
+      
+        {/* 검색 결과 리스트 */}
+        <ul className='place-list'>
+          {places.map((place, index) => (
+            <li key={index} className='place-list-item' onClick={()=> handleListClick(place, index)}>
+              <div className='place-name'>{place.place_name}</div> 
+              <div className='place-address'>{place.road_address_name || place.address_name}</div>         
+            </li>
+          ))}
+        </ul>
+
+        {/* 지도 */}
+        <div ref={mapRef} style={{ width: '100%', height: '500px', border: '1px solid #ccc' }} />
+      </div>
+    </>
+  )
+}
+
+export default MapContainer

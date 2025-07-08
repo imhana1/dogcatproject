@@ -1,12 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
-import api from "../../utils/api";
 import axios from "axios";
+import useAppStore from "../../stores/useAppStore";
 
 // 병원 마이페이지
 function MyPage() {
   const navigate = useNavigate();
+  const isPasswordVerified = useAppStore(state => state.isPasswordVerified);
+
+  // 인증 상태 가져오기
+  const passwordVerified = useAppStore(state => state.isPasswordVerified);
+
+  // 인증 안 됐으면 비밀번호 확인 페이지로 이동
+  useEffect(() => {
+    if (!isPasswordVerified) {
+      navigate('/hospital-checkpassword');
+    }
+  }, [passwordVerified, navigate]);
 
   const [huser, setUser] = useState({
     hospitalName: "",
@@ -78,7 +89,8 @@ function MyPage() {
         </nav>
         {username ? (
             <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
-                    onClick={() => {resetUserInfo(); window.location.href = "/"; // 로그아웃 후 홈으로 이동
+                    onClick={() => {resetUserInfo();useAppStore.getState().setPasswordVerified(false); // 인증 상태 초기화
+                      window.location.href = "/";
                     }}>로그아웃</button>
         ) : (
             <Link to="/login">
