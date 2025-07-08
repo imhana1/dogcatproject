@@ -69,9 +69,9 @@ function App() {
         <Route path="/hospital-time" element={<HospitalTime />} />
         <Route path="/booking" element={<Booking />} />
         {/* 예약 내역 페이지 */}
-        <Route path="/booking/:id" element={<BookingDetails />} />
+        <Route path="/booking/:rno" element={<BookingDetails />} />
         {/* 진료 결과 페이지 */}
-        <Route path="/result/:id" element={<BookingResult />} />
+        <Route path="/result/:rno" element={<BookingResult />} />
         {/* 진료 결과 작성 목록들 */}
         <Route path="/result-list" element={<BookingList />} />
         <Route path='/result-read' element={<BookingRead />} />

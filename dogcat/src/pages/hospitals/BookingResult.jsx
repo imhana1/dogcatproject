@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 
 // 진료 결과
 function BookingResult({bookingId, userId}) {
+    const rno = Number(useParams().rno);
+    if (isNaN(rno)) {
+        console.error("유효하지 않은 예약번호입니다.");
+    }
     // 진단명, 처방, 특이사항
-    const [form, setForm] = useState({rno:'', tTitle:'', tContent:''});
+    const [form, setForm] = useState({rno: rno ||'', tTitle:'', tContent:''});
     const navigate = useNavigate();
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
@@ -43,7 +47,7 @@ function BookingResult({bookingId, userId}) {
       <br />
         <h3 style={{ textAlign: "center" }}>{userId} 고객님 진료결과입니다</h3>
         <form onSubmit={handleSubmit}>
-            <input name="rno" className="inputStyle" value={form.rno} onChange={handleChange} placeholder="예약번호" />
+            <input name="rno" className="inputStyle" value={form.rno} onChange={handleChange} placeholder="예약번호" readOnly={true} />
             <input name="tTitle" className="inputStyle" value={form.tTitle} onChange={handleChange} placeholder="진단명" />
             <textarea name="tContent" className="inputStyle" value={form.tContent} onChange={handleChange} placeholder="처방내용" />
             <div className="d-grid mb-3 mt-3">
