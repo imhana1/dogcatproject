@@ -36,4 +36,7 @@ public interface HospitalDao {
     @Delete("delete from hospital_member where h_username=#{loginId}")
     int deletehospital(String loginId);
 
+    @Delete("delete from pay where h_username=#{loginId}")
+    int deletePay(String loginId);
+
 }

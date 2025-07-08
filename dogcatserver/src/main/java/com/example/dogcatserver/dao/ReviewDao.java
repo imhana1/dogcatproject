@@ -29,4 +29,7 @@ public interface ReviewDao {
 
     @Delete("delete from review where rev_no=#{revNo}")
     int delete(Integer revNo);
+
+    @Delete("delete from review where h_username=#{loginId}")
+    int AllDelete(String loginId);
 }

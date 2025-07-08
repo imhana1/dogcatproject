@@ -23,6 +23,16 @@ public class HospitalService {
     private UseMemberDao memberDao;
 
     @Autowired
+    private ReservationDao reservationDao;
+
+    @Autowired
+    private ReviewDao reviewDao;
+
+    @Autowired
+    private  ScheduleDao scheduleDao;
+
+
+    @Autowired
     private KakaoAddressService service;
 
     @Autowired
@@ -109,7 +119,11 @@ public class HospitalService {
     // 회원 탈퇴
     @Transactional
     public void resign (String loginId){
+        reviewDao.AllDelete(loginId);
+        hospitalDao.deletePay(loginId);
         treatDao.deleteTreat(loginId);
+        reservationDao.AllDelete(loginId);
+        scheduleDao.AllDelet(loginId);
         hospitalDao.deletehospital(loginId);
         memberDao.delete(loginId);
     }

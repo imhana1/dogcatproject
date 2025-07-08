@@ -43,4 +43,7 @@ public interface ReservationDao {
   @Select("select s_id from schedule where s_id=123")
   List<String> aaa();
 
+  @Delete("delete from reservation where h_username=#{loginId}")
+  int AllDelete(String loginId);
+
 }

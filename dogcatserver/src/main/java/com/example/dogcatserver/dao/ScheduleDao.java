@@ -47,5 +47,8 @@ public interface ScheduleDao {
             "  AND schedule < TO_DATE(#{date} || ' ' || #{time}, 'YYYY-MM-DD HH24:MI') + (1/1440)")
     int scheduleDelete(LocalDate date, LocalTime time);
 
+    @Delete("delete from schedule where h_username= #{loginId}")
+    int AllDelet(String loginId);
+
 
 }
