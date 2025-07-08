@@ -90,7 +90,7 @@ CREATE TABLE pet (
 );
 
 
--- 7. reservation : normal_member, hospital_member, pet 참조 s_id 추가
+-- 7. reservation : normal_member, hospital_member, pet 참조 s_id 추가 증상 r_condition, 추가 사항 remark 추가
 CREATE TABLE reservation (
 	rno number(10) NOT NULL,
 	n_username varchar2(10) NOT NULL,
@@ -99,6 +99,8 @@ CREATE TABLE reservation (
 	pno number(10) NOT NULL,
 	r_status varchar2(10) NULL,
 	s_id number(10) NULL,
+	r_condition varchar2(100),
+	remark varchar2(100),
 	CONSTRAINT PK_RESERVATION PRIMARY KEY (rno),
 	CONSTRAINT FK_normal_member_TO_reservation_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username),
 	CONSTRAINT FK_hospital_member_TO_reservation_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
@@ -242,7 +244,7 @@ alter table reservation add constraint uniq_reservation_schedule UNIQUE (schedul
 select constraint_name, constraint_type from USER_CONSTRAINTS where TABLE_NAME='RESERVATION';
 
 
-CREATE INDEX idx_schedule_search ON schedule(h_username, schedule, s_choice);
+--CREATE INDEX idx_schedule_search ON schedule(h_username, schedule, s_choice);
 --alter table hospital_member modify(h_address varchar2(50));
 --alter table user_member modify(status varchar2(10));
 --alter table user_member modify(role varchar2(10));
