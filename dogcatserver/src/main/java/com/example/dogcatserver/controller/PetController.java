@@ -28,24 +28,20 @@ public class PetController {
 
     @Operation(summary = "반려동물 정보 저장",description = "반려동물 정보 저장")
     @PostMapping(value = "/nuser-petsave")
-    public ResponseEntity<Pet> petsave( @RequestPart("pprof")  MultipartFile pprof) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String nid = authentication.getName();  // 로그인한 사용자 이름(아이디) 가져오기
-        System.out.println(pprof);
-//        dto.setNid(nid);
-//        System.out.println(dto);
-//        MultipartFile pprof = dto.getPprof();
-//        String base64Image = "";
-//        try {
-//            if(pprof != null && !pprof.isEmpty()) {
-//                base64Image = ProfileUtil.convertToBase64(pprof);
-//            }
-//        } catch (IOException e) {
-//            System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
-//        }
-//        Pet pet = petService.petsave(dto, base64Image);
+    public ResponseEntity<Pet> petsave(@RequestPart PetDto.psave dto, BindingResult br,
+                                       @RequestPart(value = "pprof", required = false) MultipartFile pprof) {
+
+        String base64Image = "";
+        try {
+            if(pprof != null && !pprof.isEmpty()) {
+                base64Image = ProfileUtil.convertToBase64(pprof);
+            }
+        } catch (IOException e) {
+            System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
+        }
+        Pet pet = petService.petsave(dto, base64Image);
         System.out.println("200응답");
-        return ResponseEntity.status(200).body(null);
+        return ResponseEntity.status(200).body(pet);
     }
 
     @Operation(summary = "반려동물 정보 보기", description = "반려동물 정보 보기")

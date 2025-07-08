@@ -18,12 +18,11 @@ public class PetService {
     @Autowired
     private PetDao petDao;
 
-    public Pet petsave(PetDto.psave dto, String base64Image) {
+    public Pet petsave(PetDto.@Valid psave dto, String base64Image) {
 
         Pet pet = dto.toEntity(base64Image);
-        System.out.println("🧾 저장할 Pet: " + pet);
-        int result = petDao.petsave(pet);
-        System.out.println("DB 저장 결과: " + result);
+        System.out.println(dto);
+        petDao.petsave(pet);
 
         return pet;
     }

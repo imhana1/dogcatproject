@@ -14,20 +14,16 @@ const MyPetWrite = () => {
     pmichipe: "", // 내장칩 유무
     pbreed: "", // 품종
     pname: "", // 이름
-    pweghit: "", // 몸무게
+    pweight: "", // 몸무게
     page: "", // 나이
     palg: "", // 알러지 유무
     pins: "", // 펫보험 여부
     pchronic: "", // 선천적 지병
     psname: "", // 수술 이름
     pprof: "", // 펫프사
-    pprofUrl: "", // 펫 프사 Url
+    pprofUrl: ""  // 펫 프사 Url
   });
 
-  useEffect(() => {
-    const fetch = async () => {};
-    fetch();
-  }, []);
 
   // 프로필 사진 업로드
   const handlePhotoUpload = (e) => {
@@ -59,11 +55,12 @@ const MyPetWrite = () => {
 
     const dto = {
         pno: form.pno, // 동물 번호
+        nid: username,
         ptype: form.ptype, // 동물 종류
         pmichipe: form.pmichipe, // 내장칩 유무
         pbreed: form.pbreed, // 품종
         pname: form.pname, // 이름
-        pweghit: form.pweghit, // 몸무게
+        pweight: form.pweight, // 몸무게
         page: form.page, // 나이
         palg: form.palg, // 알러지 유무
         pins: form.pins, // 펫보험 여부
@@ -71,6 +68,7 @@ const MyPetWrite = () => {
         psname: form.psname // 수술 이름
     }
     formData.append("dto", new Blob([JSON.stringify(dto)], { type : "application/json" }));
+    formData.append("pprof", petphoto || new Blob([], { type: "application/octet-stream" }));
 
     formData.append("pprof", petphoto || new Blob([], { type: "application/octet-stream"}));
 
@@ -78,7 +76,7 @@ const MyPetWrite = () => {
         const response = await axios.post("http://localhost:8080/nuser-petsave", formData, {
             withCredentials : true,
             headers: {
-                "Content-Type": "multipart/form-data"}
+              "Content-Type": "multipart/form-data"}
         });
         navigate("/nuser-pet");
     } catch (err) {
@@ -273,10 +271,10 @@ const MyPetWrite = () => {
             <input
               className="inputStyle"
               type="text"
-              name="pweghit"
+              name="pweight"
               onChange={handleChange}
               placeholder="몸무게를 입력해주세요"
-              value={form.pweghit}
+              value={form.pweight}
               required
             />
           </div>

@@ -75,13 +75,13 @@ CREATE TABLE pet (
 	pno number(10) NOT NULL,
 	n_username varchar2(10) NOT NULL,
 	animal_types varchar2(10) NULL,
-	microchipped number(1) NULL,
+	microchipped varchar2(10) NULL, --varchar2(10)으로 변경
 	breed varchar2(10) NULL,
 	p_name varchar2(10) NULL,
 	p_age date NULL, -- 날짜로 변경
-	p_weight number(5) NULL,
-	has_allergies number(1) NULL,
-	has_insurance number(1) NULL,
+	p_weight varchar2(10) NULL, -- varchar2(10)으로 변경
+	has_allergies varchar2(10) NULL, -- varchar2(10) 으로 변경
+	has_insurance varchar2(10) NULL, -- varchar2(10) 으로 변경
 	p_profile clob NULL,
 	illness_name varchar2(10) NULL,
 	surgery_name varchar2(10) NULL,

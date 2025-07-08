@@ -38,6 +38,7 @@ import MapPage from './pages/maps/MapPage';
 import QnaList from "./pages/qna/QnaList";
 import QnaRead from "./pages/qna/QnaRead";
 import QnaWriteAnswer from "./pages/qna/QnaWriteAnswer";
+import MyPetWrite from './pages/Nuser/MyPetWrite';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
         <Route path="/change-mypage" element={<ChangeMyPage />} />
         <Route path='/nuser-mypage' element={<NmyPage />} />
         <Route path='/nuser-pet' element={<MyPetPage />} />
+        <Route path='/nuser-petsave' element={<MyPetWrite />} />
         <Route path='/nuser-petchange' element={<MyPetChange />} />
         <Route path='/change-nmypage' element={<ChangenMyPage />} />
         <Route path="/delete-account" element={<DeleteAccount />} />
