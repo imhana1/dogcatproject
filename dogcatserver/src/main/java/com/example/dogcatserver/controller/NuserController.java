@@ -16,7 +16,7 @@ import java.security.Principal;
 
 @RestController
 @Validated
-public class NuserController {
+public class   NuserController {
     @Autowired
     private NuserService nuserservice;
 
@@ -66,7 +66,7 @@ public class NuserController {
     }
 
     @Operation(summary = "위치 정보 조회", description = "로그인한 회원 위치 정보 조회")
-    @GetMapping("/nuser/location")
+    @GetMapping("/api/nuser/location")
     @PermitAll
     // 어떤 응답이든 리턴할 수 있게 ? 로 처리
     public ResponseEntity<?> getUserLocation(Principal principal) {

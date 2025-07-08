@@ -18,7 +18,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
 
   // 사용자 위치 받아오기
   useEffect(()=> {
-    axios.get ("http://localhost:8080/nuser/location")
+    axios.get ("/api/nuser/location")
     .then((res)=> {
       // 위도, 경도 받아오기
       setUserLocation(res.data);
@@ -40,7 +40,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
         const { latitude, longitude } = userLocation;
         const center = new window.kakao.maps.LatLng(latitude, longitude);
 
-        const options = { center, level:3 }; // 중심 좌표, 확대 레벨
+        const options = { center, level:2 }; // 중심 좌표, 확대 레벨
       
         const newMap = new window.kakao.maps.Map(mapRef.current, options);
         setMap(newMap); // map 객체 저장
@@ -50,21 +50,16 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
     return ()=> clearInterval(checkKakao);
   }, [userLocation]);
 
+  const clearMarkersAndOverlays =()=> {
+    // 마커 초기화
+      markersRef.current.forEach(marker => marker.setMap(null));
+      overlaysRef.current.forEach(overlay => overlay.setMap(null));
+      markersRef.current = [];
+      overlaysRef.current = [];
+  }
+
   // 검색 핸들러
   const handleSearch =()=> {
-    // 디버깅 로그
-    if (!map) {
-      console.log('지도(map) 없음');
-    return;
-    }
-    if (!window.kakao) {
-      console.log('window.kakao 객체 없음');
-    return;
-    }
-    if (!keyword) {
-      console.log('검색어(keyword) 없음');
-      return;
-    }
 
     if(!map || !window.kakao) return;
 
@@ -74,13 +69,8 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
     ps.keywordSearch(keyword, (data, status)=> {
       console.log('검색 상태:', status);
       console.log('검색 데이터:', data);
-      if (status === window.kakao.maps.services.Status.ok) {
-        // 마커 초기화
-        markersRef.current.forEach(marker => marker.setMap(null));
-        overlaysRef.current.forEach(overlay => overlay.setMap(null));
-        markersRef.current = [];
-        overlaysRef.current = [];
-
+      if (status === window.kakao.maps.services.Status.OK) {
+        clearMarkersAndOverlays();
         const bounds = new window.kakao.maps.LatLngBounds();
         const newMarkers = [];
         const newOverlays = [];
@@ -102,7 +92,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
               <p>${place.road_address_name || place.address_name || ""}</p>
             </div>
             <div class = "link-group">
-              <a href ="${place.place_url}" target="_blank" rel="noopener noreferrer">상세보기</a>
+              <a href ="${"http://localhost:3000/hospital"}" target="_blank" rel="noopener noreferrer">예약하기</a>
             </div>
             <div class ="close">x</div>
           `;
@@ -124,6 +114,11 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
           window.kakao.maps.event.addListener(marker, "click", ()=> {
             // 기존 오버레이가 있으면 닫기
             overlaysRef.current.forEach(o=>o.setMap(null));
+
+            // 마커 클릭 시 지도 확대
+            map.setLevel(1); // 숫자가 작을수록 더 확대
+            map.setCenter(marker.getPosition());
+
             // 새로운 오버레이 열기
             overlay.setMap(map);
           });
@@ -140,6 +135,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
         map.setBounds(bounds);   // 검색 결과 전체를 지도에 맞게 보기
         setPlaces(data);         // 리스트로 보여주기
       } else {
+        clearMarkersAndOverlays();
         setPlaces([]);
       }
     });
@@ -179,9 +175,9 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
           value={keyword}
           onChange={e => setKeyword(e.target.value)}
           onKeyPress={handleKeyPress}
-          style={{ width: '300px', padding: '8px', fontSize: '14px' }}
+          className='search-input'
         />
-        <button onClick={handleSearch} style={{ marginRight: 8, padding: '8px 12px' }}>
+        <button onClick={handleSearch} className='search-button'>
           검색
         </button>
       </div>
@@ -191,12 +187,16 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
       
         {/* 검색 결과 리스트 */}
         <ul className='place-list'>
-          {places.map((place, index) => (
-            <li key={index} className='place-list-item' onClick={()=> handleListClick(place, index)}>
-              <div className='place-name'>{place.place_name}</div> 
-              <div className='place-address'>{place.road_address_name || place.address_name}</div>         
-            </li>
-          ))}
+          {places.length > 0 ? (
+            places.map((place, index) => (
+              <li key={index} className='place-list-item' onClick={() => handleListClick(place, index)}>
+                <div className='place-name'>{place.place_name}</div>
+                <div className='place-address'>{place.road_address_name || place.address_name}</div>
+              </li>
+            ))
+          ) : (
+            <li className='place-list-item'>검색 결과가 없습니다.</li>
+          )}
         </ul>
 
         {/* 지도 */}
