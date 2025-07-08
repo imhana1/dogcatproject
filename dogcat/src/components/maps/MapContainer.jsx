@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import './MapStyle.css';
 import { useNavigate } from 'react-router-dom';
 import HeaderMaps from '../../fragments/maps/HeaderMaps';
+import useAuthStore from '../../stores/useAuthStore';
 
 const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
 
@@ -15,6 +16,15 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
   const markersRef = useRef([]);                            // 마커 목록
   const overlaysRef = useRef([]);                           // 오버레이를 여러 개 저장할 변수
   const navigate = useNavigate();                           // 헤더에 사용할 네비 불러오기
+
+  // 로그인 상태 확인용 함수 가져오기
+  const checkAuth = useAuthStore(state => state.checkAuth);
+
+  useEffect(() => {
+    checkAuth(); // 컴포넌트 마운트 시 로그인 상태 확인
+  }, [checkAuth]);
+
+  console.log("winter 로그인 여부:",checkAuth);
 
   // 사용자 위치 받아오기
   useEffect(()=> {

@@ -31,7 +31,7 @@ CREATE TABLE normal_member (
 CREATE TABLE hospital_member (
 	h_username varchar2(10) NOT NULL,
 	director varchar2(10)  NULL,
-	hospital varchar2(70) NULL, // varchar2 길이 70으로 수정
+	hospital varchar2(70) NULL, -- varchar2 길이 70으로 수정
 	h_tel varchar2(15) NULL,
 	h_reptel varchar2(15) NULL,
 	zip number(10) null, -- 우편번호
