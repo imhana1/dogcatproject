@@ -24,9 +24,9 @@ function BookingResult({bookingId, userId}) {
         e.preventDefault();
         // 백 입력 dto
         const payload = {
-                twriter: username,
-                ttitle: form.tTitle,
-                tcontent: form.tcontent,
+                rno: form.rno,
+                title: form.tTitle,
+                content: form.tContent,
         };
         console.log("🟩 최종 payload 전송 데이터:", payload);
         try {

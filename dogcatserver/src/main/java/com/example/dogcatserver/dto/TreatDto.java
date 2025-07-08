@@ -10,7 +10,7 @@ public class TreatDto {
     @Data
     public static class  create{
         @NotNull
-        Integer rno;
+        private Integer rno;
         @NotEmpty
         private String title;
         @NotEmpty

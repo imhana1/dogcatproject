@@ -15,7 +15,7 @@ public interface TreatDao {
             "order by rno desc offset (#{pageno}-1)*#{pagesize} rows fetch next #{pagesize} rows only")
     List<Treat> findAll(int pageno, int pagesize);
 
-    @Insert("insert into treat (tno,rno, t_title, t_writer, t_content, n_username) values(#{tno},#{tTitle}, #{rno}, #{tWriter}, #{tContent}, #{nUsername})")
+    @Insert("insert into treat (tno,rno, t_title, t_writer, t_content, n_username) values(#{tno},#{rno} ,#{tTitle}, #{tWriter}, #{tContent}, #{nUsername})")
     @SelectKey(statement = "select treat_seq.nextval from dual", keyProperty = "tno", before = true , resultType = int.class)
     int save(Treat treat);
 

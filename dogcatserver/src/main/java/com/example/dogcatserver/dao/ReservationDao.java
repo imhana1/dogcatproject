@@ -25,7 +25,7 @@ public interface ReservationDao {
   // 마이 페이지에서 병원 예약한 내역
   List<Reservation> getMyReservation (String nUsername);
 
-  // 병원이 고객 예약 내역 읽기
+  // 병원이 고객 예약 내역 읽기 (병원, 고객, 예약 테이블 3개를 join)
   @Select("select  h.hospital, r.*, s.s_choice, n.n_name  from hospital_member h join reservation r on h.h_username=r.h_username join normal_member n on n.n_username= r.n_username\n" +
           "JOIN schedule s on r.s_id = s.s_id  WHERE h.h_username =#{hUsername} ORDER BY r.schedule DESC")
   List<Reservation> getReservation (String hUsername);
@@ -37,7 +37,7 @@ public interface ReservationDao {
   @Select("select h_username from reservation where =#{rno}")
   String FindhUsrnameByRno(int rno);
 
-  @Select("select n_username from reservation where =#{rno}")
+  @Select("select n_username from reservation where rno=#{rno}")
   String FindnUsernameByRno(int rno);
 
   @Select("select s_id from schedule where s_id=123")

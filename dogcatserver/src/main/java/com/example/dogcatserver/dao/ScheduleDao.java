@@ -14,6 +14,7 @@ public interface ScheduleDao {
     int insertSchedule(Schedule schedule);  // 단수형 파라미터, 메서드명도 단수
 
 
+    // 날짜 진료/미용 선택/병원 아이디로 s_id 식별하는 기능 (sql문은 mapper로 작성)
     Integer findScheduleIdByTimeAndChoice(String dateTime, String choice, String hUsername);
 
     @Select("select * from schedule")
@@ -35,10 +36,12 @@ public interface ScheduleDao {
             "AND s_choice=#{sChoice}")
     int blockTimes(@Param("loginId") String loginId, @Param("date") String date, @Param("sChoice") String sChoice);
 
+    // 시간을 가지고 스케즐 블락처리 고객(예약용)
     @Update("update schedule set block_status=1 where h_username=#{loginId}  AND TRUNC(schedule) = TRUNC(#{date})   AND TO_CHAR(schedule, 'HH24:MI:SS') = TO_CHAR(#{time}, 'HH24:MI:SS') and s_choice=#{sChoice}")
     int blockTime(String loginId, LocalDate date, LocalTime time,String sChoice);
 
 
+    // 예약 시간이 지나면 삭제하는 기능(미완성 수정 필요)
     @Delete("DELETE FROM schedule\n" +
             "WHERE schedule >= TO_DATE(#{date} || ' ' || #{time}, 'YYYY-MM-DD HH24:MI')\n" +
             "  AND schedule < TO_DATE(#{date} || ' ' || #{time}, 'YYYY-MM-DD HH24:MI') + (1/1440)")

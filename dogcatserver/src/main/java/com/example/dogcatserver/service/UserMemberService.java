@@ -104,6 +104,7 @@ public class UserMemberService {
     }
 
 
+    // 임시비밀번호 발급
     public boolean getTemporaryPassword(UseMemberDto.findPassword dto){
         UseMember member = useMemberDao.findUsername(dto.getUsername());
         if(member==null){
@@ -127,6 +128,7 @@ public class UserMemberService {
         return encoder.matches(dto.getPassword(), encodedPassword);
     }
 
+    // 아이디 찾기
      public Optional<String> searchUsername(String email){
         return useMemberDao.findUsernameByEmail(email);
      }
