@@ -39,7 +39,6 @@ import QnaList from "./pages/qna/QnaList";
 import QnaRead from "./pages/qna/QnaRead";
 import QnaWriteAnswer from "./pages/qna/QnaWriteAnswer";
 import MyPetWrite from './pages/Nuser/MyPetWrite';
-import FindIdAccount from "./pages/FindIdAccount";
 
 function App() {
   return (
@@ -53,7 +52,6 @@ function App() {
         <Route path="/hospital-review" element={<HospitalReview />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<LoginPage />} />
-        <Route path="/find-id" element={<FindIdAccount />} />
         <Route path="/find-account" element={<FindAccount />} />
         <Route path="/hospital-signup" element={<SignupHospitalForm />} />
         {/*일반 회원 회원가입 */}
@@ -65,6 +63,9 @@ function App() {
         <Route path='/nuser-mypage' element={<NmyPage />} />
         {/*일반 회원 반려동물 정보 페이지 */}
         <Route path='/nuser-pet' element={<MyPetPage />} />
+        {/*일반 회원 반려동물 정보 등록 페이지 */}
+        <Route path='/nuser-petsave' element={<MyPetWrite />} />
+        {/*일반 회원 반려동물 정보 변경 페이지 */}
         {/*일반 회원 반려동물 정보 등록 페이지 */}
         <Route path='/nuser-petsave' element={<MyPetWrite />} />
         {/*일반 회원 반려동물 정보 변경 페이지 */}

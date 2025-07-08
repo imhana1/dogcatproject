@@ -24,10 +24,6 @@ const MyPetWrite = () => {
     pprofUrl: ""  // 펫 프사 Url
   });
 
-  useEffect(() => {
-    const fetch = async () => {};
-    fetch();
-  }, []);
 
   // 프로필 사진 업로드
   const handlePhotoUpload = (e) => {
@@ -273,10 +269,10 @@ const MyPetWrite = () => {
             <input
               className="inputStyle"
               type="text"
-              name="pweghit"
+              name="pweight"
               onChange={handleChange}
               placeholder="몸무게를 입력해주세요"
-              value={form.pweghit}
+              value={form.pweight}
               required
             />
           </div>
