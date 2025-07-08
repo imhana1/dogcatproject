@@ -11,7 +11,7 @@ public interface TreatDao {
     @Select("select count(*) from treat")
     int count();
 
-    @Select("select * from treat" +
+    @Select("select * from treat\n" +
             "order by rno desc offset (#{pageno}-1)*#{pagesize} rows fetch next #{pagesize} rows only")
     List<Treat> findAll(int pageno, int pagesize);
 

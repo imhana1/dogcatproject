@@ -3,33 +3,43 @@ import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 
 // 진료결과 읽기 목록(게시판 형태)
-const treat = [
-    { id: 1, title: "변비" },
-    { id: 2, title: "설사" },
-    { id: 3, title: "배탈" },
-    { id: 4, title: "급성장염" },
-    { id: 5, title: "기침" },
-    { id: 6, title: "배탈" },
-];
+// const treat = [
+//     { id: 1, title: "변비" },
+//     { id: 2, title: "설사" },
+//     { id: 3, title: "배탈" },
+//     { id: 4, title: "급성장염" },
+//     { id: 5, title: "기침" },
+//     { id: 6, title: "배탈" },
+// ];
 
 const BLOCK_SIZE = 5; // 한페이지당 예약 개수
 
 function BookingList() {
+
+
+    // const [bookings, setBookings] = useState(treat);
     const [treats, setTreats] = useState([]);
     const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
     const navigate = useNavigate();
-    const [bookings, setBookings] = useState(treat);
 
     useEffect(() => {
-        axios.get('/hospital/tread-read')
-            .then(res =>
-            setTreats(res.data))
-            .catch(err => alert('진료기록을 찾을 수 없습니다'));
-    }, []);
+        const fetchTreats = async ()=>{
+            try{
+                const response = await  axios.get(`http://localhost:8080/hospital/treats-read?pageno=${page}&pagesize=${BLOCK_SIZE}`,{withCredentials:true});
+                console.log(response.data);
+                setTreats(response.data.treats);
+            } catch (e) {
+                alert(`진료 결과를 찾을 수 없습니다 ${e.message}`);
+            }
+        }
+        fetchTreats();
+    }, [page]);
 
-    // 총 페이지
-    const totalPages = Math.ceil(bookings.length/BLOCK_SIZE);
-    const countOfPage = bookings.slice((page-1) * BLOCK_SIZE, page * BLOCK_SIZE);
+    // 총 페이지 프론트가 처리하는 코드
+    // const totalPages = Math.ceil(bookings.length/BLOCK_SIZE);
+    // const countOfPage = bookings.slice((page-1) * BLOCK_SIZE, page * BLOCK_SIZE);
 
     return (
    <div style={{ display: "flex", marginTop: "38px" }} >
@@ -44,11 +54,12 @@ function BookingList() {
             </thead>
             <tbody>
             {
-                countOfPage.map(treat => (
-                    <tr key={treat.id}>
-                        <td>{treat.id}</td>
+                treats.map(treat => (
+                    <tr key={treat.rno}>
+                        <td>{treat.rno}</td>
                         {/* 진단명 버튼 → 고객에게 보내기 */}
-                        <td><button onClick={() => navigate(`/result-read`)} className="btn btn-dark" style={{ marginBottom: "5px" }}>{treat.title}</button></td>
+                        <td><button onClick={() => navigate(`/result-read?rno=${treat.rno}`)} className="btn btn-dark" style={{ marginBottom: "5px" }}>{treat.ttitle}</button></td>
+                        <td>{treat.twriter}</td>
                     </tr>
                 ))
             }

@@ -100,7 +100,7 @@ public class HospitalController {
         return ResponseEntity.ok(treat);
     }
 
-    @GetMapping("/hostpital/treats-read")
+    @GetMapping("/hospital/treats-read")
     public ResponseEntity<TreatDto.pages> treatsRead(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize){
        return ResponseEntity.ok(treatService.findAll(pageno, pagesize));
     }

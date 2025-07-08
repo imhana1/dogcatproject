@@ -1,15 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 
 // 진료 결과
 function BookingResult({bookingId, userId}) {
+    const [param]= useSearchParams();
+    const rno= parseInt(param.get('rno'));
     // 진단명, 처방, 특이사항
     const [form, setForm] = useState({rno:'', tTitle:'', tContent:''});
     const navigate = useNavigate();
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+    
+    useEffect(()=>{
+        const fetch= async ()=>{
+            try {
+                const response = await  axios.get(`http://localhost:8080/hospital/treat-read?rno=${rno}`, {withCredentials:true})
+                const data = response.data;
+                console.log(data);
+                setForm({
+                    rno: data.rno,
+                    tTitle: data.ttitle,
+                    tContent:data.tcontent
+                })
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        fetch();
+    },[rno])
 
     // 로그인 정보 저장
     const { username } = useAuthStore();
@@ -23,20 +43,20 @@ function BookingResult({bookingId, userId}) {
     const handleSubmit = async e => {
         e.preventDefault();
         // 백 입력 dto
-        const payload = {
-                twriter: username,
-                ttitle: form.tTitle,
-                tcontent: form.tcontent,
-        };
-        console.log("🟩 최종 payload 전송 데이터:", payload);
-        try {
-            await axios.post('http://localhost:8080/hospital/treat', payload, { withCredentials: true });
-            alert('진료결과가 등록되었습니다.');
-            navigate('/result-list');
-            // 입력 폼 초기화 등 추가 동작
-        } catch (error) {
-            alert('진료결과 등록에 실패했습니다.');
-        }
+        // const payload = {
+        //         rno: u,
+        //         ttitle: form.tTitle,
+        //         tcontent: form.tcontent,
+        // };
+        // console.log("🟩 최종 payload 전송 데이터:", payload);
+        // try {
+        //     await axios.post('http://localhost:8080/hospital/treat', payload, { withCredentials: true });
+        //     alert('진료결과가 등록되었습니다.');
+        //     navigate('/result-list');
+        //     // 입력 폼 초기화 등 추가 동작
+        // } catch (error) {
+        //     alert('진료결과 등록에 실패했습니다.');
+        // }
     };
   return (
     <div className="boxStyle">
