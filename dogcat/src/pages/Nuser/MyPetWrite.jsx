@@ -24,6 +24,10 @@ const MyPetWrite = () => {
     pprofUrl: ""  // 펫 프사 Url
   });
 
+  useEffect(() => {
+    const fetch = async () => {};
+    fetch();
+  }, []);
 
   // 프로필 사진 업로드
   const handlePhotoUpload = (e) => {
@@ -69,8 +73,6 @@ const MyPetWrite = () => {
     }
     formData.append("dto", new Blob([JSON.stringify(dto)], { type : "application/json" }));
     formData.append("pprof", petphoto || new Blob([], { type: "application/octet-stream" }));
-
-    formData.append("pprof", petphoto || new Blob([], { type: "application/octet-stream"}));
 
     try {
         const response = await axios.post("http://localhost:8080/nuser-petsave", formData, {
@@ -271,10 +273,10 @@ const MyPetWrite = () => {
             <input
               className="inputStyle"
               type="text"
-              name="pweight"
+              name="pweghit"
               onChange={handleChange}
               placeholder="몸무게를 입력해주세요"
-              value={form.pweight}
+              value={form.pweghit}
               required
             />
           </div>
