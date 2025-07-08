@@ -58,7 +58,7 @@ public class QnaController {
       }catch(IOException e) {
       System.out.println("이미지 등록 실패: "  + e.getMessage());
     }
-    QnaQuestion qnaQuestion = qnaService.writeQnaQuestion(writeDto, base64Image, "winter");
+    QnaQuestion qnaQuestion = qnaService.writeQnaQuestion(writeDto, base64Image, principal.getName());
     System.out.println("200응답");
     return ResponseEntity.status(200).body(qnaQuestion);
   }
@@ -86,6 +86,7 @@ public class QnaController {
   @GetMapping("/api/qna/question")
 //  @PreAuthorize("isAuthenticated()")  // 작성자/관리자 확인하는건 서비스에서 처리했어
   public ResponseEntity<Map<String, Object>> findQnaQuestionByQnoWithAnswer(@RequestParam int qno, @AuthenticationPrincipal UserDetails userDetails) {
+    System.out.println("로그인 사용자: " + userDetails.getUsername());  // ======================== 글 읽기 안되는 원인 파악용
     Map<String, Object> question = qnaService.findQnaQuestionByQnoWithAnswer(qno, userDetails.getUsername());
 
 

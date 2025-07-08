@@ -28,8 +28,12 @@ public interface QnaQuestionDao {
   @Select("select count(*) from qna_question")
   int countAllQnaQuestion();
 
+  // 본인이 작성한 질문 글 개수 확인 for pagination
+  @Select("select count(*) from qna_question where username=#{username}")
+  int countQnaQuestionsByUsername(String username);
+
   // qna 질문 본인이 작성한 목록 출력 (qna 내림차순 = 작성일 최신순)
-  @Select("select * from qna_question where username=#{username} order by qno desc")
+//  @Select("select * from qna_question where username=#{username} order by qno desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only")
   List<QnaQuestion> findQnaQuestionsByUsername(int pageno, int pagesize, String username);
 
   // question의 답변상태 true로 변경 (답변이 달리면 답변 상태를 true로 변경)

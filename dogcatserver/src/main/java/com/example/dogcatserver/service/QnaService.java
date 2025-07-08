@@ -32,7 +32,7 @@ public class QnaService {
 
   // 본인이 작성한 질문 리스트 출력 (고객)
   public QnaQuestionDto.Pages findQnaQuestionsByUsername(int pageno, int pagesize, String loginId) {  // Principal: at controller
-    int totalCount = qnaQuestionDao.countAllQnaQuestion();
+    int totalCount = qnaQuestionDao.countQnaQuestionsByUsername(loginId);
     List<QnaQuestion> qnaQuestions = qnaQuestionDao.findQnaQuestionsByUsername(pageno, pagesize, loginId);
     return QnaUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, qnaQuestions);
   }
@@ -89,7 +89,9 @@ public class QnaService {
   // 질문 단일 글 답변과 함께 출력  **
   public Map<String, Object> findQnaQuestionByQnoWithAnswer(int qno, String loginId) {
     Map<String, Object> question = qnaQuestionDao.findQnaQuestionByQnoWithAnswer(qno).orElseThrow(()->new EntityNotFoundException("질문글을 찾지 못했습니다."));
-    String writer = (String) question.get("username");
+    String writer = (String) question.get("QUESTION_USERNAME");  // sql에서 question_username으로 넣으니까 맞춰줘야해! 그냥 username하면 못찾아
+    System.out.println("loginId: [" + loginId + "]");
+    System.out.println("writer: [" + writer + "]");
     if(!loginId.equals(writer) && !isAdmin(loginId)) {
       throw new JobFailException("작성자 또는 관리자만 열람할 수 있습니다");
     }

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useAuthStore from '../../stores/useAuthStore';
-import { findAllQnaQuestion, findAllQnaQuestionByIsAnswered } from '../../utils/qnaApi';
+import {findAllQnaQuestion, findAllQnaQuestionByIsAnswered, findQnaQuestionsByUsername} from '../../utils/qnaApi';
 import Paginations from '../../components/commons/Paginations';
 import FooterNoticeQna from '../../fragments/noticeQna/FooterNoticeQna';
 import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
@@ -11,6 +11,7 @@ import styles from '../notice/Notice.module.css';
 function QnaList() {
     // 필요한것들
     const navigate = useNavigate();
+    const { username, role } = useAuthStore();
     const PAGE_SIZE = 10;
     const [params] = useSearchParams();
     const [filter, setFilter] = useState('All');  // 기본 상태는 전체
@@ -20,44 +21,57 @@ function QnaList() {
 
     const [data, setData] = useState({
         prev: 0,
-        start: 0,
-        end: 0,
+        start: 1,  // 초기값 0으로 했더니 데이터 없을 때 pageno가 0으로 나와서 수정
+        end: 1,  // 초기값 0으로 했더니 데이터 없을 때 pageno가 0으로 나와서 수정
         next: 0,
         qnaQuestions: []
     })
 
-    const { username, role } = useAuthStore();
+
 
     const pagination = {
         prev: data.prev,
         start: data.start,
         end: data.end,
-        enxt: data.next,
-        pageno,
+        next: data.next,
+        pageno:pageno,
         moveUrl: `?pageno=`
     }
 
+    // 데이터 가져오는 상태
     useEffect(() => {
+        // 안했으면 이 페이지 접근 못함 ∵PrivateRoute App.js에 걸어둠
+        if (username === undefined || role === undefined) return null;
         async function fetchQnas() {
+            console.log("2222222222222222222222222222222222")
             try {
+
                 let response;
-                if (filter === 'All') {
+                if(role === 'ADMIN') {  // 관리자: 질문 전체 목록 + 필터링
+                    if (filter === 'All') {
                     response = await findAllQnaQuestion(pageno, PAGE_SIZE);
-                } else if (filter === 'answered') {
+                    } else if (filter === 'answered') {
                     response = await findAllQnaQuestionByIsAnswered(true, pageno, PAGE_SIZE);
-                } else if (filter === 'notAnswered') {
+                    } else if (filter === 'notAnswered') {
                     response = await findAllQnaQuestionByIsAnswered(false, pageno, PAGE_SIZE);
+                    }
+                    setData(response.data);
+                } else if (role !== 'ADMIN' && username) {  // 관리자 아닌 유저: 본인이 작성한 질문 목록 + 필터링x
+                    response = await findQnaQuestionsByUsername(pageno, PAGE_SIZE);
+                    setData(response.data);
                 }
-                setData(response.data);
 
             } catch (err) {
                 console.log('데이터를 불러오지 못했습니다: ', err);
                 // alert('데이터를 불러오지 못했습니다.')
             }
         }
+
         fetchQnas();
-    }, [pageno, filter])
+
+    }, [pageno, filter, role, username])
     console.log(data);  // 확인용
+
     return (
         <div className={styles.ntcQnaWrapper}>
             <HeaderNoticeQna />
@@ -77,7 +91,8 @@ function QnaList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.qnaQuestions.map(question => {
+                            {data.qnaQuestions && data.qnaQuestions.length>0? (
+                                data.qnaQuestions.map(question => {
                                     console.log('개별 question:', question);
                                     return (
                                         <tr key={question.qno}>
@@ -97,9 +112,19 @@ function QnaList() {
                                             }
                                         </tr>
                                     )
-                                })}
+                                })
+                            ) : (
+                              <tr>
+                                  <td colSpan='5' style={{textAlign:'center'}}> 작성하신 문의글이 존재하지 않습니다. </td>
+                              </tr>
+                            )}
                             </tbody>
                         </table>
+                        {role === 'USER' && username && (
+                        <div className='mt-3 mb-5' style={{ textAlign: 'center' }}>
+                            <a type='button' className='btn btn-dark' href='/qna/write-question'>작성하기</a>
+                        </div>
+                        )}
                         <Paginations pagination={pagination} />
                     </div>
                 </section >

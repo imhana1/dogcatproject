@@ -8,12 +8,18 @@
             select qna_question_seq.nextval from dual
         </selectKey>
         insert into qna_question (qno, q_title, username, q_write_day, q_content, q_is_answered, q_image)
-        values (#{qno}, #{qTitle}, #{username}, #{qWriteDay}, #{qContent}, #{qIsAnswered}, #{qImage})
+        values (#{qno}, #{qTitle}, #{username}, #{qWriteDay}, #{qContent}, #{qIsAnswered}, #{qImage, jdbcType=CLOB})
     </insert>
 
     <!-- 전체 질문 목록: 글 번호, 글 제목, 작성일, 답변 여부 -->
     <select id="findAllQnaQuestion" resultType="com.example.dogcatserver.entity.QnaQuestion">
         select qno, q_title, username, q_write_day, q_is_answered from qna_question order by qno desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+    </select>
+
+<!-- 본인이 작성한 질문 글 목록 -->
+    <select id="findQnaQuestionsByUsername" resultType="com.example.dogcatserver.entity.QnaQuestion">
+        select qno, q_title as qTitle, username, q_write_day, q_is_answered from qna_question where username=#{username}
+
     </select>
 
     <!-- 1:1 문의 글 답변과 함께 출력. 답변 없으면 null -->
