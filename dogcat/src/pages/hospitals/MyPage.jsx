@@ -71,6 +71,11 @@ function MyPage() {
     navigate("/change-mypage")
   }
 
+  // 리뷰보기
+  const handlereview = ()=> {
+    navigate("/hospital-review")
+  }
+
   const handleDelete = () => {
     navigate("/delete-account");
   };
@@ -140,6 +145,7 @@ function MyPage() {
         <aside style={{ width: "180px", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "40px" }}>
           <div style={{ marginBottom: "30px" }}>회원정보변경</div>
           <button className="btn btn-outline-dark" onClick={handleEdit} style={{ marginBottom: "20px", width: "100%" }}>수정하기</button>
+          <button className="btn btn-outline-dark" onClick={handlereview} style={{ marginBottom: "20px", width: "100%" }}>리뷰보기</button>
           <button className="btn btn-outline-danger" onClick={handleDelete} style={{ marginBottom: "20px", width: "100%" }}>회원탈퇴</button>
         </aside>
       </div>

@@ -1,6 +1,7 @@
 // 회원탈퇴
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const REASONS = [
   "아이디 변경",
@@ -18,7 +19,7 @@ function DeleteAccount() {
   const [agree, setAgree] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if(!reason) {
       alert("회원탈퇴 이유를 선택해야합니다");
@@ -27,9 +28,14 @@ function DeleteAccount() {
     if (!agree) {
       alert("위 내용을 숙지하고 동의해 주세요");
       return;
+    } try {
+      await axios.delete('http://localhost:8080/hospital/delete', {withCredentials: true})
+      alert("탈퇴가 되었습니다. 이용해주셔서 감사합니다 ")
+      // 성공 시 '/' 페이지로 이동
+      navigate('/');
+    } catch(err) {
+      console.log(err)
     }
-    // 성공 시 '/' 페이지로 이동
-    navigate('/');
   }
 
   return (
