@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.*;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -133,12 +134,14 @@ public class ScheduleService {
         for(Schedule schedule: schedules){
             LocalDateTime scheduleTime = schedule.getSchedule();
             if(now.equals(scheduleTime) && !deletedSet.contains(scheduleTime)){
-                scheduleDao.scheduleDelete(scheduleTime.toLocalDate(), scheduleTime.toLocalTime());
+                // 여기서 초, 나노초 제거하는 코드 추가됨
+                LocalTime timeWithoutSeconds = scheduleTime.toLocalTime().truncatedTo(ChronoUnit.MINUTES);
+
+                // 수정된 부분: scheduleDelete 호출 시 초가 제거된 시간 전달
+                scheduleDao.scheduleDelete(scheduleTime.toLocalDate(), timeWithoutSeconds);
             }
             deletedSet.add(scheduleTime); // 삭제된 시간 저장
         }
-
-
     }
 
 }

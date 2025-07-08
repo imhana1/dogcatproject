@@ -1,21 +1,43 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
+import axios from "axios";
 
-const reservation = [
-  { id: 1, hospital: "너도멍냥병원", content: "진료", date: "2025-06-25", time: "13:00", name: "신짱구", status: "대기중" },
-  { id: 2, hospital: "너도멍냥병원", content: "미용", date: "2025-06-26",time: "09:00", name: "신형만", status: "대기중" },
-  { id: 3, hospital: "너도멍냥병원", content: "진료", date: "2025-06-27",time: "11:00", name: "봉미선", status: "대기중" },
-  { id: 4, hospital: "너도멍냥병원", content: "미용", date: "2025-06-28",time: "18:00", name: "신짱아", status: "대기중" },
-  { id: 5, hospital: "너도멍냥병원", content: "진료", date: "2025-06-29",time: "10:00", name: "김철수", status: "대기중" },
-  { id: 6, hospital: "너도멍냥병원", content: "미용", date: "2025-06-30",time: "16:00", name: "나미리", status: "대기중" },
-];
+// const reservation = [
+//   { id: 1, hospital: "너도멍냥병원", content: "진료", date: "2025-06-25", time: "13:00", name: "신짱구", status: "대기중" },
+//   { id: 2, hospital: "너도멍냥병원", content: "미용", date: "2025-06-26",time: "09:00", name: "신형만", status: "대기중" },
+//   { id: 3, hospital: "너도멍냥병원", content: "진료", date: "2025-06-27",time: "11:00", name: "봉미선", status: "대기중" },
+//   { id: 4, hospital: "너도멍냥병원", content: "미용", date: "2025-06-28",time: "18:00", name: "신짱아", status: "대기중" },
+//   { id: 5, hospital: "너도멍냥병원", content: "진료", date: "2025-06-29",time: "10:00", name: "김철수", status: "대기중" },
+//   { id: 6, hospital: "너도멍냥병원", content: "미용", date: "2025-06-30",time: "16:00", name: "나미리", status: "대기중" },
+// ];
+
 
 const BLOCK_SIZE = 5; // 한페이지당 예약 개수
 
 // 예약 내역
 function Booking() {
-  const [bookings, setBookings] = useState(reservation);
+  const [reservation, setReservation]= useState([])
+  const [bookings, setBookings] = useState([]);
+
+  useEffect(() => {
+    const fetch= async ()=>{
+      try {
+        const response = await axios.get("http://localhost:8080/hospital/reservation/info",{withCredentials:true});
+        console.log(response.data);
+        setReservation(response.data);
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    setBookings(reservation);
+  }, [reservation]);
+
+
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
@@ -87,21 +109,21 @@ function Booking() {
         <tbody>
           {
             countOfPage.map(reservation => (
-              <tr key={reservation.id}>
-                <td>{reservation.id}</td>
+              <tr key={reservation.rno}>
+                <td>{reservation.rno}</td>
                 <td>{reservation.hospital}</td>
                 {/* 예약내용 클릭 → 상세보기로 이동 */}
-                <td><Link to={`/booking/${reservation.id}`}>{reservation.content}</Link></td>
-                <td>{reservation.date} {reservation.time}</td>
+                <td><Link to={`/booking/${reservation.rno}`}>{reservation.schoice}</Link></td>
+                <td>{reservation.schedule}</td>
                 {/* 예약자명 버튼 → 진료결과 보내기 페이지로 이동 */}
-                <td><button onClick={() => navigate(`/result/${reservation.id}`)} className="btn btn-dark" style={{ marginBottom: "5px" }}>{reservation.name}</button></td>
+                <td><button onClick={() => navigate(`/result/${reservation.rno}`)} className="btn btn-dark" style={{ marginBottom: "5px" }}>{reservation.nname}</button></td>
                 {/* 예약이면 주황색, 아니면 기본색*/}
-                <td style={{ color: reservation.status === "예약" ? "#ff5f2e" : "#333", fontWeight: reservation.status === "예약" ? "bold" : "normal"}}>
-                  {reservation.status}
+                <td style={{ color: reservation.rstatus === "예약" ? "#ff5f2e" : "#333", fontWeight: reservation.rstatus === "예약" ? "bold" : "normal"}}>
+                  {reservation.rstatus}
                 </td>
                 <td>
-                  <button className="btn btn-success"  style={{ marginRight: "4px" }} onClick={()=>handleAdd(reservation.id)} >승인</button>
-                  <button className="btn btn-danger" onClick={() => handleDelete(reservation.id)}>취소</button>
+                  <button className="btn btn-success"  style={{ marginRight: "4px" }} onClick={()=>handleAdd(reservation.rno)} >승인</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(reservation.rno)}>취소</button>
                 </td>
               </tr>
             ))

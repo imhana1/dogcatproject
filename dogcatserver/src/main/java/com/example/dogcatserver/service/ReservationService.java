@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import java.time.*;
+import java.time.format.*;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -18,6 +19,9 @@ public class ReservationService {
   private HospitalDao hospitalDao;
   @Autowired
   private ReservationDao reservationDao;
+
+  @Autowired
+  private ScheduleDao  scheduleDao;
 
   // 예약 생성 (createReservation)
     // 예약을 생성해 사용자에게 보여야하기 때문에 RequestDto 사용
@@ -37,7 +41,21 @@ public class ReservationService {
 //    }
     // 저장
 //    ReservationResponseDto responseDto = dtoToEntity(reservation);
-    Reservation reservation = dto.toEntity(); // 변환 메서드 작성
+
+    // 1. 진료 시간과 선택한 진료 종류로 schedule s_id 찾기
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    String dateTime = dto.getSchedule().format(formatter); // ← 여기가 핵심
+    String hUsername = dto.getHUsername();
+    String choice = dto.getSChoice();
+
+    Integer sId= scheduleDao.findScheduleIdByTimeAndChoice(dateTime, choice, hUsername);
+    System.out.println(sId);
+    if (sId == null) {
+      throw new IllegalArgumentException("해당 시간과 진료 종류에 대한 스케줄이 없습니다.");
+    }
+
+
+    Reservation reservation = dto.toEntity(sId); // 변환 메서드 작성
     reservationDao.save(reservation);
     return reservation.getRno();
   }

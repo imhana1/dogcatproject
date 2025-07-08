@@ -15,6 +15,7 @@ public class ReservationResponseDto {
   private String nUsername;
   private String hUsername;
   private int pno;
+  private int sId; // 스케즐 식별번호
   @JsonFormat (pattern = "yyyy-MM-dd")
   private LocalDate date;
   private LocalTime time;

@@ -8,7 +8,7 @@
         h_username,
         block_status,
         s_notice,
-        s_choice
+        s_choice,
         )
         VALUES (
         schedule_seq.NEXTVAL,                    <!-- 시퀀스 사용 -->
@@ -32,6 +32,14 @@
           AND TO_CHAR(schedule, 'YYYY-MM-DD') = #{date}
           AND s_choice = #{sChoice}
         ORDER BY schedule_date, schedule_time
+    </select>
+
+    <select id="findScheduleIdByTimeAndChoice" resultType="java.lang.Integer" >
+        SELECT s_id FROM schedule
+        WHERE h_username = #{hUsername}
+          AND s_choice = #{choice}
+          AND schedule BETWEEN TO_DATE(#{dateTime}, 'YYYY-MM-DD HH24:MI')
+            AND TO_DATE(#{dateTime}, 'YYYY-MM-DD HH24:MI')
     </select>
 
 </mapper>

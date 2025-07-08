@@ -53,8 +53,11 @@ public class ScheduleController {
         return ResponseEntity.ok(notice);
     }
 
-    public ResponseEntity<String>findNotice(@RequestParam String hospital){
-        String notice = service.findNotice(hospital);
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/normalUser/hospital/notice")
+    @Operation(summary = " 병원 공지사항 ", description = "고객 화면 병원 공지")
+    public ResponseEntity<String>findNotice(@RequestParam String hUsername){
+        String notice = service.findNotice(hUsername);
         return ResponseEntity.ok(notice);
     }
 

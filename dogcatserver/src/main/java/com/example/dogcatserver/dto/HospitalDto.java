@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.web.multipart.*;
 
 import java.time.*;
+import java.util.*;
 
 public class HospitalDto {
 
@@ -32,4 +33,4 @@ public class HospitalDto {
                     .zip(zip).hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).hSubaddress(hSubaddress).build();
         }
         }
-    }
+}

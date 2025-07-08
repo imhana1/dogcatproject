@@ -58,7 +58,7 @@ public class HospitalController {
     }
 
 
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "정보 변경", description = "내 정보를 변경")
     @PostMapping(value = "/hospital/change")
     public ResponseEntity<HospitalInfoChangeResponse> changeInfo(
@@ -100,7 +100,12 @@ public class HospitalController {
         return ResponseEntity.ok(treat);
     }
 
-    @GetMapping("/hospital/tread-read")
+    @GetMapping("/hostpital/treats-read")
+    public ResponseEntity<TreatDto.pages> treatsRead(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize){
+       return ResponseEntity.ok(treatService.findAll(pageno, pagesize));
+    }
+
+    @GetMapping("/hospital/treat-read")
     @Operation(summary = "진료내역 읽기", description = "진료내열 읽기")
     public ResponseEntity<Treat> treatRead(@RequestParam Integer rno){
         Treat treat = treatService.read(rno);

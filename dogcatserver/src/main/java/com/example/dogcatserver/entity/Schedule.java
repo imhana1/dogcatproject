@@ -8,6 +8,7 @@ import java.time.*;
 @NoArgsConstructor
 @Builder
 public class Schedule {
+    private Integer sId;
     private LocalDateTime schedule;
     private String hUsername;
     private String hospital;

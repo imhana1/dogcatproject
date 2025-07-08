@@ -4,6 +4,7 @@ import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.exception.*;
+import com.example.dogcatserver.util.*;
 import jakarta.validation.constraints.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -15,6 +16,15 @@ public class TreatService {
     @Autowired
     private TreatDao treatDao;
     private ReservationDao reservationDao ;
+
+    // 블록 사이즈는 5로 고정
+    private static final int BLOCK_SIZE = 5;
+
+    public TreatDto.pages findAll(int pageno, int pagesize){
+        int totalcount = treatDao.count();
+        List<Treat> treats = treatDao.findAll(pageno, pagesize);
+        return TreatUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalcount, treats);
+    }
 
     // rno를 가지고 고객 아이디 조회 후 엔티티에 추가 + save함수 호출
     public Treat Write(TreatDto.create dto, String loginId){

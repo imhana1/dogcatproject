@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import java.time.*;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -27,13 +28,16 @@ public class ReservationRequestDto {
     private LocalDateTime schedule;
     private String hUsername;
     private int pno;
+    private String sChoice;// 진료미용
 
-    public Reservation toEntity() {
+    public Reservation toEntity(Integer sId) {
       return Reservation.builder()
               .nUsername(this.nUsername)
               .schedule(this.schedule)
               .hUsername(this.hUsername)
               .pno(this.pno)
+              .sChoice(this.sChoice)
+              .sId(sId)
               .build();
     }
   }

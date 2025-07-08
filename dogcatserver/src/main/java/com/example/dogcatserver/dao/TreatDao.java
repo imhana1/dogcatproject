@@ -8,6 +8,13 @@ import java.util.*;
 @Mapper
 public interface TreatDao {
 
+    @Select("select count(*) from treat")
+    int count();
+
+    @Select("select * from treat" +
+            "order by rno desc offset (#{pageno}-1)*#{pagesize} rows fetch next #{pagesize} rows only")
+    List<Treat> findAll(int pageno, int pagesize);
+
     @Insert("insert into treat (tno,rno, t_title, t_writer, t_content, n_username) values(#{tno},#{tTitle}, #{rno}, #{tWriter}, #{tContent}, #{nUsername})")
     @SelectKey(statement = "select treat_seq.nextval from dual", keyProperty = "tno", before = true , resultType = int.class)
     int save(Treat treat);
