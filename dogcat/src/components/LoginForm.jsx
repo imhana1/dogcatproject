@@ -24,6 +24,10 @@ function LoginForm({ onLogin }) {
       navigate("/find-account");
     }
 
+    const handleFindId = e => {
+        navigate("/find-id");
+    }
+
     const handleLogin = async (e) => {
         e.preventDefault();
         const params = new URLSearchParams();
@@ -63,6 +67,9 @@ function LoginForm({ onLogin }) {
             </div>
             <div className="d-grid mb-3 mt-3">
                 <button type="submit" className="btn btn-outline-dark btn-block" onClick={handleLogin}>로그인</button>
+            </div>
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+                <button type="button" className="btn btn-outline-light text-dark" style={{ fontSize: "1.1rem", padding: "7px 80px" }} onClick={handleFindId}>아이디 찾기</button>
             </div>
             <div style={{ textAlign: "center", marginTop: "20px" }}>
                 <button type="button" className="btn btn-outline-light text-dark" style={{ fontSize: "1.1rem", padding: "7px 80px" }} onClick={handleFind}>비밀번호 찾기</button>

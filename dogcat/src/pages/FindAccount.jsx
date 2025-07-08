@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-// 아이디, 비밀번호 찾기
+// 비밀번호 찾기
 function FindAccount() {
   const [form, setForm] = useState({id:''});
   const navigate = useNavigate();

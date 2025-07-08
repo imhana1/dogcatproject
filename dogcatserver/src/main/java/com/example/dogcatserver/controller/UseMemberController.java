@@ -92,7 +92,6 @@ public class UseMemberController {
         return ResponseEntity.status(409).body("확인 실패");
     }
 
-    @PreAuthorize("isAnonymous()")
     @GetMapping("/findUsername")
     @Operation(summary = "아이디 찾기", description = "이메일로 아이디 찾기")
     public ResponseEntity<String>findUsername(@RequestParam @Email String email){

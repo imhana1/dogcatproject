@@ -39,6 +39,7 @@ import QnaList from "./pages/qna/QnaList";
 import QnaRead from "./pages/qna/QnaRead";
 import QnaWriteAnswer from "./pages/qna/QnaWriteAnswer";
 import MyPetWrite from './pages/Nuser/MyPetWrite';
+import FindIdAccount from "./pages/FindIdAccount";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
         <Route path="/hospital-review" element={<HospitalReview />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<LoginPage />} />
+        <Route path="/find-id" element={<FindIdAccount />} />
         <Route path="/find-account" element={<FindAccount />} />
         <Route path="/hospital-signup" element={<SignupHospitalForm />} />
         <Route path='/nmembersignup' element={<SignupNuserForm />} />
