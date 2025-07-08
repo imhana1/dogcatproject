@@ -39,7 +39,7 @@ public class QnaDaoTest {
 
   // @Test
   public void findQnaQuestionsByUsernameTest() {
-    qnaQuestionDao.findQnaQuestionsByUsername(1, 10, "winter");
+    qnaQuestionDao.findQnaQuestionsByUsername("winter", 1, 10);
   }
 
   // @Test

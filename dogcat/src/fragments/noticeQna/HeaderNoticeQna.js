@@ -21,7 +21,10 @@ function HeaderNoticeQna() {
             try {
                 await api.post('/logout');  // 로그아웃
                 resetUserInfo();  // 저장된 정보 리셋
-                window.location.reload(); // 페이지 재로딩
+                // 약간의 딜레이 후 페이지 재로딩
+                setTimeout(() => {
+                    window.location.reload();
+                }, 50);
             } catch (err) {
                 console.log(err);
             }

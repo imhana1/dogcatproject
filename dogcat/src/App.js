@@ -38,9 +38,19 @@ import MapPage from './pages/maps/MapPage';
 import QnaList from "./pages/qna/QnaList";
 import QnaRead from "./pages/qna/QnaRead";
 import QnaWriteAnswer from "./pages/qna/QnaWriteAnswer";
+import QnaWriteQuestion from "./pages/qna/QnaWriteQuestion";
+import AdminRoute from "./routes/AdminRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+import {useEffect} from "react";
+import useAuthStore from "./stores/useAuthStore";
 import MyPetWrite from './pages/Nuser/MyPetWrite';
 
 function App() {
+  // 접근 가능 권한 확인 목적으로 넣은거 맞음! checkAuth랑 useEffect 있어야함!
+  const checkAuth = useAuthStore(state => state.checkAuth);
+  useEffect(() => {
+    checkAuth();
+  }, []);
   return (
     <div className="App">
       <Routes>
@@ -66,10 +76,6 @@ function App() {
         {/*일반 회원 반려동물 정보 등록 페이지 */}
         <Route path='/nuser-petsave' element={<MyPetWrite />} />
         {/*일반 회원 반려동물 정보 변경 페이지 */}
-        {/*일반 회원 반려동물 정보 등록 페이지 */}
-        <Route path='/nuser-petsave' element={<MyPetWrite />} />
-        {/*일반 회원 반려동물 정보 변경 페이지 */}
-        <Route path='/nuser-petsave' element={<MyPetWrite />} />
         <Route path='/nuser-petchange' element={<MyPetChange />} />
         {/*일반 회원 회원 정보 변경 페이지 */}
         <Route path='/change-nmypage' element={<ChangenMyPage />} />
@@ -87,12 +93,13 @@ function App() {
         {/* 홈페이지 공지사항 */}
         <Route path='/notices' element={<NoticeList />} />
         <Route path='/notices/notice' element={<NoticeRead />} />
-        <Route path='/notices/write' element={<NoticeWrite />} />
+        <Route path='/notices/write' element={<AdminRoute element={<NoticeWrite />} />} />
         <Route path='/notices/update' element={<NoticeUpdate />} />
         {/* 1:1 문의 */}
-        <Route path='/qna' element={<QnaList />} />
+        <Route path='/qna' element={<PrivateRoute element={<QnaList />} />} />
         <Route path='/qna/question' element={<QnaRead />} />
         <Route path='/qna/write-answer' element={<QnaWriteAnswer />} />
+        <Route path='/qna/write-question' element={<QnaWriteQuestion />} />
         {/* 토스 예시 페이지 */}
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>

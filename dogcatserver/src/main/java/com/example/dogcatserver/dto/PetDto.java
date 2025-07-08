@@ -1,6 +1,7 @@
 package com.example.dogcatserver.dto;
 
 import com.example.dogcatserver.entity.Pet;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,7 +53,7 @@ public class PetDto {
         private int pno;    // 동물번호
         private String ptype;   // 동물 종류
         private String pmichipe;   // 내장칩유무
-        private String pbread;  // 품종
+        private String pbreed;  // 품종
         private String pname;   // 이름
         private LocalDate page;   // 생년월일
         private String pweight;    // 몸무게

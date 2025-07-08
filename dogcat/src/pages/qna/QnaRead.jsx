@@ -17,6 +17,7 @@ function QnaRead() {
 
   // 글 가져오기
   useEffect(() => {
+    if (role === undefined || username === undefined) return;
     async function findQuestion() {
       try {
         const response = await findQnaQuestionByQnoWithAnswer(qno);
@@ -32,7 +33,7 @@ function QnaRead() {
       alert('잘못된 주소입니다.');
       navigate('/qna');
     }
-  }, [qno]);
+  }, [qno, role, username]);
 
   // 1:1 문의는 삭제x
 

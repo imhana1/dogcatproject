@@ -6,8 +6,12 @@ import axios from 'axios';
 
 const MyPetPage = () => {
     const navigate = useNavigate();
+    const [petwrite, setPetwrite] = useState("펫 등록");
+    const [input, setInput] = useState(petwrite);
 
     const [pet, setPet] = useState ([]);
+
+    const [deletepet, setDeletePet] = useState('');
 
     // 불러올 데이터
     useEffect(() => {
@@ -40,9 +44,12 @@ const MyPetPage = () => {
     };
 
     // 삭제
-    const handleDelete = () => {
-        navigate("/delete-account");
-    }    
+    const handleDelete = (e) => {
+        e.preventDefault();
+        if(!deletepet)
+            return; // 아니요 누르면 리턴
+        navigate('/');
+    };    
 
     // 등록
     const handleSave = () => {
@@ -81,32 +88,34 @@ const MyPetPage = () => {
                 <div key={pet.pno} style={{ display: "flex", gap: "38px", border: "1px solid #ddd", padding: "20px", borderRadius: "10px" }}>
                 {/* 왼쪽 */}
                 <div style={{ minWidth: "220px" }}>
-                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>동물번호</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>동물번호</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pno}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>이름</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>이름</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pname}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>종류</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>종류</div>
                     <div style={{ marginBottom: "32px" }}>{pet.ptype}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>품종</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>품종</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pbreed}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>내장칩 유무</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>내장칩 유무</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pmichipe}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>몸무게</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>몸무게</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pweight}</div>
                 </div>
 
                 {/* 오른쪽 */}
                 <div style={{ minWidth: "220px" }}>
-                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>생년월일</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>생년월일</div>
                     <div style={{ marginBottom: "22px" }}>{pet.page}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "10px" }}>알러지 유무</div>
+                    <div style={{ fontWeight: 500, marginBottom: "10px", fontWeight: "bold" }}>알러지 유무</div>
                     <div style={{ marginBottom: "18px" }}>{pet.palg}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "10px" }}>펫보험</div>
+                    <div style={{ fontWeight: 500, marginBottom: "10px", fontWeight: "bold" }}>펫보험</div>
                     <div style={{ marginBottom: "18px" }}>{pet.pins}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "10px" }}>선천적 지병</div>
+                    <div style={{ fontWeight: 500, marginBottom: "10px", fontWeight: "bold" }}>선천적 지병</div>
                     <div style={{ marginBottom: "18px" }}>{pet.pchronic}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>수술 이력</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>수술 이력</div>
                     <div style={{ marginBottom: "32px" }}>{pet.psname}</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>프로필 사진</div>
+                    <div style={{ marginBottom: "32px" }}>{pet.pprof}</div>
                 </div>
                 {/* 버튼 */}
                     <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginLeft: "20px", minWidth: "100px"}}>
@@ -119,6 +128,9 @@ const MyPetPage = () => {
                     </div>
                 </div>
             ))}
+            <button className="btn btn-outline-dark" onClick={() => handleSave(pet.pno)} style={{ width: "100%" }}>
+                            등록하기
+                        </button>
         </div>
     </div>
     );

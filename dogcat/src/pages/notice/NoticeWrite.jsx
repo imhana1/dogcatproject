@@ -37,7 +37,7 @@ function NoticeWrite() {
         }
     }
 
-    const cancleHandler = () => {
+    const cancelHandler = () => {
         const result = window.confirm('작성한 내용은 저장되지 않습니다. \n취소하시겠습니까?');
         if (result)
             navigate('/notices');
@@ -64,7 +64,7 @@ function NoticeWrite() {
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <button className='mb-3 mt-3 btn btn-dark me-2' onClick={() => writeHandler()}>등록하기</button>
-                            <button className='mb-3 mt-3 btn btn-secondary' onClick={() => cancleHandler()} >취소하기</button>
+                            <button className='mb-3 mt-3 btn btn-secondary' onClick={() => cancelHandler()} >취소하기</button>
                         </div>
                     </div>
                 </section >
