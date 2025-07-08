@@ -3,22 +3,14 @@ import {Link, useNavigate} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 import axios from "axios";
 
-// const reservation = [
-//   { id: 1, hospital: "너도멍냥병원", content: "진료", date: "2025-06-25", time: "13:00", name: "신짱구", status: "대기중" },
-//   { id: 2, hospital: "너도멍냥병원", content: "미용", date: "2025-06-26",time: "09:00", name: "신형만", status: "대기중" },
-//   { id: 3, hospital: "너도멍냥병원", content: "진료", date: "2025-06-27",time: "11:00", name: "봉미선", status: "대기중" },
-//   { id: 4, hospital: "너도멍냥병원", content: "미용", date: "2025-06-28",time: "18:00", name: "신짱아", status: "대기중" },
-//   { id: 5, hospital: "너도멍냥병원", content: "진료", date: "2025-06-29",time: "10:00", name: "김철수", status: "대기중" },
-//   { id: 6, hospital: "너도멍냥병원", content: "미용", date: "2025-06-30",time: "16:00", name: "나미리", status: "대기중" },
-// ];
-
-
 const BLOCK_SIZE = 5; // 한페이지당 예약 개수
 
 // 예약 내역
 function Booking() {
   const [reservation, setReservation]= useState([])
   const [bookings, setBookings] = useState([]);
+  const [page, setPage] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetch= async ()=>{
@@ -36,10 +28,6 @@ function Booking() {
   useEffect(() => {
     setBookings(reservation);
   }, [reservation]);
-
-
-  const [page, setPage] = useState(1);
-  const navigate = useNavigate();
 
   // 로그인 정보 저장
   const { username, resetUserInfo } = useAuthStore();
@@ -60,6 +48,11 @@ function Booking() {
       bookings.map(reservation => reservation.id===id? {...reservation, status: "예약"}: reservation)
     );
     alert("예약으로 예약상태가 변경되었습니다");
+  }
+
+  // 진료결과 작성했던 목록으로 이동
+  const handlelist = e => {
+    navigate('/result-list');
   }
 
   // 취소 버튼 누르면 삭제
@@ -130,7 +123,7 @@ function Booking() {
           }
         </tbody>
       </table>
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: 30, padding: 0, fontSize: "18px" }}>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: 10, padding: 0, fontSize: "18px" }}>
         {/* 현재페이지에서 1을 빼서 이전페이지로 이동, disabled -> 현재 첫페이지 일때는 버튼 비활성화 */}
         <button onClick={() => setPage(page - 1)} disabled={page === 1} style={{ marginRight: 8, background: "#f2e9e1", color: "#333", border: "none", borderRadius: "6px", padding: "8px 16px"}}>이전</button>
         {/* Array.from -> 각페이지 번호에 대한 버튼, "bold" : "normal" 글씨 굷게 */}
@@ -139,6 +132,9 @@ function Booking() {
             borderRadius: "6px", padding: "8px 16px", cursor: "pointer", margin: "1px", fontWeight: page === idx + 1 ? "bold" : "normal" }}>{idx + 1}</button>
         ))}
         <button onClick={() => setPage(page + 1)} disabled={page === totalPages} style={{ marginLeft: 8, background: "#f2e9e1", color: "#333", border: "none", borderRadius: "6px", padding: "8px 16px" }}>다음</button>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: 5, padding: 0, fontSize: "18px" }}>
+        <button onClick={handlelist} style={{ marginLeft: 8, background: "#f2e9e1", color: "#333", border: "none", borderRadius: "6px", padding: "8px 16px" }}>진료결과 작성목록</button>
       </div>
     </div>
   );

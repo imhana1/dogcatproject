@@ -57,7 +57,7 @@ function HospitalCheckPassword() {
             <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d" }}>너도멍냥 동물병원</div>
             <nav>
               <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
-                <li><Link to="/hospital-mypage" style={{ color: "#333", textDecoration: "none" }}>내정보 보기</Link></li>
+                <li><Link to="/hospital-mypage" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>내정보 보기</span></Link></li>
                 <li><Link to="/hospital-time" style={{ color: "#333", textDecoration: "none" }}>병원예약 시간설정</Link></li>
                 <li><Link to="/booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
                 <li><Link to="/notice" style={{ color: "#333", textDecoration: "none" }}>공지사항</Link></li>

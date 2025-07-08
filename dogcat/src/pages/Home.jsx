@@ -6,7 +6,6 @@ function Home() {
     // username과 role을 Zustand에서 꺼냄
     const { username, role } = useAuthStore();
 
-
     return (
         <div
             style={{
@@ -30,22 +29,28 @@ function Home() {
                             공지사항
                         </Link>
                     </li>
-                    <li>
-                        {/* 병원은 예약내역, 고객은 마이페이지, 비로그인은 병원검색 */}
-                        {role === "ROLE_HOSPITAL" ? (
+                    {/* 권한으로 병원은 예약내역 -> 회원은 마이페이지, 병원검색 둘다 이동 */}
+                    {role === "ROLE_HOSPITAL" && (
+                        <li>
                             <Link to="/booking" style={{ color: "#333", textDecoration: "none" }}>
                                 예약내역
                             </Link>
-                        ) : role === "ROLE_USER" ? (
-                            <Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}>
-                                마이페이지
-                            </Link>
-                        ) : (
-                            <Link to="/search" style={{ color: "#333", textDecoration: "none" }}>
-                                병원검색
-                            </Link>
-                        )}
-                    </li>
+                        </li>
+                    )}
+                    {role === "ROLE_USER" && (
+                        <>
+                            <li>
+                                <Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}>
+                                    마이페이지
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/search" style={{ color: "#333", textDecoration: "none" }}>
+                                    병원검색
+                                </Link>
+                            </li>
+                        </>
+                    )}
                 </ul>
             </nav>
         </div>
