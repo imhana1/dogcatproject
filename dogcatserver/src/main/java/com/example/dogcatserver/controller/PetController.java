@@ -60,7 +60,7 @@ public class PetController {
     }
 
     @Operation(summary = "반려동물 정보 삭제", description = "반려동물 정보 삭제")
-    @DeleteMapping("/nuser-petchange")
+    @DeleteMapping("/api/nuser-petchange")
     public ResponseEntity<String> deletepet(Principal principal, HttpSession session) {
         petService.deletepet(principal.getName());
         session.invalidate();

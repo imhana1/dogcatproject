@@ -8,16 +8,16 @@ import axios from 'axios';
 // 병원 회원가입 화면 입력창 컴포넌트
 function SignupNuserForm() {
     const [form, setForm] = useState({
-        nid: "",
-        nname: "",
-        npwd: "",
-        zip: "",
-        naddr: "",
-        address1: "",
-        ntel: "",
-        nbirth: "",
-        email: "",
-        emailCode: ""
+        nid: "",    // 아이디
+        nname: "",  // 이름
+        npwd: "",   // 비밀번호
+        zip: "",    // 우편번호
+        naddr: "",  // 주소
+        address1: "",   // 상세주소
+        ntel: "",   // 연락처
+        nbirth: "", // 생년월일
+        email: "",  // 이메일
+        emailCode: ""   // 이메일 인증
     });
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -104,7 +104,7 @@ function SignupNuserForm() {
         setForm({
             ...form,
             zip: data.zonecode,
-            naddr: data.naddr,
+            naddr: data.address,
         });
         setShowPostcode(false);
     };

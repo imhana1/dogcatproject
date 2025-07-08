@@ -24,7 +24,6 @@ const MyPetWrite = () => {
     pprofUrl: ""  // 펫 프사 Url
   });
 
-
   // 프로필 사진 업로드
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -43,6 +42,7 @@ const MyPetWrite = () => {
   console.log("username:", username);
 
   const checkAuth = useAuthStore((state) => state.checkAuth);
+
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -65,7 +65,7 @@ const MyPetWrite = () => {
         palg: form.palg, // 알러지 유무
         pins: form.pins, // 펫보험 여부
         pchronic: form.pchronic, // 선천적 지병
-        psname: form.psname // 수술 이름
+        psname: form.psname, // 수술 이름
     }
     formData.append("dto", new Blob([JSON.stringify(dto)], { type : "application/json" }));
     formData.append("pprof", petphoto || new Blob([], { type: "application/octet-stream" }));

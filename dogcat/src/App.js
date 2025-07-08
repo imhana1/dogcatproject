@@ -66,10 +66,6 @@ function App() {
         {/*일반 회원 반려동물 정보 등록 페이지 */}
         <Route path='/nuser-petsave' element={<MyPetWrite />} />
         {/*일반 회원 반려동물 정보 변경 페이지 */}
-        {/*일반 회원 반려동물 정보 등록 페이지 */}
-        <Route path='/nuser-petsave' element={<MyPetWrite />} />
-        {/*일반 회원 반려동물 정보 변경 페이지 */}
-        <Route path='/nuser-petsave' element={<MyPetWrite />} />
         <Route path='/nuser-petchange' element={<MyPetChange />} />
         {/*일반 회원 회원 정보 변경 페이지 */}
         <Route path='/change-nmypage' element={<ChangenMyPage />} />
