@@ -25,7 +25,7 @@ public interface TreatDao {
     @Select("select * from treat where rno=#{rno}")
     Optional<Treat> findByRno(int rno);
 
-    @Select("select tno from treat where rno=#{rno} ")
+    @Select("select count(*) from treat where rno=#{rno} ")
     int countRnoTreat(Integer rno);
 
     @Delete("delete from treat where t_writer=#{loginId}")

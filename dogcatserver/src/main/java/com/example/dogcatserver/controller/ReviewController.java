@@ -34,7 +34,7 @@ public class ReviewController {
 
 
     @PostMapping("/review/new")
-    @Secured("Role_USER")
+//    @Secured("ROLE_USER")
     @Operation(summary = "리뷰작성 ", description = "리뷰 작성")
    // 유연한 제네릭 타입으로 예외 메시지 명확히 전달
     public ResponseEntity<?>write(@ModelAttribute @Valid ReviewDto.write dto, BindingResult bindingResult, Principal principal) {

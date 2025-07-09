@@ -30,9 +30,11 @@ public class ReviewService {
 
     public Review RevWrite(ReviewDto.write dto, String loginId){
         String hUsername= reservationDao.FindhUsrnameByRno(dto.getRno());
+        System.out.println(hUsername);
         if (hUsername == null || hUsername.isBlank()) {
             throw new EntityNotFoundException("해당 예약번호에 해당하는 병원을 찾을 수 없습니다.");
         }
+        System.out.println(hUsername);
         Review review = dto.toEntity(loginId,hUsername);
         reviewDao.save(review);
         return review;

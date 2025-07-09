@@ -34,7 +34,7 @@ public interface ReservationDao {
   Reservation getReservationByRno (int rno);
 
   // 예약 번호로 병원 아이디 조회
-  @Select("select h_username from reservation where =#{rno}")
+  @Select("select h_username from reservation where rno=#{rno}")
   String FindhUsrnameByRno(int rno);
 
   // rno를 가지고 고객 아이디 조회

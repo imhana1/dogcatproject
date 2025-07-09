@@ -39,7 +39,7 @@ function BookingResult({bookingId, userId}) {
             navigate('/result-list');
             // 입력 폼 초기화 등 추가 동작
         } catch (error) {
-            alert('진료결과 등록에 실패했습니다.');
+            alert('같은 번호로는 여러번의 진료 내역을 작성 할 수 없습니다');
         }
     };
   return (
