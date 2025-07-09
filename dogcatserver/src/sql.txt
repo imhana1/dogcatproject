@@ -15,7 +15,7 @@ CREATE TABLE user_member (
 -- 2. normal_member : user_member 참조 상세 주소 추가
 CREATE TABLE normal_member (
 	n_username varchar2(10) NOT NULL,
-	n_name varchar2(30) NULL, 길이 30으로 수정
+	n_name varchar2(30) NULL, -- 길이 30으로 수정
 	zip number(10) null, -- 우편번호
 	n_address varchar2(100) NULL, -- 길이 100으로 수정
 	n_tel varchar2(15) NULL,
@@ -99,8 +99,8 @@ CREATE TABLE reservation (
 	pno number(10) NOT NULL,
 	r_status varchar2(10) NULL,
 	s_id number(10) NULL,
-	r_condition varchar2(100),
-	remark varchar2(100),
+	r_condition varchar2(100) NULL,
+	remark varchar2(100) NULL,
 	CONSTRAINT PK_RESERVATION PRIMARY KEY (rno),
 	CONSTRAINT FK_normal_member_TO_reservation_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username),
 	CONSTRAINT FK_hospital_member_TO_reservation_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),

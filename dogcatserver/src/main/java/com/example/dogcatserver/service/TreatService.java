@@ -29,12 +29,14 @@ public class TreatService {
 
     // rno를 가지고 고객 아이디 조회 후 엔티티에 추가 + save함수 호출
     public Treat Write(TreatDto.create dto, String loginId){
-        System.out.println(dto.getRno());
+//      System.out.println(dto.getRno());
         String nUsername = reservationDao.FindnUsernameByRno(dto.getRno());
-//        System.out.println(nUsername);
-//        if(nUsername ==null){
-//            throw new EntityNotFoundException("예약번호"+ dto.getRno()+ "에 해당되는 아이디가 없습니다");
-//        }
+        if(nUsername ==null){
+            throw new EntityNotFoundException("예약번호"+ dto.getRno()+ "에 해당되는 아이디가 없습니다");
+        }
+        if(treatDao.countRnoTreat(dto.getRno())>0){
+            throw new JobFailException("같은 번호로는 여러번의 진료 내역을 작성 할 수 없습니다");
+        }
         Treat treat = dto.toEntity(loginId, nUsername);
         treatDao.save(treat);
         return treat;

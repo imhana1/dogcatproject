@@ -117,10 +117,17 @@ public class ReservationService {
   }
   
   // 병원 측 예약 내역 불러오기 서비스
-  public List<Reservation> getReservation (String hUsername) {
+  public List<Reservation> getReservations (String hUsername) {
     if(hUsername == null || hUsername.isBlank()) {
       throw new IllegalArgumentException("사용자 이름이 유효하지 않습니다");
     }
     return reservationDao.getReservation(hUsername);
+  }
+
+  public Reservation getReservation(Integer rno){
+    if(rno == null) {
+      throw new IllegalArgumentException("존재하지 않는 예약 번호입니다");
+    }
+    return reservationDao.findReservation(rno);
   }
 }

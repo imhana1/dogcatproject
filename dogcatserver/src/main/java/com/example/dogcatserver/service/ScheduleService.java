@@ -133,7 +133,7 @@ public class ScheduleService {
 
         for(Schedule schedule: schedules){
             LocalDateTime scheduleTime = schedule.getSchedule();
-            if(now.equals(scheduleTime) && !deletedSet.contains(scheduleTime)){
+            if(now.isAfter(scheduleTime) && !deletedSet.contains(scheduleTime)){
                 // 여기서 초, 나노초 제거하는 코드 추가됨
                 LocalTime timeWithoutSeconds = scheduleTime.toLocalTime().truncatedTo(ChronoUnit.MINUTES);
 

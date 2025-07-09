@@ -37,12 +37,18 @@ public interface ReservationDao {
   @Select("select h_username from reservation where =#{rno}")
   String FindhUsrnameByRno(int rno);
 
+  // rno를 가지고 고객 아이디 조회
   @Select("select n_username from reservation where rno=#{rno}")
   String FindnUsernameByRno(int rno);
 
+  // 테스트 코드
   @Select("select s_id from schedule where s_id=123")
   List<String> aaa();
 
+  @Select("select r_conditon, remark from reservation where rno=#{rno}")
+  Reservation findReservation(Integer rno);
+
+  // 회원 탈퇴 시 이용
   @Delete("delete from reservation where h_username=#{loginId}")
   int AllDelete(String loginId);
 

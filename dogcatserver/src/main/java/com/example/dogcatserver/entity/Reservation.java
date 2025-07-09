@@ -23,6 +23,8 @@ public class Reservation {
   private String sChoice;
   private String nName; // 예약자 명
   private String hospital; // 예약한 병원 명
+  private String r_condition;
+  private String remark;
   // 기본값 WAITING
   @Builder.Default
   private ReservationStatus rStatus = WAITING;
