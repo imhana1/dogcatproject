@@ -12,8 +12,9 @@ function MyPage() {
     nname: "",
     nbirth: "",
     ntel: "",
-    naddr: "",
-    email: ""
+    address: "",
+    email: "",
+    nsubaddr: ""
   });
 
     useEffect(() => {
@@ -27,8 +28,9 @@ function MyPage() {
             nname : data.nname,
             nbirth : data.nbirth,
             ntel : data.ntel,
-            naddr : data.naddr,
-            email : data.email
+            address : data.naddr,
+            email : data.email,
+            nsubaddr: data.nsubaddr
           });
         } catch (err) {
           console.log(err);
@@ -97,7 +99,7 @@ function MyPage() {
             {/* 오른쪽: 아이디 및 상세정보 */}
             <div style={{ minWidth: "220px" }}>
               <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>주소</div>
-              <div>{nuser.naddr}</div>
+              <div>{nuser.address} {nuser.nsubaddr && `(${nuser.nsubaddr})`}</div>
               <div style={{ fontWeight: 500, marginBottom: "10px", fontWeight: "bold" }}>Email</div>
               <div>{nuser.email}</div>
             </div>

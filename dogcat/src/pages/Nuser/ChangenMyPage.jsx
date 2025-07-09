@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import './ChangenMyPage.css';
 import PostcodeSearch from '../../components/hospitals/PostcodeSearch';
 import useAuthStore from '../../stores/useAuthStore';
+import axios from 'axios';
 
 function ChangeMyPage() {
   const navigate = useNavigate();
@@ -15,18 +16,63 @@ function ChangeMyPage() {
     nid: "",
     nname: "",
     zip: "",
-    naddr: "",
+    address: "",
     address1: "",
     nbirth: "",
     ntel: "",
     email: ""
   });
 
-  const handleUpdate = () => {
-    // 가입 성공 시 로그인 페이지로 이동
-    navigate("/nuser-mypage");
+  useEffect (() => {
+    const fetch = async() => {
+    try {
+      const response = await axios.get("http://localhost:8080/nuser-mypage", {withCredentials: true});
+      const data = response.data;
+      console.log(data);
+
+      setForm ({
+        nid : data.nid,
+        nname : data.nname,
+        zip : data.zip,
+        address : data.naddr,
+        address1: data.nsubaddr,
+        nbirth : data.nbirth,
+        ntel : data.ntel,
+        email : data.email
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  fetch();
+  }, []);
+
+  const handleUpdate = async() => {
+    const formData = new FormData();
+
+    const dto = {
+        nid : form.nid,
+        nname : form.nname,
+        zip : form.zip,
+        naddr : form.address,
+        address1 : form.nsubaddr,
+        nbirth : form.nbirth,
+        ntel : form.ntel,
+        email : form.email
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8080/nuser/profile", formData, {
+        withCredentials: true,
+      });
+      navigate("/nuser-mypage");
+    } catch(err) {
+      console.error(err);
+      alert("정보 변경 중 오류가 발생했습니다: " + err.message);
+    }
   };
 
+  // 정보 변경
   const handleChange = e => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -43,8 +89,9 @@ function ChangeMyPage() {
     setShowPostcode(false);
   };
 
-  const handleDelete = {
-
+  // 회원 탈퇴
+  const handleDelete = () => {
+    navigate("/delete-account");
   }
   
 
@@ -96,8 +143,8 @@ function ChangeMyPage() {
               )}
             </label>
             <input type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "180px", height:"35px", minWidth: 100, display: "inline-block" }} required />
-            <input className="inputStyle" type="text" name="naddr" onChange={handleChange} placeholder="주소 입력해주세요" value={form.naddr} required />
-            <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address1} required />
+            <input className="inputStyle" type="text" name="naddr" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address} required />
+            <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="주소를 입력해주세요" value={form.address1} required />
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
