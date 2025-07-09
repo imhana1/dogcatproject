@@ -33,5 +33,5 @@ public class Nuser {
     @JsonFormat(pattern = "yyyy년 MM월 dd일")
     private LocalDate nsigndt;  // 가입 일자
 
-    private String nSubaddress; // 상세 주소 추가 - 재호
+    private String nsubaddr; // 상세 주소 추가 - 재호
 }

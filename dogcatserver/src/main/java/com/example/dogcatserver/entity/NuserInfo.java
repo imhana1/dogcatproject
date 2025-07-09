@@ -19,13 +19,13 @@ public class NuserInfo {
     private String email;
     @JsonFormat(pattern = "yyyy년 MM월 dd일")
     private LocalDate nbirth;
-    private String nSubaddress;
+    private String nsubaddr;
 
     public JoinViewInfoDto.NuserInfo toRead() {
-        return new JoinViewInfoDto.NuserInfo(nid, nname, ntel, zip, naddr, email, nbirth, nSubaddress);
+        return new JoinViewInfoDto.NuserInfo(nid, nname, ntel, zip, naddr, email, nbirth, nsubaddr);
     }
 
     public JoinViewInfoDto.NuserInfo tonChangeRead() {
-        return new JoinViewInfoDto.NuserInfo(nid, nname, ntel,zip, naddr, email, nbirth, nSubaddress);
+        return new JoinViewInfoDto.NuserInfo(nid, nname, ntel,zip, naddr, email, nbirth, nsubaddr);
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,20 +39,34 @@ public class PetService {
                 .collect(Collectors.toList());
     }
 
-    public PetDto.pread changepetProfile(MultipartFile petprofile, String pno) {
-        String base64Image = "";
-
-        try {
-            base64Image = PetUtil.convertToBase64(petprofile);
-            petDao.updatepetProfile(base64Image, pno);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-        return petDao.findByPname(pno).toRead();
-    }
-
     public void deletepet(String pno) {
         petDao.deletepet(pno);
+    }
+
+
+    public PetDto.pread updatePet(PetDto.petchange dto, String base64Image) {
+        Pet pet = petDao.findByPnoAndNid(dto.getPno(), dto.getNid());
+        if (pet == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 반려동물을 찾을수 없습니다.");
+        }
+
+        pet.setPtype(dto.getPtype());
+        pet.setPmichipe(dto.getPmichipe());
+        pet.setPbreed(dto.getPbreed());
+        pet.setPname(dto.getPname());
+        pet.setPage(dto.getPage());
+        pet.setPweight(dto.getPweight());
+        pet.setPalg(dto.getPalg());
+        pet.setPins(dto.getPins());
+        pet.setPchronic(dto.getPchronic());
+        pet.setPsname(dto.getPsname());
+
+        if (base64Image != null && !base64Image.isBlank()) {
+            pet.setPprof(base64Image);
+        }
+        petDao.updatePet(pet);
+
+        return pet.toRead();
     }
 }
 

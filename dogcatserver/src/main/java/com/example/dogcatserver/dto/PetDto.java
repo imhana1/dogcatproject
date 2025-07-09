@@ -1,8 +1,8 @@
 package com.example.dogcatserver.dto;
 
 import com.example.dogcatserver.entity.Pet;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +26,7 @@ public class PetDto {
         private String pins;
         private String pchronic;
         private String psname;
-        private MultipartFile pprof;
+        private String pprof;
 
         public Pet toEntity(String base64image) {
             return Pet.builder()
@@ -61,6 +61,52 @@ public class PetDto {
         private String pins;   // 펫보험 여부
         private String pchronic; // 선천적 지병
         private String psname;  // 수술 이름
-        public String petprofile;    // 펫 프사
+        public String pprof;    // 펫 프사
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class petchange {
+        private int pno;
+        private String nid;
+        private String ptype;
+        private String pmichipe;
+        private String pbreed;
+        private String pname;
+        private LocalDate page;
+        private String pweight;
+        private String palg;
+        private String pins;
+        private String pchronic;
+        private String psname;
+        private String pprof;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

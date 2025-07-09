@@ -205,6 +205,15 @@ const MyPetWrite = () => {
           </div>
           {/* 왼쪽 */}
           <div className="formContainer">
+            <div>
+          <label className="labelStyle">프로필</label>
+          <input
+            className="inputStyle"
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoUpload}
+          />
+        </div>
             <label className="labelStyle">동물 번호</label>
             <input
               className="inputStyle"
@@ -264,7 +273,11 @@ const MyPetWrite = () => {
               required
             />
           </div>
-          <div>
+        </div>
+      </div>
+      {/* 오른쪽 */}
+      <div style={{ minWidth: "220px" }}>
+        <div>
             <label className="labelStyle">몸무게</label>
             <input
               className="inputStyle"
@@ -276,15 +289,11 @@ const MyPetWrite = () => {
               required
             />
           </div>
-        </div>
-      </div>
-      {/* 오른쪽 */}
-      <div style={{ minWidth: "220px" }}>
         <div>
           <label className="labelStyle">생년월일</label>
           <input
             className="inputStyle"
-            type="text"
+            type="date"
             name="page"
             onChange={handleChange}
             placeholder="YYYY-DD-MM"
@@ -340,15 +349,7 @@ const MyPetWrite = () => {
             required
           />
         </div>
-        <div>
-          <label className="labelStyle">프로필</label>
-          <input
-            className="inputStyle"
-            type="file"
-            accept="image/*"
-            onChange={handlePhotoUpload}
-          />
-        </div>
+        
       </div>
       {/* 오른쪽 */}
       <aside

@@ -92,7 +92,7 @@ public class JoinViewInfoDto {
 //        @JsonFormat(pattern = "yyyy년 MM월 dd일")
         @JsonFormat(pattern = "yyyy-MM-dd") // pattern 수정
         private LocalDate nbirth;
-        private String nSubaddress; // 상세 주소 추가
+        private String nsubaddr; // 상세 주소 추가
     }
 
     @Data
@@ -105,10 +105,10 @@ public class JoinViewInfoDto {
         @NotEmpty
         private String naddr;
         private Integer zip; // 우편번호
-        private String nSubaddress; // 상세 주소 추가
+        private String nsubaddr; // 상세 주소 추가
 
         public Nuser tonChangeEntity(Double nlocation, Double nlongitude) {
-            return Nuser.builder().ntel(nTel).naddr(naddr).zip(zip).nlocation(nlocation).nlongitude(nlongitude).nSubaddress(nSubaddress).build();
+            return Nuser.builder().ntel(nTel).naddr(naddr).zip(zip).nlocation(nlocation).nlongitude(nlongitude).nsubaddr(nsubaddr).build();
         }
     }
 }

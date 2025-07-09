@@ -52,18 +52,29 @@ public class PetController {
         return ResponseEntity.ok(dto);
     }
 
-    // 프로필 변경
-    @PutMapping("/nuser-petchange")
-    public ResponseEntity<PetDto.pread> changepetProfile(MultipartFile petprofile, Principal principal) {
-        PetDto.pread dto = petService.changepetProfile(petprofile, principal.getName());
-        return ResponseEntity.status(200).body(dto);
+    @Operation(summary = "정보 변경", description = "펫 정보 변경")
+    @PostMapping("/nuser-petchange")
+    public ResponseEntity<PetDto.pread> changepet (@RequestPart("dto") PetDto.petchange dto,
+                                                   @RequestPart(value = "pprof", required = false) MultipartFile pprof,
+                                                   Principal principal) {
+        String base64Image = "";
+        try {
+            if (pprof != null && !pprof.isEmpty()) {
+                base64Image = ProfileUtil.convertToBase64(pprof);
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(500).build();
+        }
+
+        dto.setNid(principal.getName());
+        PetDto.pread updated = petService.updatePet(dto, base64Image);
+        return ResponseEntity.ok(updated);
     }
 
     @Operation(summary = "반려동물 정보 삭제", description = "반려동물 정보 삭제")
-    @DeleteMapping("/api/nuser-petchange")
-    public ResponseEntity<String> deletepet(Principal principal, HttpSession session) {
+    @DeleteMapping("/nuser-pet/{pno}")
+    public ResponseEntity<String> deletepet(Principal principal) {
         petService.deletepet(principal.getName());
-        session.invalidate();
         return ResponseEntity.ok("정보 삭제");
     }
 }
