@@ -45,4 +45,9 @@
     <select id="getReservationByRno" resultType="com.example.dogcatserver.entity.Reservation">
         select * from reservation where rno = #{rno}
     </select>
+
+    <!-- 예약 번호로 예약 정보 조회 -->
+    <select id="selectReservationByRno" resultType="com.example.dogcatserver.entity.Reservation">
+        select * from reservation where rno = #{rno}
+    </select>
 </mapper>

@@ -12,6 +12,7 @@ import java.util.*;
 @NoArgsConstructor
 public class ReservationRequestDto {
   // 사용자가 예약 시 보내는 데이터
+    private int rno;            // 예약 번호
     private String nUsername;   // 사용자 아이디
     private String hUsername;   // 병원 아이디
     private int pno;            // 반려동물 번호
@@ -22,7 +23,7 @@ public class ReservationRequestDto {
   @Data
   @AllArgsConstructor
   @Builder
-  public static class Create{
+  public static class Create {
     private String nUsername;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime schedule;

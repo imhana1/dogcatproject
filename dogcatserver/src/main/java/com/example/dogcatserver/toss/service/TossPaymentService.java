@@ -9,17 +9,18 @@ import org.springframework.stereotype.*;
 
 @Service
 public class TossPaymentService {
+
   @Autowired
   private PayService service;
-  // 생성자 주입
-  private final PayDao payDao;
-  private final TossPaymentApiCaller tossPaymentApiCaller;
 
-  // 의존성 초기화
-  public TossPaymentService(PayDao payDao, TossPaymentApiCaller tossPaymentApiCaller) {
-    this.payDao = payDao;
-    this.tossPaymentApiCaller = tossPaymentApiCaller;
-  }
+  @Autowired
+  private PayDao payDao;
+
+  @Autowired
+  private TossPaymentApiCaller tossPaymentApiCaller;
+
+  @Autowired
+  private ReservationDao reservationDao;
 
   // 결제 생성
   public TossPaymentCreateResponseDto createPayment(TossPaymentCreateRequestDto dto) {
@@ -33,18 +34,36 @@ public class TossPaymentService {
   }
 
   // 결제 승인
-  public TossPaymentConfirmResponseDto confirmPayment (String paymentKey, String orderNo, int amount) {
+  public TossPaymentConfirmResponseDto confirmPayment(String paymentKey, String orderNo, int amount, int rno) {
+    System.out.println(">>> confirmPayment 호출됨");
+    System.out.println("paymentKey = " + paymentKey);
+    System.out.println("orderNo = " + orderNo);
+    System.out.println("amount = " + amount);
+    System.out.println("rno = " + rno);
+
+    // 예약 번호로 예약 정보 조회
+    Reservation reservation = reservationDao.selectReservationByRno(rno);
+    if (reservation == null) {
+      throw new IllegalArgumentException("예약 정보를 찾을 수 없습니다: " + rno);
+    }
+
+    // 예약 정보에서 병원 아이디와 고객 아이디 가져오기
+    String hUsername = reservation.getHUsername();
+    String nUsername = reservation.getNUsername();
+
+    // 토스 API에 결제 승인 요청
     TossPaymentConfirmResponseDto responseDto = tossPaymentApiCaller.confirmPayment(paymentKey, orderNo, amount);
 
-    // 응답 정보를 Pay 엔티티로 변환해서 DB 저장
+    // Pay 엔티티 생성 및 DB 저장
     Pay pay = Pay.builder()
+      .rno(rno)
+      .hUsername(hUsername)
+      .nUsername(nUsername)
       .orderNo(orderNo)
       .paymentKey(paymentKey)
       .amount(amount)
-      .pStatus(PaymentStatus.PENDING)
+      .pStatus(responseDto.getPStatus())
       .build();
-
-    // db 저장
     service.savePay(pay);
 
     return responseDto;
@@ -52,11 +71,11 @@ public class TossPaymentService {
 
   // 결제 실패
   public void updateFailStatus(String orderId) {
-    payDao.updatePayByStatus(orderId, PaymentStatus.FAILED);
+    service.updateFailStatus(orderId);
   }
 
   // 결제 성공
   public void updateSuccessStatus (String orderId) {
-    payDao.updatePayByStatus(orderId, PaymentStatus.COMPLETED);
+    service.updateSuccessStatus(orderId);
   }
 }

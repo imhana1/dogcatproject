@@ -1,6 +1,5 @@
 package com.example.dogcatserver.service;
 
-
 import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.toss.dto.*;
 import com.example.dogcatserver.toss.util.*;
@@ -12,25 +11,25 @@ import org.springframework.web.client.*;
 
 import java.util.*;
 
-import static com.example.dogcatserver.toss.util.TossUtil.SECRET_KEY;
-
-// 토스 결제 api 호출을 담당하는 컴포넌트
 @Component
 public class TossPaymentApiCaller {
 
   // 필요한 객체 불러와서 객체 초기화
   private final RestTemplate restTemplate;
   private final ObjectMapper objectMapper;
+  private final TossProperties tossProperties;
 
-  public TossPaymentApiCaller() {
+  public TossPaymentApiCaller(TossProperties tossProperties) {
     this.restTemplate = new RestTemplate();
     this.objectMapper = new ObjectMapper();
+    this.tossProperties = tossProperties;
   }
-  public TossPaymentConfirmResponseDto confirmPayment (String paymentKey, String orderNo, int amount) {
+
+  public TossPaymentConfirmResponseDto confirmPayment(String paymentKey, String orderNo, int amount) {
     try {
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.APPLICATION_JSON);
-      headers.set("Authorization","Basic " + TossUtil.getEncodedAuth());
+      headers.set("Authorization", "Basic " + AuthUtil.encodedBasicAuth(tossProperties.getSecretKey()));
 
       // 요청 보낼 데이터 생성
       Map<String, Object> requestMap = new HashMap<>();
@@ -50,21 +49,22 @@ public class TossPaymentApiCaller {
       HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
       // POST 방식으로 API 호출
-      return restTemplate.postForObject(TossUtil.CONFIRM_URL, request, TossPaymentConfirmResponseDto.class);
+      return restTemplate.postForObject(tossProperties.getConfirmUrl(), request, TossPaymentConfirmResponseDto.class);
     } catch (HttpClientErrorException e) {
       System.out.println("응답 상태 : " + e.getStatusCode());
       System.out.println("응답 본문 :" + e.getResponseBodyAsString());
       throw new RuntimeException("토스 결제 실패", e);
     } catch (JsonProcessingException e) {
-      throw new RuntimeException("JSON 직렬화 실패", e);}
+      throw new RuntimeException("JSON 직렬화 실패", e);
     }
+  }
 
-    // 결제 생성 API 호출하기
+  // 결제 생성 API 호출하기
   public TossPaymentCreateResponseDto createPayment(String orderId, int amount, String productDesc, String successUrl, String failUrl) {
     try {
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.APPLICATION_JSON);
-      headers.set("Authorization", "Basic " + TossUtil.getEncodedAuth());
+      headers.set("Authorization", "Basic " + AuthUtil.encodedBasicAuth(tossProperties.getSecretKey()));
 
       Map<String, Object> requestMap = new HashMap<>();
       requestMap.put("orderId", orderId);
@@ -73,18 +73,14 @@ public class TossPaymentApiCaller {
       requestMap.put("successUrl", successUrl);
       requestMap.put("failUrl", failUrl);
 
-
       String requestBody = objectMapper.writeValueAsString(requestMap);
       HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
-      return restTemplate.postForObject(TossUtil.CREATE_URL, request, TossPaymentCreateResponseDto.class);
-
+      return restTemplate.postForObject(tossProperties.getCreateUrl(), request, TossPaymentCreateResponseDto.class);
     } catch (RestClientException e) {
       throw new RuntimeException("RestTemplate 호출 실패", e);
     } catch (JsonProcessingException e) {
       throw new RuntimeException("JSON 직렬화 실패", e);
     }
   }
-
-
 }

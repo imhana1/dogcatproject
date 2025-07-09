@@ -52,4 +52,6 @@ public interface ReservationDao {
   @Delete("delete from reservation where h_username=#{loginId}")
   int AllDelete(String loginId);
 
+  // 예약 번호로 예약 정보 조회
+  Reservation selectReservationByRno(int rno);
 }

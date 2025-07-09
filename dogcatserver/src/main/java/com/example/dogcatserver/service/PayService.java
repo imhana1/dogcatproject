@@ -2,6 +2,7 @@ package com.example.dogcatserver.service;
 
 import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.entity.*;
+import com.example.dogcatserver.exception.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -23,7 +24,11 @@ public class PayService {
 
   // 주문번호 (orderNo) 로 결제 정보 조회
   public Pay selectPayByOrderId (String orderNo) {
-    return payDao.selectPayByOrderId(orderNo);
+    Pay pay = payDao.selectPayByOrderId(orderNo);
+    if (pay == null){
+      throw new PayNotFoundException("결제 정보를 찾을 수 없습니다." + orderNo);
+    }
+    return pay;
   }
 
   // 결제 실패 상태로 업데이트
@@ -40,7 +45,5 @@ public class PayService {
   public List<Pay> getPayByHospitalId(String hUsername) {
     return payDao.selectPayByHospitalId(hUsername);
   }
-
-
 
 }

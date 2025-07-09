@@ -24,9 +24,16 @@ public class TossPaymentCreateResponseDto {
   @JsonProperty("checkout")
   private Checkout checkout;    // checkoutUrl
 
+  // checkout url을 정의
   @Data
   public static class Checkout {
     private String url;
+  }
+  
+  // enum 매핑
+  @JsonCreator
+  public static PaymentStatus formStatus (String status) {
+    return PaymentStatus.valueOf(status.toUpperCase());
   }
 }
 

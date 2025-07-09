@@ -3,6 +3,7 @@ package com.example.dogcatserver.toss.controller;
 import com.example.dogcatserver.toss.dto.*;
 import com.example.dogcatserver.toss.service.*;
 import io.swagger.v3.oas.annotations.*;
+import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class TossPaymentController {
   // 결제 생성 api
   @Operation(summary = "결제 생성 요청", description = "결제를 위한 토스 API 생성")
   @PostMapping("/api/toss/create")
-  public ResponseEntity<TossPaymentCreateResponseDto> createPayment (@RequestBody TossPaymentCreateRequestDto dto) {
+  public ResponseEntity<TossPaymentCreateResponseDto> createPayment (@Valid @RequestBody TossPaymentCreateRequestDto dto) {
     return ResponseEntity.ok(service.createPayment(dto));
   }
 
@@ -24,15 +25,18 @@ public class TossPaymentController {
   @Operation(summary = "결제 승인 요청", description = "결제를 보내고 승인을 받기 위한 API 호출")
   @PostMapping("/api/toss/confirm")
   public ResponseEntity<TossPaymentConfirmResponseDto> confirmPayment (@RequestBody TossPaymentConfirmRequestDto dto) {
+
     // 이거 콘솔에 찍어보자!
     System.out.println("✔ paymentKey: " + dto.getPaymentKey());
     System.out.println("✔ orderId: " + dto.getOrderId());
     System.out.println("✔ amount: " + dto.getAmount());
+    System.out.println("✔ rno: " + dto.getRno());
 
     TossPaymentConfirmResponseDto response = service.confirmPayment(
       dto.getPaymentKey(),
       dto.getOrderId(),
-      dto.getAmount()
+      dto.getAmount(),
+      dto.getRno()
     );
     return ResponseEntity.ok(response);
   }

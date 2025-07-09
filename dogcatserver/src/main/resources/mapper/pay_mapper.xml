@@ -13,7 +13,7 @@
     </insert>
 
     <!-- orderId 를 이용해 pay 정보 찾기 -->
-    <select id="selectPayByOrderId" resultType="com.example.dogcatserver.entity.Pay" >
+    <select id="selectPayByOrderId" resultMap="payResultMap" >
         select * from pay where order_no = #{orderNo}
     </select>
 
@@ -23,7 +23,7 @@
     </update>
 
     <!-- 병원 아이디로 pay 불러오기 -->
-    <select id="selectPayByHospitalId" resultType="com.example.dogcatserver.entity.Pay">
+    <select id="selectPayByHospitalId" resultMap="payResultMap">
         select * from pay where h_username = #{hUsername}
     </select>
 
