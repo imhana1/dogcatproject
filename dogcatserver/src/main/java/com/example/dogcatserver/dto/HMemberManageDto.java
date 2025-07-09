@@ -11,7 +11,7 @@ public class HMemberManageDto {
     public static class HospitalMemberList {
         // 아이디, 병원 이름, 가입일, 회원상태
         private String username;
-        private String nname;
+        private String hospital;
         @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
         private LocalDateTime signDt;
         private String status;
