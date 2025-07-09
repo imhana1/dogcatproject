@@ -29,7 +29,7 @@ public class ReservationRequestDto {
     private String hUsername;
     private int pno;
     private String sChoice;// 진료미용
-    private String rConditon;
+    private String rCondition;
     private String remark;
 
     public Reservation toEntity(Integer sId) {
@@ -40,7 +40,7 @@ public class ReservationRequestDto {
               .pno(this.pno)
               .sChoice(this.sChoice)
               .sId(sId)
-              .r_condition(rConditon)
+              .rCondition(rCondition)
               .remark(remark)
               .build();
     }
