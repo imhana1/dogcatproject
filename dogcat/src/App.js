@@ -44,6 +44,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import {useEffect} from "react";
 import useAuthStore from "./stores/useAuthStore";
 import MyPetWrite from './pages/Nuser/MyPetWrite';
+import NMemberList from "./pages/normalMemberManage/NMemberList";
 
 function App() {
   // 접근 가능 권한 확인 목적으로 넣은거 맞음! checkAuth랑 useEffect 있어야함!
@@ -97,9 +98,11 @@ function App() {
         <Route path='/notices/update' element={<NoticeUpdate />} />
         {/* 1:1 문의 */}
         <Route path='/qna' element={<PrivateRoute element={<QnaList />} />} />
-        <Route path='/qna/question' element={<QnaRead />} />
+        <Route path='/qna/question' element={<PrivateRoute element={<QnaRead />} />} />
         <Route path='/qna/write-answer' element={<QnaWriteAnswer />} />
         <Route path='/qna/write-question' element={<QnaWriteQuestion />} />
+        {/* 일반 유저 관리 */}
+        <Route path='/n-members' element={<AdminRoute element={<NMemberList />} />} />
         {/* 토스 예시 페이지 */}
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>

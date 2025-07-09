@@ -26,10 +26,12 @@ function QnaWriteAnswer () {
     }
     try {
       const answerData = {qno: qno, username: username, answerContent: answer}
+      const result = window.confirm('답변을 작성하시겠습니까?');
+      if(result) {
       const response = await writeQnaAnswer(answerData);
       alert('답변 작성이 완료되었습니다.');
       navigate(`/qna/question?qno=${qno}`);
-
+      }
     } catch(err) {
       console.log('답변 작성에 실패하였습니다: ', err);
       alert('공지사항 작성에 실패하였습니다.');

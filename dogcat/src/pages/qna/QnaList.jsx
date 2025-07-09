@@ -13,8 +13,8 @@ function QnaList() {
     const navigate = useNavigate();
     const { username, role } = useAuthStore();
     const PAGE_SIZE = 10;
-    const [params] = useSearchParams();
-    const [filter, setFilter] = useState('All');  // 기본 상태는 전체
+    const [params, setParams] = useSearchParams();
+    const [filter, setFilter] = useState('all');  // 기본 상태는 전체
     let pageno = parseInt(params.get('pageno'));
     if (isNaN(pageno) || pageno < 1)
         pageno = 1;
@@ -39,6 +39,21 @@ function QnaList() {
         moveUrl: `?pageno=`
     }
 
+    const setAllHandler = () => {  // 비동기로 받아오면 밑에서 해
+        setFilter('all');
+
+    }
+
+    const setAnsweredHandler = () => {  // 비동기로 받아오면 밑에서 해
+        setFilter('answered');
+
+
+    }
+
+    const setNotAnsweredHandler = () => {
+        setFilter('notAnswered');
+}
+
     // 데이터 가져오는 상태
     useEffect(() => {
         // 안했으면 이 페이지 접근 못함 ∵PrivateRoute App.js에 걸어둠
@@ -49,7 +64,7 @@ function QnaList() {
 
                 let response;
                 if(role === 'ADMIN') {  // 관리자: 질문 전체 목록 + 필터링
-                    if (filter === 'All') {
+                    if (filter === 'all') {
                     response = await findAllQnaQuestion(pageno, PAGE_SIZE);
                     } else if (filter === 'answered') {
                     response = await findAllQnaQuestionByIsAnswered(true, pageno, PAGE_SIZE);
@@ -59,7 +74,7 @@ function QnaList() {
                     setData(response.data);
                 } else if (role !== 'ADMIN' && username) {  // 관리자 아닌 유저: 본인이 작성한 질문 목록 + 필터링x
                     response = await findQnaQuestionsByUsername(username, pageno, PAGE_SIZE);
-                    setData(response.data);
+                    setData( response.data);
                 }
 
             } catch (err) {
@@ -84,6 +99,26 @@ function QnaList() {
                 <section>
                     <div style={{ padding: '0 20px' }}>
                         <h4 className='mb-4 mt-3'>1:1 문의</h4>
+                        {role === 'ADMIN' && username &&
+                        <ul style={{overflow:'hidden', border:'1px solid black', padding:'7px', borderRadius:'10px'}}>
+                            <li style={{float:'left', width:'120px', height:'38px', margin:'3px 7px', textAlign:'center', lineHeight:'38px', fontWeight:'bold'}}>답변 상태</li>
+                            <li style={{float:'left'}}>
+                                <button className={'btn btn-outline-dark'}
+                                        style={{width:'120px', margin:'3px 7px', backgroundColor:filter==='all'? '#F6F6F6' : '#D8D8D8'}}
+                                        onClick={()=>setAllHandler()}>전체</button>
+                            </li>
+                            <li style={{float:'left'}}>
+                                <button className={'btn btn-outline-dark'}
+                                        style={{width:'120px', margin:'3px 7px', backgroundColor:filter==='answered'? 'white' : '#D8D8D8'}}
+                                        onClick={()=>setAnsweredHandler()}>답변 완료</button>
+                            </li>
+                            <li style={{float:'left'}}>
+                                <button className={'btn btn-outline-dark'}
+                                        style={{width:'120px', margin:'3px 7px', backgroundColor:filter==='notAnswered'? 'white' : '#D8D8D8'}}
+                                        onClick={()=>setNotAnsweredHandler()}>답변 미완료</button>
+                            </li>
+                        </ul>
+                        }
                         <table className='mb-3 mt-3 table table-hover noticeList' style={{ margin: '20px 0' }}>
                             <thead className='mb-3 mt-3 table-secondary'>
                                 <tr style={{ textAlign: 'center' }}>

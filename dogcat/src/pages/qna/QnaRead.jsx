@@ -72,9 +72,9 @@ function QnaRead() {
                   }
                     <hr className='mb-3 mt-3 text-secondary' />
                     <div style={{ display: 'flex', alignItems: 'flex-start'}}>
-                      <label className='mb-3 mt-3 text-secondary' style={{ width: '100px',fontWeight:'bold' }}>답변</label>
+                      <label className='mb-3 mt-3 text-secondary' style={{ width: '100px', display:'block', fontWeight:'bold' }}>답변</label>
                       {data.Q_IS_ANSWERED===1? (
-                        <p className='mb-3 mt-3' style={{minHeight:'400px'}}>{data.ANSWER_CONTENT}</p>
+                        <p className='mb-3 mt-3' style={{minHeight:'400px', width:'1050px'}}>{data.ANSWER_CONTENT}</p>
                       ) : (
                         <p className='mb-3 mt-3 text-secondary'>답변이 작성되지 않았습니다.</p>
                       )}

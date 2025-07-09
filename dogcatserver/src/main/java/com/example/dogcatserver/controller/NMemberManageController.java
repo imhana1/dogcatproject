@@ -52,7 +52,7 @@ public class NMemberManageController {
 
   // 경고횟수 1회 감소
   @Operation(summary = "경고횟수 1회 감소", description = "경고횟수 1회 증가 후 감소 저장")
-  @GetMapping("/api/n-members/dec/dec")
+  @GetMapping("/api/n-members/dec")  // 주소가 /dec/dec로 되어잇어서 수정
   public ResponseEntity<NMemberManageDto.NormalMemberDetails> decWarningCount(@RequestParam String username) {
     return ResponseEntity.ok(manageService.decWarningCount(username));
   }
