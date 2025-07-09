@@ -49,4 +49,9 @@ public class ReservationDaoTest {
     int num = reservationDao.deleteReservation(23);
     assertEquals(1, num, "예약 삭제 성공");
   }
+
+  @Test
+  public void getReservationTest(){
+    reservationDao.findReservation(86);
+  }
 }

@@ -45,7 +45,7 @@ public interface ReservationDao {
   @Select("select s_id from schedule where s_id=123")
   List<String> aaa();
 
-  @Select("select r_conditon, remark from reservation where rno=#{rno}")
+  @Select("select r.r_condition, r.remark, r.rno, n.n_name from reservation r join normal_member n on r.n_username= n.n_username  where rno=#{rno}")
   Reservation findReservation(Integer rno);
 
   // 회원 탈퇴 시 이용
