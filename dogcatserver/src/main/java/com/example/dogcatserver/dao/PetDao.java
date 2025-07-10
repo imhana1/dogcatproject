@@ -21,8 +21,8 @@ public interface PetDao {
     int petsave(Pet pet);
     
 
-    @Delete("delete from PET where N_USERNAME=#{nid}")
-    int deletepet(String pno);
+    @Delete("delete from PET where N_USERNAME=#{loginId}")
+    int deletepet(String loginId);
 
     @Select("SELECT PNO as pno, P_WEIGHT as pweight, ANIMAL_TYPES as ptype, MICROCHIPPED as pmichipe, P_BREED as pbreed, P_NAME as pname, P_AGE as page, " +
             "HAS_ALLERGIES as palg, HAS_INSURANCE as pins, ILLNESS_NAME as pchronic, SURGERY_NAME as psname, P_PROFILE as pprof, N_USERNAME as nid " +

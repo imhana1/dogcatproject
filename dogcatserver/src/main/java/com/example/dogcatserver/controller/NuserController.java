@@ -51,7 +51,7 @@ public class   NuserController {
     }
 
     @Operation(summary = "회원 탈퇴", description = "로그아웃 시킨 후 회원 탈퇴")
-    @DeleteMapping("/api/nuser") // url 미정
+    @DeleteMapping("/nuser/delete") // url 미정
     public ResponseEntity<String> nresign(Principal principal, HttpSession session) {
         nuserservice.nresign(principal.getName());
         session.invalidate();

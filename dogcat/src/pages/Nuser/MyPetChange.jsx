@@ -128,7 +128,6 @@ const MyPetChange = () => {
                             <li><Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}>내 정보 보기</Link></li>
                             <li><Link to="/nuser-pet" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>나의 반려동물</span></Link></li>
                             <li><Link to="/nuser-booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
-                            <li><Link to="/nuser-qna" style={{ color: "#333", textDecoration: "none" }}>문의사항</Link></li>
                             <li><Link to="/nuser-adoption" style={{ color: "#333", textDecoration: "none" }}>유기동물 관심 목록</Link></li>
                         </ul>
                     </nav>

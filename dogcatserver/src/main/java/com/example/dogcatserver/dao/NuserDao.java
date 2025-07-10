@@ -5,7 +5,8 @@ import com.example.dogcatserver.entity.NuserInfo;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
-public interface NuserDao {
+public interface
+NuserDao {
 
     @Insert("insert into NORMAL_MEMBER(N_USERNAME, N_NAME, zip, N_ADDRESS, N_TEL, n_birthday, N_LOCATION, N_LONGITUDE, N_SUBADDRESS) values (#{nid}, #{nname}, #{zip}, #{naddr}," +
            "#{ntel}, #{nbirth}, #{nlocation}, #{nlongitude}, #{nsubaddr})")

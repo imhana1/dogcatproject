@@ -68,7 +68,6 @@ const MyPetPage = () => {
                         <li><Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}>내 정보 보기</Link></li>
                         <li><Link to="/nuser-pet" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>나의 반려동물</span></Link></li>
                         <li><Link to="/nuser-booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
-                        <li><Link to="/nuser-qna" style={{ color: "#333", textDecoration: "none" }}>문의사항</Link></li>
                         <li><Link to="/nuser-adoption" style={{ color: "#333", textDecoration: "none" }}>유기동물 관심 목록</Link></li>
                       </ul>
                     </nav>
@@ -107,12 +106,13 @@ const MyPetPage = () => {
                     <div style={{ marginBottom: "32px" }}>{pet.ptype}</div>
                     <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>품종</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pbreed}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>내장칩 유무</div>
-                    <div style={{ marginBottom: "32px" }}>{pet.pmichipe}</div>
+                    
                 </div>
 
                 {/* 오른쪽 */}
                 <div style={{ minWidth: "220px" }}>
+                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>내장칩 유무</div>
+                    <div style={{ marginBottom: "32px" }}>{pet.pmichipe}</div>
                     <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>몸무게</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pweight}</div>
                     <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>생년월일</div>
