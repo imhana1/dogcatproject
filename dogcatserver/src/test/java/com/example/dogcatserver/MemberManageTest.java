@@ -55,7 +55,7 @@ public class MemberManageTest {
     normalDao.countAllNormalMember();
   }
 
-  //  @Test
+    @Test
   public void findNormalMemberByUsernameTest() {
     normalDao.findNormalMemberByUsername("winter");
   }

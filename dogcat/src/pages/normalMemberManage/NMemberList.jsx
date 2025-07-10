@@ -7,7 +7,6 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {
   findAllNormalMember,
   findAllNormalMemberByStatus,
-  findNormalMemberByUsername,
   findNormalMemberByWord
 } from "../../utils/nMemberManageApi";
 import useAuthStore from "../../stores/useAuthStore";

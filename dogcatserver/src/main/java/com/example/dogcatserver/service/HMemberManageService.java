@@ -103,20 +103,20 @@ public class HMemberManageService {
 
   // 차단 해제
   public HMemberManageDto.HospitalMemberDetails blockOff(String username) {
-    int currentConut = warningDao.countWarning(username);
-    if(currentConut>=3) {
-      throw new JobFailException("경고 횟수가 3회 이상입니다. 차단을 해제할 수 없습니다.");
+    int currentCount=warningDao.countWarning(username);
+    if (currentCount >= 3) {
+      throw new JobFailException("경고가 3회일 경우 차단을 해제할 수 없습니다.");
     }
     int result = warningDao.blockOff(username);
     // 실패했으면 예외
     if(result==0) {
       throw new JobFailException("차단 해제에 실패하였습니다.");
     }
-
-    if(currentConut <= 0) {
-      warningDao.setStatusNormal(username);  // 차단 해제 후 경고 횟수가 0일 경우 상태를 일반으로 변경
-    } else{
-      warningDao.setStatusWarning(username);  // 그 외는 상태를 '경고'로
+    int afterCount = warningDao.countWarning(username);
+    if (afterCount == 2 || afterCount == 1) {
+      warningDao.setStatusWarning(username);
+    } else if (afterCount == 0) {
+      warningDao.setStatusNormal(username);
     }
     return manageDao.findHospitalMemberByUsername(username);
   }
