@@ -6,7 +6,9 @@ import com.example.dogcatserver.entity.*;
 import lombok.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import java.time.*;
 import java.time.format.*;
@@ -25,6 +27,7 @@ public class ReservationService {
 
   // 예약 생성 (createReservation)
     // 예약을 생성해 사용자에게 보여야하기 때문에 RequestDto 사용
+  @Transactional
   public int createReservation(ReservationRequestDto.Create dto) {
 //    String hUsername = reservation.getHUsername();
 
@@ -54,9 +57,9 @@ public class ReservationService {
       throw new IllegalArgumentException("해당 시간과 진료 종류에 대한 스케줄이 없습니다.");
     }
 
-
     Reservation reservation = dto.toEntity(sId); // 변환 메서드 작성
     reservationDao.save(reservation);
+    reservationDao.blockTime(sId);
     return reservation.getRno();
   }
   private ReservationResponseDto dtoToEntity(ReservationRequestDto dto) {
@@ -73,6 +76,12 @@ public class ReservationService {
   // 병원 시간 불러오기
   public List<Schedule> getHospitalSchedule ( String hUsername, LocalDate date) {
     return reservationDao.getHospitalSchedule(hUsername, date);
+  }
+
+  // 예약 상태 진료 완료 설정
+//  @Scheduled(fixedDelay = 10000)
+  public void Complete(){
+    reservationDao.updateStatus();
   }
 
 

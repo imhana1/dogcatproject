@@ -127,21 +127,25 @@ public class ScheduleService {
     private final Set<LocalDateTime> deletedSet = new HashSet<>();
 
 //    @Scheduled(fixedDelay = 6000) // 60초 한번 실행
-    public void deletePastSchedules(){
-        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
-        List<Schedule> schedules = scheduleDao.findAll(); // 스케즐 전체 리스트
+    // 비효율적인 코드 백엔드에서 for문으로 cpu 사용률 + 메모리 사용량만 높이고 느림
+//    public void deletePastSchedules(){
+//        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+//        List<Schedule> schedules = scheduleDao.findAll(); // 스케즐 전체 리스트
+//        for(Schedule schedule: schedules){
+//            LocalDateTime scheduleTime = schedule.getSchedule();
+//            if(now.isAfter(scheduleTime) && !deletedSet.contains(scheduleTime)){
+//                // 여기서 초, 나노초 제거하는 코드 추가됨
+//                LocalTime timeWithoutSeconds = scheduleTime.toLocalTime().truncatedTo(ChronoUnit.MINUTES);
+//                // 수정된 부분: scheduleDelete 호출 시 초가 제거된 시간 전달
+//                scheduleDao.scheduleDelete(scheduleTime.toLocalDate(), timeWithoutSeconds);
+//            }
+//            deletedSet.add(scheduleTime); // 삭제된 시간 저장
+//        }
+//    }
+//     @Scheduled(fixedDelay = 10000)
+     public void deletePastSchedules(){
+         scheduleDao.deletePastSchedule();
+     }
 
-        for(Schedule schedule: schedules){
-            LocalDateTime scheduleTime = schedule.getSchedule();
-            if(now.isAfter(scheduleTime) && !deletedSet.contains(scheduleTime)){
-                // 여기서 초, 나노초 제거하는 코드 추가됨
-                LocalTime timeWithoutSeconds = scheduleTime.toLocalTime().truncatedTo(ChronoUnit.MINUTES);
-
-                // 수정된 부분: scheduleDelete 호출 시 초가 제거된 시간 전달
-                scheduleDao.scheduleDelete(scheduleTime.toLocalDate(), timeWithoutSeconds);
-            }
-            deletedSet.add(scheduleTime); // 삭제된 시간 저장
-        }
-    }
 
 }

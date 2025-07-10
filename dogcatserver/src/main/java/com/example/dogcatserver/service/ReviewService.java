@@ -35,7 +35,7 @@ public class ReviewService {
             throw new EntityNotFoundException("해당 예약번호에 해당하는 병원을 찾을 수 없습니다.");
         }
         System.out.println(hUsername);
-        Review review = dto.toEntity(loginId,hUsername);
+        Review review = dto.toEntity(hUsername, loginId);
         reviewDao.save(review);
         return review;
     }
@@ -48,7 +48,7 @@ public class ReviewService {
     // 리뷰번호를 받아 글 정보 변경 결과 값을 반환이 필요 없는 작업
     public void update(ReviewDto.update dto, String loginId){
         Review review=  reviewDao.findByRevNo(dto.getRevNo()).orElseThrow(()-> new EntityNotFoundException("리뷰를 찾을 수 없습니다"));
-        if(!review.getRWriter().equals(loginId)){
+        if(!review.getRevWriter().equals(loginId)){
             throw  new JobFailException("잘못된 작업입니다");
         }
         reviewDao.update(dto);
@@ -56,7 +56,7 @@ public class ReviewService {
 
     public void delete(@NotNull Integer revNO, String loginId){
         Review review=  reviewDao.findByRevNo(revNO).orElseThrow(()-> new EntityNotFoundException("리뷰를 찾을 수 없습니다"));
-        if(!review.getRWriter().equals(loginId)){
+        if(!review.getRevWriter().equals(loginId)){
             throw  new JobFailException("잘못된 작업입니다");
         }
         reviewDao.delete(revNO);

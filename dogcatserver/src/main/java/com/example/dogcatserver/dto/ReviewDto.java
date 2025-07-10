@@ -18,9 +18,9 @@ public class ReviewDto {
         public Review toEntity(String hUsername, String loginId) {
             return Review.builder()
                     .rno(rno)
-                    .content(content)
+                    .revWriter(content)
                     .hUsername(hUsername)
-                    .rWriter(loginId)
+                    .revWriter(loginId)
                     .build();
         }
     }

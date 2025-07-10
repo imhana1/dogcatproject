@@ -15,9 +15,9 @@ public class Review {
 
   private int revNo; // 리뷰 번호
   private int rno; // 예약 번호
-  private String rWriter; // 작성자
+  private String revWriter; // 작성자
   @Builder.Default
-  private LocalDateTime writeDay = LocalDateTime.now(); // 작성일
-  private String content; // 내용
+  private LocalDateTime revWriteDay = LocalDateTime.now(); // 작성일
+  private String revContent; // 내용
   private String hUsername; // 병원 아이디
 }

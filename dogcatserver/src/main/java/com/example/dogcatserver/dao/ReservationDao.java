@@ -30,6 +30,10 @@ public interface ReservationDao {
           "JOIN schedule s on r.s_id = s.s_id  WHERE h.h_username =#{hUsername} ORDER BY r.schedule DESC")
   List<Reservation> getReservation (String hUsername);
 
+  // 예약 시간이 지나면 상태 업데이트 'COMPLETED'
+  @Update("update reservation set r_statu ='COMPLETED' WHERE schedule < SYSTIMESTAMP AND r_status = 'WAITING'")
+  int updateStatus();
+
   // 예약 번호로 상세 조회
   Reservation getReservationByRno (int rno);
 
@@ -54,4 +58,8 @@ public interface ReservationDao {
 
   // 예약 번호로 예약 정보 조회
   Reservation selectReservationByRno(int rno);
+
+  // s_id로 시간을 식별해 block 처리
+  @Update("update schedule set block_status = 1 where s_id=#{sId}")
+  int blockTime(Integer sId);
 }
