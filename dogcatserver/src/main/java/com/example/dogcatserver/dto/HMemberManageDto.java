@@ -1,5 +1,6 @@
 package com.example.dogcatserver.dto;
 
+import com.example.dogcatserver.entity.*;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
@@ -14,7 +15,7 @@ public class HMemberManageDto {
         private String hospital;
         @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
         private LocalDateTime signDt;
-        private String status;
+        private Status status;
     }
 
     // 목록
@@ -40,7 +41,7 @@ public class HMemberManageDto {
         private String hAddress;
         private String email;
         private LocalDateTime signDt;
-        private String status;
+        private Status status;
         private int count;
 
     }
