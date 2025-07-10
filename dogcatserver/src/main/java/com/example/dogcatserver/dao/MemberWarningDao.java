@@ -28,15 +28,15 @@ public interface MemberWarningDao {
   int blockOff(String username);
 
   // 일반으로 상태 변경
-  @Update("update user_member set status='일반' where username=#{username}")
+  @Update("update user_member set status='NORMAL' where username=#{username}")
   int setStatusNormal(String username);
 
   // 경고로 상태 변경
-  @Update("update user_member set status='경고' where username=#{username}")
+  @Update("update user_member set status='WARNING' where username=#{username}")
   int setStatusWarning(String username);
 
   // 차단으로 상태 변경
-  @Update("update user_member set status='차단' where username=#{username}")
+  @Update("update user_member set status='BLOCK' where username=#{username}")
   int setStatusBlock(String username);
 
 }

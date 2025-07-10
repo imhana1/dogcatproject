@@ -16,7 +16,7 @@ public class NMemberManageDto {
     private String nname;
     @JsonFormat(pattern = "yyyy년 MM월 dd일 HH시 mm분")
     private LocalDateTime signDt;
-    private String status;
+    private Status status;
   }
 
   // 목록
@@ -41,7 +41,7 @@ public class NMemberManageDto {
     private String naddr;
     private String email;
     private LocalDateTime signDt;
-    private String status;
+    private Status status;
     private int count;
 
   }

@@ -35,7 +35,7 @@ function HMemberList () {
         end: 1,
         next: 0,
         pageno: pageno,
-        normalMemberList: []
+        hospitalMemberList: []
     })
 
     const pagination = {
@@ -47,24 +47,39 @@ function HMemberList () {
         moveUrl: `?pageno=`
     }
 
-    // 상태 필터링 핸들러
-    const setAllHandler = () =>  setFilter('all');
-    const setNormalHandler = () =>  setFilter('normal');
-    const setWarningHandler = () =>  setFilter('warning');
-    const setBlockHandler = () =>  setFilter('block');
-
+    // 상태 필터링 핸들러 (검색어도 초기화 해줘야 검색 한 상태에서 필터 눌렀을 때 다시 그 상태인 목록이 떠)
+    const setAllHandler = () =>  {
+        setFilter('all');
+        setSearchWord('')
+    }
+    const setNormalHandler = () =>   {
+        setFilter('normal');
+        setSearchWord('')
+    }
+    const setWarningHandler = () =>   {
+        setFilter('warning');
+        setSearchWord('')
+    }
+    const setBlockHandler = () =>   {
+        setFilter('block');
+        setSearchWord('')
+    }
     // 데이터 불러오는 함수 밖으로 뺌
     async function fetchHMemberList() {
         try {
             let response;
             if (filter==='all') {
+                setSearchWord('');
                 response = await findAllHospitalMember(pageno, PAGE_SIZE);
             } else if (filter === 'normal') {
-                response = await findAllHospitalMemberByStatus('normal', pageno, PAGE_SIZE);
+                setSearchWord('');
+                response = await findAllHospitalMemberByStatus('NORMAL', pageno, PAGE_SIZE);
             } else if (filter === 'warning') {
-                response = await findAllHospitalMemberByStatus('warning', pageno, PAGE_SIZE);
+                setSearchWord('');
+                response = await findAllHospitalMemberByStatus('WARNING', pageno, PAGE_SIZE);
             } else if (filter === 'block') {
-                response = await findAllHospitalMemberByStatus('block', pageno, PAGE_SIZE);
+                setSearchWord('');
+                response = await findAllHospitalMemberByStatus('BLOCK', pageno, PAGE_SIZE);
             }
             setData(response.data);
         } catch(err) {
@@ -77,6 +92,7 @@ function HMemberList () {
         try {
             const response = await findHospitalMemberByWord(searchType, searchWord, pageno, PAGE_SIZE);
             if(response.data.hospitalMemberList.length===0) {
+                setFilter('all');
                 setData({
                     prev: 0,
                     start: 1,
@@ -86,10 +102,18 @@ function HMemberList () {
                     hospitalMemberList: []
                 });  // 데이터 없으면 data를 전부 초기화 ∵list만 초기화했더니 필터가 안바뀌면 안바뀜
             } else {
+                setFilter('all');
                 setData(response.data);
             }
         } catch(err) {
             console.log('검색 데이터를 불러오지 못했습니다: ', err);
+        }
+    }
+
+    // 엔터 눌러도 검색
+    const searchByEnter = e => {
+        if(e.key === 'Enter') {
+            searchHandler();
         }
     }
 
@@ -140,7 +164,7 @@ function HMemberList () {
                                         )}
                                     </div>
                                     <div className="input-group mb-6 input-group-sm" style={{width:'300px'}}>
-                                        <input type="text" className="form-control" placeholder="검색" value={searchWord} onChange={changeSearchWord}/>
+                                        <input type="text" className="form-control" placeholder="검색" value={searchWord} onChange={changeSearchWord} onKeyDown={searchByEnter}/>
                                         <button className="btn btn-secondary" onClick={()=> searchHandler()} >검색</button>
                                     </div>
                                 </div>
