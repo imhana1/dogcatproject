@@ -31,4 +31,5 @@
     <resultMap id="payResultMap" type="com.example.dogcatserver.entity.Pay">
         <result property="pStatus" column="p_status" typeHandler="com.example.dogcatserver.toss.handler.PaymentStatusTypeHandler" />
     </resultMap>
+
 </mapper>

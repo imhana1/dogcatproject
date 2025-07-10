@@ -114,6 +114,6 @@ public class TossPaymentService {
     );
 
     // db 상태 업데이트
-    service.updateCancelStatus(orderId);
+    updateCancelStatus(dto.getOrderId());
   }
 }

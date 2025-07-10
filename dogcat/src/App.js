@@ -49,6 +49,7 @@ import HMemberList from "./pages/hospitalMemberManage/HMemberList";
 import NdeleteAccount from './pages/Nuser/NdeleteAccount';
 import NMemberRead from "./pages/normalMemberManage/NMemberRead";
 import HMemberRead from "./pages/hospitalMemberManage/HMemberRead";
+import CancelPaymentPage from './toss/CancelPaymentPage';
 
 function App() {
   // 접근 가능 권한 확인 목적으로 넣은거 맞음! checkAuth랑 useEffect 있어야함!
@@ -117,6 +118,7 @@ function App() {
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>
         <Route path='/toss/fail' element={<TossFail />}/>
+        <Route path='/toss/cancel' element={<CancelPaymentPage />} />
         {/* 지도 페이지 */}
         <Route path='/search' element={<MapPage />} />
       </Routes>
