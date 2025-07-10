@@ -8,6 +8,8 @@ import lombok.*;
 @Data
 public class TossPaymentCreateRequestDto {
 
+  private int rno;
+
   @JsonProperty("orderId")
   private String orderNo;        // 주문 번호
 

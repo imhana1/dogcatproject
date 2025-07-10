@@ -1,18 +1,18 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const TossCheckout =()=> {
+const TossCheckout =({ rno })=> {
     const handlePayment =()=> {
         const tossPayments = window.TossPayments('test_ck_d46qopOB89RP21PQWjDO3ZmM75y0');
 
-        const orderId = 'Order_' + uuidv4();
+        const orderId = 'Order_' + uuidv4() + '_rno_' + rno;
         tossPayments.requestPayment('카드', {
             amount : 5000,
             orderId : orderId,
             orderName : '예약금',
             constomerName : '김모모',
-            successUrl : 'http://localhost:3000/toss/success',
-            failUrl : 'http://localhost:3000/toss/fail',
+            successUrl : `http://localhost:3000/toss/success?rno=${rno}`,
+            failUrl : `http://localhost:3000/toss/fail`,
         })
             .catch(function (error) {
                 if (error.code === 'USER_CANCEL') {

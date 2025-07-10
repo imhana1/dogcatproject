@@ -35,8 +35,7 @@ public class TossPaymentController {
     TossPaymentConfirmResponseDto response = service.confirmPayment(
       dto.getPaymentKey(),
       dto.getOrderId(),
-      dto.getAmount(),
-      dto.getRno()
+      dto.getAmount()
     );
     return ResponseEntity.ok(response);
   }
@@ -57,5 +56,12 @@ public class TossPaymentController {
   public ResponseEntity<Void> updateSuccessStatus (@PathVariable String orderNo) {
     service.updateSuccessStatus(orderNo);
     return ResponseEntity.ok().build();
+  }
+
+  @Operation(summary = "결제 취소 요청", description = "paymentKey 와 사유를 기반으로 결제 취소 요청하기")
+  @PostMapping("/api/toss/cancel")
+  public ResponseEntity<String> cancelPayment(@RequestBody TossPaymentCancelRequestDto dto) {
+    service.cancelPayment(dto);
+    return ResponseEntity.ok("결제가 정상적으로 취소되었습니다.");
   }
 }

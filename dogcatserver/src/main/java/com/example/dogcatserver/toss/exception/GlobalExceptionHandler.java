@@ -31,4 +31,15 @@ public class GlobalExceptionHandler {
       .collect(Collectors.joining(", "));
     return ResponseEntity.badRequest().body("입력값 오류: " + errorMessage);
   }
+
+  // controller 예외 처리
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<String> handleIllegalArgument (IllegalArgumentException e) {
+    return ResponseEntity.badRequest().body(e.getMessage());
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<String> handleAll (Exception e) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("백엔드 서버 오류 : " + e.getMessage());
+  }
 }

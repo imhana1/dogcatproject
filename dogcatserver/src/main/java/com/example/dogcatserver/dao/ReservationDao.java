@@ -17,25 +17,25 @@ public interface ReservationDao {
   List<Schedule> getHospitalSchedule(String hUsername, LocalDate date);
 
   // 예약 취소
-  int cancelReservation (int rno);
+  int cancelReservation(int rno);
 
   // 예약 삭제
-  int deleteReservation (int rno);
+  int deleteReservation(int rno);
 
   // 마이 페이지에서 병원 예약한 내역
-  List<Reservation> getMyReservation (String nUsername);
+  List<Reservation> getMyReservation(String nUsername);
 
   // 병원이 고객 예약 내역 읽기 (병원, 고객, 예약 테이블 3개를 join)
   @Select("select  h.hospital, r.*, s.s_choice, n.n_name  from hospital_member h join reservation r on h.h_username=r.h_username join normal_member n on n.n_username= r.n_username\n" +
-          "JOIN schedule s on r.s_id = s.s_id  WHERE h.h_username =#{hUsername} ORDER BY r.schedule DESC")
-  List<Reservation> getReservation (String hUsername);
+    "JOIN schedule s on r.s_id = s.s_id  WHERE h.h_username =#{hUsername} ORDER BY r.schedule DESC")
+  List<Reservation> getReservation(String hUsername);
 
   // 예약 시간이 지나면 상태 업데이트 'COMPLETED'
   @Update("update reservation set r_statu ='COMPLETED' WHERE schedule < SYSTIMESTAMP AND r_status = 'WAITING'")
   int updateStatus();
 
   // 예약 번호로 상세 조회
-  Reservation getReservationByRno (int rno);
+  Reservation getReservationByRno(int rno);
 
   // 예약 번호로 병원 아이디 조회
   @Select("select h_username from reservation where rno=#{rno}")

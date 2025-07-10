@@ -6,7 +6,6 @@ import lombok.*;
 
 @Data
 public class TossPaymentConfirmRequestDto {
-
   private int rno;              // 예약 번호
 
   @JsonProperty("orderId")

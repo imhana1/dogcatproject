@@ -83,4 +83,17 @@ public class TossPaymentApiCaller {
       throw new RuntimeException("JSON 직렬화 실패", e);
     }
   }
+
+  // 결제 취소
+  public void cancelPayment(String paymentKey, String cancelReason, int cancelAmount) {
+    String url = "http://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel";
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setBasicAuth(Base64.getEncoder().encodeToString((tossProperties.getSecretKey() + ":").getBytes()));
+    headers.setContentType(MediaType.APPLICATION_JSON);
+
+    Map<String, Object> body = new HashMap<>();
+    body.put("cancelReason", cancelReason);
+    body.put("cancelAmount", cancelAmount);
+  }
 }

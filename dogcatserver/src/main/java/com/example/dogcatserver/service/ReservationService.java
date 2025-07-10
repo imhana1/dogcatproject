@@ -96,7 +96,7 @@ public class ReservationService {
       System.out.println("예약 취소 실패 : 예약이 존재하지 않습니다");
       return false;
     }
-    if ("CANCE".equals(db.getRStatus())) {
+    if ("CANCELED".equals(db.getRStatus())) {
       System.out.println("예약 취소 실패 : 이미 취소된 예약입니다.");
       return false;
     }
