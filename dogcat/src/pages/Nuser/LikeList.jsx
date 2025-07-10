@@ -15,9 +15,6 @@ const LikeList = () => {
                         <Link to="/nuser-booking" style={{ textDecoration: "none" , color: "black" }}>예약 내역</Link>
                     </li>
                     <li>
-                        <Link to="/nuser-qna" style={{ textDecoration: "none", color: "black" }}>문의사항</Link>
-                    </li>
-                    <li>
                         <Link to="/nuser-adoption" style={{ textDecoration: "none", color: "black" }}>유기동물 관심 목록</Link>
                     </li>
                         <button type="submit" className="btn btn-light">로그아웃</button>

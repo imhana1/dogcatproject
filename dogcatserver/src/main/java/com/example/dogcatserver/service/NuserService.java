@@ -1,9 +1,6 @@
 package com.example.dogcatserver.service;
 
-import com.example.dogcatserver.dao.NuserDao;
-import com.example.dogcatserver.dao.PetDao;
-import com.example.dogcatserver.dao.UseMemberDao;
-import com.example.dogcatserver.dao.WishDao;
+import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.exception.EntityNotFoundException;
@@ -41,6 +38,18 @@ public class NuserService {
 
     @Autowired
     private WishDao wishDao;
+
+    @Autowired
+    private TreatDao treatDao;
+
+    @Autowired
+    private ReviewDao reviewDao;
+
+    @Autowired
+    private ReservationDao reservationDao;
+
+    @Autowired
+    private PayDao payDao;
 
 
     // 회원가입
@@ -91,6 +100,11 @@ public class NuserService {
 
     @Transactional
     public void nresign(String loginId) {
+
+        reviewDao.deleterv(loginId);
+        payDao.deleteNpay(loginId);
+        treatDao.deleteNtreat(loginId);
+        reservationDao.deleteReserv(loginId);
         petDao.deletepet(loginId);
         nuserDao.delete(loginId);
         useMemberDao.delete(loginId);

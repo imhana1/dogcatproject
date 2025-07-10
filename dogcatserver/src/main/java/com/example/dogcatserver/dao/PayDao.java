@@ -19,4 +19,6 @@ public interface PayDao {
   // hUsername 을 사용해 병원 쪽에서도 pay 정보 검색
   List<Pay> selectPayByHospitalId (String hUsername);
 
+  @Delete("delete from pay where n_username=#{loginId}")
+  int deleteNpay(String loginId);
 }

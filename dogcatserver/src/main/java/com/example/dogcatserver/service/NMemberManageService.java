@@ -97,6 +97,7 @@ public class NMemberManageService {
   // 강제 차단
   public NMemberManageDto.NormalMemberDetails blockOn(String username) {
     int result = warningDao.blockOn(username);
+    warningDao.setStatusBlock(username);
     // 실패했으면 예외
     if (result == 0) {
       throw new JobFailException("차단에 실패하였습니다");
@@ -106,10 +107,20 @@ public class NMemberManageService {
 
   // 차단 해제
   public NMemberManageDto.NormalMemberDetails blockOff(String username) {
+    int currentCount=warningDao.countWarning(username);
+    if (currentCount >= 3) {
+      throw new JobFailException("경고가 3회일 경우 차단을 해제할 수 없습니다.");
+    }
     int result = warningDao.blockOff(username);
     // 실패했으면 예외
     if(result==0) {
       throw new JobFailException("차단 해제에 실패하였습니다.");
+    }
+    int afterCount = warningDao.countWarning(username);
+    if (afterCount == 2 || afterCount == 1) {
+      warningDao.setStatusWarning(username);
+    } else if (afterCount == 0) {
+      warningDao.setStatusNormal(username);
     }
     return manageDao.findNormalMemberByUsername(username);
   }

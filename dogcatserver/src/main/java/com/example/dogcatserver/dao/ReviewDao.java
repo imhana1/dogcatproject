@@ -41,4 +41,7 @@ public interface ReviewDao {
 
     @Delete("delete from review where h_username=#{loginId}")
     int AllDelete(String loginId);
+
+    @Delete("delete from review where rev_writer=#{loginId}")
+    int deleterv(String loginId);
 }

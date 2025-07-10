@@ -30,4 +30,8 @@ public interface TreatDao {
 
     @Delete("delete from treat where t_writer=#{loginId}")
     int deleteTreat(String loginId);
+
+    @Delete("delete from treat where n_username=#{loginId}")
+    int deleteNtreat(String loginId);
+
 }
