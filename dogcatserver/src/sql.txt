@@ -107,7 +107,7 @@ CREATE TABLE reservation (
 	CONSTRAINT FK_pet_TO_reservation_1 FOREIGN KEY (pno, n_username) REFERENCES pet (pno, n_username)
 );
 
--- treat : rno를 참조 해야 해서 reservation이 생성된 후에 생성 가능
+-- treat : rno를 참조 해야 해서 reservation이 생성된 후에 생성 가능 cas
 CREATE TABLE treat (
     tno         NUMBER(10)      NOT NULL,                 -- 진료결과 번호
     rno         NUMBER(10)      NOT NULL,                 -- 예약번호
@@ -119,13 +119,12 @@ CREATE TABLE treat (
     CONSTRAINT pk_treat PRIMARY KEY (tno, rno),           -- 복합 기본키
     CONSTRAINT fk_treat_rno FOREIGN KEY (rno)
         REFERENCES reservation(rno)
-        ON DELETE CASCADE,
+        ,
     CONSTRAINT fk_treat_n_username FOREIGN KEY (n_username)
         REFERENCES normal_member(n_username)
-        ON DELETE CASCADE,
+        ,
     CONSTRAINT fk_treat_writer FOREIGN KEY (t_writer)
         REFERENCES hospital_member(h_username)
-        ON DELETE CASCADE
 );
 
 
@@ -243,8 +242,15 @@ alter table reservation add constraint uniq_reservation_schedule UNIQUE (schedul
 -- uniq 설정 됐는지 확인
 select constraint_name, constraint_type from USER_CONSTRAINTS where TABLE_NAME='RESERVATION';
 
+-- 1. 기존 외래키 제약조건 삭제
+ALTER TABLE treat DROP CONSTRAINT fk_treat_rno;
 
---CREATE INDEX idx_schedule_search ON schedule(h_username, schedule, s_choice);
+-- 2.  없는 외래키 제약조건 다시 추가
+ALTER TABLE treat
+ADD CONSTRAINT fk_treat_rno
+FOREIGN KEY (rno)
+REFERENCES reservation(rno);
+
 --alter table hospital_member modify(h_address varchar2(50));
 --alter table user_member modify(status varchar2(10));
 --alter table user_member modify(role varchar2(10));
