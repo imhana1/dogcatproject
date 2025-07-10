@@ -45,6 +45,7 @@ import {useEffect} from "react";
 import useAuthStore from "./stores/useAuthStore";
 import MyPetWrite from './pages/Nuser/MyPetWrite';
 import NMemberList from "./pages/normalMemberManage/NMemberList";
+import HMemberList from "./pages/hospitalMemberManage/HMemberList";
 
 function App() {
   // 접근 가능 권한 확인 목적으로 넣은거 맞음! checkAuth랑 useEffect 있어야함!
@@ -103,6 +104,8 @@ function App() {
         <Route path='/qna/write-question' element={<QnaWriteQuestion />} />
         {/* 일반 유저 관리 */}
         <Route path='/n-members' element={<AdminRoute element={<NMemberList />} />} />
+        {/* 병원 유저 관리 */}
+        <Route path='/h-members' element={<AdminRoute element={<HMemberList />} />} />
         {/* 토스 예시 페이지 */}
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>

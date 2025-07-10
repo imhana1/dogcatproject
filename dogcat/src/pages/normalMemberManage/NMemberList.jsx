@@ -19,7 +19,7 @@ function NMemberList () {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const [filter, setFilter] = useState('all');  // 기본상태: 전체
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 20;
   //dropdown 검색바
   const [isOpen, setIsOpen] = useState(false);  // 처음엔 닫혀있어
   const [searchType, setSearchType] = useState('both');  // 기본상태: id+name
@@ -193,7 +193,7 @@ function NMemberList () {
                 data.normalMemberList.map(nMember => {
                   console.log('개별 nMember:', nMember);
                   return (
-                    <tr key={nMember.username} style={{cursor:'pointer'}} onClick={()=>navigate(`/n-members/n-member?username=${username}`)}>
+                    <tr key={nMember.username} style={{cursor:'pointer'}} onClick={()=>navigate(`/n-members/n-member?username=${nMember.username}`)}>
                       <td style={{ textAlign: 'center' }}>
                         {nMember.username}
                       </td>
