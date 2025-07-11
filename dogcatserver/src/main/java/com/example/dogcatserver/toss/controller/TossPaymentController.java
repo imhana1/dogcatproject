@@ -1,18 +1,27 @@
 package com.example.dogcatserver.toss.controller;
 
+import com.example.dogcatserver.entity.Pay;
+import com.example.dogcatserver.service.PayService;
 import com.example.dogcatserver.toss.dto.*;
+import com.example.dogcatserver.toss.exception.AlreadyCanceledException;
+import com.example.dogcatserver.toss.exception.PaymentNotFoundException;
 import com.example.dogcatserver.toss.service.*;
 import io.swagger.v3.oas.annotations.*;
 import jakarta.validation.*;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class TossPaymentController {
 
   @Autowired
   private TossPaymentService service;
+    @Autowired
+    private PayService payService;
 
   // 결제 생성 api
   @Operation(summary = "결제 생성 요청", description = "결제를 위한 토스 API 생성")
@@ -60,8 +69,15 @@ public class TossPaymentController {
 
   @Operation(summary = "결제 취소 요청", description = "paymentKey 와 사유를 기반으로 결제 취소 요청하기")
   @PostMapping("/api/toss/cancel")
-  public ResponseEntity<String> cancelPayment(@RequestBody TossPaymentCancelRequestDto dto) {
+  public ResponseEntity<String> cancelPayment(@Valid @RequestBody TossPaymentCancelRequestDto dto) {
     service.cancelPayment(dto);
-    return ResponseEntity.ok("결제가 정상적으로 취소되었습니다.");
+    return ResponseEntity.ok("결제가 정상적으로 취소되었습니다");
+  }
+
+  @Operation(summary = "결제 내역 불러오기", description = "마이페이지에서 사용자 결제 내역 조회")
+  @GetMapping("/api/toss/payments/user/{nUsername}")
+  public ResponseEntity<List<Pay>> getPaymentsByUser(@PathVariable String nUsername) {
+    List<Pay> payments = payService.getPayByNUsername(nUsername);
+    return ResponseEntity.ok(payments);
   }
 }

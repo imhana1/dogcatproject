@@ -4,6 +4,8 @@ import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.service.*;
 import com.example.dogcatserver.toss.dto.*;
+import com.example.dogcatserver.toss.exception.AlreadyCanceledException;
+import com.example.dogcatserver.toss.exception.PaymentNotFoundException;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -107,6 +109,16 @@ public class TossPaymentService {
 
   // 결제 취소
   public void cancelPayment(TossPaymentCancelRequestDto dto) {
+    // 결제 내역 확인
+    Pay pay = payDao.selectPayByOrderId(dto.getOrderId());
+    if (pay == null) {
+      throw new PaymentNotFoundException();
+    }
+    if(pay.getPStatus() == PaymentStatus.CANCELLED) {
+      throw new AlreadyCanceledException();
+    }
+
+    // 토스 API 에 결제 취소 요청
     tossPaymentApiCaller.cancelPayment(
       dto.getPaymentKey(),
       dto.getCancelReason(),

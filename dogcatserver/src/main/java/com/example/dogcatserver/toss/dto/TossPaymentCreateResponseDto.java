@@ -36,5 +36,3 @@ public class TossPaymentCreateResponseDto {
     return PaymentStatus.valueOf(status.toUpperCase());
   }
 }
-
-
