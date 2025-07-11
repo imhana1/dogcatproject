@@ -125,6 +125,7 @@ CREATE TABLE treat (
         ,
     CONSTRAINT fk_treat_writer FOREIGN KEY (t_writer)
         REFERENCES hospital_member(h_username)
+
 );
 
 
@@ -190,7 +191,7 @@ CREATE TABLE qna_question (
 	q_write_day date NULL,
 	q_content varchar2(1000) NULL,
 	q_is_answered number(1) NULL,
-	q_image VARCHAR2(255) NULL,
+	q_image clob NULL,
 	CONSTRAINT PK_QNA_QUESTION PRIMARY KEY (qno),
 	CONSTRAINT FK_user_member_TO_qna_question_1 FOREIGN KEY (username) REFERENCES user_member (username)
 );

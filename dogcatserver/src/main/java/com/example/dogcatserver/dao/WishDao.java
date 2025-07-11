@@ -1,6 +1,6 @@
 package com.example.dogcatserver.dao;
 
-import com.example.dogcatserver.entity.Wish;
+import com.example.dogcatserver.entity.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -22,6 +22,8 @@ public interface WishDao {
   @Select("select count(*) from WISH where USERNAME=#{username}")
   int AdoptionLike();
 
-  @Select("select * from WISH where USERNAME=#{username}")
-  List<Wish> AdoptionLikeList(int pageno, int pagesize, String name);
+  @Select("select w.ano, w.username, a.a_profile, a.a_name, a.a_city from WISH w join adoption a on w.ano = a.ano where USERNAME=#{loginId} ORDER BY ANO DESC\n" +
+          "OFFSET (#{pageno} - 1) * #{pagesize} ROWS\n" +
+          "FETCH NEXT #{pagesize} ROWS ONLY}")
+  List<Wish> AdoptionLikeList(int pageno, int pagesize, String loginId);
 }
