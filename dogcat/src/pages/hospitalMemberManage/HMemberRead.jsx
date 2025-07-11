@@ -101,40 +101,72 @@ function HMemberRead () {
   console.log(data);
   return (
     <div className={styles.ntcQnaWrapper}>
-      <HeaderNoticeQna />
+      <HeaderNoticeQna title='회원 관리' />
       <main>
-        <NavNoticeQna />
+        <NavNoticeQna activeTab = 'hMemberManage' />
         <section>
           <div  style={{ padding: '0 20px' }}>
             <h4 className='mb-4 mt-3'>일반 회원 정보 조회 및 변경</h4>
+            {data? (
             <table style={{margin:'30px 20px'}}>
               <tbody>
               <tr style={{height:'40px'}}>
                 <td style={{fontWeight:'bold', width:'100px', borderRight:'1px solid #bbb'}}>ID</td>
+                <td style={{padding:'0 20px'}}>{data.username}</td>
               </tr>
-              <tr style={{height:'40px', width:'100px', borderRight:'1px solid #bbb'}}>
-                <td style={{fontWeight:'bold'}}>이름</td>
+              <tr style={{height:'40px'}}>
+                <td style={{fontWeight:'bold', width:'100px', borderRight:'1px solid #bbb'}}>병원명</td>
+                <td style={{padding:'0 20px'}}>{data.hospital}</td>
               </tr>
-              <tr style={{height:'40px', width:'100px', borderRight:'1px solid #bbb'}}>
-                <td style={{fontWeight:'bold'}}>연락처</td>
+              <tr style={{height:'40px'}}>
+                <td style={{fontWeight:'bold', width:'100px', borderRight:'1px solid #bbb'}}>병원 연락처</td>
+                <td style={{padding:'0 20px'}}>{data.htel}</td>
               </tr>
-              <tr style={{height:'40px', width:'100px', borderRight:'1px solid #bbb'}}>
-                <td style={{fontWeight:'bold'}}>주소</td>
+              <tr style={{height:'40px'}}>
+                <td style={{fontWeight:'bold', width:'100px', borderRight:'1px solid #bbb'}}>대표 연락처</td>
+                <td style={{padding:'0 20px'}}>{data.hreptel}</td>
               </tr>
-              <tr style={{height:'40px', width:'100px', borderRight:'1px solid #bbb'}}>
-                <td style={{fontWeight:'bold'}}>이메일</td>
+              <tr style={{height:'40px'}}>
+                <td style={{fontWeight:'bold', width:'100px', borderRight:'1px solid #bbb'}}>이메일</td>
+                <td style={{padding:'0 20px'}}>{data.email}</td>
               </tr>
-              <tr style={{height:'40px', width:'100px', borderRight:'1px solid #bbb'}}>
-                <td style={{fontWeight:'bold'}}>가입일</td>
+              <tr style={{height:'40px'}}>
+                <td style={{fontWeight:'bold', width:'100px', borderRight:'1px solid #bbb'}}>가입일</td>
+                <td style={{padding:'0 20px'}}>{data.signDt.substring(0, 10)}</td>
               </tr>
-              <tr style={{height:'40px', width:'100px', borderRight:'1px solid #bbb'}}>
-                <td style={{fontWeight:'bold'}}>회원 상태</td>
+              <tr style={{height:'40px'}}>
+                <td style={{fontWeight:'bold', width:'100px', borderRight:'1px solid #bbb'}}>회원 상태</td>
+                <td style={{padding:'0 20px'}}>
+                  {data.status}
+                  {data.count===3? (
+                    ' (경고 횟수가 3회일 경우 차단 해제가 불가능합니다.) '
+                  ) : (
+                    data.status!=='차단'? (
+                      <button className='btn btn-danger btn-sm' style={{marginLeft:'10px'}} onClick={()=>BlockOn()}> 차단하기 </button>
+                    ) : (
+                      <button className='btn btn-danger btn-sm' style={{marginLeft:'10px'}} onClick={()=>BlockOff()}> 차단해제 </button>
+                    )
+                  )}
+                </td>
               </tr>
-              <tr style={{height:'40px', width:'100px', borderRight:'1px solid #bbb'}}>
-                <td style={{fontWeight:'bold'}}>경고 횟수</td>
+              <tr style={{height:'40px'}}>
+                <td style={{fontWeight:'bold', width:'100px', borderRight:'1px solid #bbb'}}>경고 횟수</td>
+                <td style={{padding:'0 20px'}}>
+                  {data.count}회
+                  <button onClick={()=>incWarning()} className='btn btn-secondary btn-sm' style={{marginLeft:'16px', marginRight:'25px'}}>+</button>
+                  <button onClick={()=>decWarning()} className='btn btn-secondary btn-sm'>- </button>
+                </td>
               </tr>
               </tbody>
             </table>
+            ) : (
+              <div style={{height:'200px'}}>
+              <p>로딩중입니다. </p>
+              </div>
+            )}
+            <div style={{textAlign:'center', marginTop:'20px'}}>
+              <a type='button' className='btn btn-secondary' href='/h-members'>목록으로</a>
+            </div>
           </div>
         </section>
       </main>

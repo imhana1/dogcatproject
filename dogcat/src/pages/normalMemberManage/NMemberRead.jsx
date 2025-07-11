@@ -100,9 +100,9 @@ function NMemberRead () {
   console.log(data);
   return (
     <div className={styles.ntcQnaWrapper}>
-      <HeaderNoticeQna />
+      <HeaderNoticeQna title='회원 관리' />
       <main>
-        <NavNoticeQna />
+        <NavNoticeQna activeTab = 'nMemberManage' />
         <section>
           <div  style={{ padding: '0 20px' }}>
             <h4 className='mb-4 mt-3'>일반 회원 정보 조회 및 변경</h4>
@@ -155,8 +155,13 @@ function NMemberRead () {
               </tbody>
             </table>
             ):(
+              <div style={{height:'200px'}}>
               <p>로딩중입니다. </p>
+              </div>
             )}
+            <div style={{textAlign:'center', marginTop:'20px'}}>
+              <a type='button' className='btn btn-secondary' href='/n-members'>목록으로</a>
+            </div>
           </div>
         </section>
       </main>

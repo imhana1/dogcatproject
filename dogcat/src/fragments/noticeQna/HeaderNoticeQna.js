@@ -5,7 +5,10 @@ import useAuthStore from '../../stores/useAuthStore'
 import api from '../../utils/api';
 import { hospitalMyPage, normalMyPage } from '../../utils/useMemberApi';
 
-function HeaderNoticeQna() {
+// 사용 방법: title을 넘겨주세요
+// ex) <HeadNoticeQna title='고객센터' />
+
+function HeaderNoticeQna({title='고객센터'}) {
     // 필요한거 불러오기
     const navigate = useNavigate();
     const { username, role, checkAuth, resetUserInfo } = useAuthStore();
@@ -47,7 +50,7 @@ function HeaderNoticeQna() {
         <div className={styles.ntcQnaWrapper}>
             <header>
                 <img src="/dogcat_logo.png" alt="너도멍냥 동물병원" style={{ height: '100%', cursor:'pointer' }} onClick={()=>navigate('/')} />
-                <h1 className='header_title'>고객센터</h1>
+                <h1 className='header_title'>{title}</h1>
                 <div style={{ marginTop: 'auto' }}>
                     <p onClick={logInlogOutHandler} style={{ cursor: 'pointer' }}>
                         {username ? '로그아웃' : '로그인'}

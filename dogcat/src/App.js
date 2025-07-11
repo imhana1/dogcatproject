@@ -50,6 +50,9 @@ import NdeleteAccount from './pages/Nuser/NdeleteAccount';
 import NMemberRead from "./pages/normalMemberManage/NMemberRead";
 import HMemberRead from "./pages/hospitalMemberManage/HMemberRead";
 import FavoriteAnimals from "./pages/Nuser/FavoriteAnimals";
+import AdoptionList from "./pages/adoptions/AdoptionList";
+// import CancelPaymentPage from './toss/CancelPaymentPage';
+// import CancelPaymentPage from './toss/CancelPaymentPage';
 import CancelPaymentPage from './toss/CancelPaymentPage';
 
 

@@ -95,12 +95,12 @@ public class AdoptionController {
 
   // 글 수정
   @Operation(summary = "글 수정", description = "유기동물 게시판 글 수정")
-//  @PreAuthorize("isAuthenticated()")
+  @PreAuthorize("isAuthenticated()")
   @PutMapping("/api/adoptions/adoption")
-  public ResponseEntity<Adoption> updateAdoption(@RequestPart @Valid AdoptionDto.Update updateDto, @RequestPart(value = "aProfile") MultipartFile aProfile, BindingResult br) {
+  public ResponseEntity<Adoption> updateAdoption(@RequestPart @Valid AdoptionDto.Update updateDto, @RequestPart(value = "aProfile") MultipartFile aProfile, BindingResult br, Principal principal) {
     // 로그인 아이디 = 작성자 확인하는 부분은 서비스에 있어
     String loginId = "winter";
-    Adoption existingAdoption = adoptionService.findAdoptionByAno(updateDto.getAno(), "winter");
+    Adoption existingAdoption = adoptionService.findAdoptionByAno(updateDto.getAno(), principal.getName());
     String base64Image = existingAdoption.getAProfile();
     try {
       if(aProfile != null && !aProfile.isEmpty()) {
