@@ -62,6 +62,7 @@ function MyPage() {
         <main>
         <NavNoticeQna activeTab="nuser-mypage" />
         {/* 왼쪽: 병원 정보 */}
+        <div className="boxStyle" style={{ width: '100%', maxWidth: '1000px' }}>
         <div style={{ flex: 1, background: "#fff", padding: "60px 60px 58px 58px", marginRight: "54px" }}>
           <div style={{ fontSize: "1.5rem", fontWeight: 600, marginBottom: "42px", textAlign: "center" }}>
             <span>{nuser.nname}</span>님 회원정보
@@ -88,6 +89,7 @@ function MyPage() {
           </div>
            <div className='mt-3 mb-5' style={{ textAlign: 'center' }}>
           <button className="btn btn-dark" onClick={handleEdit}>수정하기</button>
+          </div>
           </div>
         </div>
       </main>

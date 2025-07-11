@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { data, Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../stores/useAuthStore';
 import './ChangenMyPage.css';
+import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
+import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
+import styles from '../notice/Notice.module.css';
 
 const MyPetChange = () => {
     const navigate = useNavigate();
@@ -120,98 +123,79 @@ const MyPetChange = () => {
     };
 
     return (
-        <form>
-           <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
-                <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d" }}>너도멍냥</div>
-                    <nav>
-                        <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
-                            <li><Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}>내 정보 보기</Link></li>
-                            <li><Link to="/nuser-pet" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>나의 반려동물</span></Link></li>
-                            <li><Link to="/nuser-booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
-                            <li><Link to="/nuser-adoption" style={{ color: "#333", textDecoration: "none" }}>유기동물 관심 목록</Link></li>
-                        </ul>
-                    </nav>
-                        {username ? (
-                            <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
-                                 onClick={() => {resetUserInfo(); window.location.href = "/"; // 로그아웃 후 홈으로 이동
-                                    }}>로그아웃</button>
-                              ) : (
-                                <Link to="/login">
-                            <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
-                                로그인
-                            </button>
-                                </Link>
-                              )}
-            </header>
-            <div className="boxStyle">
-                    <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}>
+      <form className={styles.ntcWrapper}>
+        <HeaderNoticeQna />
+        <main style={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
+        <NavNoticeQna activeTab="nuser-petchange" />
+            <div className="boxStyle" style={{ width: '100%', maxWidth: '1000px' }}>
+              <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}>
+            </div>
+              <div className="formContainerStyle">
+                <div className="columnStyle">
+                  <label className="labelStyle">
+                    프로필 사진
+                  </label>
+                  <input className="inputStyle" type="file" accept="image/*" onChange={handlePhotoChange} />
+                  {pprofPreview && (
+                    <div style={{ margin: "10px 0" }}>
+                      <img src={pprofPreview} alt="펫 프로필 사진" style={{ width: 120, height: 120, objectFit: "cover", borderRadius: 10, border: "1px solid #ddd" }} />
                     </div>
-                    <div className="formContainerStyle">
-                      <div className="columnStyle">
-                        <label className="labelStyle">
-                          프로필 사진
-                        </label>
-                        <input className="inputStyle" type="file" accept="image/*" onChange={handlePhotoChange} />
-                        {pprofPreview && (
-                            <div style={{ margin: "10px 0" }}>
-                              <img src={pprofPreview} alt="펫 프로필 사진" style={{ width: 120, height: 120, objectFit: "cover", borderRadius: 10, border: "1px solid #ddd" }} />
-                            </div>
-                        )}
-                        <label className="labelStyle">
-                          동물 번호
-                        </label>
-                        <input className="inputStyle" type="text" name="pno" onChange={handleChange} placeholder="동물 번호를 입력해주세요" value={form.pno} readOnly={true} />
-                        <label className="labelStyle">
-                          이름
-                        </label>
-                        <input className="inputStyle" type="text" name="pname" onChange={handleChange} placeholder="이름을 입력해주세요" value={form.pname} />
-                        <label className="labelStyle">
-                          종류 
-                        </label>
-                        <input className="inputStyle" type="text" name="ptype" onChange={handleChange} placeholder="동물 종류를 입력해주세요" value={form.ptype} />
-                        <label className="labelStyle">
-                          품종
-                        </label>
-                        <input className="inputStyle" type="text" name="pbreed" onChange={handleChange} placeholder="품종을 입력해주세요" value={form.pbreed} />
-                        <label className="labelStyle">
-                          내장칩 유무 
-                        </label>
-                        <input className="inputStyle" type="text" name="pmichipe" onChange={handleChange} placeholder="내장칩 유무를 입력해주세요" value={form.pmichipe} />
-                        
-                      </div>
-                      {/* 오른쪽 컬럼 */}
-                      <div className="columnStyle">
-                        <label className="labelStyle">
-                          몸무게 
-                        </label>
-                        <input className="inputStyle" type="text" name="pweight" onChange={handleChange} placeholder="대표자이름을 입력해주세요" value={form.pweight}/>
-                        <label className="labelStyle">
-                              생년월일
-                        </label>
-                        <input className="inputStyle" type="date" name="page" onChange={handleChange} placeholder="YYYY-MM-DD" value={form.page} />
-                        <label className="labelStyle">
-                          알러지 유무 
-                        </label>
-                        <input className="inputStyle" type="text" name="palg" onChange={handleChange} placeholder="알러지가 있다면 입력해주세요" value={form.palg} />
-                        <label className="labelStyle">
-                          펫 보험 
-                        </label>
-                        <input className="inputStyle" type="text" name="pins" onChange={handleChange} placeholder="펫보험이 있다면 입력해주세요" value={form.pins} />
-                        <label className="labelStyle">
-                          선천적 지병
-                        </label>
-                        <input className="inputStyle" type="text" name="pchronic" onChange={handleChange} placeholder="선천적지병이 있다면 입력해주세요" value={form.pchronic} />
-                        <label className="labelStyle">
-                          수술 이력 
-                        </label>
-                        <input className="inputStyle" type="text" name="psname" onChange={handleChange} placeholder="수술 이력이 있다면 이름을 입력해주세요" value={form.psname}/>
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                      <button type="button" className="btn btn-outline-dark btn-block" style={{ width: "40%", padding: "10px", fontSize: "1.1rem" }} onClick={handleUpdate}>수정하기</button>
-                    </div>
-                  </div>
-    </form>
+                  )}
+                  <label className="labelStyle">
+                    동물 번호
+                  </label>
+                  <input className="inputStyle" type="text" name="pno" onChange={handleChange} placeholder="동물 번호를 입력해주세요" value={form.pno} readOnly={true} />
+                  <label className="labelStyle">
+                    이름
+                  </label>
+                  <input className="inputStyle" type="text" name="pname" onChange={handleChange} placeholder="이름을 입력해주세요" value={form.pname} />
+                  <label className="labelStyle">
+                    종류 
+                  </label>
+                  <input className="inputStyle" type="text" name="ptype" onChange={handleChange} placeholder="동물 종류를 입력해주세요" value={form.ptype} />
+                  <label className="labelStyle">
+                    품종
+                  </label>
+                  <input className="inputStyle" type="text" name="pbreed" onChange={handleChange} placeholder="품종을 입력해주세요" value={form.pbreed} />
+                  <label className="labelStyle">
+                    내장칩 유무 
+                  </label>
+                  <input className="inputStyle" type="text" name="pmichipe" onChange={handleChange} placeholder="내장칩 유무를 입력해주세요" value={form.pmichipe} />      
+                </div>
+                {/* 오른쪽 컬럼 */}
+                <div className="columnStyle">
+                  <label className="labelStyle">
+                    몸무게 
+                  </label>
+                  <input className="inputStyle" type="text" name="pweight" onChange={handleChange} placeholder="대표자이름을 입력해주세요" value={form.pweight}/>
+                  <label className="labelStyle">
+                    생년월일
+                  </label>
+                  <input className="inputStyle" type="date" name="page" onChange={handleChange} placeholder="YYYY-MM-DD" value={form.page} />
+                  <label className="labelStyle">
+                    알러지 유무 
+                  </label>
+                  <input className="inputStyle" type="text" name="palg" onChange={handleChange} placeholder="알러지가 있다면 입력해주세요" value={form.palg} />
+                  <label className="labelStyle">
+                    펫 보험 
+                  </label>
+                  <input className="inputStyle" type="text" name="pins" onChange={handleChange} placeholder="펫보험이 있다면 입력해주세요" value={form.pins} />
+                  <label className="labelStyle">
+                    선천적 지병
+                  </label>
+                  <input className="inputStyle" type="text" name="pchronic" onChange={handleChange} placeholder="선천적지병이 있다면 입력해주세요" value={form.pchronic} />
+                  <label className="labelStyle">
+                    수술 이력 
+                  </label>
+                  <input className="inputStyle" type="text" name="psname" onChange={handleChange} placeholder="수술 이력이 있다면 이름을 입력해주세요" value={form.psname}/>
+                </div>
+              </div>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <button type="button" className="btn btn-outline-dark btn-block" style={{ width: "40%", padding: "10px", fontSize: "1.1rem" }} onClick={handleUpdate}>수정하기</button>
+                </div>
+            </div>
+        </main>
+      </form>
     );
 };
 

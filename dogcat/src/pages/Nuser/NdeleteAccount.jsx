@@ -2,6 +2,9 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
+import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
+import styles from '../notice/Notice.module.css';
 
 const REASONS = [
   "아이디 변경",
@@ -39,19 +42,10 @@ function NdeleteAccount() {
   }
 
   return (
-    <div>
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
-        <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d" }}>너도멍냥</div>
-          <nav>
-            <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
-              <li><Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>내 정보 보기</span></Link></li>
-              <li><Link to="/nuser-pet" style={{ color: "#333", textDecoration: "none" }}>나의 반려동물</Link></li>
-              <li><Link to="/nuser-booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
-              <li><Link to="/nuser-adoption" style={{ color: "#333", textDecoration: "none" }}>유기동물 관심 목록</Link></li>
-            </ul>
-          </nav>
-
-      </header>
+    <div className={styles.ntcWrapper}>
+      <HeaderNoticeQna />
+      <main style={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
+        <NavNoticeQna activeTab="change-nmypage" />
       <div style={{ maxWidth: 1300, margin: "60px auto", padding: 100, border: "1px solid #ddd", borderRadius: 10 }}>
         <h3 style={{ marginBottom: 24 }}>회원탈퇴 사유</h3>
         <form onSubmit={handleSubmit}>
@@ -90,6 +84,7 @@ function NdeleteAccount() {
           </label>
         </form>
       </div>
+      </main>
     </div>
   );
 }

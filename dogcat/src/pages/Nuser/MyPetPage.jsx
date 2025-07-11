@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../stores/useAuthStore';
 import axios from 'axios';
+import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
+import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
+import styles from '../notice/Notice.module.css';
 
 
 const MyPetPage = () => {
@@ -60,36 +63,16 @@ const MyPetPage = () => {
     }
 
     return (
-        <div>
-            <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
-                    <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d" }}>너도멍냥</div>
-                    <nav>
-                      <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
-                        <li><Link to="/nuser-mypage" style={{ color: "#333", textDecoration: "none" }}>내 정보 보기</Link></li>
-                        <li><Link to="/nuser-pet" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>나의 반려동물</span></Link></li>
-                        <li><Link to="/nuser-booking" style={{ color: "#333", textDecoration: "none" }}>예약내역</Link></li>
-                        <li><Link to="/nuser-adoption" style={{ color: "#333", textDecoration: "none" }}>유기동물 관심 목록</Link></li>
-                      </ul>
-                    </nav>
-                    {username ? (
-                        <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
-                            onClick={() => {resetUserInfo(); window.location.href = "/"; // 로그아웃 후 홈으로 이동
-                            }}>로그아웃</button>
-                    ) : (
-                        <Link to="/login">
-                          <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
-                            로그인
-                          </button>
-                        </Link>
-                    )}
-                  </header>
-                <div style={{ display: "flex", flexDirection: "column", gap: "30px", marginTop: "20px" }}>
-            {pet.length === 0 && <p>등록된 반려동물이 없습니다.</p>}
-
-            {pet.map((pet) => (
-                <div key={pet.pno} style={{ display: "flex", gap: "38px", border: "1px solid #ddd", padding: "20px", borderRadius: "10px" }}>
+        <div className={styles.ntcQnaWrapper}>
+           <HeaderNoticeQna /> 
+                <main>
+                <NavNoticeQna activeTab="nuser-pet" />
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "30px", marginTop: "20px" ,  alignItems: "center" }}>
+                {pet.length === 0 && <p>등록된 반려동물이 없습니다.</p>}
+                {pet.map((pet) => (
+                <div key={pet.pno} style={{ display: "flex", gap: "38px", border: "1px solid #ddd", padding: "20px", borderRadius: "10px",  justifyContent: "center",  width: "100%", maxWidth: "800px" }}>
                 {/* 왼쪽 */}
-                <div style={{ minWidth: "220px" }}>
+                <div style={{ minWidth: "220px",  alignItems: "center" }}>
                     <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>프로필 사진</div>
                             <div style={{ marginBottom: "32px" }}>
                                 {pet.pprof && pet.pprof.startsWith("data:image") ? (
@@ -137,10 +120,11 @@ const MyPetPage = () => {
                     </div>
                 </div>
             ))}
-            <button className="btn btn-outline-dark" onClick={() => handleSave(pet.pno)} style={{ width: "100%" }}>
+            <button className="btn btn-outline-dark" onClick={() => handleSave(pet.pno)} style={{ width: "100px" }}>
                             등록하기
                         </button>
-        </div>
+                </div>
+        </main>
     </div>
     );
 };
