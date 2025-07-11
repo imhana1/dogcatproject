@@ -41,7 +41,10 @@ function DeleteAccount() {
   return (
     <div>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
-        <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d" }}>너도멍냥 동물병원</div>
+        <div style={{ display: "flex", alignItems: "center", marginLeft: '10px' }}>
+          <img src="/dogcat_logo.png" alt="너도멍냥 동물병원" style={{ height: '100px', width:'100px' , cursor:'pointer', marginLeft: '0px', marginRight: '6px' }} onClick={()=>navigate('/')} />
+          <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d", marginLeft: '0px', marginRight: '0px' }}>너도멍냥 동물병원</div>
+        </div>
         <nav>
           <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
             <li><Link to="#" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>내정보 보기</span></Link></li>

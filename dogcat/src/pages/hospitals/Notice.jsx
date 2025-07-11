@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 import axios from "axios";
 
@@ -7,6 +7,7 @@ import axios from "axios";
 function Notice() {
   const [notice, setNotice] = useState("초기 공지사항입니다.");
   const [input, setInput] = useState(notice);
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const fetchNotice=async()=>{
@@ -53,7 +54,10 @@ function Notice() {
   return (
     <div>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
-        <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d" }}>너도멍냥 동물병원</div>
+        <div style={{ display: "flex", alignItems: "center", marginLeft: '10px' }}>
+          <img src="/dogcat_logo.png" alt="너도멍냥 동물병원" style={{ height: '100px', width:'100px' , cursor:'pointer', marginLeft: '0px', marginRight: '6px' }} onClick={()=>navigate('/')} />
+          <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d", marginLeft: '0px', marginRight: '0px' }}>너도멍냥 동물병원</div>
+        </div>
         <nav>
           <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
             <li><Link to="/hospital-mypage" style={{ color: "#333", textDecoration: "none" }}>내정보 보기</Link></li>

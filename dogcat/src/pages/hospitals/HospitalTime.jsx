@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import DatePicker from "react-datepicker";
 // 날짜
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,6 +10,7 @@ import useAuthStore from "../../stores/useAuthStore";
 // 병원 예약 시간 설정
 function HospitalTime({options = ["진료"], option = ["미용"]}) {
     const [selectedOption, setSelectedOption] = useState(options[0]);
+    const navigate = useNavigate();
     // 초기 값 -> 아무 날짜도 선택되지 않는 상태
     const [dates1, setDates1] = useState([null, null, null, null]); // 진료용
     const [dates2, setDates2] = useState([null, null, null, null]); // 미용용
@@ -78,15 +79,11 @@ function HospitalTime({options = ["진료"], option = ["미용"]}) {
 
     return (
         <div>
-            <header style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "20px 60px",
-                background: "#fff",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.07)"
-            }}>
-                <div style={{fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d"}}>너도멍냥 동물병원</div>
+            <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
+                <div style={{ display: "flex", alignItems: "center", marginLeft: '10px' }}>
+                    <img src="/dogcat_logo.png" alt="너도멍냥 동물병원" style={{ height: '100px', width:'100px' , cursor:'pointer', marginLeft: '0px', marginRight: '6px' }} onClick={()=>navigate('/')} />
+                    <div style={{ fontWeight: "bold", fontSize: "1.6rem", color: "#1c140d", marginLeft: '0px', marginRight: '0px' }}>너도멍냥 동물병원</div>
+                </div>
                 <nav>
                     <ul style={{display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0}}>
                         <li><Link to="/hospital-mypage" style={{color: "#333", textDecoration: "none"}}>내정보 보기</Link>

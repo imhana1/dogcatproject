@@ -49,6 +49,8 @@ import HMemberList from "./pages/hospitalMemberManage/HMemberList";
 import NdeleteAccount from './pages/Nuser/NdeleteAccount';
 import NMemberRead from "./pages/normalMemberManage/NMemberRead";
 import HMemberRead from "./pages/hospitalMemberManage/HMemberRead";
+import FavoriteAnimals from "./pages/Nuser/FavoriteAnimals";
+// import CancelPaymentPage from './toss/CancelPaymentPage';
 // import CancelPaymentPage from './toss/CancelPaymentPage';
 
 function App() {
@@ -87,6 +89,9 @@ function App() {
         <Route path='/change-nmypage' element={<ChangenMyPage />} />
         {/* 일반 회원 회원 탈퇴 페이지 */}
         <Route path='/nuser/delete' element={<NdeleteAccount />} />
+        {/* 관심 유기동물 목록 페이지 */}
+        <Route path='/nuser-adoption' element={<FavoriteAnimals />} />
+        {/* 병원 회원 탈퇴 페이지 */}
         <Route path="/delete-account" element={<DeleteAccount />} />
         <Route path="/hospital-time" element={<HospitalTime />} />
         <Route path="/booking" element={<Booking />} />
