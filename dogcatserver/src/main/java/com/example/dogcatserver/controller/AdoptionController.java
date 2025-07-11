@@ -67,7 +67,7 @@ public class AdoptionController {
     return ResponseEntity.status(200).body(adoption);
   }
 
-//  // 글 작성 테스트끝
+////   글 작성 테스트끝
 //  @Operation(summary = "글 작성", description = "관심 등록을 하지 않았으면 등록, 관심 등록을 이미 했으면 등록을 취소")
 //  @PostMapping(value = "/api/adoptions/writeTest")
 //  public ResponseEntity<Adoption> writeAdoptionTest(@RequestPart @Valid AdoptionDto.WriteTest writeDto, @RequestPart(value = "aProfile") MultipartFile aProfile, BindingResult br, Principal principal) {
@@ -79,7 +79,7 @@ public class AdoptionController {
 //    } catch (IOException e) {
 //      System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
 //    }
-//    Adoption adoption = adoptionService.writeAdoption(writeDto, base64Image);
+//    Adoption adoption = adoptionService.writeAdoptionTest(writeDto, base64Image);
 //    System.out.println("200응답");
 //    return ResponseEntity.status(200).body(adoption);
 //  }
