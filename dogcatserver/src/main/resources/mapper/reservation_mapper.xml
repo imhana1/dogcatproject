@@ -20,12 +20,12 @@
     </resultMap>
     <!-- 예약 취소 처리  -->
     <update id="cancelReservation">
-        update reservation set r_status = 'CANCE' where rno = #{rno}
+        update reservation set r_status = 'CANCELED' where rno = #{rno}
     </update>
 
     <!-- 예약 삭제 -->
     <delete id="deleteReservation" parameterType="int">
-        delete from reservation where rno = #{rno} and r_status = 'CANCE'
+        delete from reservation where rno = #{rno} and r_status = 'CANCELED'
     </delete>
     
     <!--  병원 시간 불러오기  -->

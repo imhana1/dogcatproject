@@ -88,9 +88,10 @@ public class ReservationService {
 
 
   // 예약 취소
-  public boolean cancelReservation(Reservation reservation) {
+  @Transactional
+  public boolean cancelReservation(int rno) {
     // 상태 변경하기
-    Reservation db = reservationDao.getReservationByRno(reservation.getRno());
+    Reservation db = reservationDao.getReservationByRno(rno);
     // 실패 분야 늘리기
     if (db == null) {
       System.out.println("예약 취소 실패 : 예약이 존재하지 않습니다");
@@ -100,14 +101,15 @@ public class ReservationService {
       System.out.println("예약 취소 실패 : 이미 취소된 예약입니다.");
       return false;
     }
-    int updateNo = reservationDao.cancelReservation(reservation.getRno());
+    int updateNo = reservationDao.cancelReservation(rno);
+    int deleteNO = reservationDao.deleteReservation(rno);
     // 변경이 안되면 안된다고 출력
-    if (updateNo == 1) {
+    if (updateNo == 1 && deleteNO==1) {
       // 변경 성공
       return true;
     } else {
       // 실패
-      System.out.println("예약 취소 실패: 번호 = " + reservation.getRno());
+      System.out.println("예약 취소 실패: 번호 = " + rno);
       return false;
     }
   }
