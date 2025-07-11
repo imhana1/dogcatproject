@@ -50,8 +50,8 @@ import NdeleteAccount from './pages/Nuser/NdeleteAccount';
 import NMemberRead from "./pages/normalMemberManage/NMemberRead";
 import HMemberRead from "./pages/hospitalMemberManage/HMemberRead";
 import FavoriteAnimals from "./pages/Nuser/FavoriteAnimals";
-// import CancelPaymentPage from './toss/CancelPaymentPage';
-// import CancelPaymentPage from './toss/CancelPaymentPage';
+import CancelPaymentPage from './toss/CancelPaymentPage';
+
 
 function App() {
   // 접근 가능 권한 확인 목적으로 넣은거 맞음! checkAuth랑 useEffect 있어야함!
@@ -79,14 +79,14 @@ function App() {
         <Route path="/change-mypage" element={<ChangeMyPage />} />
         {/*일반 회원 마이페이지 */}
         <Route path='/nuser-mypage' element={<NmyPage />} />
+        {/*일반 회원 회원 정보 변경 페이지 */}
+        <Route path='/change-nmypage' element={<ChangenMyPage />} />
         {/*일반 회원 반려동물 정보 페이지 */}
         <Route path='/nuser-pet' element={<MyPetPage />} />
         {/*일반 회원 반려동물 정보 등록 페이지 */}
         <Route path='/nuser-petsave' element={<MyPetWrite />} />
         {/*일반 회원 반려동물 정보 변경 페이지 */}
         <Route path='/nuser-petchange' element={<MyPetChange />} />
-        {/*일반 회원 회원 정보 변경 페이지 */}
-        <Route path='/change-nmypage' element={<ChangenMyPage />} />
         {/* 일반 회원 회원 탈퇴 페이지 */}
         <Route path='/nuser/delete' element={<NdeleteAccount />} />
         {/* 관심 유기동물 목록 페이지 */}
@@ -123,7 +123,7 @@ function App() {
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>
         <Route path='/toss/fail' element={<TossFail />}/>
-        {/*<Route path='/toss/cancel' element={<CancelPaymentPage />} />*/}
+        <Route path='/toss/cancel' element={<CancelPaymentPage />} />
         {/* 지도 페이지 */}
         <Route path='/search' element={<MapPage />} />
       </Routes>

@@ -1,9 +1,6 @@
-import { Button } from 'bootstrap'
-import React, {useEffect} from 'react'
 import styles from '../../pages/notice/Notice.module.css';
 import useAuthStore from "../../stores/useAuthStore";
-import {useNavigate, useSearchParams} from "react-router-dom";
-import {findQnaQuestionByQnoWithAnswer} from "../../utils/qnaApi";
+
 
 
 function NavNoticeQna({ activeTab }) {
