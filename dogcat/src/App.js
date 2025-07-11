@@ -79,14 +79,14 @@ function App() {
         <Route path="/change-mypage" element={<ChangeMyPage />} />
         {/*일반 회원 마이페이지 */}
         <Route path='/nuser-mypage' element={<NmyPage />} />
+        {/*일반 회원 회원 정보 변경 페이지 */}
+        <Route path='/change-nmypage' element={<ChangenMyPage />} />
         {/*일반 회원 반려동물 정보 페이지 */}
         <Route path='/nuser-pet' element={<MyPetPage />} />
         {/*일반 회원 반려동물 정보 등록 페이지 */}
         <Route path='/nuser-petsave' element={<MyPetWrite />} />
         {/*일반 회원 반려동물 정보 변경 페이지 */}
         <Route path='/nuser-petchange' element={<MyPetChange />} />
-        {/*일반 회원 회원 정보 변경 페이지 */}
-        <Route path='/change-nmypage' element={<ChangenMyPage />} />
         {/* 일반 회원 회원 탈퇴 페이지 */}
         <Route path='/nuser/delete' element={<NdeleteAccount />} />
         {/* 관심 유기동물 목록 페이지 */}
