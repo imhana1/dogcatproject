@@ -49,9 +49,6 @@ public class  SecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPoint));
         return config.build();
 
-//        config.authorizeHttpRequests(auth -> auth
-//                .anyRequest().permitAll()  // 모든 요청 허용
-//        );
 
     }
 
