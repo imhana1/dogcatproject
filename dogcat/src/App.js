@@ -52,6 +52,9 @@ import HMemberRead from "./pages/hospitalMemberManage/HMemberRead";
 import FavoriteAnimals from "./pages/Nuser/FavoriteAnimals";
 import AdoptionList from "./pages/adoptions/AdoptionList";
 import CancelPaymentPage from './toss/CancelPaymentPage';
+import ReservationWrite from './pages/reservation/ReservationWrite';
+import MedicalReservation from './pages/reservation/MedicalReservation';
+import BeautyReservation from './pages/reservation/BeautyReservation';
 import ReservationMenu from "./pages/Nuser/ReservationMenu";
 
 
@@ -129,6 +132,10 @@ function App() {
         <Route path='/toss/cancel' element={<CancelPaymentPage />} />
         {/* 지도 페이지 */}
         <Route path='/search' element={<MapPage />} />
+        {/* 예약 페이지 */}
+        <Route path='/reservation/write' element ={<ReservationWrite />} />
+        <Route path='/reservation/medical' element ={<MedicalReservation />} />
+        <Route path='reservation/beauty' element={<BeautyReservation />} />
       </Routes>
     </div>
   );
