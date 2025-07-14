@@ -4,6 +4,9 @@ import useAuthStore from "../../stores/useAuthStore";
 import api from "../../utils/api";
 import HeaderNoticeQna from "../../fragments/noticeQna/HeaderNoticeQna";
 import NavNoticeQna from "../../fragments/noticeQna/NavNoticeQna";
+import NavUserMenu from "../../fragments/nuser/NavUserMenu";
+import HeaderUser from "../../fragments/nuser/HeaderUser";
+import styles from "../notice/Notice.module.css";
 
 // 관심 유기동물 목록
 function FavoriteAnimals({ activeTab }) {
@@ -56,12 +59,11 @@ function FavoriteAnimals({ activeTab }) {
     const currentAnimals = animals.slice((page - 1) * animalsPerPage, page * animalsPerPage);
 
     return (
-        <div>
-            {/* 이거 이름 효진언니가 나중에 수정해준댕 */}
-            <HeaderNoticeQna />
-            <main style={{ background: "#fff", minHeight: "100vh", display: "flex" }}>
-                <NavNoticeQna activeTab="animals" />
-                <section style={{ padding: "40px 60px" }}>
+        <form className={styles.ntcQnaWrapper}>
+            <HeaderUser />
+            <main>
+                <NavUserMenu activeTab="adoption" />
+                <div style={{ padding: "40px 60px" }}>
                     <h2 style={{ marginBottom: "32px", fontWeight: 700, textAlign: 'center' }}>관심 유기동물 목록</h2>
                     {/* 카드 그리드 */}
                     {/* 한 줄에 4개의 열이 생기고, 각 열은 전체 가로폭의 1/4씩 */}
@@ -96,9 +98,9 @@ function FavoriteAnimals({ activeTab }) {
                         ))}
                         <button onClick={() => setPage(page + 1)} disabled={page === totalPages} style={{ marginLeft: 8, background: "#f2e9e1", color: "#333", border: "none", borderRadius: "6px", padding: "8px 16px" }}>다음</button>
                     </div>
-                </section>
+                </div>
             </main>
-        </div>
+        </form>
     );
 }
 

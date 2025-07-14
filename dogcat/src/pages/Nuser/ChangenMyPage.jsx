@@ -5,8 +5,9 @@ import PostcodeSearch from '../../components/hospitals/PostcodeSearch';
 import useAuthStore from '../../stores/useAuthStore';
 import axios from 'axios';
 import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
-import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
 import styles from '../notice/Notice.module.css';
+import NavUserMenu from "../../fragments/nuser/NavUserMenu";
+import HeaderUser from "../../fragments/nuser/HeaderUser";
 
 function ChangeMyPage() {
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ function ChangeMyPage() {
     nid: "",
     nname: "",
     zip: "",
-    address: "",
-    address1: "",
+    naddr: "",
+    nsubaddr: "",
     nbirth: "",
     ntel: "",
     email: ""
@@ -37,8 +38,8 @@ function ChangeMyPage() {
         nid : data.nid,
         nname : data.nname,
         zip : data.zip,
-        address : data.naddr,
-        address1: data.nsubaddr,
+        naddr : data.naddr,
+        nsubaddr: data.nsubaddr,
         nbirth : data.nbirth,
         ntel : data.ntel,
         email : data.email
@@ -53,21 +54,33 @@ function ChangeMyPage() {
   const handleUpdate = async() => {
     const formData = new FormData();
 
+    // 1. 회원 정보 변경 DTO
     const dto = {
-        nid : form.nid,
-        nname : form.nname,
-        zip : form.zip,
-        naddr : form.address,
-        address1 : form.nsubaddr,
-        nbirth : form.nbirth,
-        ntel : form.ntel,
-        email : form.email
-    }
+      nid : form.nid,
+      nname : form.nname,
+      zip : form.zip,
+      naddr : form.naddr,
+      nsubaddr : form.nsubaddr,
+      nbirth : form.nbirth,
+      ntel : form.ntel,
+      email : form.email
+    };
+    formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
+
+    // 2. Username 체크용 DTO (username 필드만 있으면 됨)
+    const uDto = {
+      username: form.nid
+    };
+    formData.append("uDto", new Blob([JSON.stringify(uDto)], { type: "application/json" }));
 
     try {
-      const response = await axios.post("http://localhost:8080/nuser/profile", formData, {
+      const response = await axios.put("http://localhost:8080/nuser/profile", formData, {
         withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       });
+      console.log("서버 응답:", response.data);
       navigate("/nuser-mypage");
     } catch(err) {
       console.error(err);
@@ -87,7 +100,7 @@ function ChangeMyPage() {
     setForm({
       ...form,
       zip: data.zonecode,
-      address1: data.address,
+      nsubaddr: data.address,
     });
     setShowPostcode(false);
   };
@@ -100,9 +113,9 @@ function ChangeMyPage() {
 
   return (
     <form className={styles.ntcWrapper}>
-      <HeaderNoticeQna />
+      <HeaderUser />
       <main style={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
-        <NavNoticeQna activeTab="change-nmypage" />
+        <NavUserMenu activeTab="change-nmypage" />
           <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
             <div className="boxStyle" style={{ width: '100%', maxWidth: '1000px' }}>
               <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}>
@@ -127,8 +140,8 @@ function ChangeMyPage() {
                     )}
                   </label>
                   <input type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "180px", height:"35px", minWidth: 100, display: "inline-block" }} required />
-                  <input className="inputStyle" type="text" name="naddr" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.address} required />
-                  <input className="inputStyle" type="text" name="address1" onChange={handleChange} placeholder="주소를 입력해주세요" value={form.address1} required />
+                  <input className="inputStyle" type="text" name="naddr" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.naddr} required />
+                  <input className="inputStyle" type="text" name="nsubaddr" onChange={handleChange} placeholder="주소를 입력해주세요" value={form.nsubaddr} required />
                 </div>
               </div>
               <div style={{ display: "flex", justifyContent: "center" }}>

@@ -5,6 +5,8 @@ import axios from "axios";
 import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
 import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
 import styles from '../notice/Notice.module.css';
+import NavUserMenu from "../../fragments/nuser/NavUserMenu";
+import HeaderUser from "../../fragments/nuser/HeaderUser";
 
 const MyPetWrite = () => {
   const navigate = useNavigate();
@@ -92,9 +94,9 @@ const MyPetWrite = () => {
 
   return (
     <form className={styles.ntcWrapper}>
-      <HeaderNoticeQna />
+      <HeaderUser />
       <main style={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
-        <NavNoticeQna activeTab="nuser-petsave" />
+        <NavUserMenu activeTab="nuser-petsave" />
         <div className="boxStyle" style={{ width: '100%', maxWidth: '1000px' }}>
           <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}>
             {/* 제목 또는 빈 공간 */}

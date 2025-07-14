@@ -52,6 +52,7 @@ import HMemberRead from "./pages/hospitalMemberManage/HMemberRead";
 import FavoriteAnimals from "./pages/Nuser/FavoriteAnimals";
 import AdoptionList from "./pages/adoptions/AdoptionList";
 import CancelPaymentPage from './toss/CancelPaymentPage';
+import ReservationMenu from "./pages/Nuser/ReservationMenu";
 
 
 function App() {
@@ -90,6 +91,7 @@ function App() {
         <Route path='/nuser-petchange' element={<MyPetChange />} />
         {/* 일반 회원 회원 탈퇴 페이지 */}
         <Route path='/nuser/delete' element={<NdeleteAccount />} />
+        <Route path='/nuser-reservations' element={<ReservationMenu />} />
         {/* 관심 유기동물 목록 페이지 */}
         <Route path='/nuser-adoption' element={<FavoriteAnimals />} />
         {/* 병원 회원 탈퇴 페이지 */}
