@@ -13,14 +13,9 @@ import ReservationFooter from '../../fragments/reservation/ReservationFooter'
 function MedicalReservation() {
   const location = useLocation();
   const navigate = useNavigate();
-  
-  // location.state 에서 병원 아이디 꺼내기
-  const hUsernameFromState = location.state?.hUsername || '';
 
-  // 상태 선언
-  const [hUsername, setHUsername] = useState('');
   // ReservationWrite에서 받은 정보
-  const { username, petName, rCondition, remark } = location.state || {};
+  const { username, petName, rCondition, remark, hUsername } = location.state || {};
 
   // 날짜, 시간 선택 상태
   const [selectedDate, setSelectedDate] = useState(null);
@@ -29,15 +24,10 @@ function MedicalReservation() {
   // 시간 블락 가져오기
   const [unavailableTimes, setUnavailableTimes] = useState([]);
 
-  // 병원 아이디 가져오기
-  useEffect(() => {
-  setHUsername(hUsernameFromState); // 받아온 값으로 설정
-  }, []);
-
   // 블락된 시간 가져오기
   useEffect(()=> {
     if(selectedDate && hUsername) {
-      fetch(`/api/reservation/unvailable-times?date=${selectedDate}&hUsername=${hUsername}`)
+      fetch(`/api/reservation/unavailable-times?date=${selectedDate}&hUsername=${hUsername}`)
       .then((res)=> res.json())
       .then((data)=> {
         setUnavailableTimes(data.unavailableTimes)
@@ -55,7 +45,7 @@ function MedicalReservation() {
   const handleReservationSubmit = () => {
     if (!selectedDate || !selectedTime) {
       alert('날짜와 시간을 선택해 주세요.')
-      return
+      return;
     }
     // TODO: 결제 API 호출 및 성공 시 setPaymentStatus('DONE') 처리
 
@@ -70,6 +60,8 @@ function MedicalReservation() {
     <>
       <ReservationHeader />
       <div style={{ padding: '20px' }}>
+        
+        {/* 단계 표시 : 2단계 */}
         <StepIndicator currentStep={2} />
 
         <HospitalNotice />
