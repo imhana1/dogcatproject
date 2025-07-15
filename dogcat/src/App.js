@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import HospitalIntro from "./hospital/introduction/HospitalIntro";
-import { Route, Routes } from "react-router-dom";
+import {Route, Routes, useLocation} from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import LoginForm from "./components/LoginForm";
 import SignupHospitalForm from "./components/hospitals/SignupHospitalForm";
@@ -57,14 +57,51 @@ import MedicalReservation from './pages/reservation/MedicalReservation';
 import BeautyReservation from './pages/reservation/BeautyReservation';
 import ReservationMenu from "./pages/Nuser/ReservationMenu";
 import ReviewWrite from "./pages/Nuser/ReviewWrite";
+import {Slide, toast} from "react-toastify";
 
 
 function App() {
   // 접근 가능 권한 확인 목적으로 넣은거 맞음! checkAuth랑 useEffect 있어야함!
   const checkAuth = useAuthStore(state => state.checkAuth);
+  const socket = useAuthStore(state => state.socket)
+  const location = useLocation();
   useEffect(() => {
     checkAuth();
   }, []);
+
+
+  // 로그인했다면 toast를 띄울 subscribe를 등록
+  useEffect(() => {
+    if (!socket)
+      return;
+    socket.subscribe('/user/sub/job3', (msg) => {
+      const data = JSON.parse(msg.body);
+      toast.error( <div>
+        <strong>{data.sender}님:</strong> {data.message}
+        <br />
+        {data.url && (
+            <a href={data.url} target="_blank" rel="noopener noreferrer" style={{ color: 'yellow', textDecoration: 'underline' }}>
+              바로가기
+            </a>
+        )}
+      </div>, {
+        position: "top-right",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
+    })
+  }, [socket])
+
+
+
+
+
   return (
     <div className="App">
       <Routes>

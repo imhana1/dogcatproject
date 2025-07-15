@@ -1,10 +1,18 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import useAuthStore from "../stores/useAuthStore";
 
 function Home() {
     // username과 role을 Zustand에서 꺼냄
-    const { username, role } = useAuthStore();
+    // const { username, role } = useAuthStore();
+    const role = useAuthStore(state => state.role)
+    const checkAuth = useAuthStore(state =>state.checkAuth);
+    const isAuthChecked = useAuthStore(state => state.isAuthChecked);
+
+    if (!isAuthChecked) {
+        return <div>로딩 중...</div>; // 또는 빈 화면 <></>
+    }
+
 
     return (
         <div

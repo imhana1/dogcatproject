@@ -24,3 +24,14 @@ npm install react-daum-postcode
 
 토스 페이 관련 uuid
 npm install uuid
+
+sockjs 임포트시 필요
+npm install sockjs-client
+
+stomp 서버 필요
+npm install sockjs-client @stomp/stompjs
+
+
+
+middleware 임포트 용도
+npm install zustand@latest
