@@ -94,6 +94,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
           // 커스텀 오버레이 내용 생성
           const overlayContent = document.createElement("div");
           overlayContent.className = "custom-overlay";
+          const href = `http://localhost:3000/hospital?address=${encodeURIComponent(place.road_address_name || place.address_name || "")}&name=${encodeURIComponent(place.place_name || "")}`;
 
           // overlay 내부 HTML 구조
           overlayContent.innerHTML = `
@@ -102,7 +103,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
               <p>${place.road_address_name || place.address_name || ""}</p>
             </div>
             <div class = "link-group">
-              <a href ="${"http://localhost:3000/hospital"}" target="_blank" rel="noopener noreferrer">예약하기</a>
+              <a href ={href} target="_blank" rel="noopener noreferrer">예약하기</a>
             </div>
             <div class ="close">x</div>
           `;
