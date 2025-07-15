@@ -82,14 +82,13 @@ public class ReservationService {
     int updateNo = reservationDao.cancelReservation(rno);
     int deleteNO = reservationDao.deleteReservation(rno);
     // 변경이 안되면 안된다고 출력
-    if (updateNo == 1 && deleteNO==1) {
-      // 변경 성공
+    System.out.println(updateNo);
+    System.out.println(deleteNO);
+    if (updateNo == 1 && deleteNO == 1) {
       return true;
-    } else {
-      // 실패
-      System.out.println("예약 취소 실패: 번호 = " + rno);
-      return false;
     }
+
+    throw new RuntimeException("예약 취소 트랜잭션 실패: rno = " + rno);
   }
 
   // 예약 삭제

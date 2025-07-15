@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 import api from "../../utils/api";
 import HeaderNoticeQna from "../../fragments/noticeQna/HeaderNoticeQna";
@@ -81,7 +81,7 @@ function FavoriteAnimals({ activeTab }) {
                                             : <span style={{ color: '#bbb', fontSize: 32 }}>{animal.a_profile}</span>
                                         }
                                     </div>
-                                    <div style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 5 }}>{animal.a_name}</div>
+                                    <div style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 5 }}><Link to='/adoptions'>{animal.a_name}</Link></div>
                                     <div style={{ color: '#888', fontSize: 14, marginBottom: 5 }}>{animal.a_city}</div>
                                 </div>
                             ))

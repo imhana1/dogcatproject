@@ -128,7 +128,7 @@ const MyPetChange = () => {
       <form className={styles.ntcWrapper}>
         <HeaderUser />
         <main style={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
-        <NavUserMenu activeTab="nuser-petchange" />
+        <NavUserMenu activeTab="nuser-pet" />
             <div className="boxStyle" style={{ width: '100%', maxWidth: '1000px' }}>
               <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}>
             </div>

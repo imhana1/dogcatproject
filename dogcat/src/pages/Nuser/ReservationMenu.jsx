@@ -3,15 +3,18 @@ import HeaderUser from "../../fragments/nuser/HeaderUser";
 import NavUserMenu from "../../fragments/nuser/NavUserMenu";
 import useAuthStore from "../../stores/useAuthStore";
 import axios from "axios";
+import {Link, useNavigate} from "react-router-dom";
 
 const BLOCK_SIZE = 5; // 한페이지당 예약 개수
 
+// 예약 내역 화면
 function ReservationMenu() {
     const [page, setPage] = useState(1);
     const [reservation, setReservation] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
     const [status, setStatus] = useState('ALL');
     const [dateRange, setDateRange] = useState({ from: '', to: '' });
+    const navigate = useNavigate();
 
     // 총 페이지
     const totalPages = Math.ceil(reservation.length/BLOCK_SIZE);
@@ -25,19 +28,18 @@ function ReservationMenu() {
     const handleStatusChange = e => setStatus(e.target.value);
     const handleDateChange = e => setDateRange({ ...dateRange, [e.target.name]: e.target.value });
 
-    // 예약 내역 불러오기
-    const handleSearch = () => {
-        axios.get("http://localhost:8080/reservation/info", {
-            params: { status, from: dateRange.from, to: dateRange.to}, withCredentials: true})
-            .then(res => {
-                setReservation(res.data);
-                if (res.data.length === 0) setShowAlert(true);
-                setPage(1); // 조회 시 첫 페이지로 이동
-            })
-            .catch(err => {
-                console.error("예약내역 불러오기 실패:", err);
-            });
-    };
+    useEffect(() => {
+        const fetch= async ()=>{
+            try {
+                const response = await axios.get("http://localhost:8080/reservation/info",{withCredentials:true});
+                console.log(response.data);
+                setReservation(response.data);
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        fetch();
+    }, []);
 
     // 기간 버튼 핸들러 예시
     const setPeriod = days => {
@@ -57,55 +59,36 @@ function ReservationMenu() {
                 <NavUserMenu activeTab="nuser-reservations" />
                 <div style={{ padding: "40px 60px" }}>
                     <h2 style={{ marginBottom: 32, fontWeight: 700, textAlign: 'center' }}>예약내역</h2>
-                    {/* 기간 필터 */}
-                    <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ fontWeight: 500 }}>조회기간</span>
-                        <button onClick={() => setPeriod(1)} className="btn btn-outline-dark btn-block">오늘</button>
-                        <button onClick={() => setPeriod(7)} className="btn btn-outline-dark btn-block">7일</button>
-                        <button onClick={() => setPeriod(30)} className="btn btn-outline-dark btn-block">1개월</button>
-                        <button onClick={() => setPeriod(90)} className="btn btn-outline-dark btn-block">3개월</button>
-                        <button onClick={() => setPeriod(365)} className="btn btn-outline-dark btn-block">1년</button>
-                        <input type="date" name="from" value={dateRange.from} onChange={handleDateChange} style={{ marginLeft: 12 }} />
-                        <span>~</span>
-                        <input type="date" name="to" value={dateRange.to} onChange={handleDateChange} />
-                        <button style={{ marginLeft: 8 }} onClick={handleSearch} className="btn btn-outline-dark btn-block">조회</button>
-                    </div>
-                    {/* 상태 필터 */}
-                    <div style={{ marginBottom: 24 }}>
-                        지난 예약 내역 조회:
-                        <label style={{ marginLeft: 10 }}>
-                            <input type="radio" name="status" value="ALL" checked={status === "ALL"} onChange={handleStatusChange} /> 전체
-                        </label>
-                        <label style={{ marginLeft: 10 }}>
-                            <input type="radio" name="status" value="확정" checked={status === "확정"} onChange={handleStatusChange} /> 확정
-                        </label>
-                        <label style={{ marginLeft: 10 }}>
-                            <input type="radio" name="status" value="취소" checked={status === "취소"} onChange={handleStatusChange} /> 취소
-                        </label>
-                    </div>
                     {/* 결과 테이블 */}
-                    <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px #0001', padding: 20, minHeight: 200 }}>
+                    <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px #0001', padding: 100, minHeight: 200 }}>
                         {countOfPage.length === 0 ? (
                             <div style={{ color: '#888', textAlign: 'center', padding: 40 }}>조회 결과가 없습니다.</div>
                         ) : (
                             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                                 <thead>
                                 <tr style={{ background: '#f2e9e1' }}>
-                                    <th style={{ padding: 10 }}>예약번호</th>
-                                    <th style={{ padding: 10 }}>병원명</th>
-                                    <th style={{ padding: 10 }}>진료일시</th>
-                                    <th style={{ padding: 10 }}>상태</th>
+                                    <th style={{ padding: "14px 10px", textAlign: "center" }}>예약번호</th>
+                                    <th style={{ padding: "14px 10px", textAlign: "center" }}>반려동물번호</th>
+                                    <th style={{ padding: "14px 10px", textAlign: "center" }}>병원명</th>
+                                    <th style={{ padding: "14px 10px", textAlign: "center" }}>예약자</th>
+                                    <th style={{ padding: "14px 10px", textAlign: "center" }}>진료일시</th>
+                                    <th style={{ padding: "14px 10px", textAlign: "center" }}>예약상태</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {countOfPage.map(item => (
-                                    <tr key={item.id} style={{ borderBottom: '1px solid #eee' }}>
-                                        <td style={{ padding: 10, textAlign: 'center' }}>{item.id}</td>
-                                        <td style={{ padding: 10, textAlign: 'center' }}>{item.hospitalName}</td>
-                                        <td style={{ padding: 10, textAlign: 'center' }}>{item.date}</td>
-                                        <td style={{ padding: 10, textAlign: 'center' }}>{item.status}</td>
-                                    </tr>
-                                ))}
+                                {
+                                    countOfPage.map(reservation => (
+                                        <tr key={reservation.rno}>
+                                            <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.rno}</td>
+                                            <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.pno}</td>
+                                            <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation. husername}</td>
+                                            {/* 예약자명 버튼 → 리뷰작성하기로 */}
+                                            <td><button onClick={() => navigate(`/review-write/${reservation.rno}`)} className="btn btn-dark" style={{ marginBottom: "5px" }}>{reservation.nusername}</button></td>
+                                            <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.schedule}</td>
+                                            <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.rstatus}</td>
+                                        </tr>
+                                    ))
+                                }
                                 </tbody>
                             </table>
                         )}

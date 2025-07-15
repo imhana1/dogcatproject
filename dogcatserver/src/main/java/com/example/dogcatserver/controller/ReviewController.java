@@ -61,7 +61,7 @@ public class ReviewController {
         service.update(dto, principal.getName());
         return ResponseEntity.ok("리뷰 내용을 변경했습니다");
     }
-    @Secured("Role_USER")
+    @Secured("ROLE_USER")
     @DeleteMapping("/review/delete")
     @Operation(summary = "리뷰 삭제", description = "리뷰번호로 리뷰 삭제")
     public ResponseEntity<String> delete(@RequestParam @NotNull Integer revNo,BindingResult br, Principal principal){

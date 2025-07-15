@@ -2,16 +2,6 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 
-// 진료결과 읽기 목록(게시판 형태)
-// const treat = [
-//     { id: 1, title: "변비" },
-//     { id: 2, title: "설사" },
-//     { id: 3, title: "배탈" },
-//     { id: 4, title: "급성장염" },
-//     { id: 5, title: "기침" },
-//     { id: 6, title: "배탈" },
-// ];
-
 const BLOCK_SIZE = 5; // 한페이지당 예약 개수
 
 function BookingList() {

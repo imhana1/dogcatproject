@@ -56,6 +56,7 @@ import ReservationWrite from './pages/reservation/ReservationWrite';
 import MedicalReservation from './pages/reservation/MedicalReservation';
 import BeautyReservation from './pages/reservation/BeautyReservation';
 import ReservationMenu from "./pages/Nuser/ReservationMenu";
+import ReviewWrite from "./pages/Nuser/ReviewWrite";
 
 
 function App() {
@@ -95,6 +96,8 @@ function App() {
         {/* 일반 회원 회원 탈퇴 페이지 */}
         <Route path='/nuser/delete' element={<NdeleteAccount />} />
         <Route path='/nuser-reservations' element={<ReservationMenu />} />
+        {/* 일반 회원 리뷰 작성 페이지 */}
+        <Route path='/review-write/:rno' element={<ReviewWrite />} />
         {/* 관심 유기동물 목록 페이지 */}
         <Route path='/nuser-adoption' element={<FavoriteAnimals />} />
         {/* 병원 회원 탈퇴 페이지 */}

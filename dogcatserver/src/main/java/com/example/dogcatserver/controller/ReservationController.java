@@ -55,7 +55,7 @@ public class ReservationController {
     @PatchMapping("/reservation/cancel")
     public ResponseEntity<String> cancelReservation(@RequestParam int rno) {
         boolean result = service.cancelReservation(rno);
-
+        System.out.println(result);
         if (result) {
             return ResponseEntity.ok("예약 취소 성공");
         } else {

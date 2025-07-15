@@ -9,7 +9,7 @@ function NavUserMenu({ activeTab }) {
                 <a type='button' href='/nuser-reservations' className={activeTab === 'nuser-reservations' ? 'btn btn-secondary' : 'btn btn-dark'}>예약내역</a>
                 <a type='button' href='/qna' className={activeTab === 'qna' ? 'btn btn-secondary' : 'btn btn-dark'}>1:1문의</a>
                 <a type='button' href='/notices' className={activeTab === 'notice' ? 'btn btn-secondary' : 'btn btn-dark'}>공지사항</a>
-                <a type='button' href='/nuser-adoption' className={activeTab === 'adoption' ? 'btn btn-secondary' : 'btn btn-dark'}>동물 보호소</a>
+                <a type='button' href='/nuser-adoption' className={activeTab === 'adoption' ? 'btn btn-secondary' : 'btn btn-dark'}>관심 유기동물 목록</a>
             </nav>
         </div>
     );

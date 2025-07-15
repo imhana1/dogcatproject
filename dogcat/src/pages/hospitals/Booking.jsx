@@ -11,6 +11,8 @@ function Booking() {
   const [bookings, setBookings] = useState([]);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
+  // 승인 또는 취소 버튼을 한 번 누르면 즉시 비활성화
+  const [disabledIds, setDisabledIds] = useState([]);
 
   useEffect(() => {
     const fetch= async ()=>{
@@ -56,9 +58,23 @@ function Booking() {
   }
 
   // 취소 버튼 누르면 삭제
-  const handleDelete = (id) => {
-    if(window.confirm("정말로 예약을 취소하시겠습니까?")) {
-      setBookings(bookings => bookings.filter(reservation => reservation.id!==id));
+  const handleDelete = async(rno) => {
+    if (disabledIds.includes(rno)) return;
+
+    if (window.confirm("정말로 예약을 취소하시겠습니까?")) {
+      setDisabledIds(prev => [...prev, rno]);
+
+      try {
+        await axios.patch(`http://localhost:8080/reservation/cancel?rno=${rno}`, null, {
+          withCredentials: true
+        });
+        alert("예약이 취소되었습니다.");
+        setBookings(prev => prev.filter(reservation => reservation.rno !== rno));
+      } catch (error) {
+        console.error(error);
+        alert("취소 중 오류 발생");
+        setDisabledIds(prev => prev.filter(id => id !== rno));
+      }
     }
   }
 
@@ -119,7 +135,7 @@ function Booking() {
                 </td>
                 <td>
                   <button className="btn btn-success"  style={{ marginRight: "4px" }} onClick={()=>handleAdd(reservation.rno)} >승인</button>
-                  <button className="btn btn-danger" onClick={() => handleDelete(reservation.rno)}>취소</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(reservation.rno)} disabled={disabledIds.includes(reservation.rno)}>취소</button>
                 </td>
               </tr>
             ))

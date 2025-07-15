@@ -4,7 +4,6 @@ import './ChangenMyPage.css';
 import PostcodeSearch from '../../components/hospitals/PostcodeSearch';
 import useAuthStore from '../../stores/useAuthStore';
 import axios from 'axios';
-import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
 import styles from '../notice/Notice.module.css';
 import NavUserMenu from "../../fragments/nuser/NavUserMenu";
 import HeaderUser from "../../fragments/nuser/HeaderUser";
@@ -12,9 +11,6 @@ import HeaderUser from "../../fragments/nuser/HeaderUser";
 function ChangeMyPage() {
   const navigate = useNavigate();
   const [showPostcode, setShowPostcode] = useState(false);
-
-  // 로그인 정보 저장
-  const { username, resetUserInfo } = useAuthStore();
 
   const [form, setForm] = useState({
     nid: "",
@@ -54,16 +50,21 @@ function ChangeMyPage() {
   const handleUpdate = async() => {
     const formData = new FormData();
 
+    const formatBirth = (dateStr) => {
+      const [year, month, day] = dateStr.split("-");
+      return `${year}년 ${month}월 ${day}일`;
+    };
+
     // 1. 회원 정보 변경 DTO
     const dto = {
-      nid : form.nid,
-      nname : form.nname,
-      zip : form.zip,
-      naddr : form.naddr,
-      nsubaddr : form.nsubaddr,
-      nbirth : form.nbirth,
-      ntel : form.ntel,
-      email : form.email
+      nid: form.nid,
+      nname: form.nname,
+      zip: form.zip ? Number(form.zip) : null,
+      naddr: form.naddr,
+      nsubaddr: form.nsubaddr,
+      nbirth: formatBirth(form.nbirth),
+      ntel: form.ntel,
+      email: form.email
     };
     formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
 
@@ -94,6 +95,15 @@ function ChangeMyPage() {
     setForm({ ...form, [name]: value });
   };
 
+  // 로그인 정보 저장
+  const { username, resetUserInfo } = useAuthStore();
+  console.log("Booking username:", username);
+
+  const checkAuth = useAuthStore(state => state.checkAuth);
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   
   // 카카오 우편번호 검색 기능
   const handleComplete = (data) => {
@@ -115,7 +125,7 @@ function ChangeMyPage() {
     <form className={styles.ntcWrapper}>
       <HeaderUser />
       <main style={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
-        <NavUserMenu activeTab="change-nmypage" />
+        <NavUserMenu activeTab="nuser-mypage" />
           <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
             <div className="boxStyle" style={{ width: '100%', maxWidth: '1000px' }}>
               <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}>
@@ -127,6 +137,10 @@ function ChangeMyPage() {
                     연락처 <span style={{ color: "red" }}>*</span>
                   </label>
                   <input className="inputStyle" type="text" name="ntel" placeholder="000-0000-0000" onChange={handleChange} value={form.ntel} required />
+                  <label className="labelStyle" >
+                    생년월일 <span style={{ color: "red" }}>*</span>
+                  </label>
+                  <input className="inputStyle" type="text" name="nbirth" placeholder="0000-00-00" onChange={handleChange} value={form.nbirth} required />
                 </div>
                 {/* 오른쪽 컬럼 */}
                 <div className="columnStyle">
