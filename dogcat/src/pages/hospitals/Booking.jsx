@@ -45,9 +45,26 @@ function Booking() {
   const countOfPage = bookings.slice((page-1) * BLOCK_SIZE, page * BLOCK_SIZE);
 
   // 승인 버튼 누르면 예약완료
-  const handleAdd = (id) => {
+  const handleAdd = async(rno) => {
+    const target = reservation.find(r => r.rno === rno);
+    if (!target) {
+      alert("해당 예약 정보를 찾을 수 없습니다.");
+      return;
+    }
+    const payload={
+      sender:"",
+      receiver: target.nusername,
+      message:"예약이 승인 되었습니다",
+      url:"http://localhost:3000/nuser-reservations"
+    }
+    try{
+      await axios.post("http://localhost:8080/api/message", payload,{withCredentials:true});
+
+    } catch (e) {
+      console.log(e);
+    }
     setBookings(bookings =>
-      bookings.map(reservation => reservation.id===id? {...reservation, status: "예약"}: reservation)
+      bookings.map(reservation => reservation.rno===rno? {...reservation, status: "예약"}: reservation)
     );
     alert("예약으로 예약상태가 변경되었습니다");
   }

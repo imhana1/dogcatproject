@@ -10,14 +10,17 @@ function BookingResult({bookingId, userId}) {
     // 진단명, 처방, 특이사항
     const [form, setForm] = useState({rno:'', tTitle:'', tContent:''});
     const navigate = useNavigate();
+    const [treatData, setTreatData] =useState(null);
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
-    
+
+    console.log("BookingResult 렌더링");
     useEffect(()=>{
         const fetch= async ()=>{
             try {
                 const response = await  axios.get(`http://localhost:8080/hospital/treat-read?rno=${rno}`, {withCredentials:true})
                 const data = response.data;
+                setTreatData(data);
                 console.log(data);
                 setForm({
                     rno: data.rno,
@@ -37,11 +40,26 @@ function BookingResult({bookingId, userId}) {
     // username이 바뀔 때 form.tWriter도 같이 바뀌도록 useEffect 추가
     const checkAuth = useAuthStore(state => state.checkAuth);
     useEffect(() => {
-        checkAuth();
+        // checkAuth();
     }, [checkAuth]);
 
-    const handleSubmit = async e => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // ✅ 기본 동작 방지
+        const payload={
+            sender:"",
+            receiver:treatData.nusername,
+            message:"진료결과가 수신되었습니다",
+            url:`http://localhost:3000/result-read?rno=${rno}`
+        }
+        try {
+            console.log("🚀 메시지 전송 시도", payload);
+            await axios.post("http://localhost:8080/api/message", payload, { withCredentials: true });
+            alert("진료결과 메시지를 전송했습니다.");
+        } catch (e) {
+            console.log(e);
+            alert("메시지 전송 실패");
+        }
+        // e.preventDefault();
         // 백 입력 dto
         // const payload = {
         //         rno: u,

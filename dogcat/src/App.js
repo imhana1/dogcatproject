@@ -60,7 +60,8 @@ import AdoptionRead from "./pages/adoptions/AdoptionRead";
 import AdoptionWrite from "./pages/adoptions/AdoptionWrite";
 import AdoptionUpdate from "./pages/adoptions/AdoptionUpdate";
 import ReviewWrite from "./pages/Nuser/ReviewWrite";
-import {Slide, toast} from "react-toastify";
+import {Slide, toast, ToastContainer} from "react-toastify";
+
 
 
 function App() {
@@ -77,10 +78,10 @@ function App() {
   useEffect(() => {
     if (!socket)
       return;
-    socket.subscribe('/user/sub/job3', (msg) => {
+    const subscription = socket.subscribe('/user/sub/job3', (msg) => {
       const data = JSON.parse(msg.body);
       toast.error( <div>
-        <strong>{data.sender}님:</strong> {data.message}
+        <strong>작성자는{data.sender}님입니다 <br /> </strong> 메시지:{data.message}
         <br />
         {data.url && (
             <a href={data.url} target="_blank" rel="noopener noreferrer" style={{ color: 'yellow', textDecoration: 'underline' }}>
@@ -99,6 +100,12 @@ function App() {
         transition: Slide,
       });
     })
+    // ✅ cleanup 함수에서 구독 해제
+    return () => {
+      if (subscription && typeof subscription.unsubscribe === 'function') {
+        subscription.unsubscribe();
+      }
+    };
   }, [socket])
 
 
@@ -185,6 +192,7 @@ function App() {
         <Route path='/reservation/medical' element ={<MedicalReservation />} />
         <Route path='reservation/beauty' element={<BeautyReservation />} />
       </Routes>
+      <ToastContainer/>
     </div>
   );
 }
