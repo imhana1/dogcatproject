@@ -56,7 +56,7 @@ public class QnaService {
 
   // 답변 상태에 따른 질문 리스트 출력 (관리자)
   public QnaQuestionDto.Pages findAllQnaQuestionByIsAnswered (boolean qIsAnswered, int pageno, int pagesize) {
-    int totalCount = qnaQuestionDao.countAllQnaQuestion();
+    int totalCount = qnaQuestionDao.countAllQnaQuestionByQIsAnswered(qIsAnswered);
     List<QnaQuestion> qnaQuestions = qnaQuestionDao.findAllQnaQuestionByIsAnswered(qIsAnswered, pageno, pagesize);
     return QnaUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, qnaQuestions);
   }

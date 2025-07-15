@@ -4,12 +4,12 @@
 
     <!-- 전체 목록 가져오기 (findAllAdoption) -->
     <select id="findAllAdoption" resultType="com.example.dogcatserver.entity.Adoption">
-        select a_profile, a_name, a_breed, a_city from adoption order by ano desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+        select ano, a_profile, a_name, a_breed, a_city from adoption order by ano desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
     </select>
 
     <!-- 지역으로 분류해서 목록 가져오기 (findAllAdoption) -->
     <select id="findAllAdoptionByACity" resultType="com.example.dogcatserver.entity.Adoption">
-        select a_profile, a_name, a_breed, a_city from adoption where a_city=#{aCity} order by ano offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
+        select ano, a_profile, a_name, a_breed, a_city from adoption where a_city=#{aCity} order by ano desc offset (#{pageno}-1) * #{pagesize} rows fetch next #{pagesize} rows only
     </select>
 
     <!-- 유기동물 게시판 글 등록 -->

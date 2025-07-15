@@ -43,15 +43,15 @@
         select count(*) from user_member u join normal_member n on u.username = n.n_username
         <where>
             <choose>
-                <when test="searchType=='both'">
+                <when test="searchType eq 'both'">
                     upper(u.username) like '%' || upper(#{searchWord}) || '%'
                     or
                     upper(n.n_name) like '%' || upper(#{searchWord}) || '%'
                 </when>
-                <when test="searchType=='id'">
+                <when test="searchType eq 'id'">
                     upper(u.username) like '%' || upper(#{searchWord}) || '%'
                 </when>
-                <when test="searchType=='name'">
+                <when test="searchType eq 'name'">
                     upper(n.n_name) like '%' || upper(#{searchWord}) || '%'
                 </when>
                 <otherwise>

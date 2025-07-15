@@ -38,7 +38,7 @@ function HMemberList () {
         hospitalMemberList: []
     })
 
-    const pagination = {
+    const [pagination, setPagination] = useState( {
         prev: data.prev,
         start: data.start,
         end: data.end,
@@ -46,6 +46,7 @@ function HMemberList () {
         pageno: pageno,
         moveUrl: `?pageno=`
     }
+    )
 
     // 상태 필터링 핸들러 (검색어도 초기화 해줘야 검색 한 상태에서 필터 눌렀을 때 다시 그 상태인 목록이 떠)
     const setAllHandler = () =>  {
@@ -82,6 +83,14 @@ function HMemberList () {
                 response = await findAllHospitalMemberByStatus('BLOCK', pageno, PAGE_SIZE);
             }
             setData(response.data);
+            setPagination({
+                prev: response.data.prev,
+                start: response.data.start,
+                end: response.data.end,
+                next: response.data.next,
+                pageno: pageno,
+                moveUrl: `?pageno=`
+            })
         } catch(err) {
             console.log('일반 회원 리스트를 가져오지 못했습니다: ', err);
         }
@@ -237,7 +246,7 @@ function HMemberList () {
                             )}
                             </tbody>
                         </table>
-                        <Paginations pagination={pagination} />
+                        {data.hospitalMemberList.length > 0 && <Paginations pagination={pagination} />}
                     </section>
                 </main>
                 <FooterNoticeQna />

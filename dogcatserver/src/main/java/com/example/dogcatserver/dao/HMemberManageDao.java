@@ -1,6 +1,7 @@
 package com.example.dogcatserver.dao;
 
 import com.example.dogcatserver.dto.*;
+import com.example.dogcatserver.entity.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.*;
@@ -11,6 +12,10 @@ public interface HMemberManageDao {
     @Select("select count(*) from user_member u join hospital_member h on u.username= h.h_username order by u.sign_dt desc")
     int countAllHospitalMember();
 
+    // 상태별 회원 수 세기
+    @Select("select count(*) from user_member u join hospital_member h on u.username= h.h_username where u.status=#{status} order by u.sign_dt desc")
+    int countAllHospitalMemberByStatus(Status status);
+
     // 검색 결과별 회원수 세기
     int countSearchMember(@Param("searchWord") String searchWord, @Param("searchType") String searchType);
 
@@ -18,7 +23,7 @@ public interface HMemberManageDao {
     List<HMemberManageDto.HospitalMemberList> findAllHospitalMember(int pageno, int pagesize);
 
     // 상태별 목록 출력
-    List<HMemberManageDto.HospitalMemberList> findAllHospitalMemberByStatus(int pageno, int pagesize, String status);
+    List<HMemberManageDto.HospitalMemberList> findAllHospitalMemberByStatus(int pageno, int pagesize, Status status);
 
     // 회원 검색
     List<HMemberManageDto.HospitalMemberList> findHospitalMemberByWord(@Param("pageno") int pageno, @Param("pagesize") int pagesize, @Param("searchWord") String searchWord, @Param("searchType") String searchType);

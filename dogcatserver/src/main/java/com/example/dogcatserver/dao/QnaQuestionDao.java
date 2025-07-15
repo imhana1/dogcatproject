@@ -28,6 +28,10 @@ public interface QnaQuestionDao {
   @Select("select count(*) from qna_question")
   int countAllQnaQuestion();
 
+  // qna 답변상태별 글 개수 확인 for pagination
+  @Select("select count(*) from qna_question where q_is_answered=#{qIsAnswered}")
+  int countAllQnaQuestionByQIsAnswered(boolean qIsAnswered);
+
   // 본인이 작성한 질문 글 개수 확인 for pagination
   @Select("select count(*) from qna_question where username=#{username}")
   int countQnaQuestionsByUsername(String username);

@@ -2,6 +2,7 @@ package com.example.dogcatserver.service;
 
 import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
+import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.exception.*;
 import com.example.dogcatserver.util.*;
 import org.springframework.beans.factory.annotation.*;
@@ -27,8 +28,8 @@ public class HMemberManageService {
   }
 
   // 상태별 목록 출력
-  public HMemberManageDto.Pages findAllHospitalMemberByStatus(int pageno, int pagesize, String status) {
-    int totalCount = manageDao.countAllHospitalMember();
+  public HMemberManageDto.Pages findAllHospitalMemberByStatus(int pageno, int pagesize, Status status) {
+    int totalCount = manageDao.countAllHospitalMemberByStatus(status);
     List<HMemberManageDto.HospitalMemberList> hospitalMemberList = manageDao.findAllHospitalMemberByStatus(pageno, pagesize, status);
     return HMemberManageUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, hospitalMemberList);
   }

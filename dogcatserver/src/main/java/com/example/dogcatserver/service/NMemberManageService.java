@@ -29,8 +29,8 @@ public class NMemberManageService {
   }
 
   // 상태별 목록 출력
-  public NMemberManageDto.Pages findAllNormalMemberByStatus(int pageno, int pagesize, String status) {
-    int totalCount = manageDao.countAllNormalMember();
+  public NMemberManageDto.Pages findAllNormalMemberByStatus(int pageno, int pagesize, Status status) {
+    int totalCount = manageDao.countAllNormalMemberByStatus(status);
     List<NMemberManageDto.NormalMemberList> normalMemberList = manageDao.findAllNormalMemberByStatus(pageno, pagesize, status);
     return NMemberManageUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, normalMemberList);
   }

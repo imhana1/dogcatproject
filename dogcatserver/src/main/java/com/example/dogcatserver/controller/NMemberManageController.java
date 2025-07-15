@@ -1,6 +1,7 @@
 package com.example.dogcatserver.controller;
 
 import com.example.dogcatserver.dto.*;
+import com.example.dogcatserver.entity.*;
 import com.example.dogcatserver.service.*;
 import io.swagger.v3.oas.annotations.*;
 import org.springframework.beans.factory.annotation.*;
@@ -23,7 +24,7 @@ public class NMemberManageController {
   // 상태에 따른 목록 출력
   @Operation(summary = "상태에 따른 목록 출력", description = "선택한 상태에 따른 회원 목록 출력")
   @GetMapping("/api/n-members/status-list")
-  public ResponseEntity<NMemberManageDto.Pages> findAllNormalMemberByStatus(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "20") int pagesize, @RequestParam String status) {
+  public ResponseEntity<NMemberManageDto.Pages> findAllNormalMemberByStatus(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "20") int pagesize, @RequestParam Status status) {
     return ResponseEntity.ok(manageService.findAllNormalMemberByStatus(pageno, pagesize, status));
   }
 

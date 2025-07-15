@@ -1,6 +1,7 @@
 package com.example.dogcatserver;
 
 import com.example.dogcatserver.dao.*;
+import com.example.dogcatserver.entity.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
@@ -22,7 +23,7 @@ public class MemberManageTest {
 
 //  @Test
   public void findAllNormalMemberByStatusTest() {
-    normalDao.findAllNormalMemberByStatus(1, 20, "일반");
+    normalDao.findAllNormalMemberByStatus(1, 20, Status.NORMAL);
   }
 
 //  @Test
@@ -102,7 +103,7 @@ public class MemberManageTest {
 
 //    @Test
   public void findAllHospitalMemberByStatusTest() {
-    hospitaldao.findAllHospitalMemberByStatus(1, 20, "일반");  // 다른 상태도 바꿔서 확인함
+    hospitaldao.findAllHospitalMemberByStatus(1, 20, Status.NORMAL);  // 다른 상태도 바꿔서 확인함
   }
 
 //    @Test

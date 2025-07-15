@@ -28,16 +28,16 @@ public class AdoptionController {
   private WishService wishService;
 
   // 전체 글 목록 출력
-  @Operation(summary = "전체목록 페이징", description = "기본 페이지 번호 1, 페이지 크기 10")
+  @Operation(summary = "전체목록 페이징", description = "기본 페이지 번호 1, 페이지 크기 12")
   @GetMapping("/api/adoptions/all-list")
-  public ResponseEntity<AdoptionDto.Pages> findAllAdoption(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize) {
+  public ResponseEntity<AdoptionDto.Pages> findAllAdoption(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "12") int pagesize) {
     return ResponseEntity.ok(adoptionService.findAllAdoption(pageno, pagesize));
   }
 
   // 지역별 글 목록 출력
-  @Operation(summary = "지역별 목록 페이징", description = "기본 페이지 번호 1, 페이지 크기 10")
+  @Operation(summary = "지역별 목록 페이징", description = "기본 페이지 번호 1, 페이지 크기 12")
   @GetMapping("/api/adoptions/city-list")
-  public ResponseEntity<AdoptionDto.Pages> findAllAdoptionByACity(@RequestParam ACity aCity, @RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize) {
+  public ResponseEntity<AdoptionDto.Pages> findAllAdoptionByACity(@RequestParam ACity aCity, @RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "12") int pagesize) {
     return ResponseEntity.ok(adoptionService.findAllAdoptionByACity(aCity, pageno, pagesize));
   }
 
@@ -99,7 +99,7 @@ public class AdoptionController {
   @PutMapping("/api/adoptions/adoption")
   public ResponseEntity<Adoption> updateAdoption(@RequestPart @Valid AdoptionDto.Update updateDto, @RequestPart(value = "aProfile") MultipartFile aProfile, BindingResult br, Principal principal) {
     // 로그인 아이디 = 작성자 확인하는 부분은 서비스에 있어
-    String loginId = "winter";
+    String loginId = principal.getName();
     Adoption existingAdoption = adoptionService.findAdoptionByAno(updateDto.getAno(), principal.getName());
     String base64Image = existingAdoption.getAProfile();
     try {

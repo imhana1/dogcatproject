@@ -56,6 +56,9 @@ import ReservationWrite from './pages/reservation/ReservationWrite';
 import MedicalReservation from './pages/reservation/MedicalReservation';
 import BeautyReservation from './pages/reservation/BeautyReservation';
 import ReservationMenu from "./pages/Nuser/ReservationMenu";
+import AdoptionRead from "./pages/adoptions/AdoptionRead";
+import AdoptionWrite from "./pages/adoptions/AdoptionWrite";
+import AdoptionUpdate from "./pages/adoptions/AdoptionUpdate";
 import ReviewWrite from "./pages/Nuser/ReviewWrite";
 import {Slide, toast} from "react-toastify";
 
@@ -165,6 +168,11 @@ function App() {
         {/* 병원 유저 관리 */}
         <Route path='/h-members' element={<AdminRoute element={<HMemberList />} />} />
         <Route path='/h-members/h-member' element={<AdminRoute element={<HMemberRead />} />} />
+        {/* 유기동물 입양 게시판 */}
+        <Route path='/adoptions' element={<AdoptionList />} />
+        <Route path='/adoptions/adoption' element={<AdoptionRead />} />
+        <Route path='/adoptions/write' element={<PrivateRoute element={<AdoptionWrite />} />} />
+        <Route path='/adoptions/update' element={<PrivateRoute element={<AdoptionUpdate />} />} />
         {/* 토스 예시 페이지 */}
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>

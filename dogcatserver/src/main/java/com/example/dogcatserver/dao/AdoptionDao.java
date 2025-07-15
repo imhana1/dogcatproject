@@ -32,6 +32,9 @@ public interface AdoptionDao {
   @Select("select count(*) from adoption")
   int countAllAdoption();
 
+  // 지역 분류 글 세기
+  @Select("select count(*) from adoption where a_city=#{aCity}")
+  int countAllAdoptionByACity(ACity aCity);
 
   int AdoptionLikeList();
 }
