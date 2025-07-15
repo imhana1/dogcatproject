@@ -103,7 +103,7 @@ const MapContainer =({ username, role, logInlogOutHandler, hospitalMyPage})=> {
               <p>${place.road_address_name || place.address_name || ""}</p>
             </div>
             <div class = "link-group">
-              <a href ={href} target="_blank" rel="noopener noreferrer">예약하기</a>
+              <a href ="${href}" target="_blank" rel="noopener noreferrer">예약하기</a>
             </div>
             <div class ="close">x</div>
           `;
