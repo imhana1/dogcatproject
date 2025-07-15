@@ -1,0 +1,218 @@
+/* HospitalNotice.jsx (병원 공지사항 불러오기) */
+
+/* 공지사항 박스 */
+.notice-box {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fefefe;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+/* 공지사항 제목 */
+.notice-title {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* 공지사항 목록 */
+.notice-list {
+  padding-left: 20px;
+  margin: 0;
+}
+
+/* DateSelector.jsx (날짜 선택) */
+
+/* 날짜 선택 */
+.date-selector {
+  margin-top: 30px;
+}
+
+/* 공통 제목 */
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* 날짜 버튼 리스트 */
+.date-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 개별 날짜 버튼 스타일 */
+.date-item {
+  padding: 8px 12px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* 선택된 날짜 스타일 */
+.date-item.selected {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+/* TimeSelector.jsx (시간 선택) */
+
+/* 시간 선택 */
+.time-selector {
+  margin-top: 30px;
+}
+
+/* 날짜가 선택되지 않았을 때 비활성 메시지 */
+.disabled-text {
+  color: #888;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* 시간 버튼 리스트 */
+.time-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* 개별 시간 버튼 스타일 */
+.time-item {
+  padding: 10px 16px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* 선택된 시간 버튼 스타일 */
+.time-item.selected {
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+}
+
+/* 예약 불가 (disabled) 버튼 스타일 */
+.time-item:disabled {
+  opacity: 0.4;               /* 흐리게 표시 */
+  cursor: not-allowed;        /* 마우스 커서 금지 표시 */
+  pointer-events: none;       /* 이벤트 비활성화 */
+  background-color: #eee;     /* 흐린 회색 배경 */
+  color: #999;
+}
+
+/* PriceNotice.jsx (예약금 안내) */
+
+/* 예약금 안내 박스 */
+.price-notice-box {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff5f5;
+  border: 1px solid #ffcccc;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* 제목 스타일 */
+.price-notice-title {
+  font-weight: bold;
+  color: #d9534f; /* 진한 빨강 */
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+/* 안내 텍스트 */
+.price-notice-text {
+  font-size: 0.9rem;
+  color: #a94442;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* 예약금 금액 강조 */
+.price-amount {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #d9534f;
+  letter-spacing: 2px;
+}
+
+/* SubmitReservationButton.jsx (예약 및 결제 버튼) */
+
+/* 버튼 */
+.submit-reservation-btn {
+  margin-top: 30px;
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  background-color: #007bff; /* 파란색 */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-reservation-btn:hover:not(.disabled) {
+  background-color: #0056b3;
+}
+
+.submit-reservation-btn.disabled,
+.submit-reservation-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* StepIndicator.jsx (단계 표시 상세 레이아웃) */
+
+/* 단계 표시 컴포넌트 */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 15px;
+  font-size: 1rem;
+  user-select: none;
+}
+
+/* 단계 아이템 */
+.step-item {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-weight: 400;
+}
+
+/* 활성 단계 강조 */
+.step-item.active {
+  font-weight: 700;
+  color: #007bff;
+}
+
+/* 단계별 이모지 스타일 */
+.step-emoji {
+  margin-right: 6px;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+/* 단계 텍스트 */
+.step-label {
+  white-space: nowrap;
+}
+
+/* 단계들 사이 구분자 */
+.step-separator {
+  margin-left: 10px;
+  color: #999;
+  user-select: none;
+}

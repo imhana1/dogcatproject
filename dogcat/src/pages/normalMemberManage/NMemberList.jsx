@@ -132,7 +132,7 @@ function NMemberList () {
   console.log(data);
     return (
       <div className={styles.ntcQnaWrapper}>
-        <HeaderNoticeQna />
+        <HeaderNoticeQna title='회원 관리' />
         <main>
           <NavNoticeQna activeTab = 'nMemberManage' />
           <section>

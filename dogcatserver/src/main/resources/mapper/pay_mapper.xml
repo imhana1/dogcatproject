@@ -14,7 +14,7 @@
 
     <!-- orderId 를 이용해 pay 정보 찾기 -->
     <select id="selectPayByOrderId" resultMap="payResultMap" >
-        select * from pay where order_no = #{orderNo}
+        select * from pay where order_no = #{orderId}
     </select>
 
     <!-- 결제 상태 업데이트 하기 -->
@@ -31,5 +31,10 @@
     <resultMap id="payResultMap" type="com.example.dogcatserver.entity.Pay">
         <result property="pStatus" column="p_status" typeHandler="com.example.dogcatserver.toss.handler.PaymentStatusTypeHandler" />
     </resultMap>
+
+    <!-- 사용자명으로 결제 내역 전체 조회 -->
+    <select id="selectPayByNUsername" parameterType="string" resultType="com.example.dogcatserver.entity.Pay">
+        select * from pay where n_username =#{nUsername}
+    </select>
 
 </mapper>

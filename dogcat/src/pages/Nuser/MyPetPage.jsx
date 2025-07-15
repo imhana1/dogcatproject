@@ -5,6 +5,8 @@ import axios from 'axios';
 import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
 import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
 import styles from '../notice/Notice.module.css';
+import NavUserMenu from "../../fragments/nuser/NavUserMenu";
+import HeaderUser from "../../fragments/nuser/HeaderUser";
 
 
 const MyPetPage = () => {
@@ -64,16 +66,16 @@ const MyPetPage = () => {
 
     return (
         <div className={styles.ntcQnaWrapper}>
-           <HeaderNoticeQna /> 
+           <HeaderUser />
                 <main>
-                <NavNoticeQna activeTab="nuser-pet" />
+                <NavUserMenu activeTab="nuser-pet" />
                 <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "30px", marginTop: "20px" ,  alignItems: "center" }}>
                 {pet.length === 0 && <p>등록된 반려동물이 없습니다.</p>}
                 {pet.map((pet) => (
                 <div key={pet.pno} style={{ display: "flex", gap: "38px", border: "1px solid #ddd", padding: "20px", borderRadius: "10px",  justifyContent: "center",  width: "100%", maxWidth: "800px" }}>
                 {/* 왼쪽 */}
                 <div style={{ minWidth: "220px",  alignItems: "center" }}>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>프로필 사진</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>프로필 사진</div>
                             <div style={{ marginBottom: "32px" }}>
                                 {pet.pprof && pet.pprof.startsWith("data:image") ? (
                                     <img src={pet.pprof} alt="펫 프로필" style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "8px", border: "1px solid #ccc"}}/>
@@ -81,32 +83,32 @@ const MyPetPage = () => {
                                     <span>프로필 없음</span>
                                 )}
                             </div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>동물번호</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>동물번호</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pno}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>이름</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>이름</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pname}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>종류</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>종류</div>
                     <div style={{ marginBottom: "32px" }}>{pet.ptype}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>품종</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>품종</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pbreed}</div>
                     
                 </div>
 
                 {/* 오른쪽 */}
                 <div style={{ minWidth: "220px" }}>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>내장칩 유무</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>내장칩 유무</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pmichipe}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>몸무게</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>몸무게</div>
                     <div style={{ marginBottom: "32px" }}>{pet.pweight}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>생년월일</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>생년월일</div>
                     <div style={{ marginBottom: "22px" }}>{pet.page}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "10px", fontWeight: "bold" }}>알러지 유무</div>
+                    <div style={{ fontWeight: 500, marginBottom: "10px" }}>알러지 유무</div>
                     <div style={{ marginBottom: "18px" }}>{pet.palg}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "10px", fontWeight: "bold" }}>펫보험</div>
+                    <div style={{ fontWeight: 500, marginBottom: "10px" }}>펫보험</div>
                     <div style={{ marginBottom: "18px" }}>{pet.pins}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "10px", fontWeight: "bold" }}>선천적 지병</div>
+                    <div style={{ fontWeight: 500, marginBottom: "10px" }}>선천적 지병</div>
                     <div style={{ marginBottom: "18px" }}>{pet.pchronic}</div>
-                    <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>수술 이력</div>
+                    <div style={{ fontWeight: 500, marginBottom: "18px" }}>수술 이력</div>
                     <div style={{ marginBottom: "32px" }}>{pet.psname}</div>             
                 </div>
                 {/* 버튼 */}

@@ -42,4 +42,18 @@ public class GlobalExceptionHandler {
   public ResponseEntity<String> handleAll (Exception e) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("백엔드 서버 오류 : " + e.getMessage());
   }
+
+  // 결제 취소 예외 처리
+  @ExceptionHandler(AlreadyCanceledException.class)
+  public ResponseEntity<String> handleAlreadyCanceled(AlreadyCanceledException ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("이미 취소된 결제입니다.");
+  }
+
+  @ExceptionHandler(PaymentNotFoundException.class)
+  public ResponseEntity<String> handlePaymentNotFound(PaymentNotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body("결제 정보를 찾을 수 없습니다.");
+  }
+
 }

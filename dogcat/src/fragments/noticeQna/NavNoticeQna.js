@@ -2,6 +2,8 @@ import styles from '../../pages/notice/Notice.module.css';
 import useAuthStore from "../../stores/useAuthStore";
 
 
+// 사용 방법: activeTab 넘겨주세요. 그러면 해당 탭에 있을 때 버튼 색이 바뀝니다.
+// ex) <NavNoticeQna  activeTab='notice' />
 
 function NavNoticeQna({ activeTab }) {
   const {username, role} = useAuthStore();
@@ -22,6 +24,7 @@ function NavNoticeQna({ activeTab }) {
         {username && role === 'HOSPITAL' && (
           <a type='button' href='/hospital-mypage' className={activeTab === 'hospital-mypage' ? 'btn btn-secondary' : 'btn btn-dark'}>마이페이지</a>
         )}
+        <a type='button' href='/adoptions' className={activeTab === 'adoption' ? 'btn btn-secondary' : 'btn btn-dark'}>동물 보호소</a>
       </nav>
     </div >
   )

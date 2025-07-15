@@ -50,7 +50,12 @@ import NdeleteAccount from './pages/Nuser/NdeleteAccount';
 import NMemberRead from "./pages/normalMemberManage/NMemberRead";
 import HMemberRead from "./pages/hospitalMemberManage/HMemberRead";
 import FavoriteAnimals from "./pages/Nuser/FavoriteAnimals";
+import AdoptionList from "./pages/adoptions/AdoptionList";
 import CancelPaymentPage from './toss/CancelPaymentPage';
+import ReservationWrite from './pages/reservation/ReservationWrite';
+import MedicalReservation from './pages/reservation/MedicalReservation';
+import BeautyReservation from './pages/reservation/BeautyReservation';
+import ReservationMenu from "./pages/Nuser/ReservationMenu";
 
 
 function App() {
@@ -89,6 +94,7 @@ function App() {
         <Route path='/nuser-petchange' element={<MyPetChange />} />
         {/* 일반 회원 회원 탈퇴 페이지 */}
         <Route path='/nuser/delete' element={<NdeleteAccount />} />
+        <Route path='/nuser-reservations' element={<ReservationMenu />} />
         {/* 관심 유기동물 목록 페이지 */}
         <Route path='/nuser-adoption' element={<FavoriteAnimals />} />
         {/* 병원 회원 탈퇴 페이지 */}
@@ -126,6 +132,10 @@ function App() {
         <Route path='/toss/cancel' element={<CancelPaymentPage />} />
         {/* 지도 페이지 */}
         <Route path='/search' element={<MapPage />} />
+        {/* 예약 페이지 */}
+        <Route path='/reservation/write' element ={<ReservationWrite />} />
+        <Route path='/reservation/medical' element ={<MedicalReservation />} />
+        <Route path='reservation/beauty' element={<BeautyReservation />} />
       </Routes>
     </div>
   );

@@ -17,7 +17,7 @@ function Notice() {
         setInput(res.data);
       }catch (e) {
         console.error("공지사항 불러오기 실패", e);
-        alert("공지사항 불로오기 실패");
+        alert("공지사항 불러오기 실패");
       }
     }
     fetchNotice();

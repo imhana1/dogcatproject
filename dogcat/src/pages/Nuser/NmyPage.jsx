@@ -5,6 +5,8 @@ import useAuthStore from '../../stores/useAuthStore';
 import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
 import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
 import styles from '../notice/Notice.module.css';
+import NavUserMenu from "../../fragments/nuser/NavUserMenu";
+import HeaderUser from "../../fragments/nuser/HeaderUser";
 
 // 병원 마이페이지
 function MyPage() {
@@ -58,9 +60,9 @@ function MyPage() {
 
   return (
     <div className={styles.ntcQnaWrapper}>
-      <HeaderNoticeQna /> 
+      <HeaderUser />
         <main>
-        <NavNoticeQna activeTab="nuser-mypage" />
+        <NavUserMenu activeTab="nuser-mypage" />
         {/* 왼쪽: 병원 정보 */}
         <div className="boxStyle" style={{ width: '100%', maxWidth: '1000px' }}>
         <div style={{ flex: 1, background: "#fff", padding: "60px 60px 58px 58px", marginRight: "54px" }}>
@@ -70,20 +72,20 @@ function MyPage() {
           <div style={{ display: "flex", gap: "38px", justifyContent: "center" }}>
             {/* 왼쪽: 병원명, 주소 */}
             <div style={{ minWidth: "220px" }}>
-              <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>ID</div>
+              <div style={{ fontWeight: 500, marginBottom: "18px" }}>ID</div>
               <div style={{ marginBottom: "22px" }}>{nuser.nid}</div>
-              <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>이름</div>
+              <div style={{ fontWeight: 500, marginBottom: "18px" }}>이름</div>
               <div style={{ marginBottom: "18px" }}>{nuser.nname}</div>
-              <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>생년월일</div>
+              <div style={{ fontWeight: 500, marginBottom: "18px" }}>생년월일</div>
               <div style={{ marginBottom: "18px" }}>{nuser.nbirth}</div>
             </div>
             {/* 오른쪽: 아이디 및 상세정보 */}
             <div style={{ minWidth: "220px" }}>
-              <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>연락처</div>
+              <div style={{ fontWeight: 500, marginBottom: "18px" }}>연락처</div>
               <div style={{ marginBottom: "18px" }}>{nuser.ntel}</div>
-              <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>주소</div>
+              <div style={{ fontWeight: 500, marginBottom: "18px" }}>주소</div>
               <div style={{ marginBottom: "22px" }}>{nuser.address} {nuser.nsubaddr && `(${nuser.nsubaddr})`}</div>
-              <div style={{ fontWeight: 500, marginBottom: "18px", fontWeight: "bold" }}>Email</div>
+              <div style={{ fontWeight: 500, marginBottom: "18px" }}>Email</div>
               <div>{nuser.email}</div>
             </div>
           </div>

@@ -46,4 +46,14 @@ public class PayService {
     return payDao.selectPayByHospitalId(hUsername);
   }
 
+  // 사용자명으로 결제 내역 전체 조회
+  public List<Pay> getPayByNUsername(String nUsername) {
+    return payDao.selectPayByNUsername(nUsername);
+  }
+
+  // 사용자 소유 체크
+  public boolean isOwner(String orderId, String nUsername) {
+    Pay pay = payDao.selectPayByOrderId(orderId);
+    return pay != null && pay.getNUsername().equals(nUsername);
+  }
 }

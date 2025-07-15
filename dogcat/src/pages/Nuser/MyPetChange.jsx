@@ -6,6 +6,8 @@ import './ChangenMyPage.css';
 import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
 import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
 import styles from '../notice/Notice.module.css';
+import NavUserMenu from "../../fragments/nuser/NavUserMenu";
+import HeaderUser from "../../fragments/nuser/HeaderUser";
 
 const MyPetChange = () => {
     const navigate = useNavigate();
@@ -84,7 +86,7 @@ const MyPetChange = () => {
         try {
             const response = await axios.post("http://localhost:8080/nuser-petchange", formData, {
                 withCredentials : true,
-                header: {
+                headers: {
                     "Content-Type": "multipart/form-data"}
             });
             navigate("/nuser-pet");
@@ -124,9 +126,9 @@ const MyPetChange = () => {
 
     return (
       <form className={styles.ntcWrapper}>
-        <HeaderNoticeQna />
+        <HeaderUser />
         <main style={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
-        <NavNoticeQna activeTab="nuser-petchange" />
+        <NavUserMenu activeTab="nuser-petchange" />
             <div className="boxStyle" style={{ width: '100%', maxWidth: '1000px' }}>
               <div style={{ marginBottom: "15px", textAlign: "left", fontWeight: "bold" }}>
             </div>

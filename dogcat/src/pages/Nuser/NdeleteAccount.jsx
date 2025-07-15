@@ -5,6 +5,8 @@ import axios from "axios";
 import HeaderNoticeQna from '../../fragments/noticeQna/HeaderNoticeQna';
 import NavNoticeQna from '../../fragments/noticeQna/NavNoticeQna';
 import styles from '../notice/Notice.module.css';
+import NavUserMenu from "../../fragments/nuser/NavUserMenu";
+import HeaderUser from "../../fragments/nuser/HeaderUser";
 
 const REASONS = [
   "아이디 변경",
@@ -43,9 +45,9 @@ function NdeleteAccount() {
 
   return (
     <div className={styles.ntcWrapper}>
-      <HeaderNoticeQna />
+      <HeaderUser />
       <main style={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
-        <NavNoticeQna activeTab="change-nmypage" />
+        <NavUserMenu activeTab="change-nmypage" />
       <div style={{ maxWidth: 1300, margin: "60px auto", padding: 100, border: "1px solid #ddd", borderRadius: 10 }}>
         <h3 style={{ marginBottom: 24 }}>회원탈퇴 사유</h3>
         <form onSubmit={handleSubmit}>

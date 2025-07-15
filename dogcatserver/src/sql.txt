@@ -92,7 +92,7 @@ CREATE TABLE pet (
 
 -- 7. reservation : normal_member, hospital_member, pet 참조 s_id 추가 증상 r_condition, 추가 사항 remark 추가
 CREATE TABLE reservation (
-	rno number(10) NOT NULL,
+	rno number(10) NOT NULL,            -- 예약번호
 	n_username varchar2(10) NOT NULL,
 	schedule date NULL,
 	h_username varchar2(10) NOT NULL,

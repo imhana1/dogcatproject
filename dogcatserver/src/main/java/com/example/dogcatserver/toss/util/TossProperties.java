@@ -16,4 +16,7 @@ public class TossProperties {
 
   @Value("${toss.create-url}")
   private String createUrl;
+
+  @Value("${toss.base-url}")
+  private String baseUrl;
 }
