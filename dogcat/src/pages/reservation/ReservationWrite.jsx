@@ -1,102 +1,166 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import ReservationHeader from '../../fragments/reservation/ReservationHeader'
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ReservationHeader from '../../fragments/reservation/ReservationHeader';
 import ReservationFooter from '../../fragments/reservation/ReservationFooter';
-
-// 예약 정보 작성하는 페이지
-  // 여기서 진료 선택하면 진료 예약 페이지로
-  // 미용 선택하면 미용 예약 페이지로
+import StepIndicator from '../../components/reservation/StepIndicator';
+import './reservationWrite.css';
 
 function ReservationWrite() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // 기본 예약 정보 상태
-  const [username, setUsername] = useState('');               // 보호자 이름
-  const [petName, setPetName] = useState('');                 // 반려동물 이름
-  const [reservationType, setReservationType] = useState(''); // 예약할 종류 선택 medical or beauty
-  const [rCondition, setRCondition] = useState('');           // 증상
-  const [remark, setRemark] = useState('');                   // 추가 메시지
-  const [hUsername, setHUsername] = useState('');             // 병원 이름
+  const { hUsername: initHUsername, hospitalName: initHospitalName } = location.state || {};
+  // 상태 정의
+  const [petList, setPetList] = useState([]);
+  const [selectedPno, setSelectedPno] = useState('');
+  const [petName, setPetName] = useState('');
+  const [reservationType, setReservationType] = useState('');
+  const [rCondition, setRCondition] = useState('');
+  const [remark, setRemark] = useState('');
+  const [hUsername, setHUsername] = useState(''); // 병원 아이디
+  const [hospitalName, setHospitalName] = useState(''); // 병원 이름
+  const [username, setUsername] = useState(''); // 보호자 이름
 
-  // 페이지 이동 시키는 핸들러 등록
-  const handleNext =()=> {
-    if(!username || !petName || !reservationType) {
-      alert ('보호자 이름, 반려동물 이름, 예약 유형은 필수입니다.');
+  // 병원 정보 가져오기
+  useEffect(() => {
+    if (initHUsername) setHUsername(initHUsername);
+    if (initHospitalName) setHospitalName(initHospitalName);
+  }, [initHUsername, initHospitalName]);
+
+  // 펫 목록 불러오기
+  useEffect(() => {
+    fetch(`/nuser-pet`) // 로그인 정보에 따라 자신의 펫 목록
+      .then(res => res.json())
+      .then(data => {
+        setPetList(data);
+      })
+      .catch(err => console.error('펫 목록 불러오기 실패:', err));
+  }, []);
+
+  // 다음 단계 이동
+  const handleNext = () => {
+    if (!username || !selectedPno || !reservationType) {
+      alert('보호자 이름, 반려동물 선택, 예약 유형은 필수입니다.');
       return;
     }
-    // 작성한 데이터를 진료/미용 예약 페이지로 넘기기
+    if(!hUsername) {
+      alert("병원 정보가 없습니다");
+      return;
+    }
+
     navigate(`/reservation/${reservationType}`, {
-      state: { username, petName, rCondition, remark, hUsername},
-    })
-  }
+      state: {
+        username,
+        petName,         // 단순히 다음 화면에 보여주기 위한 용도
+        pno: selectedPno, // 실제 저장용
+        rCondition,
+        remark,
+        hUsername,
+        hospitalName
+      }
+    });
+  };
 
   return (
     <>
       <ReservationHeader />
-        <div style={{ padding: '20px' }}>
-         <label>
-            보호자 이름<br />
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </label>
+      <StepIndicator currentStep={1} />
 
-          <br /><br />
+      <div style ={{ marginBottom: '20px', fontWeight:'bold', fontSize:'1.2rem'}}>
+        예약 병원: {hospitalName || '병원 정보가 없습니다.'}
+      </div>
 
-          <label>
-            반려 동물 이름<br />
-            <input
-              type="text"
-              value={petName}
-              onChange={(e) => setPetName(e.target.value)}
-            />
-          </label>
+      <div className='reservation-write'>
+        <label className='form-label'>
+          보호자 이름<br />
+          <input
+            className='form-input'
+            type='text'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
 
-          <br /><br />
+        <br /><br />
 
-          <label>
-            예약 유형 선택<br />
-            <select
-              value={reservationType}
-              onChange={(e) => setReservationType(e.target.value)}
-            >
-              <option value="">-- 선택하세요 --</option>
-              <option value="medical">진료</option>
-              <option value="beauty">미용</option>
-            </select>
-          </label>
+        <label className='form-label'>
+          반려동물 선택 (필수)<br />
+          <select
+            className='form-select'
+            value={selectedPno}
+            onChange={(e) => setSelectedPno(e.target.value)}
+          >
+            <option value=''>-- 선택하세요 --</option>
+            {petList.map(pet => (
+              <option key={pet.pno} value={pet.pno}>
+                {pet.pname} ({pet.ptype})
+              </option>
+            ))}
+          </select>
+        </label>
 
-          <br /><br />
+        <br /><br />
 
-          <label>
-            증상<br />
-            <textarea
-              value={rCondition}
-              onChange={(e) => setRCondition(e.target.value)}
-              placeholder="간단한 증상을 입력하세요"
-            />
-          </label>
+        <label className='form-label'>
+          동물 이름 입력 <br />
+          <input
+            className='form-input'
+            type='text'
+            value={petName}
+            onChange={(e) => setPetName(e.target.value)}
+            placeholder='예: 두부, 뽀삐 등'
+          />
+        </label>
 
-          <br /><br />
+        <br /><br />
 
-          <label>
-            추가 메시지<br />
-            <textarea
-              value={remark}
-              onChange={(e) => setRemark(e.target.value)}
-              placeholder="추가로 전달할 내용을 입력하세요"
-            />
-          </label>
+        <label className='form-label'>
+          예약 유형 선택<br />
+          <select
+            className='form-select'
+            value={reservationType}
+            onChange={(e) => setReservationType(e.target.value)}
+          >
+            <option value=''>-- 선택하세요 --</option>
+            <option value='medical'>진료</option>
+            <option value='beauty'>미용</option>
+          </select>
+        </label>
 
-          <br /><br />
+        <br /><br />
 
-          <button onClick={handleNext}>다음 단계 (예약 상세 페이지로 이동)</button>
-        </div>
-        <ReservationFooter />
+        <label className='form-label'>
+          증상<br />
+          <textarea
+            className='form-textarea'
+            value={rCondition}
+            onChange={(e) => setRCondition(e.target.value)}
+            placeholder='간단한 증상을 입력하세요'
+          />
+        </label>
+
+        <br /><br />
+
+        <label className='form-label'>
+          추가 메시지<br />
+          <textarea
+            className='form-textarea'
+            value={remark}
+            onChange={(e) => setRemark(e.target.value)}
+            placeholder='추가로 전달할 내용을 입력하세요'
+          />
+        </label>
+
+        <br /><br />
+
+        <button className='btn-submit' onClick={handleNext}>
+          다음 단계
+        </button>
+      </div>
+
+      <ReservationFooter />
     </>
-  )
+  );
 }
 
-export default ReservationWrite
+export default ReservationWrite;

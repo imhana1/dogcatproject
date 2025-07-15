@@ -33,4 +33,11 @@ public class HospitalDto {
                     .zip(zip).hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).hSubaddress(hSubaddress).build();
         }
         }
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class PublicInfo {
+        private String hUsername;
+        private String hospital;
+    }
 }

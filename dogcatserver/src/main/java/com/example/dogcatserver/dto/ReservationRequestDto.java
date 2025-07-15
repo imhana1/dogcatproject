@@ -25,7 +25,7 @@ public class ReservationRequestDto {
   @Builder
   public static class Create {
     private String nUsername;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime schedule;
     private String hUsername;
     private int pno;

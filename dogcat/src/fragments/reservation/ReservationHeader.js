@@ -12,7 +12,7 @@ function ReservationHeader() {
     // 컴포넌트 로딩되면 로그인 상태 확인
     useEffect(() => {
         checkAuth();
-    }, [checkAuth])
+    }, []);
 
     // 로그인중이면 로그아웃, 로그인 안했으면 로그인으로 보낼거야 + checkAuth 실행한 후에 실행
     const logInlogOutHandler = async () => {

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FcClock } from "react-icons/fc";
 import { FcPhone } from "react-icons/fc";
 import { FcHome } from "react-icons/fc";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 // 병원사진
 const images = [
@@ -25,6 +25,20 @@ function HospitalIntro() {
     const navigate = useNavigate();
     // 간단한 이미지 슬라이드 (3초마다 자동 변경)
     const [imgIdx, setImgIdx] = React.useState(0);
+    // 병원 정보
+    const [hospital, setHospital] = useState ({ hUsername:'', hospitalName:''});
+    const { hUsername } = useParams();
+
+    useEffect(()=> {
+        fetch(`/hospital/public?hUsername=${encodeURIComponent(hUsername)}`)
+        .then(res => res.json())
+        .then(data => {
+            setHospital({ hUsername: data.hUsername, hospitalName: data.hospital });
+            console.log('받은 병원 데이터:', data);
+        })
+        .catch(err => console.log('병원 정보 불러오기 실패', err));
+    },[hUsername]);
+
     React.useEffect(() => {
         const timer = setInterval(() => {
             setImgIdx(idx => (idx + 1) % images.length);
@@ -50,7 +64,7 @@ function HospitalIntro() {
                     <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
                         <li><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>병원 소개</span></li>
                         <li><Link to="/hospital-doctor" style={{ color: "#333", textDecoration: "none" }}>의료진 소개</Link></li>
-                        <li><Link to="/hospital-reservation" style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
+                        <li><Link to="/reservation/write" state ={{ hUsername: hospital.hUsername, hospitalName: hospital.hospital }} style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
                     </ul>
                 </nav>
                 <Link to="/login">

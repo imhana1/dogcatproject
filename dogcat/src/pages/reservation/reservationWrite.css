@@ -1,0 +1,52 @@
+.reservation-write {
+  max-width: 1200px;  /* 적당한 최대 너비 */
+  margin: 20px auto; /* 가운데 정렬 */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* 각 입력 칸 스타일 */
+.reservation-write label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.reservation-write input,
+.reservation-write textarea,
+.reservation-write select {
+  width: 100%;             /* 부모 너비 꽉 채우기 */
+  padding: 8px 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;  /* 패딩까지 포함한 크기 계산 */
+  resize: vertical;        /* textarea는 세로만 조절 가능 */
+  margin-top: 4px;
+}
+
+.reservation-write textarea {
+  resize: none; /* 크기 조절 불가 */
+}
+
+/* 버튼 스타일 */
+.reservation-write button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reservation-write button:hover {
+  background-color: #0056b3;
+}

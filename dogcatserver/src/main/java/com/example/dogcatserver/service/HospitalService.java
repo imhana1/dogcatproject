@@ -127,4 +127,16 @@ public class HospitalService {
         hospitalDao.deletehospital(loginId);
         memberDao.delete(loginId);
     }
+
+    // 공개 병원 정보 보기
+    public HospitalDto.PublicInfo getPublicHospitalInfo(String hUsername) {
+        HospitalMemberInfo info = hospitalDao.getByUsername(hUsername);
+        if(info==null) return null;
+
+        HospitalDto.PublicInfo dto = new HospitalDto.PublicInfo();
+        dto.setHUsername(info.getHUsername());
+        dto.setHospital(info.getHospital());
+        return dto;
+    }
+
 }

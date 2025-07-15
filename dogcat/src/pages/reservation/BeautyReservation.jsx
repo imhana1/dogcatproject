@@ -11,79 +11,87 @@ import ReservationFooter from '../../fragments/reservation/ReservationFooter'
 
 // 미용 예약 페이지 
 function BeautyReservation() {
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // ReservationWrite.jsx 에서 넘겨받은 예약 정보
-  const {
-    username,
-    petName,
-    rCondition,
-    remark,
-    hUsername, // 병원 아이디
-  } = location.state || {}
+  // ReservationWrite에서 받은 정보
+  const { username, petName, rCondition, remark, hUsername } = location.state || {};
 
-  // 날짜 및 시간 선택 상태
-  const [selectedDate, setSelectedDate] = useState(null)
-  const [selectedTime, setSelectedTime] = useState(null)
+  // 날짜, 시간 선택 상태
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
 
-  // 예약 불가한 시간 리스트
-  const [unavailableTimes, setUnavailableTimes] = useState([])
+  // 시간 블락 가져오기
+  const [unavailableTimes, setUnavailableTimes] = useState([]);
 
-  // 날짜 선택되면 블락된 시간 불러오기
-  useEffect(() => {
-    if (selectedDate && hUsername) {
-      fetch(`/api/reservation/unavailable-times?date=${selectedDate}&hUsername=${hUsername}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setUnavailableTimes(data.unavailableTimes)
-        })
-        .catch((err) => {
-          console.error('시간 블락 정보 불러오기 실패', err)
-        })
+  // 블락된 시간 가져오기
+  useEffect(()=> {
+    if(selectedDate && hUsername) {
+      fetch(`/reservation/unavailable-times?date=${selectedDate}&hUsername=${hUsername}`)
+      .then((res)=> res.json())
+      .then((data)=> {
+        setUnavailableTimes(data.unavailableTimes)
+      })
+      .catch((err)=> {
+        console.log('시간 블락 정보 불러오기 실패', err);
+      })
     }
-  }, [selectedDate, hUsername])
+  },[selectedDate, hUsername]);
 
-  // 예약금 결제 상태
+  // 예약금 결제 상태 (예: 'PENDING', 'DONE' 등)
   const [paymentStatus, setPaymentStatus] = useState('PENDING')
 
-  // 예약 및 결제 처리 함수
-  const handleReservationSubmit = () => {
-    if (!selectedDate || !selectedTime) {
-      alert('날짜와 시간을 선택해 주세요.')
-      return
-    }
-
-    // TODO: 결제 API 연동 필요
-
-    setPaymentStatus('DONE')
-    navigate('/reservation/complete', {
-      state: {
-        username,
-        petName,
-        rCondition,
-        remark,
-        selectedDate,
-        selectedTime,
-      },
-    })
+const handleReservationSubmit = () => {
+  if (!selectedDate || !selectedTime) {
+    alert('날짜와 시간을 선택해 주세요.');
+    return;
   }
+
+  // 예약 정보 백엔드에 저장
+  fetch('/reservation', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username,         // 보호자 ID
+      petName,
+      rCondition,
+      remark,
+      hUsername,
+      sChoice: '진료', 
+      schedule: `${selectedDate}T${selectedTime}`, // ← LocalDateTime 형식
+    }),
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('예약 저장 실패');
+      return res.text(); // ex: "예약번호: 102"
+    })
+    .then(result => {
+      console.log(result);
+      // 여기서 결제 API가 성공했다고 가정한 후 예약 저장을 시도함
+      setPaymentStatus('DONE');
+      navigate('/reservation/complete', {
+        state: { username, petName, rCondition, remark, selectedDate, selectedTime },
+      });
+    })
+    .catch(err => {
+      alert('예약 처리 실패: ' + err.message);
+    });
+};
 
   return (
     <>
       <ReservationHeader />
-
       <div style={{ padding: '20px' }}>
-        {/* 단계 표시 */}
+        
+        {/* 단계 표시 : 2단계 */}
         <StepIndicator currentStep={2} />
 
-        {/* 병원 공지 */}
         <HospitalNotice />
 
-        {/* 날짜 선택 */}
         <DateSelector selectedDate={selectedDate} onDateChange={setSelectedDate} />
 
-        {/* 시간 선택 - beauty 타입으로 전달 */}
         <TimeSelector
           reservationType="beauty"
           selectedDate={selectedDate}
@@ -92,20 +100,17 @@ function BeautyReservation() {
           unavailableTimes={unavailableTimes}
         />
 
-        {/* 예약금 안내 */}
         <PriceNotice />
 
         <div style={{ marginTop: '20px' }}>
           <strong>예약 금액: 5,000원</strong>
         </div>
 
-        {/* 예약하기 버튼 */}
         <SubmitReservationButton
           disabled={paymentStatus === 'DONE'}
           onClick={handleReservationSubmit}
         />
       </div>
-
       <ReservationFooter />
     </>
   )

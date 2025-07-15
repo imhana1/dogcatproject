@@ -130,4 +130,15 @@ public class HospitalController {
         return ResponseEntity.ok("회원 탈퇴 완료");
     }
 
+    @GetMapping("/hospital/public")
+    @Operation(summary = "공개 병원 정보", description = "병원 ID(hUsername)로 병원 이름 조회")
+    public ResponseEntity<HospitalDto.PublicInfo> getPublicHospitalInfo(@RequestParam String hUsername) {
+        HospitalDto.PublicInfo dto = service.getPublicHospitalInfo(hUsername);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
+    }
+
+
 }

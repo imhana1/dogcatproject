@@ -29,27 +29,15 @@ public class ReservationService {
     // 예약을 생성해 사용자에게 보여야하기 때문에 RequestDto 사용
   @Transactional
   public int createReservation(ReservationRequestDto.Create dto) {
-//    String hUsername = reservation.getHUsername();
-
-    // 병원 유효성 체크
-//    int exists = hospitalDao.findByUsername(reservation.getHUsername());
-//    if (exists == 0) throw new IllegalArgumentException("존재하지 않는 병원입니다.");
-
-    // 중복 검사
-//    String dateStr = dto.getDate().toString();
-//    List<String> reservedTimes = reservationDao.findReservedTimeByDate(dateStr, hUsername);
-//    String requestedTime = dto.getTime().toString();
-//    if (reservedTimes.contains(requestedTime)) {
-//      throw new IllegalArgumentException("이미 예약된 시간입니다");
-//    }
-    // 저장
-//    ReservationResponseDto responseDto = dtoToEntity(reservation);
-
     // 1. 진료 시간과 선택한 진료 종류로 schedule s_id 찾기
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     String dateTime = dto.getSchedule().format(formatter); // ← 여기가 핵심
     String hUsername = dto.getHUsername();
     String choice = dto.getSChoice();
+
+    System.out.println("찾는 스케줄 시간: " + dateTime);
+    System.out.println("선택한 진료 종류: " + choice);
+    System.out.println("병원 아이디: " + hUsername);
 
     Integer sId= scheduleDao.findScheduleIdByTimeAndChoice(dateTime, choice, hUsername);
     System.out.println(sId);
@@ -61,16 +49,6 @@ public class ReservationService {
     reservationDao.save(reservation);
     reservationDao.blockTime(sId);
     return reservation.getRno();
-  }
-  private ReservationResponseDto dtoToEntity(ReservationRequestDto dto) {
-    return ReservationResponseDto.builder()
-      .nUsername(dto.getNUsername())
-      .hUsername(dto.getHUsername())
-      .pno(dto.getPno())
-      .date(dto.getDate())
-      .time(dto.getTime())
-      .rStatus("WAIT")
-      .build();
   }
 
   // 병원 시간 불러오기

@@ -97,7 +97,7 @@ public class ReservationController {
     }
 
     @Operation(summary = "예약 공지 사항 읽어오기", description = "병원 이름을 입력 해서 예약 공지 사항을 입력")
-    @GetMapping("reservat/on/notice")
+    @GetMapping("/reservation/on/notice")
     public ResponseEntity<String>getHospitalNotice(@RequestParam String hUsername){
         String notice = scheduleService.getNotice(hUsername);
         return ResponseEntity.ok(notice);

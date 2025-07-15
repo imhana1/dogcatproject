@@ -1,0 +1,41 @@
+/* ReservationComplete.css */
+
+/* 페이지 전체 정렬 */
+.reservation-complete-container {
+  padding: 20px;
+  text-align: center;
+}
+
+/* 예약 완료 메시지 */
+.reservation-complete-container h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* 예약 정보 */
+.reservation-complete-info p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+/* 버튼 묶음 */
+.reservation-complete-buttons {
+  margin-top: 30px;
+}
+
+/* 공통 버튼 스타일 */
+.reservation-complete-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 24px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reservation-complete-button:hover {
+  background-color: #45a049;
+}

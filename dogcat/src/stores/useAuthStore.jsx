@@ -18,8 +18,13 @@ const useAuthStore = create(set => ({
                 role: response.data.role
             }))
         } catch (err) {
-            set(state => ({ ...state, username: null, role: null }));
-            console.log(err);
+            if(err.response?.status===409) {
+                set(state => ({ ...state, username: null, role: null }));
+                console.log(err);
+            } else {
+                console.log ("인증 확인 중 에러 발생", err);
+            }
+
         }
     },
 

@@ -47,6 +47,11 @@ public class  SecurityConfig {
         config.logout(logout->logout.logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler));
         config.exceptionHandling(handler->handler.accessDeniedHandler(authenticationHandler)
                 .authenticationEntryPoint(authenticationEntryPoint));
+        config.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login", "/register", "/public**").permitAll()    // 누구나 접근 가능
+                .requestMatchers("/reservation/**").authenticated()                     // 예약 관련은 로그인이 필요함
+                .anyRequest().authenticated()                                             // 그 외 모든 요청 인증 필요
+        );
         return config.build();
 
 

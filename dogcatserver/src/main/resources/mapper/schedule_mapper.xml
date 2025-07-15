@@ -38,8 +38,8 @@
         SELECT s_id FROM schedule
         WHERE h_username = #{hUsername}
           AND s_choice = #{choice}
-          AND schedule BETWEEN TO_DATE(#{dateTime}, 'YYYY-MM-DD HH24:MI')
-            AND TO_DATE(#{dateTime}, 'YYYY-MM-DD HH24:MI')
+          AND schedule  = TO_TIMESTAMP (#{dateTime}, 'YYYY-MM-DD HH24:MI')
+          AND ROWNUM = 1
     </select>
 
 </mapper>

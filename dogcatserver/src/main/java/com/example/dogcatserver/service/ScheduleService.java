@@ -23,9 +23,7 @@ public class ScheduleService {
     private ScheduleDao scheduleDao;
 
 
-
-
-//    @Scheduled(fixedDelay = 50000)
+//     @Scheduled(fixedDelay = 50000)
     public void generateAndInsertSchedules() {
         List<String> userNames = hospitalDao.findAllUserNames();
 
@@ -109,7 +107,7 @@ public class ScheduleService {
     @Transactional
     public int blockDate(String loginId, String sChoice, List<LocalDate> dates) {
         int result = 0;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         for (LocalDate date : dates) {
             String formattedDate = date.format(formatter); // ← LocalDate → String 변환
