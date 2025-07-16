@@ -13,6 +13,8 @@ function Booking() {
   const navigate = useNavigate();
   // 승인 또는 취소 버튼을 한 번 누르면 즉시 비활성화
   const [disabledIds, setDisabledIds] = useState([]);
+  // 상태 변경 시 렌더링 용도로 사용
+  const [trigger, setTrigger] = useState(0);
 
   useEffect(() => {
     const fetch= async ()=>{
@@ -25,7 +27,7 @@ function Booking() {
       }
     }
     fetch();
-  }, []);
+  }, [trigger]);
 
   useEffect(() => {
     setBookings(reservation);
@@ -59,14 +61,19 @@ function Booking() {
     }
     try{
       await axios.post("http://localhost:8080/api/message", payload,{withCredentials:true});
+      await axios.patch("http://localhost:8080/reservation/reserved",null, {
+        params:{rno},
+        withCredentials:true
+      });
+      // setBookings(bookings =>
+      //     bookings.map(reservation => reservation.rno===rno? {...reservation, status: "예약"}: reservation)
+      // );
+      alert("예약으로 예약상태가 변경되었습니다");
+      setTrigger(prev=>prev+1);
 
     } catch (e) {
       console.log(e);
     }
-    setBookings(bookings =>
-      bookings.map(reservation => reservation.rno===rno? {...reservation, status: "예약"}: reservation)
-    );
-    alert("예약으로 예약상태가 변경되었습니다");
   }
 
   // 진료결과 작성했던 목록으로 이동

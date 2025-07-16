@@ -36,9 +36,11 @@ public interface ReviewDao {
     @Update("update review set content=#{content} where rev_no=#{revNo}")
     int update(ReviewDto.update dto);
 
-    @Delete("delete from review where rno=#{revNo}")
+    // 리뷰목록에서 rev_no로 삭제
+    @Delete("delete from review where rev_no=#{revNo}")
     int delete(Integer revNo);
 
+    // 병원이 회원 탈퇴
     @Delete("delete from review where h_username=#{loginId}")
     int AllDelete(String loginId);
 
