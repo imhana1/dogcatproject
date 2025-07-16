@@ -11,7 +11,9 @@ export const findAllAdoptionByACity = (acity, pageno = 1, pagesize = 12) => api.
 export const addOrRemoveWish = (ano) => api.post(`/api/adoptions/wish?ano=${ano}`)
 
 // 글 작성 writeAdoption @PostMapping(value = "/api/adoptions/write")
-export const writeAdoption = (object) => api.post(`/api/adoptions/write`, object)
+export const writeAdoption = (formData) => api.post('/api/adoptions/write', formData, {withCredentials:true, headers: {
+    'Content-Type': 'multipart/form-data'
+  }})
 
 // 글 읽기 findAdoptionByAno @GetMapping("/api/adoptions/adoption")
 export const findAdoptionByAno = (ano) => api.get(`/api/adoptions/adoption?ano=${ano}`)

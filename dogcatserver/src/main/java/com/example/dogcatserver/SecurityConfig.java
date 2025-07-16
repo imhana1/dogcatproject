@@ -2,6 +2,7 @@ package com.example.dogcatserver;
 
 import lombok.*;
 import org.springframework.context.annotation.*;
+import org.springframework.http.*;
 import org.springframework.security.config.annotation.method.configuration.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.crypto.bcrypt.*;
@@ -49,6 +50,7 @@ public class  SecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPoint));
         config.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/register", "/public**").permitAll()    // 누구나 접근 가능
+                .requestMatchers(HttpMethod.GET, "/api/notices/**", "/api/adoptions/**").permitAll()  // 웹소켓 추가 후 공지사항, 유기동물 게시판 비로그인 접근 막혀서 추가. 문제 해결하면 삭제
                 .requestMatchers("/reservation/**").authenticated()                     // 예약 관련은 로그인이 필요함
                 .anyRequest().authenticated()                                             // 그 외 모든 요청 인증 필요
         );

@@ -54,6 +54,8 @@ function AdoptionRead() {
     }
   }
 
+  // 찜하기
+
   console.log(data);  // 글 제대로 왔는지 확인
   return (
     <div className={styles.ntcQnaWrapper}>
@@ -72,8 +74,8 @@ function AdoptionRead() {
                 <div style={{display: 'flex', gap: '50px', alignItems: 'flex-start'}}> {/* 여기가 div1 */}
                   {/* 여기가 div 1-1 사진영역 */}
                   <div style={{
-                    width: '320px',
-                    height: '320px',
+                    width: '370px',
+                    height: '370px',
                     background: '#bbb',
                     borderRadius: '8px',
                     overflow: 'hidden'
@@ -83,7 +85,7 @@ function AdoptionRead() {
                   </div>
                   {/* 여기가 div1-2 정보영역 */}
                   <div>
-                    <table style={{heigh: '320px'}}>
+                    <table style={{heigh: '370px'}}>
                       <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>이름</td>
                         <td style={{padding: '0 20px'}}>{data.aname}</td>
@@ -98,7 +100,7 @@ function AdoptionRead() {
                       </tr>
                       <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>성별</td>
-                        <td style={{padding: '0 20px'}}>{data.agender === 'FEMALE' ? '여' : '남'}</td>
+                        <td style={{padding: '0 20px'}}>{data.agender}</td> {/* 성별도 json어노테이션 달아서 프론트에서는 한글로 출력되게 했어 */}
                       </tr>
                       <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>발견 장소</td>
@@ -111,6 +113,10 @@ function AdoptionRead() {
                       <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>상세 위치</td>
                         <td style={{padding: '0 20px'}}>{data.alocation}</td>
+                      </tr>
+                      <tr style={{height: '40px'}}>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>입양여부</td>
+                        <td style={{padding: '0 20px'}}>{data.aisAdopted===true? '입양완료' : '입양 미완료'}</td>
                       </tr>
                       <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>글 작성자</td>
