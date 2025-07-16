@@ -135,19 +135,7 @@ function AdoptionWrite() {
             <h4 className='mb-3 mt-3'>입양 글 작성</h4>
             <div style={{display: 'flex', gap: '50px', alignItems: 'flex-end'}}> {/* 사진+정보글 div */}
               <div style={{width: '525px'}}> {/* div 1-1: 사진 + 정보1 */}
-                <div className='mb-3 mt-3' style={{display: 'flex', alignItems: 'center'}}>
-                  <label className='text-secondary' style={{width: '110px', fontWeight: 'bold'}}>입양 상태</label>
-                  <div className="form-check form-check-inline" style={{marginLeft: '-20px'}}>
-                    <input className="form-check-input" type="radio" id="adoptedTrue" value="true"
-                           checked={aIsAdopted === true} onChange={changeAIsAdopted}/>
-                    <label className="form-check-label ms-1" htmlFor="adoptedTrue">입양 완료</label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" id="adoptedFalse" value="false"
-                           checked={aIsAdopted === false} onChange={changeAIsAdopted}/>
-                    <label className="form-check-label" htmlFor="adoptedFalse">입양 미완료</label>
-                  </div>
-                </div>
+
                 <div className='mb-3 mt-3'
                      style={{display: "flex", alignItems: "center"}}> {/* input 하나씩 */}
                   <label className='text-secondary'
@@ -163,17 +151,15 @@ function AdoptionWrite() {
                 <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'center'}}>
                   <label className='text-secondary '
                          style={{width: '110px', fontWeight: 'bold'}}>연령</label>
-                  <input className='form-control' type='text' id='aage' placeholder='나이 입력' value={aAge}
-                         onChange={changeAAge}/>
+                  <input className='form-control' type='number' id='aage' placeholder='나이 입력 (0 이상의 숫자만 입력 가능)'
+                         value={aAge}
+                         onChange={changeAAge} min={0}/>
                 </div>
                 <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'center'}}>
                   <label className='text-secondary ' style={{width: '110px', fontWeight: 'bold'}}>세부 종류</label>
                   <input className='form-control' type='text' id='abreed' placeholder='종 입력 (예: 푸들, 스트릿출신 ... )'
                          value={aBreed} onChange={changeABreed}/>
                 </div>
-
-              </div>
-              <div style={{width: '525px'}}> {/* div1-2: 정보2 */}
                 <div className='mb-3 mt-3'
                      style={{display: "flex", alignItems: "center"}}> {/* input 하나씩 */}
                   <label className='text-secondary'
@@ -181,7 +167,7 @@ function AdoptionWrite() {
                   <select
                     className="form-select"
                     value={aGender}
-                    onChange={(e) => setAGender(e.target.value)}
+                    onChange={changeAGender}
                   >
                     <option value="" disabled hidden>성별 선택</option>
                     {Object.keys(genderMap).map(label => (
@@ -189,13 +175,16 @@ function AdoptionWrite() {
                     ))}
                   </select>
                 </div>
-                <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'center'}}>
+              </div>
+              <div style={{width: '525px'}}> {/* div1-2: 정보2 */}
+
+                <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'center', height:'38px'}}>
                   <label className='text-secondary '
                          style={{width: '110px', fontWeight: 'bold'}}>발견 위치</label>
                   <input className='form-control' type='text' id='afoundLocation' placeholder='발견 위치 입력'
                          value={aFoundLocation} onChange={changeAFoundLocation}/>
                 </div>
-                <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'center'}}>
+                <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'center', height:'38px'}}>
                   <label className='text-secondary '
                          style={{width: '110px', fontWeight: 'bold'}}>현재 위치</label>
                   <select className='form-select' value={aCity} onChange={changeACity}>
@@ -205,12 +194,24 @@ function AdoptionWrite() {
                     ))}
                   </select>
                 </div>
-                <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'center'}}>
+                <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'center', height:'38px'}}>
                   <label className='text-secondary ' style={{width: '110px', fontWeight: 'bold'}}>상세 위치</label>
                   <input className='form-control' type='text' id='alocation' placeholder='상세 위치 입력' value={aLocation}
                          onChange={changeALocation}/>
                 </div>
-
+                <div className='mb-3 mt-3' style={{display: 'flex', alignItems: 'center', height:'38px'}}>
+                  <label className='text-secondary' style={{width: '110px', fontWeight: 'bold'}}>입양 상태</label>
+                  <div className="form-check form-check-inline" style={{marginLeft: '-20px'}}>
+                    <input className="form-check-input" type="radio" id="adoptedTrue" value="true"
+                           checked={aIsAdopted === true} onChange={changeAIsAdopted}/>
+                    <label className="form-check-label ms-1" htmlFor="adoptedTrue">입양 완료</label>
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <input className="form-check-input" type="radio" id="adoptedFalse" value="false"
+                           checked={aIsAdopted === false} onChange={changeAIsAdopted}/>
+                    <label className="form-check-label" htmlFor="adoptedFalse">입양 미완료</label>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -218,7 +219,7 @@ function AdoptionWrite() {
             <div className='mb-3 mt-3 ' style={{display: 'flex', alignItems: 'flex-start'}}> {/* 소개글 div */}
               <label className=' text-secondary'
                      style={{width: '100px', fontWeight: 'bold', marginTop: '7px'}}>내용</label>
-              <textarea className='form-control' rows='10' id='qContent' placeholder='제목을 입력하세요. '
+              <textarea className='form-control' rows='10' id='qContent' placeholder='소개글 입력 (예: 건강 상태, 문의 방법 ... ) '
                         style={{borderWidth: '0', outline: 'none', width: '1050px'}} value={aContent}
                         onChange={changeAContent}/>
 

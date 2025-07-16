@@ -97,7 +97,7 @@ public class AdoptionController {
   @Operation(summary = "글 수정", description = "유기동물 게시판 글 수정")
   @PreAuthorize("isAuthenticated()")
   @PutMapping("/api/adoptions/adoption")
-  public ResponseEntity<Adoption> updateAdoption(@RequestPart @Valid AdoptionDto.Update updateDto, @RequestPart(value = "aProfile") MultipartFile aProfile, BindingResult br, Principal principal) {
+  public ResponseEntity<Adoption> updateAdoption(@RequestPart @Valid AdoptionDto.Update updateDto, @RequestPart(value = "aProfile", required = false) MultipartFile aProfile, BindingResult br, Principal principal) {
     // 로그인 아이디 = 작성자 확인하는 부분은 서비스에 있어
     String loginId = principal.getName();
     Adoption existingAdoption = adoptionService.findAdoptionByAno(updateDto.getAno(), principal.getName());

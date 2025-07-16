@@ -102,43 +102,45 @@ function AdoptionRead() {
                   {/* 여기가 div1-2 정보영역 */}
                   <div>
                     <table style={{heigh: '370px'}}>
+                      <tbody>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>이름</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>이름</td>
                         <td style={{padding: '0 20px'}}>{data.aname}</td>
                       </tr>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>연령</td>
-                        <td style={{padding: '0 20px'}}>{data.aage}</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>연령</td>
+                        <td style={{padding: '0 20px'}}>{data.aage} 세</td>
                       </tr>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>세부 종류</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>세부 종류</td>
                         <td style={{padding: '0 20px'}}>{data.abreed}</td>
                       </tr>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>성별</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>성별</td>
                         <td style={{padding: '0 20px'}}>{data.agender}</td>
                         {/* 성별도 json어노테이션 달아서 프론트에서는 한글로 출력되게 했어 */}
                       </tr>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>발견 장소</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>발견 장소</td>
                         <td style={{padding: '0 20px'}}>{data.afoundLocation}</td>
                       </tr>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>현재 위치</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>현재 위치</td>
                         <td style={{padding: '0 20px'}}>{data.acity}</td>
                       </tr>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>상세 위치</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>상세 위치</td>
                         <td style={{padding: '0 20px'}}>{data.alocation}</td>
                       </tr>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>입양여부</td>
-                        <td style={{padding: '0 20px'}}>{data.aisAdopted === true ? '입양완료' : '입양 미완료'}</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>입양여부</td>
+                        <td style={{padding: '0 20px'}}>{data.aisAdopted === true ? '입양 완료' : '입양 미완료'}</td>
                       </tr>
                       <tr style={{height: '40px'}}>
-                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>글 작성자</td>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid rgb(218, 220, 222)'}}>글 작성자</td>
                         <td style={{padding: '0 20px'}}>{data.username}</td>
                       </tr>
+                      </tbody>
                     </table>
                   </div>
                 </div>

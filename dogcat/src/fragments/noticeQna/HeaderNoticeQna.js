@@ -45,7 +45,7 @@ function HeaderNoticeQna({title='고객센터'}) {
         }
     }
 
-
+console.log(role);
     return (
         <div className={styles.ntcQnaWrapper}>
             <header>
@@ -55,13 +55,13 @@ function HeaderNoticeQna({title='고객센터'}) {
                     <p onClick={logInlogOutHandler} style={{ cursor: 'pointer' }}>
                         {username ? '로그아웃' : '로그인'}
                     </p>
-                    {username && role === 'ROLE_NORMAL' && `<p>|</p>
-                    <Link to="/search" style={{ color: "#333", textDecoration: "none" }}>
-                            병원검색
-                        </Link>`
+                    <p>|</p>
+                    {username && role === 'USER' && (
+                      <p onClick={()=>navigate('/nuser-mypage')} style={{ cursor: 'pointer' }}>마이페이지</p>
+                    )
                     }
-                    {username && role === 'ROLE_HOSPITAL' && `<p>|</p>
-                    <p onClick={()=>navigate(hospitalMyPage(username))}>마이페이지</p>`
+                    {username && role === 'HOSPITAL' && (
+                    <p onClick={()=>navigate('/hospital-mypage')} style={{ cursor: 'pointer' }}>마이페이지</p>)
                     }
                     <p>|</p>
                     <p onClick={() => navigate('/notices')} style={{ cursor: 'pointer' }}>고객센터</p>

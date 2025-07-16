@@ -189,7 +189,7 @@ CREATE TABLE qna_question (
 	q_title varchar2(50) NULL,
 	username varchar2(10) NOT NULL,
 	q_write_day date NULL,
-	q_content varchar2(1000) NULL,
+	q_content varchar2(4000) NULL,
 	q_is_answered number(1) NULL,
 	q_image clob NULL,
 	CONSTRAINT PK_QNA_QUESTION PRIMARY KEY (qno),
