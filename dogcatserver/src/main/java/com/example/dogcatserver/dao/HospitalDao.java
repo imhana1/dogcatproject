@@ -52,4 +52,7 @@ public interface HospitalDao {
     @Delete("delete from pay where h_username=#{loginId}")
     int deletePay(String loginId);
 
+    // 주소로 병원 찾기 (아이디로 안 찾아져서 주소로 변경함)
+    HospitalPublicInfo findByAddress(String address);
+
 }

@@ -133,14 +133,8 @@ public class HospitalService {
     }
 
 //     공개 병원 정보 보기
-    public HospitalDto.PublicInfo getPublicHospitalInfo(String hUsername) {
-        HospitalMemberInfo info = hospitalDao.getByUsername(hUsername);
-        if(info==null) return null;
-
-        HospitalDto.PublicInfo dto = new HospitalDto.PublicInfo();
-        dto.setHUsername(info.getHUsername());
-        dto.setHospital(info.getHospital());
-        return dto;
+    public HospitalPublicInfo getPublicHospitalInfoByAddress(String hAddress) {
+        return hospitalDao.findByAddress(hAddress);
     }
 
 

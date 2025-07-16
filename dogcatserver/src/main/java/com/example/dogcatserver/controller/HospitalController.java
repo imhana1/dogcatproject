@@ -138,13 +138,13 @@ public class HospitalController {
     }
 
     @GetMapping("/hospital/public")
-    @Operation(summary = "공개 병원 정보", description = "병원 ID(hUsername)로 병원 이름 조회")
-    public ResponseEntity<HospitalDto.PublicInfo> getPublicHospitalInfo(@RequestParam String hUsername) {
-        HospitalDto.PublicInfo dto = service.getPublicHospitalInfo(hUsername);
-        if (dto == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(dto);
+    @Operation(summary = "공개 병원 정보", description = "병원 주소(hAddress)로 병원 정보 조회")
+    public ResponseEntity<HospitalPublicInfo> getPublicHospitalInfo(@RequestParam String hAddress) {
+      HospitalPublicInfo dto = service.getPublicHospitalInfoByAddress(hAddress);
+      if (dto == null) {
+        return ResponseEntity.notFound().build();
+      }
+      return ResponseEntity.ok(dto);
     }
 
 

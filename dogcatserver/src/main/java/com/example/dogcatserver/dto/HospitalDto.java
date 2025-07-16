@@ -32,13 +32,6 @@ public class HospitalDto {
             return Hospital.builder().hUsername(hUsername).director(director).hospital(hospital).hTel(hTel).hReptel(hReptel).hAddress(hAddress).hChoice(hChoice)
                     .zip(zip).hBirthDay(hBirthDay).hLocation(hLocation).hLongitude(hLongitude).hSubaddress(hSubaddress).build();
         }
-        }
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class PublicInfo {
-        private String hUsername;
-        private String hospital;
     }
 
     @Data
@@ -48,6 +41,4 @@ public class HospitalDto {
         private String hAddress;
         private String hospital;
     }
-
-
 }

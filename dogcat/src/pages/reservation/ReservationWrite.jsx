@@ -10,6 +10,8 @@ function ReservationWrite() {
   const location = useLocation();
 
   const { hUsername: initHUsername, hospitalName: initHospitalName } = location.state || {};
+  console.log(initHUsername);
+
   // 상태 정의
   const [petList, setPetList] = useState([]);
   const [selectedPno, setSelectedPno] = useState('');
@@ -20,6 +22,7 @@ function ReservationWrite() {
   const [hUsername, setHUsername] = useState(''); // 병원 아이디
   const [hospitalName, setHospitalName] = useState(''); // 병원 이름
   const [username, setUsername] = useState(''); // 보호자 이름
+  const ready = hUsername && hospitalName;      // 만약 병원 아이디나 이름이 없다면 버튼 비활성화 하기 위한 상태 선언
 
   // 병원 정보 가져오기
   useEffect(() => {
@@ -39,11 +42,14 @@ function ReservationWrite() {
 
   // 다음 단계 이동
   const handleNext = () => {
+    console.log("initHUsername:", initHUsername);
+    console.log("현재 hUsername 상태값:", hUsername);
+
     if (!username || !selectedPno || !reservationType) {
       alert('보호자 이름, 반려동물 선택, 예약 유형은 필수입니다.');
       return;
     }
-    if(!hUsername) {
+    if(!initHUsername) {
       alert("병원 정보가 없습니다");
       return;
     }
@@ -55,8 +61,8 @@ function ReservationWrite() {
         pno: selectedPno, // 실제 저장용
         rCondition,
         remark,
-        hUsername,
-        hospitalName
+        hUsername : initHUsername,
+        hospitalName : initHospitalName
       }
     });
   };
@@ -153,7 +159,7 @@ function ReservationWrite() {
 
         <br /><br />
 
-        <button className='btn-submit' onClick={handleNext}>
+        <button className='btn-submit' onClick={handleNext} disabled={!ready}>
           다음 단계
         </button>
       </div>

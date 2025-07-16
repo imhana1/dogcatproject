@@ -26,10 +26,14 @@ const images = [
 // 인텔리제이 rsf 리액트 함수
 function HospitalIntro() {
     const [form, setForm] =useState({});
-    const [params]=useSearchParams()
+    const [params]=useSearchParams();
     const hAddress = params.get("address");
     const hospitalName = params.get("name");
     const navigate = useNavigate();
+
+    // console.log("주소: ", hAddress);
+    // console.log("이름: ", hospitalName);
+
     // 간단한 이미지 슬라이드 (3초마다 자동 변경)
     const [imgIdx, setImgIdx] = React.useState(0);
 
@@ -38,29 +42,22 @@ function HospitalIntro() {
         checkAuth();
     }, []);
 
-    console.log("병원 아이디", hAddress);
+    // console.log("병원 아이디", hAddress);
 
     // 병원 정보
-    const [hospital, setHospital] = useState ({ hUsername:'', hospitalName:''});
-    const { hUsername } = useParams();
-
-    useEffect(()=>{
-        const fetch=async ()=>{
-            try {
-                const response = await axios.get("http://localhost:8080/hospital/info",{
-                    params: {hAddress, hospital: hospitalName},
-                    withCredentials:true
-                })
-                console.log(response.data)
-                setForm(response.data);
-            } catch (e) {
-                console.log(e)
-                alert("병원 아이디를 찾지 못했습니다");
-                navigate("/");
-            }
-        }
-        fetch()
-    },[])
+    useEffect(() => {
+        axios.get("http://localhost:8080/hospital/public", {
+            params: { hAddress },
+            withCredentials: true,
+        })
+        .then(res => {
+            setForm(res.data);
+            console.log("받은 병원 정보:", res.data);
+        })
+        .catch(err => {
+            console.error("병원 정보 조회 실패", err);
+        });
+    }, [hAddress]);
 
     // useEffect(()=> {
     //     fetch(`/hospital/public?hUsername=${encodeURIComponent(hUsername)}`)
@@ -90,6 +87,8 @@ function HospitalIntro() {
         navigate("/hospital-review")
     }
 
+    // console.log("Link에 넘길 hUsername:", form.hUsername);
+    // console.log("Link에 넘길 hospital:", form.hospital);
     return (
       //  Noto Sans KR 폰트 -> 컴퓨터에 없으면, 기본 산세리프(고딕체) 계열 글꼴로 대체
         <div style={{ fontFamily: "'Noto Sans KR', sans-serif", minHeight: "100vh" }}>
@@ -100,7 +99,7 @@ function HospitalIntro() {
                     <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
                         <li><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>병원 소개</span></li>
                         <li><Link to="/hospital-doctor" style={{ color: "#333", textDecoration: "none" }}>의료진 소개</Link></li>
-                        <li><Link to="/reservation/write" state ={{ hUsername: hospital.hUsername, hospitalName: hospital.hospital }} style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
+                        <li><Link to="/reservation/write" state ={{ hUsername: form.hUsername, hospitalName: form.hospitalName }} style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
                     </ul>
                 </nav>
                 {username ? (

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import java.time.*;
+import java.util.*;
 
 @Getter
 @AllArgsConstructor
@@ -36,3 +37,5 @@ public class Hospital {
     private String educational;
     private String hSubaddress; // 상세주소
 }
+
+

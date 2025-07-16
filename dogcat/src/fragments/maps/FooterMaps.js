@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "../../pages/notice/Notice.module.css";
 
-function ReservationFooter() {
+function FooterMaps() {
   return (
     <div className={styles.ntcQnaWrapper}>
       <footer>
@@ -16,4 +16,4 @@ function ReservationFooter() {
   )
 }
 
-export default ReservationFooter
+export default FooterMaps

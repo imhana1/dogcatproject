@@ -22,4 +22,8 @@
         where h_username = #{hUsername}
     </update>
 
+    <select id="findByAddress" parameterType="string" resultType="com.example.dogcatserver.dto.HospitalPublicInfo">
+        select h_username as hUsername, hospital as hospital from hospital_member where h_address = #{hAddress}
+    </select>
+
 </mapper>
