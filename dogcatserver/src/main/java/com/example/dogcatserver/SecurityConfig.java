@@ -51,6 +51,10 @@ public class  SecurityConfig {
         config.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/register", "/public**").permitAll()    // 누구나 접근 가능
                 .requestMatchers(HttpMethod.GET, "/api/notices/**", "/api/adoptions/**").permitAll()  // 웹소켓 추가 후 공지사항, 유기동물 게시판 비로그인 접근 막혀서 추가. 문제 해결하면 삭제
+                .requestMatchers(HttpMethod.POST, "/nmembersignup/**", "/hospital/signup").permitAll()                // 일반 회원 가입, 병원 회원 가입 비로그인 접근 가능
+                .requestMatchers(HttpMethod.GET, "/hospital-signup/**","/api/hospital/check-username").permitAll()    // 병원 회원가입, username 체크 비로그인 접근 가능
+                .requestMatchers(HttpMethod.POST, "/email-send").permitAll()                                            // 이메일 인증 보내기 비로그인 접근 가능
+                .requestMatchers(HttpMethod.PUT, "/email-check").permitAll()                                            // 이메일 인증 확인 비로그인 접근 가능
                 .requestMatchers("/reservation/**").authenticated()                     // 예약 관련은 로그인이 필요함
                 .anyRequest().authenticated()                                             // 그 외 모든 요청 인증 필요
         );
