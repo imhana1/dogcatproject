@@ -109,7 +109,7 @@ public class AdoptionController {
     } catch (IOException e) {
       System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
     }
-    Adoption adoption = adoptionService.updateAdoption(updateDto, base64Image, "winter");
+    Adoption adoption = adoptionService.updateAdoption(updateDto, base64Image, principal.getName());
     System.out.println("200응답");
     return ResponseEntity.status(200).body(adoption);
   }

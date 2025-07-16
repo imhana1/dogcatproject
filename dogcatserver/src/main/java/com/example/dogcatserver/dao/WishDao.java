@@ -1,6 +1,7 @@
 package com.example.dogcatserver.dao;
 
 import com.example.dogcatserver.entity.*;
+import lombok.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -26,4 +27,12 @@ public interface WishDao {
           "OFFSET (#{pageno} - 1) * #{pagesize} ROWS\n" +
           "FETCH NEXT #{pagesize} ROWS ONLY")
   List<Wish> AdoptionLikeList(int pageno, int pagesize, String loginId);
+
+  // 글번호로만 찜한거 있나 찾기 (∵글 삭제했을 때 다 날리는거)
+  @Select("select count(*) from wish where ano=#{ano}")
+  int findAllWishByAno(int ano);
+
+  // 찜한거 강제삭제 (∵글 삭제했을 때 다 날리는거)
+  @Delete("delete from wish where ano=#{ano}")
+  int removeAllWish(int ano);
 }

@@ -17,6 +17,8 @@ public class AdoptionService {
   private AdoptionDao adoptionDao;
   @Autowired
   private AdoptionUtil adoptionUtil;
+  @Autowired
+  private WishDao wishDao;
 
   // 블록 사이즈는 5로 고정
   private static final int BLOCK_SIZE = 5;
@@ -79,6 +81,10 @@ public class AdoptionService {
     Adoption adoption = adoptionDao.findAdoptionByAno(ano).orElseThrow(()->new EntityNotFoundException("글을 찾지 못했습니다."));
     if(!adoption.getUsername().equals(loginId)) {
       throw new JobFailException("잘못된 작업입니다.");
+    }
+    // 찜목록 존재하면 찜 다 삭제
+    if(wishDao.findAllWishByAno(ano)>0) {
+      wishDao.removeAllWish(ano);
     }
     adoptionDao.deleteAdoptionByAno(ano);
   }
