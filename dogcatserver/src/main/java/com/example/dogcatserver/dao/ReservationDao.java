@@ -16,6 +16,9 @@ public interface ReservationDao {
   // 병원 시간 불러오기
   List<Schedule> getHospitalSchedule(String hUsername, LocalDate date);
 
+  // 예약 승인
+  int reservedReservation(int rno);
+
   // 예약 취소
   int cancelReservation(int rno);
 

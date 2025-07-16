@@ -62,6 +62,26 @@ public class ReservationService {
     reservationDao.updateStatus();
   }
 
+  // 예약 승인
+  public boolean reservedReservation(int rno) {
+    Reservation res = reservationDao.getReservationByRno(rno);
+
+    if (res == null) {
+      System.out.println("승인 실패. 예약이 존재하지 않습니다");
+      return false;
+    }
+    if ("RESERVED".equals(res.getRStatus())) {
+      System.out.println("예약 승인 실패. 이미 승인된 예약입니다");
+      return false;
+    }
+    int reservedNo = reservationDao.reservedReservation(rno);
+    System.out.println(reservedNo);
+
+    if(reservedNo == 1) {
+      return true;
+    }
+    throw new RuntimeException("예약 승인 트랜잭션 실패: rno = " + rno);
+  }
 
 
 

@@ -51,6 +51,17 @@ public class ReservationController {
         return ResponseEntity.ok(schedules);
     }
 
+    @Operation(summary =  "예약 승인", description = "예약 대기에서 승인으로 상태 변경")
+    @PatchMapping("/reservation/reserved")
+    ResponseEntity<String> reservedReservation (@RequestParam int rno) {
+        boolean result = service.reservedReservation(rno);
+        if (result) {
+            return ResponseEntity.ok("예약 승인 성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("예약 승인 실패");
+        }
+    }
+
     @Operation(summary = "예약 취소", description = "예약 취소 변수도 알아보자")
     @PatchMapping("/reservation/cancel")
     public ResponseEntity<String> cancelReservation(@RequestParam int rno) {

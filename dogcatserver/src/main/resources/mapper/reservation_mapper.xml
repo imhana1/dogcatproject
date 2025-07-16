@@ -18,6 +18,12 @@
         <result property="schedule" column="schedule"/>
         <result property="rStatus" column="r_status"/>
     </resultMap>
+
+    <!-- 예약 승인 처리 -->
+    <update id="reservedReservation">
+        update reservation set r_status = 'RESERVED' where rno = #{rno} and r_status != 'RESERVED'
+    </update>
+
     <!-- 예약 취소 처리  -->
     <update id="cancelReservation">
         update reservation set r_status = 'CANCELED' where rno = #{rno}
