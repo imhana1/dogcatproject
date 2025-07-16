@@ -29,12 +29,18 @@ function HospitalReview() {
     console.log("Booking username:", username);
 
   // 리뷰 삭제
-    const handleDelete = async (revNo) => {
+    const handleDelete = async (rno) => {
         const confirmed = window.confirm("정말로 이 리뷰를 삭제하시겠습니까?");
         if (!confirmed) return;
+        const target = review.find(r => r.rno === rno);
+        console.log(target);
+        if (!target) {
+            alert("해당 예약 정보를 찾을 수 없습니다.");
+            return;
+        }
         try {
             await axios.delete(`http://localhost:8080/review/delete`, {
-                params: { revNo },
+                params:  { rno: target.rno } ,
                 withCredentials: true
             });
             alert("리뷰가 삭제되었습니다!");
@@ -63,7 +69,7 @@ function HospitalReview() {
               <div style={{ fontSize: "1.05rem", color: "#333" }}>{review.revContent || "내용 없음"}</div>
                 {/* 본인이 작성한 리뷰일 때만 삭제 버튼 노출 */}
                 {review.revWriter === username && (
-                    <button className="btn btn-danger" onClick={() => handleDelete(review.revNo)} style={{ marginTop: 8, padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer",}}>삭제</button>
+                    <button className="btn btn-danger" onClick={() => handleDelete(review.rno)} style={{ marginTop: 8, padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer",}}>삭제</button>
                 )}
             </li>
           ))}

@@ -56,6 +56,8 @@ public class ReviewService {
 
     public void delete(@NotNull Integer revNO, String loginId){
         Review review=  reviewDao.findByRevNo(revNO).orElseThrow(()-> new EntityNotFoundException("리뷰를 찾을 수 없습니다"));
+//        System.out.println("dto:"+review.getRevWriter());
+//        System.out.println("로그인값:"+loginId);
         if(!review.getRevWriter().equals(loginId)){
             throw  new JobFailException("잘못된 작업입니다");
         }

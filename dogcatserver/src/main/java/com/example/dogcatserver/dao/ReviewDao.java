@@ -36,7 +36,7 @@ public interface ReviewDao {
     @Update("update review set content=#{content} where rev_no=#{revNo}")
     int update(ReviewDto.update dto);
 
-    @Delete("delete from review where rev_no=#{revNo}")
+    @Delete("delete from review where rno=#{revNo}")
     int delete(Integer revNo);
 
     @Delete("delete from review where h_username=#{loginId}")
