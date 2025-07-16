@@ -55,17 +55,18 @@ public class ReviewController {
         return ResponseEntity.ok(service.read(revNo));
     }
 
-    @Secured("Role_USER")
+    @Secured("ROLE_USER")
     @PutMapping("/review/update")
     @Operation(summary = "리뷰 내용 변경", description = "리뷰번호로 리뷰 내용 변경")
-    public ResponseEntity<String> update(@ModelAttribute @Valid ReviewDto.update dto, BindingResult br, Principal principal){
+    public ResponseEntity<String> update(@RequestBody @Valid ReviewDto.update dto, BindingResult br, Principal principal){
         service.update(dto, principal.getName());
         return ResponseEntity.ok("리뷰 내용을 변경했습니다");
     }
+
     @Secured("ROLE_USER")
     @DeleteMapping("/review/delete")
     @Operation(summary = "리뷰 삭제", description = "리뷰번호로 리뷰 삭제")
-    public ResponseEntity<String> delete(@RequestParam @NotNull Integer revNo,BindingResult br, Principal principal){
+    public ResponseEntity<String> delete(@RequestParam @NotNull Integer revNo, Principal principal){
         service.delete(revNo, principal.getName());
         return ResponseEntity.ok("리뷰를 삭제 했습니다");
     }

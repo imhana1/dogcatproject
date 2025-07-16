@@ -29,7 +29,7 @@ public class ReviewDto {
         @NotNull
         private Integer revNo;
         @NotEmpty
-        private String content;
+        private String revContent;
     }
 
 

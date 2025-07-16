@@ -61,6 +61,7 @@ import AdoptionWrite from "./pages/adoptions/AdoptionWrite";
 import AdoptionUpdate from "./pages/adoptions/AdoptionUpdate";
 import ReviewWrite from "./pages/Nuser/ReviewWrite";
 import {Slide, toast, ToastContainer} from "react-toastify";
+import ReviewUpdate from "./pages/Nuser/ReviewUpdate";
 
 
 
@@ -145,6 +146,8 @@ function App() {
         <Route path='/nuser-reservations' element={<ReservationMenu />} />
         {/* 일반 회원 리뷰 작성 페이지 */}
         <Route path='/review-write/:rno' element={<ReviewWrite />} />
+        {/* 일반 회원 리뷰 수정 페이지 */}
+        <Route path='/review-update/:revNo' element={<ReviewUpdate />} />
         {/* 관심 유기동물 목록 페이지 */}
         <Route path='/nuser-adoption' element={<FavoriteAnimals />} />
         {/* 병원 회원 탈퇴 페이지 */}

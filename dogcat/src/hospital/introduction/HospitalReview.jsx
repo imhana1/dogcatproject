@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import useAuthStore from "../../stores/useAuthStore";
+import {useNavigate} from "react-router-dom";
 
 // 리뷰보기 화면
 async function fetchReviews() {
@@ -11,6 +12,7 @@ async function fetchReviews() {
 }
 
 function HospitalReview() {
+  const navigate = useNavigate();
   const [review, setReview] = useState([]);
   useEffect(() => {
     fetchReviews()
@@ -33,11 +35,16 @@ function HospitalReview() {
 
     }
 
-  // 리뷰 삭제
+    // 리뷰 수정
+    const handleUpdate = (rno) => {
+        navigate(`/review-update/${rno}`)
+    }
+
+    // 리뷰 삭제
     const handleDelete = async (rno) => {
         const confirmed = window.confirm("정말로 이 리뷰를 삭제하시겠습니까?");
         if (!confirmed) return;
-        const target = review.find(r => r.rno === rno);
+        const target = review.find(r => r.revNo === rno);
         console.log(target);
         if (!target) {
             alert("해당 예약 정보를 찾을 수 없습니다.");
@@ -45,14 +52,14 @@ function HospitalReview() {
         }
         try {
             await axios.delete(`http://localhost:8080/review/delete`, {
-                params:  { rno: target.rno } ,
+                params:  { revNo: target.revNo } ,
                 withCredentials: true
             });
             alert("리뷰가 삭제되었습니다!");
 
             // 삭제 후 목록 새로고침
-            const reviews = await fetchReviews();
-            setReview(reviews);
+            const updated = await fetchReviews();
+            setReview(updated);
         } catch (err) {
             console.error("삭제 실패:", err);
             alert("삭제 권한이 없거나 오류가 발생했습니다.");
@@ -69,15 +76,19 @@ function HospitalReview() {
         <ul style={{ listStyle: "none", padding: 0 }}>
           {review.map((review, idx) => (
             <li key={review.revNo || idx} style={{ borderBottom: "1px solid #eee", padding: "18px 0", position: "relative" }}>
-              <div style={{ fontWeight: "bold", fontSize: "1.1rem" }}>{review.revWriter || "작성자 없음"}</div>
+                <div style={{ fontWeight: "bold", fontSize: "1.1rem" }}>리뷰번호: {review.revNo}</div>
+              <div style={{ fontWeight: "bold", fontSize: "1.1rem" }}>작성자: {review.revWriter || "작성자 없음"}</div>
               <div style={{ color: "#999", fontSize: "0.95rem", marginBottom: 6 }}>{new Date(review.revWriteDay).toLocaleDateString() || "날짜 없음"}</div>
               <div style={{ fontSize: "1.05rem", color: "#333" }}>{review.revContent || "내용 없음"}</div>
                 <button className="icon-report-btn" title="신고" onClick={handlenotify} style={{ position: "absolute", top: 0, right: 0, background: "transparent", border: "none", fontSize: "20px", color: "#ff4d4f" }}>
                     <span role="img" aria-label="report">🚨</span>
                 </button>
-                {/* 본인이 작성한 리뷰일 때만 삭제 버튼 노출 */}
+                {/* 본인이 작성한 리뷰일 때만 수정,삭제 버튼 노출 */}
                 {review.revWriter === username && (
-                    <button className="btn btn-danger" onClick={() => handleDelete(review.rno)} style={{ marginTop: 8, padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer",}}>삭제</button>
+                    <button className="btn btn-success" onClick={() => handleUpdate(review.revNo)} style={{ marginTop: 8, padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer", marginRight: "5px" }}>수정</button>
+                )}
+                {review.revWriter === username && (
+                    <button className="btn btn-danger" onClick={() => handleDelete(review.revNo)} style={{ marginTop: 8, padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer"}}>삭제</button>
                 )}
             </li>
           ))}

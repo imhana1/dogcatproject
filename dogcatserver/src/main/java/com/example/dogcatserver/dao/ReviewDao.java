@@ -23,17 +23,9 @@ public interface ReviewDao {
     int save(Review review);
 
     @Select("select * from review where rev_no = #{revNo}")
-    @Results({
-            @Result(property = "revNo", column = "rev_no"),
-            @Result(property = "rno", column = "rno"),
-            @Result(property = "rWriter", column = "rev_writer"),
-            @Result(property = "writeDay", column = "rev_write_day"),
-            @Result(property = "content", column = "rev_content"),
-            @Result(property = "hUsername", column = "h_username")
-    })
     Optional<Review> findByRevNo(int revNo);
 
-    @Update("update review set content=#{content} where rev_no=#{revNo}")
+    @Update("update review set rev_content=#{revContent} where rev_no=#{revNo}")
     int update(ReviewDto.update dto);
 
     // 리뷰목록에서 rev_no로 삭제
