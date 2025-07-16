@@ -108,7 +108,9 @@ function ChangeMyPage() {
 
   // 로그인 정보 저장
   const { username, resetUserInfo } = useAuthStore();
-  console.log("Booking username:", username);
+  useEffect(() => {
+    console.log("Booking username:", username);
+  }, [username]);
 
   const checkAuth = useAuthStore(state => state.checkAuth);
   useEffect(() => {

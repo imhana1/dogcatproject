@@ -37,7 +37,8 @@ public interface HospitalDao {
     @Select("select h_location, h_longitude from hospital_member where h_address=#{hAddress}")
     Hospital findAddress(String hAddress);
 
-    @Select("select * from hospital_member where h_address=#{hAddress} and hospital=#{hospital} and rownum=1")
+    // 소개 페이지
+    @Select("SELECT * FROM hospital_member WHERE REPLACE(h_address, ' ', '') = REPLACE(#{hAddress}, ' ', '') AND hospital = #{hospital} AND rownum = 1")
     HospitalMemberInfo hospitalInfo(String hAddress, String hospital);
 
 

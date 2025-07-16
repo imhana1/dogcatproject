@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { FcClock } from "react-icons/fc";
 import { FcPhone } from "react-icons/fc";
 import { FcHome } from "react-icons/fc";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 import useAppStore from "../../stores/useAppStore";
+import axios from "axios";
 
 // 병원사진
 const images = [
@@ -24,22 +25,51 @@ const images = [
 
 // 인텔리제이 rsf 리액트 함수
 function HospitalIntro() {
+    const [form, setForm] =useState(null);
+    const [params]=useSearchParams()
+    const hAddress = params.get("address");
+    const hospitalName = params.get("name");
     const navigate = useNavigate();
     // 간단한 이미지 슬라이드 (3초마다 자동 변경)
     const [imgIdx, setImgIdx] = React.useState(0);
+
+    const checkAuth = useAuthStore(state => state.checkAuth);
+    useEffect(() => {
+        checkAuth();
+    }, []);
+
+
     // 병원 정보
     const [hospital, setHospital] = useState ({ hUsername:'', hospitalName:''});
     const { hUsername } = useParams();
 
-    useEffect(()=> {
-        fetch(`/hospital/public?hUsername=${encodeURIComponent(hUsername)}`)
-        .then(res => res.json())
-        .then(data => {
-            setHospital({ hUsername: data.hUsername, hospitalName: data.hospital });
-            console.log('받은 병원 데이터:', data);
-        })
-        .catch(err => console.log('병원 정보 불러오기 실패', err));
-    },[hUsername]);
+    useEffect(()=>{
+        const fetch=async ()=>{
+            try {
+                const response = await axios.get("http://localhost:8080/hospital/info",{
+                    params: {hAddress, hospital: hospitalName},
+                    withCredentials:true
+                })
+                console.log(response.data)
+                setForm(response.data);
+            } catch (e) {
+                console.log(e)
+                alert("병원 아이디를 찾지 못했습니다");
+                navigate("/");
+            }
+        }
+        fetch()
+    },[])
+
+    // useEffect(()=> {
+    //     fetch(`/hospital/public?hUsername=${encodeURIComponent(hUsername)}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         setHospital({ hUsername: data.hUsername, hospitalName: data.hospital });
+    //         console.log('받은 병원 데이터:', data);
+    //     })
+    //     .catch(err => console.log('병원 정보 불러오기 실패', err));
+    // },[hUsername]);
 
     React.useEffect(() => {
         const timer = setInterval(() => {
@@ -101,7 +131,7 @@ function HospitalIntro() {
                     <span style={{ color: "#ff5f2e" }}>따뜻한 사랑</span>을 담아 진료하겠습니다
                 </h2>
                 <p style={{ color: "#444", fontSize: "1.15rem" }}>
-                    너도먹냥 동물병원은 가족과 같은 반려동물의 건강과 행복을 최우선으로 생각합니다.<br />
+                    {form.hintroduction}<br />
                     전문 의료진과 최신 시설로 항상 최선을 다하겠습니다.
                 </p>
             </section>

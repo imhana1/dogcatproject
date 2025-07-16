@@ -145,6 +145,7 @@ public class HospitalService {
     // 소개 페이지 정보 불러오기 + 병원 이름 아이디 불러오기
     public HospitalMemberInfo readInfo(String hAddress, String hospital){
         HospitalMemberInfo infoHospital= hospitalDao.hospitalInfo(hAddress, hospital);
+        System.out.println(hAddress);
         if(infoHospital==null){
             throw  new EntityNotFoundException("병원 아이디를 찾지 못했습니다");
         }
