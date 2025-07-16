@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import useAuthStore from "../../stores/useAuthStore";
+import useAppStore from "../../stores/useAppStore";
 
 // 의료진 소개
 const director  = [
@@ -18,6 +20,9 @@ const director  = [
 ];
 
 function Doctor() {
+  // 로그인 정보 저장
+  const { username, resetUserInfo } = useAuthStore();
+
   return (
     <div style={{ fontFamily: "'Noto Sans KR', sans-serif", minHeight: "100vh" }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 60px", background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
@@ -26,12 +31,21 @@ function Doctor() {
           <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
             <li><Link to="/hospital" style={{ color: "#333", textDecoration: "none" }}>병원소개</Link></li>
             <li><Link to="#" style={{ color: "#333", textDecoration: "none" }}><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>의료진 소개</span></Link></li>
-            <li><Link to="/hospital-reservation" style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
+            <li><Link to="/reservation/write" style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
           </ul>
         </nav>
-        <Link to="/login">
-          <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>로그인</button>
-        </Link>
+        {username ? (
+            <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
+                    onClick={() => {resetUserInfo();useAppStore.getState().setPasswordVerified(false); // 인증 상태 초기화
+                      window.location.href = "/";
+                    }}>로그아웃</button>
+        ) : (
+            <Link to="/login">
+              <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
+                로그인
+              </button>
+            </Link>
+        )}
       </header>
       <section style={{ background: "#f9f9f9", padding: "40px 0" }}>
         <h2 style={{ textAlign: "center", fontWeight: "bold", fontSize: "2rem", marginBottom: 30 }}>의료진 소개</h2>

@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useSearchParams} from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
-import {deleteAdoptionByAno, findAdoptionByAno} from "../../utils/adoptionApi";
+import {addOrRemoveWish, checkIsWished, deleteAdoptionByAno, findAdoptionByAno} from "../../utils/adoptionApi";
 import {deleteNotice} from "../../utils/noticeApi";
 import styles from "../notice/Notice.module.css";
 import HeaderNoticeQna from "../../fragments/noticeQna/HeaderNoticeQna";
 import NavNoticeQna from "../../fragments/noticeQna/NavNoticeQna";
 import FooterNoticeQna from "../../fragments/noticeQna/FooterNoticeQna";
+import heartFilled from './heart-filled.png';
+import heartOutline from './heart-outline.png';
 
 function AdoptionRead() {
   const navigate = useNavigate();
@@ -15,14 +17,19 @@ function AdoptionRead() {
   const ano = parseInt(params.get('ano'));
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
+  const [isWished, setIsWished] = useState();
 
   // 데이터 가져오기
   useEffect(() => {
     async function fetchAdoption() {
       setLoading(true);
       try {
+        // 글 가져오기
         const response = await findAdoptionByAno(ano);
         setData(response.data);
+        // 찜 여부 가져오기
+        const wishRes = await checkIsWished(ano);
+        setIsWished(wishRes.data);
         setLoading(false);
       } catch (err) {
         console.log('글을 불러오지 못했습니다: ', err);
@@ -36,7 +43,7 @@ function AdoptionRead() {
       navigate('/adoptions');
     }
 
-  }, [ano]);
+  }, [ano, isWished]);
 
   // 삭제하기 (접속중인 아이디와 작성자 아이디 비교는 백 서비스에 있어)
   const deleteHandler = async (ano) => {
@@ -54,7 +61,18 @@ function AdoptionRead() {
     }
   }
 
-  console.log(data);  // 글 제대로 왔는지 확인
+  // 찜하기
+  const wishHandler = async (ano) => {
+    try {
+      await addOrRemoveWish(ano);
+      setIsWished(prev => !prev);  //이전 상태에서 뒤집기
+    } catch (err) {
+      console.log('관심 등록 및 삭제에 실패하였습니다: ', err);
+    }
+  }
+
+  console.log('글 데이터: ', data);   // 글 제대로 왔는지 확인
+  console.log('찜 여부: ', isWished);  // 찜 여부 제대로 왔는지 확인
   return (
     <div className={styles.ntcQnaWrapper}>
       <HeaderNoticeQna/>
@@ -72,8 +90,8 @@ function AdoptionRead() {
                 <div style={{display: 'flex', gap: '50px', alignItems: 'flex-start'}}> {/* 여기가 div1 */}
                   {/* 여기가 div 1-1 사진영역 */}
                   <div style={{
-                    width: '320px',
-                    height: '320px',
+                    width: '370px',
+                    height: '370px',
                     background: '#bbb',
                     borderRadius: '8px',
                     overflow: 'hidden'
@@ -83,7 +101,7 @@ function AdoptionRead() {
                   </div>
                   {/* 여기가 div1-2 정보영역 */}
                   <div>
-                    <table style={{heigh: '320px'}}>
+                    <table style={{heigh: '370px'}}>
                       <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>이름</td>
                         <td style={{padding: '0 20px'}}>{data.aname}</td>
@@ -98,7 +116,8 @@ function AdoptionRead() {
                       </tr>
                       <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>성별</td>
-                        <td style={{padding: '0 20px'}}>{data.agender === 'FEMALE' ? '여' : '남'}</td>
+                        <td style={{padding: '0 20px'}}>{data.agender}</td>
+                        {/* 성별도 json어노테이션 달아서 프론트에서는 한글로 출력되게 했어 */}
                       </tr>
                       <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>발견 장소</td>
@@ -113,6 +132,10 @@ function AdoptionRead() {
                         <td style={{padding: '0 20px'}}>{data.alocation}</td>
                       </tr>
                       <tr style={{height: '40px'}}>
+                        <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>입양여부</td>
+                        <td style={{padding: '0 20px'}}>{data.aisAdopted === true ? '입양완료' : '입양 미완료'}</td>
+                      </tr>
+                      <tr style={{height: '40px'}}>
                         <td style={{fontWeight: 'bold', width: '100px', borderRight: '1px solid #bbb'}}>글 작성자</td>
                         <td style={{padding: '0 20px'}}>{data.username}</td>
                       </tr>
@@ -120,24 +143,33 @@ function AdoptionRead() {
                   </div>
                 </div>
                 <hr className='mb-4 mt-4 text-secondary'/>
-                <div style={{padding: '0 10px', minHeight:'250px'}}>  {/* 여기가 div2 소개글영역 */}
+                <div style={{padding: '0 10px', minHeight: '250px'}}>  {/* 여기가 div2 소개글영역 */}
                   {data.acontent}
                 </div>
                 {/* 로그인한 회원이면 찜 출력 */}
                 {/* 작성한 본인이면 수정, 삭제, 목록 출력 본인 아니면 목록으로만 출력 */}
-                {username === data.username ? (
+                {!username ? (  // 로그인 안했을 때
+                  <div style={{textAlign: 'center'}}>
+                    <button className='btn btn-secondary' onClick={() => navigate('/adoptions')}>목록으로</button>
+                  </div>
+                ) : username === data.username ? (  // 로그인 했고 작성자일떄
                   // 수정, 삭제, 목록으로 버튼 출력
-                  <div  style={{ textAlign: 'center' }}>
-                  <button className='btn btn-dark me-2' onClick={()=>navigate(`/adoptions/update?ano=${ano}`)}>수정하기</button>
-                  <button className='btn btn-danger me-2' onClick={()=>deleteHandler(ano)}>삭제하기</button>
-                  <button className='btn btn-secondary me-2' onClick={()=>navigate('/adoptions')}>목록으로</button>
+                  <div style={{textAlign: 'center'}}>
+                    <img className='me-2' alt='찜버튼 이미지' src={isWished === true ? heartFilled : heartOutline} style={{cursor:'pointer'}} onClick={()=>wishHandler(ano)}/>
+                    <button className='btn btn-dark me-2'
+                            onClick={() => navigate(`/adoptions/update?ano=${ano}`)}>수정하기
+                    </button>
+                    <button className='btn btn-danger me-2' onClick={() => deleteHandler(ano)}>삭제하기</button>
+                    <button className='btn btn-secondary me-2' onClick={() => navigate('/adoptions')}>목록으로</button>
                   </div>
-                ):(
-                  // 목록으로 버튼만 출력
-                  <div style={{ textAlign: 'center' }}>
-                  <button className='btn btn-secondary' onClick={()=>navigate('/adoptions')}>목록으로</button>
+                ) : username !== data.username ? (
+                  <div style={{textAlign: 'center', height:'36px'}}>
+                    <img className='me-2' alt='찜버튼 이미지' src={isWished === true ? heartFilled : heartOutline} style={{cursor:'pointer'}} onClick={()=>wishHandler(ano)}/>
+                    <button className='btn btn-secondary me-2' onClick={() => navigate('/adoptions')}>목록으로</button>
                   </div>
-                )}
+                ) : ''
+                }
+
               </div>
             )}
 

@@ -123,4 +123,14 @@ public class AdoptionController {
     return ResponseEntity.ok("유기동물 게시판 글 삭제가 완료되었습니다.");
   }
 
+  // 찜 등록한 상태인지 아닌지 리턴 (∵프론트 로딩할 때 찜 유무에 따라 버튼 이미지 달라져)
+  @Operation(summary = "찜 유무 확인", description = "로그인한 사용자가 해당 글을 찜한 상태인지 확인")
+  @PreAuthorize("isAuthenticated()")
+  @GetMapping("/api/adoptions/check-wish")
+  public ResponseEntity<Boolean> checkIsWished(@RequestParam int ano, Principal principal) {
+    String loginId = principal.getName();
+    boolean isWished = wishService.checkIsWished(ano, loginId);
+    return ResponseEntity.ok(isWished);
+  }
+
 }

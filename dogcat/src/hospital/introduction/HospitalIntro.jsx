@@ -3,6 +3,8 @@ import { FcClock } from "react-icons/fc";
 import { FcPhone } from "react-icons/fc";
 import { FcHome } from "react-icons/fc";
 import {Link, useNavigate, useParams} from "react-router-dom";
+import useAuthStore from "../../stores/useAuthStore";
+import useAppStore from "../../stores/useAppStore";
 
 // 병원사진
 const images = [
@@ -46,6 +48,9 @@ function HospitalIntro() {
         return () => clearInterval(timer);
     }, []);
 
+    // 로그인 정보 저장
+    const { username, resetUserInfo } = useAuthStore();
+
     const handleDoctor = e => {
         navigate("/hospital-doctor");
     }
@@ -67,9 +72,18 @@ function HospitalIntro() {
                         <li><Link to="/reservation/write" state ={{ hUsername: hospital.hUsername, hospitalName: hospital.hospital }} style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
                     </ul>
                 </nav>
-                <Link to="/login">
-                    <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>로그인</button>
-                </Link>
+                {username ? (
+                    <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}
+                            onClick={() => {resetUserInfo();useAppStore.getState().setPasswordVerified(false); // 인증 상태 초기화
+                                window.location.href = "/";
+                            }}>로그아웃</button>
+                ) : (
+                    <Link to="/login">
+                        <button type="button" className="btn btn-outline-dark" style={{ fontWeight: "bold" }}>
+                            로그인
+                        </button>
+                    </Link>
+                )}
             </header>
             {/* 이미지 슬라이드 */}
             <section style={{ width: "100%", maxWidth: "1200px", margin: "40px auto 0 auto", borderRadius: "18px", overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.08)"}}>

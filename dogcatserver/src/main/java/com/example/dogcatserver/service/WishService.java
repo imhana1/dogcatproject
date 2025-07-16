@@ -37,5 +37,10 @@ public class WishService {
       return ano;
     }
   }
+
+  // 글 관심등록 유무 확인 (∵프론트 화면 만들 때 찜 유무에 따라 버튼 이미지 결정)
+  public boolean checkIsWished(int ano, String username) {
+    return wishDao.findFromWish(ano, username) > 0 ;  // 값이 존재하면 1 리턴하니까 true, 없으면 false
+  }
 }
 
