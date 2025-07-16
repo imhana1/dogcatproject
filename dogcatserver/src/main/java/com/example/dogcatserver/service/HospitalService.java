@@ -3,7 +3,9 @@ package com.example.dogcatserver.service;
 import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
+import com.example.dogcatserver.exception.*;
 import com.example.dogcatserver.util.*;
+import org.apache.ibatis.javassist.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.mail.javamail.*;
 import org.springframework.security.crypto.password.*;
@@ -143,6 +145,9 @@ public class HospitalService {
     // 소개 페이지 정보 불러오기 + 병원 이름 아이디 불러오기
     public HospitalMemberInfo readInfo(String hAddress, String hospital){
         HospitalMemberInfo infoHospital= hospitalDao.hospitalInfo(hAddress, hospital);
+        if(infoHospital==null){
+            throw  new EntityNotFoundException("병원 아이디를 찾지 못했습니다");
+        }
         return infoHospital;
     }
 
