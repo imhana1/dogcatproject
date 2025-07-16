@@ -28,6 +28,11 @@ function HospitalReview() {
     const { username, resetUserInfo } = useAuthStore();
     console.log("Booking username:", username);
 
+    // 신고
+    const handlenotify = () => {
+
+    }
+
   // 리뷰 삭제
     const handleDelete = async (rno) => {
         const confirmed = window.confirm("정말로 이 리뷰를 삭제하시겠습니까?");
@@ -63,10 +68,13 @@ function HospitalReview() {
       ) : (
         <ul style={{ listStyle: "none", padding: 0 }}>
           {review.map((review, idx) => (
-            <li key={review.revNo || idx} style={{ borderBottom: "1px solid #eee", padding: "18px 0" }}>
+            <li key={review.revNo || idx} style={{ borderBottom: "1px solid #eee", padding: "18px 0", position: "relative" }}>
               <div style={{ fontWeight: "bold", fontSize: "1.1rem" }}>{review.revWriter || "작성자 없음"}</div>
               <div style={{ color: "#999", fontSize: "0.95rem", marginBottom: 6 }}>{new Date(review.revWriteDay).toLocaleDateString() || "날짜 없음"}</div>
               <div style={{ fontSize: "1.05rem", color: "#333" }}>{review.revContent || "내용 없음"}</div>
+                <button className="icon-report-btn" title="신고" onClick={handlenotify} style={{ position: "absolute", top: 0, right: 0, background: "transparent", border: "none", fontSize: "20px", color: "#ff4d4f" }}>
+                    <span role="img" aria-label="report">🚨</span>
+                </button>
                 {/* 본인이 작성한 리뷰일 때만 삭제 버튼 노출 */}
                 {review.revWriter === username && (
                     <button className="btn btn-danger" onClick={() => handleDelete(review.rno)} style={{ marginTop: 8, padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer",}}>삭제</button>
