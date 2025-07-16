@@ -38,7 +38,11 @@ public interface HospitalDao {
     Hospital findAddress(String hAddress);
 
     // 소개 페이지
-    @Select("SELECT * FROM hospital_member WHERE REPLACE(h_address, ' ', '') = REPLACE(#{hAddress}, ' ', '') AND hospital = #{hospital} AND rownum = 1")
+    // TRIM() 함수는 문자열의 앞이나 뒤, 또는 양쪽에 있는 특정 문자를 제거하는 데 사용, cast
+    @Select("SELECT * FROM hospital_member " +
+            "WHERE TRIM(REPLACE(h_address, ' ', '')) = TRIM(REPLACE(CAST(#{hAddress} AS VARCHAR2(100)), ' ', '')) " +
+            "  AND TRIM(REPLACE(hospital, ' ', '')) = TRIM(REPLACE(CAST(#{hospital} AS VARCHAR2(70)), ' ', '')) " +
+            "  AND rownum = 1")
     HospitalMemberInfo hospitalInfo(String hAddress, String hospital);
 
 
