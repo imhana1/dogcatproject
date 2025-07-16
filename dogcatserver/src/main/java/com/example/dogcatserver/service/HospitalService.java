@@ -110,6 +110,8 @@ public class HospitalService {
 
     public LocationResult findloaction(String address){
         Hospital hospital = hospitalDao.findAddress(address);
+        System.out.println("DAO로 전달될 hAddress: [" + address + "]"); // 여기에 로그 추가
+        System.out.println("DAO로 전달될 hospitalName: [" + hospital + "]"); // 여기에 로그 추가
         if (hospital == null) {
             throw new RuntimeException("해당 주소로 등록된 병원이 없습니다: " + address);
         }

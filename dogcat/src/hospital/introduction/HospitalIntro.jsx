@@ -25,7 +25,7 @@ const images = [
 
 // 인텔리제이 rsf 리액트 함수
 function HospitalIntro() {
-    const [form, setForm] =useState(null);
+    const [form, setForm] =useState({});
     const [params]=useSearchParams()
     const hAddress = params.get("address");
     const hospitalName = params.get("name");
@@ -38,6 +38,7 @@ function HospitalIntro() {
         checkAuth();
     }, []);
 
+    console.log("병원 아이디", hAddress);
 
     // 병원 정보
     const [hospital, setHospital] = useState ({ hUsername:'', hospitalName:''});
