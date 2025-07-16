@@ -40,4 +40,14 @@ public class HospitalDto {
         private String hUsername;
         private String hospital;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ReadInfo{
+        private String hAddress;
+        private String hospital;
+    }
+
+
 }

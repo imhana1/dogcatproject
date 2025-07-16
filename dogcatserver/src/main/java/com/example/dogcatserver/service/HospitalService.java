@@ -128,7 +128,7 @@ public class HospitalService {
         memberDao.delete(loginId);
     }
 
-    // 공개 병원 정보 보기
+//     공개 병원 정보 보기
     public HospitalDto.PublicInfo getPublicHospitalInfo(String hUsername) {
         HospitalMemberInfo info = hospitalDao.getByUsername(hUsername);
         if(info==null) return null;
@@ -138,5 +138,13 @@ public class HospitalService {
         dto.setHospital(info.getHospital());
         return dto;
     }
+
+
+    // 소개 페이지 정보 불러오기 + 병원 이름 아이디 불러오기
+    public HospitalMemberInfo readInfo(String hAddress, String hospital){
+        HospitalMemberInfo infoHospital= hospitalDao.hospitalInfo(hAddress, hospital);
+        return infoHospital;
+    }
+
 
 }

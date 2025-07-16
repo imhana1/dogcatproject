@@ -87,8 +87,19 @@ function Booking() {
 
     if (window.confirm("정말로 예약을 취소하시겠습니까?")) {
       setDisabledIds(prev => [...prev, rno]);
-
+      const target = reservation.find(r => r.rno === rno);
+      if (!target) {
+        alert("해당 예약 정보를 찾을 수 없습니다.");
+        return;
+      }
+      const payload={
+        sender:"",
+        receiver: target.nusername,
+        message:"예약이 최소 되었습니다",
+        url:"http://localhost:3000/nuser-reservations"
+      }
       try {
+        await axios.post("http://localhost:8080/api/message", payload,{withCredentials:true});
         await axios.patch(`http://localhost:8080/reservation/cancel?rno=${rno}`, null, {
           withCredentials: true
         });

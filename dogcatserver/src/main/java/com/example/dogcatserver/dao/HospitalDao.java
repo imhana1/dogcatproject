@@ -1,5 +1,6 @@
 package com.example.dogcatserver.dao;
 
+import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.web.multipart.*;
@@ -36,6 +37,8 @@ public interface HospitalDao {
     @Select("select h_location, h_longitude from hospital_member where h_address=#{hAddress}")
     Hospital findAddress(String hAddress);
 
+    @Select("select * from hospital_member where h_address=#{hAddress} and hospital=#{hospital} and rownum=1")
+    HospitalMemberInfo hospitalInfo(String hAddress, String hospital);
 
 
     @Delete("delete from hospital_member where h_username=#{loginId}")

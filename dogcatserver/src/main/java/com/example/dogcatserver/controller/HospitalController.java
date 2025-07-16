@@ -56,6 +56,12 @@ public class HospitalController {
         JoinViewInfoDto.HospitalInfo dto = service.Read(principal.getName());
         return ResponseEntity.ok(dto);
     }
+    @Operation(summary = "소개 페이지 정보 ", description = "소개 페이지 정보 불러오기")
+    @GetMapping("/hospital/info")
+    public ResponseEntity<HospitalMemberInfo>readInfo(@RequestParam String hAddress, @RequestParam String hospital){
+        HospitalMemberInfo info = service.readInfo(hAddress, hospital);
+        return ResponseEntity.ok(info);
+    }
 
 
     @PreAuthorize("isAuthenticated()")
@@ -100,6 +106,7 @@ public class HospitalController {
         return ResponseEntity.ok(treat);
     }
 
+    // 진료 결과 목록
     @GetMapping("/hospital/treats-read")
     public ResponseEntity<TreatDto.pages> treatsRead(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize){
        return ResponseEntity.ok(treatService.findAll(pageno, pagesize));
