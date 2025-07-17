@@ -32,7 +32,7 @@ function HospitalReview() {
 
     // 신고
     const handlenotify = () => {
-
+        navigate('/qna')
     }
 
     // 리뷰 수정
