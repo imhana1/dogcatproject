@@ -4,6 +4,7 @@ import ReservationHeader from '../../fragments/reservation/ReservationHeader';
 import ReservationFooter from '../../fragments/reservation/ReservationFooter';
 import StepIndicator from '../../components/reservation/StepIndicator';
 import './reservationWrite.css';
+import useAuthStore from '../../stores/useAuthStore';
 
 function ReservationWrite() {
   const navigate = useNavigate();
@@ -11,6 +12,12 @@ function ReservationWrite() {
 
   const { hUsername: initHUsername, hospitalName: initHospitalName } = location.state || {};
   console.log(initHUsername);
+
+  const checkAuth = useAuthStore(state => state.checkAuth);
+
+   useEffect(() => {
+      checkAuth();
+   }, []);
 
   // 상태 정의
   const [petList, setPetList] = useState([]);
@@ -45,7 +52,7 @@ function ReservationWrite() {
     console.log("initHUsername:", initHUsername);
     console.log("현재 hUsername 상태값:", hUsername);
 
-    if (!username || !selectedPno || !reservationType) {
+    if (!username || !reservationType) {
       alert('보호자 이름, 반려동물 선택, 예약 유형은 필수입니다.');
       return;
     }
@@ -89,7 +96,7 @@ function ReservationWrite() {
 
         <br /><br />
 
-        <label className='form-label'>
+        {/* <label className='form-label'>
           반려동물 선택 (필수)<br />
           <select
             className='form-select'
@@ -103,12 +110,12 @@ function ReservationWrite() {
               </option>
             ))}
           </select>
-        </label>
+        </label> */}
 
         <br /><br />
 
         <label className='form-label'>
-          동물 이름 입력 <br />
+        동물 이름 입력 <br />
           <input
             className='form-input'
             type='text'
