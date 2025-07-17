@@ -16,6 +16,14 @@ function ReservationMenu() {
     const [dateRange, setDateRange] = useState({ from: '', to: '' });
     const navigate = useNavigate();
 
+    const checkAuth = useAuthStore(state => state.checkAuth);
+
+    useEffect(() => {
+      checkAuth();
+    }, []);
+    // 로그인 시 localStorage 에 사용자 이름을 저장했던 걸 가져오기
+    const nUsername = localStorage.getItem('nUsername');
+
     // 총 페이지
     const totalPages = Math.ceil(reservation.length/BLOCK_SIZE);
     const countOfPage = reservation.slice((page-1) * BLOCK_SIZE, page * BLOCK_SIZE);
@@ -28,18 +36,44 @@ function ReservationMenu() {
     const handleStatusChange = e => setStatus(e.target.value);
     const handleDateChange = e => setDateRange({ ...dateRange, [e.target.name]: e.target.value });
 
-    useEffect(() => {
-        const fetch= async ()=>{
-            try {
-                const response = await axios.get("http://localhost:8080/reservation/info",{withCredentials:true});
-                console.log(response.data);
-                setReservation(response.data);
-            } catch (e) {
-                console.log(e)
+    // 결제 취소 불러오기
+    useEffect(()=> {
+        const fetchReservations = async() => {
+            if(!nUsername) {
+                alert('로그인이 필요합니다.')
+                navigate('/login');
+                return;
             }
-        }
-        fetch();
-    }, []);
+            
+            try {
+                const response = await fetch(`http://localhost:8080/api/nuser-mypage/reservations`, { withCredentials: true});
+
+                if(!response.ok) {
+                    throw new Error('예약 내역을 불러오는 데 실패했습니다');
+                }
+                const data = await response.json();
+                setReservation(data);
+            } catch (err) {
+                console.log('예약 내역 조회 오류: ', err);
+                alert('예약 내역을 불러오는 데 실패했습니다.');
+            }
+        };
+        fetchReservations();
+    },[nUsername, navigate]);
+    console.log('Reservations loaded in ReservationMenu:', reservation);
+
+    // useEffect(() => {
+    //     const fetch= async ()=>{
+    //         try {
+    //             const response = await axios.get("http://localhost:8080/reservation/info",{withCredentials:true});
+    //             console.log(response.data);
+    //             setReservation(response.data);
+    //         } catch (e) {
+    //             console.log(e)
+    //         }
+    //     }
+    //     fetch();
+    // }, []);
 
     // 기간 버튼 핸들러 예시
     const setPeriod = days => {
@@ -52,6 +86,7 @@ function ReservationMenu() {
         });
     };
 
+    console.log("예약한 값: ", reservation);
     return (
         <div>
             <HeaderUser />
@@ -73,6 +108,7 @@ function ReservationMenu() {
                                     <th style={{ padding: "14px 10px", textAlign: "center" }}>예약자</th>
                                     <th style={{ padding: "14px 10px", textAlign: "center" }}>진료일시</th>
                                     <th style={{ padding: "14px 10px", textAlign: "center" }}>예약상태</th>
+                                    <th style={{ padding: "14px 10px", textAlign: "center" }}>취소하기</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -86,6 +122,7 @@ function ReservationMenu() {
                                             <td><button onClick={() => navigate(`/review-write/${reservation.rno}`)} className="btn btn-dark" style={{ marginBottom: "5px" }}>{reservation.nusername}</button></td>
                                             <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.schedule}</td>
                                             <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.rstatus}</td>
+                                            <td className='btn btn-danger' onClick={()=> navigate(`/toss/cancel/${reservation.rno}`, { state: { paymentKey: reservation.paymentKey, orderId:reservation.orderId, amount:reservation.amount} })}>취소</td>
                                         </tr>
                                     ))
                                 }

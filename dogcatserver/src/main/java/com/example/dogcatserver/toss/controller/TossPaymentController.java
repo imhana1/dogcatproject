@@ -1,7 +1,9 @@
 package com.example.dogcatserver.toss.controller;
 
 import com.example.dogcatserver.entity.Pay;
+import com.example.dogcatserver.entity.PaymentStatus;
 import com.example.dogcatserver.service.PayService;
+import com.example.dogcatserver.service.ReservationService;
 import com.example.dogcatserver.toss.dto.*;
 import com.example.dogcatserver.toss.exception.AlreadyCanceledException;
 import com.example.dogcatserver.toss.exception.PaymentNotFoundException;
@@ -24,6 +26,8 @@ public class TossPaymentController {
   private TossPaymentService service;
   @Autowired
   private PayService payService;
+  @Autowired
+  private ReservationService reservationService;
 
   // 결제 생성 api
   @Operation(summary = "결제 생성 요청", description = "결제를 위한 토스 API 생성")
@@ -48,6 +52,26 @@ public class TossPaymentController {
         dto.getOrderId(),
         dto.getAmount()
     );
+
+    // 토스 승인 성공 시 Pay 테이블과 Reservation 테이블 업데이트
+    if(response !=null && "DONE".equals(response.getPStatus())) {
+      try {
+        int rno = dto.getRno();
+
+        reservationService.processPaymentConfirmation(
+                rno,
+                dto.getOrderId(),
+                dto.getPaymentKey(),
+                dto.getAmount()
+        );
+      } catch(Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+      }
+    } else {
+//      payService.updateFailStatus(dto.getOrderId(), PaymentStatus.FAILED);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
     return ResponseEntity.ok(response);
   }
 

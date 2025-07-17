@@ -28,6 +28,9 @@ public class ReservationService {
   @Autowired
   private ScheduleDao  scheduleDao;
 
+  @Autowired
+  private PayDao payDao;
+
   // 예약 생성 (createReservation)
     // 예약을 생성해 사용자에게 보여야하기 때문에 RequestDto 사용
   @Transactional
@@ -74,7 +77,7 @@ public class ReservationService {
       System.out.println("승인 실패. 예약이 존재하지 않습니다");
       return false;
     }
-    if ("RESERVED".equals(res.getRStatus())) {
+    if ("RESERVED".equals(res.getRStatus().name())) {
       System.out.println("예약 승인 실패. 이미 승인된 예약입니다");
       return false;
     }
@@ -99,7 +102,7 @@ public class ReservationService {
       System.out.println("예약 취소 실패 : 예약이 존재하지 않습니다");
       return false;
     }
-    if ("CANCELED".equals(db.getRStatus())) {
+    if ("CANCELED".equals(db.getRStatus().name())) {
       System.out.println("예약 취소 실패 : 이미 취소된 예약입니다.");
       return false;
     }
@@ -125,7 +128,7 @@ public class ReservationService {
     if(nUsername == null || nUsername.isBlank()) {
       throw new IllegalArgumentException("사용자 이름이 유효하지 않습니다");
     }
-    return reservationDao.getMyReservation(nUsername);
+    return reservationDao.getMyReservationWithPaymentDetails(nUsername);
   }
   
   // 병원 측 예약 내역 불러오기 서비스
@@ -136,10 +139,45 @@ public class ReservationService {
     return reservationDao.getReservation(hUsername);
   }
 
+  // 예약 번호로 상세 조회 (결제 정보까지 포함
   public Reservation getReservation(Integer rno){
     if(rno == null) {
       throw new IllegalArgumentException("존재하지 않는 예약 번호입니다");
     }
     return reservationDao.findReservation(rno);
+  }
+
+  // 결제 성공 처리
+  public boolean processPaymentConfirmation (int rno, String orderNo, String paymentKey, int amount) {
+    // 예약 정보 조회
+    Reservation reservation = reservationDao.getReservationByRno(rno);
+    if (reservation == null) {
+      throw new IllegalArgumentException("결제 승인 처리할 예약번호" + rno + "를 찾을 수 없습니다");
+
+    }
+    Pay pay = Pay.builder()
+            .rno(rno)
+            .hUsername(reservation.getHUsername())
+            .nUsername(reservation.getNUsername())
+            .orderNo(orderNo)
+            .paymentKey(paymentKey)
+            .pUsername(reservation.getNUsername())
+            .productDesc("예약금")
+            .amount(amount)
+            .amountTaxFree(0) // 기본값 설정
+            .autoExecute(true) // 기본값 설정
+            .resultCallback("http://localhost:8080/toss/callback")
+            .retUrl("http://localhost:3000/toss/success")
+            .retCancelUrl("http://localhost:3000/toss/fail")
+            .build();
+
+    payDao.insertPay(pay);
+
+    int updateReservationRows = reservationDao.updateOrderNoForReservation(rno, orderNo);
+
+    if(updateReservationRows ==0) {
+
+    }
+    return true;
   }
 }

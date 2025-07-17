@@ -68,7 +68,7 @@ function BeautyReservation() {
     const messagePayload = {
       receiver: hUsername, // 병원 아이디를 수신자로 설정
       message: `${username}님께서 ${pName}의 진료 예약을 시도합니다.`, // 메시지 내용
-      url: `http://localhost:8080/booking` // 관련 URL (필요하다면)
+      url: `http://localhost:3000/booking` // 관련 URL (필요하다면)
     };
 
     try {

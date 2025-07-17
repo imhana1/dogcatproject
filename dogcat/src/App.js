@@ -187,7 +187,7 @@ function App() {
         <Route path='/toss/checkout' element={<TossCheckout />}/>
         <Route path='/toss/success' element={<TossSuccess />}/>
         <Route path='/toss/fail' element={<TossFail />}/>
-        <Route path='/toss/cancel' element={<CancelPaymentPage />} />
+        <Route path='/toss/cancel/:rno' element={<CancelPaymentPage />} />
         {/* 지도 페이지 */}
         <Route path='/search' element={<MapPage />} />
         {/* 예약 페이지 */}

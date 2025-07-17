@@ -26,4 +26,6 @@ public interface PayDao {
   @Delete("delete from pay where n_username=#{loginId}")
   int deleteNpay(String loginId);
 
+  // orderNo 로 Pay 정보 조회하기
+  Pay findByOrderNo (String orderNo);
 }

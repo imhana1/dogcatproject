@@ -56,6 +56,7 @@ public class  SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/email-send").permitAll()                                            // 이메일 인증 보내기 비로그인 접근 가능
                 .requestMatchers(HttpMethod.PUT, "/email-check").permitAll()                                            // 이메일 인증 확인 비로그인 접근 가능
                 .requestMatchers("/reservation/**").authenticated()                     // 예약 관련은 로그인이 필요함
+                .requestMatchers("/toss/cancel/**").authenticated()
                 .anyRequest().authenticated()                                             // 그 외 모든 요청 인증 필요
         );
         return config.build();
