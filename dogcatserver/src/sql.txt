@@ -55,7 +55,7 @@ CREATE TABLE hospital_member (
 CREATE TABLE adoption (
 	ano number(10) NOT NULL,
 	a_profile clob NULL,
-	a_name varchar2(10) NULL,
+	a_name varchar2(50) NULL,
 	a_age number(5) NULL,
 	a_gender varchar2(10) NULL,
 	a_breed varchar2(10) NULL,
@@ -117,9 +117,7 @@ CREATE TABLE treat (
     n_username  VARCHAR2(10),                             -- 환자 ID (일반 회원)
 
     CONSTRAINT pk_treat PRIMARY KEY (tno, rno),           -- 복합 기본키
-    CONSTRAINT fk_treat_rno FOREIGN KEY (rno)
-        REFERENCES reservation(rno)
-        ,
+
     CONSTRAINT fk_treat_n_username FOREIGN KEY (n_username)
         REFERENCES normal_member(n_username)
         ,
@@ -216,7 +214,6 @@ CREATE TABLE review (
 	rev_content varchar2(1000) NULL,
 	h_username varchar2(10) NOT NULL,
 	CONSTRAINT PK_REVIEW PRIMARY KEY (rev_no),
-	CONSTRAINT FK_reservation_TO_review_1 FOREIGN KEY (rno) REFERENCES reservation (rno),
 	CONSTRAINT FK_user_member_TO_review_1 FOREIGN KEY (rev_writer) REFERENCES user_member (username),
 	CONSTRAINT FK_hospital_member_TO_review_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username)
 );

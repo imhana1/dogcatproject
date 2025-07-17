@@ -11,6 +11,15 @@ function Home() {
     const checkAuth = useAuthStore(state =>state.checkAuth);
     const isAuthChecked = useAuthStore(state => state.isAuthChecked);
 
+    // 컴포넌트 마운트 시 인증 상태를 확인
+    useEffect(() => {
+        // isAuthChecked가 false인 경우에만 checkAuth 호출
+        // 불필요한 반복 호출을 막기 위함
+        if (!isAuthChecked) {
+            checkAuth();
+        }
+    }, [checkAuth, isAuthChecked]); // checkAuth와 isAuthChecked가 변경될 때만
+
     if (!isAuthChecked) {
         return <div>로딩 중...</div>; // 또는 빈 화면 <></>
     }

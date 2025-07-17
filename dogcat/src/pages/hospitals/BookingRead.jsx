@@ -18,9 +18,20 @@ function BookingResult({bookingId, userId}) {
     useEffect(()=>{
         const fetch= async ()=>{
             try {
+                // 1. URL에서 가져온 rno가 유효한 숫자인지 먼저 확인
+                if (isNaN(rno)) {
+                    alert('유효하지 않은 예약 번호입니다.');
+                    navigate('/');
+                    return;
+                }
                 const response = await  axios.get(`http://localhost:8080/hospital/treat-read?rno=${rno}`, {withCredentials:true})
                 const data = response.data;
                 setTreatData(data);
+                // 2. API 응답 데이터가 없거나, 데이터의 rno가 URL의 rno와 다를 경우
+                if (!data || data.rno !== rno) {
+                    alert('등록된 예약 번호가 없거나 정보가 일치하지 않습니다.');
+                    navigate('/');
+                }
                 console.log(data);
                 setForm({
                     rno: data.rno,
@@ -29,10 +40,13 @@ function BookingResult({bookingId, userId}) {
                 })
             } catch (e) {
                 console.log(e);
+                alert('예약 정보를 불러오는데 실패했습니다. 다시 시도해주세요.');
+                navigate('/'); // 오류 발생 시 루트로 이동
             }
         }
         fetch();
     },[rno])
+
 
     // 로그인 정보 저장
     const { username } = useAuthStore();
