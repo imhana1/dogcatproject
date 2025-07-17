@@ -105,18 +105,18 @@ function ReservationWrite() {
           </select>
         </label>
 
-        {/*<br /><br />*/}
+        <br /><br />
 
-        {/*<label className='form-label'>*/}
-        {/*  동물 이름 입력 <br />*/}
-        {/*  <input*/}
-        {/*    className='form-input'*/}
-        {/*    type='text'*/}
-        {/*    value={petName}*/}
-        {/*    onChange={(e) => setPetName(e.target.value)}*/}
-        {/*    placeholder='예: 두부, 뽀삐 등'*/}
-        {/*  />*/}
-        {/*</label>*/}
+        <label className='form-label'>
+          동물 이름 입력 <br />
+          <input
+            className='form-input'
+            type='text'
+            value={petName}
+            onChange={(e) => setPetName(e.target.value)}
+            placeholder='예: 두부, 뽀삐 등'
+          />
+        </label>
 
         <br /><br />
 

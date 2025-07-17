@@ -23,17 +23,21 @@ public class ReservationService {
   private ReservationDao reservationDao;
 
   @Autowired
+  private PetDao petDao;
+
+  @Autowired
   private ScheduleDao  scheduleDao;
 
   // 예약 생성 (createReservation)
     // 예약을 생성해 사용자에게 보여야하기 때문에 RequestDto 사용
   @Transactional
-  public int createReservation(ReservationRequestDto.Create dto) {
+  public int createReservation(ReservationRequestDto.Create dto, String loginId) {
     // 1. 진료 시간과 선택한 진료 종류로 schedule s_id 찾기
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     String dateTime = dto.getSchedule().format(formatter); // ← 여기가 핵심
     String hUsername = dto.getHUsername();
     String choice = dto.getSChoice();
+    Integer pno = petDao.findPno(loginId, dto.getPName());
 
     System.out.println("찾는 스케줄 시간: " + dateTime);
     System.out.println("선택한 진료 종류: " + choice);
@@ -45,7 +49,7 @@ public class ReservationService {
       throw new IllegalArgumentException("해당 시간과 진료 종류에 대한 스케줄이 없습니다.");
     }
 
-    Reservation reservation = dto.toEntity(sId); // 변환 메서드 작성
+    Reservation reservation = dto.toEntity(sId, loginId, pno); // 변환 메서드 작성
     reservationDao.save(reservation);
     reservationDao.blockTime(sId);
     return reservation.getRno();

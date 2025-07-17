@@ -24,21 +24,24 @@ public class ReservationRequestDto {
   @AllArgsConstructor
   @Builder
   public static class Create {
-    private String nUsername;
+//    private String nUsername;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime schedule;
     private String hUsername;
-    private int pno;
+    private String nName;
+//    private int pno;
+    private String pName;
     private String sChoice;// 진료미용
     private String rCondition;
     private String remark;
 
-    public Reservation toEntity(Integer sId) {
+    public Reservation toEntity(Integer sId, String loginId, Integer pno) {
       return Reservation.builder()
-              .nUsername(this.nUsername)
+              .nUsername(loginId)
               .schedule(this.schedule)
               .hUsername(this.hUsername)
-              .pno(this.pno)
+              .pno(pno)
+              .nName(this.nName)
               .sChoice(this.sChoice)
               .sId(sId)
               .rCondition(rCondition)

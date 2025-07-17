@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface PetDao {
+
     @Select("select PNO as pno, P_WEIGHT as pweight, ANIMAL_TYPES as ptype, MICROCHIPPED as pmichipe, P_BREED as pbreed, P_NAME as pname, P_AGE as page, " +
             "HAS_ALLERGIES as palg, has_insurance as pins, illness_name pchronic, surgery_name as psname, P_PROFILE as pprof from PET where N_USERNAME = #{nid}")
     List<Pet> findByNid(String nid);
@@ -32,4 +33,7 @@ public interface PetDao {
     @Update("UPDATE PET SET ANIMAL_TYPES = #{ptype}, MICROCHIPPED = #{pmichipe}, P_BREED = #{pbreed}, P_NAME = #{pname}, P_AGE = #{page}, P_WEIGHT = #{pweight}, " +
             "HAS_ALLERGIES = #{palg}, HAS_INSURANCE = #{pins}, ILLNESS_NAME = #{pchronic}, SURGERY_NAME = #{psname}, P_PROFILE = #{pprof} WHERE PNO = #{pno} AND N_USERNAME = #{nid}")
     int updatePet(Pet pet);
+
+    @Select("select pno from pet where n_username =#{nUsername} and p_name=#{pName}")
+    Integer findPno(String nUsername, String pName);
 }

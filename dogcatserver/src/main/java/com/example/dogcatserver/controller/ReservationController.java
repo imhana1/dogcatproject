@@ -32,8 +32,8 @@ public class ReservationController {
     @Secured("ROLE_USER")
     @Operation(summary = "예약 생성", description = "예약 생성이 되었는지 확인")
     @PostMapping("/reservation")
-    public ResponseEntity<String> create(@RequestBody ReservationRequestDto.Create dto) {
-        int rno = service.createReservation(dto);
+    public ResponseEntity<String> create(@RequestBody ReservationRequestDto.Create dto, Principal principal) {
+        int rno = service.createReservation(dto, principal.getName());
         return ResponseEntity.ok("예약번호: " + rno);
     }
 
