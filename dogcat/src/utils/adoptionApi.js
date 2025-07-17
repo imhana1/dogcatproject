@@ -27,3 +27,8 @@ export const deleteAdoptionByAno = (ano) => api.delete(`/api/adoptions/adoption?
 // 단일 글 관심등록 유무 확인 (username은 서버에서 알아서 principal로 확인할거야)
 export const checkIsWished = (ano) => api.get(`/api/adoptions/check-wish?ano=${ano}`)
 
+// 관심등록 목록 출력
+export const getMyWishList = (pageno = 1, pagesize = 8) => api.put('/nuser/adoption', null, {
+        params: { pageno, pagesize }
+    });
+
