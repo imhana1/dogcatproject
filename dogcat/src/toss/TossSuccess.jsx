@@ -23,7 +23,7 @@ useEffect(() => {
     .then(() => {
       alert('예약이 완료되었습니다!');
       sessionStorage.removeItem('reservationInfo');
-      navigate('/mypage'); // 또는 원하는 페이지로 이동
+      navigate('/nuser-reservations'); // 또는 원하는 페이지로 이동
     })
     .catch((err) => {
       alert('예약 저장 실패: ' + err.message);

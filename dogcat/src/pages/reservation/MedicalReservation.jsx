@@ -12,7 +12,7 @@ import ReservationFooter from '../../fragments/reservation/ReservationFooter'
 
 function MedicalReservation() {
   const location = useLocation();
-  const { username, petName, rCondition, remark, hUsername } = location.state || {};
+  const { username, pName, rCondition, remark, hUsername } = location.state || {};
   console.log("병원 아이디 : ", hUsername);
   // 날짜 및 시간 선택 상태
   const [selectedDate, setSelectedDate] = useState(null);
@@ -48,7 +48,7 @@ function MedicalReservation() {
     // 예약 정보 저장
     sessionStorage.setItem('reservationInfo', JSON.stringify({
       nUsername: username,
-      petName,
+      pName: pName,
       hUsername,
       rCondition,
       remark,

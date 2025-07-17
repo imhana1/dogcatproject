@@ -21,8 +21,7 @@ function ReservationWrite() {
 
   // 상태 정의
   const [petList, setPetList] = useState([]);
-  const [selectedPno, setSelectedPno] = useState('');
-  const [petName, setPetName] = useState('');
+  const [pName, setPName] = useState('');
   const [reservationType, setReservationType] = useState('');
   const [rCondition, setRCondition] = useState('');
   const [remark, setRemark] = useState('');
@@ -64,8 +63,7 @@ function ReservationWrite() {
     navigate(`/reservation/${reservationType}`, {
       state: {
         username,
-        petName,         // 단순히 다음 화면에 보여주기 위한 용도
-        pno: selectedPno, // 실제 저장용
+        pName: pName, // 백엔드 DTO의 pName 필드에 매핑되도록 'pName'으로 키 변경
         rCondition,
         remark,
         hUsername : initHUsername,
@@ -119,8 +117,8 @@ function ReservationWrite() {
           <input
             className='form-input'
             type='text'
-            value={petName}
-            onChange={(e) => setPetName(e.target.value)}
+            value={pName}
+            onChange={(e) => setPName(e.target.value)}
             placeholder='예: 두부, 뽀삐 등'
           />
         </label>
