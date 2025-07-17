@@ -9,9 +9,15 @@ import PriceNotice from '../../components/reservation/PriceNotice'
 import SubmitReservationButton from '../../components/reservation/SubmitReservationButton'
 import ReservationHeader from '../../fragments/reservation/ReservationHeader'
 import ReservationFooter from '../../fragments/reservation/ReservationFooter'
+import useAuthStore from '../../stores/useAuthStore'
 
 function MedicalReservation() {
   const location = useLocation();
+  const checkAuth = useAuthStore(state => state.checkAuth);
+
+   useEffect(() => {
+      checkAuth();
+   }, []);  
   const { username, pName, rCondition, remark, hUsername } = location.state || {};
   console.log("병원 아이디 : ", hUsername);
   // 날짜 및 시간 선택 상태

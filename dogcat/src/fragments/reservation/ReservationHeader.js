@@ -42,7 +42,7 @@ function ReservationHeader() {
     return (
         <div className={styles.ntcQnaWrapper}>
             <header>
-                <img src="/dogcat_logo.png" alt="너도멍냥 동물병원" style={{ height: '100%' }} />
+                <img src="/dogcat_logo.png" alt="너도멍냥 동물병원" style={{ height: '100%', cursor:'pointer' }} onClick={()=>navigate('/')} />
                 <h1 className='header_title'>예약</h1>
                 <div style={{ marginTop: 'auto' }}>
                     <p onClick={logInlogOutHandler} style={{ cursor: 'pointer' }}>

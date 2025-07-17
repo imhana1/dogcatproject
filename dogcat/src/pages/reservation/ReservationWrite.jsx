@@ -76,11 +76,6 @@ function ReservationWrite() {
     <>
       <ReservationHeader />
       <StepIndicator currentStep={1} />
-
-      <div style ={{ marginBottom: '20px', fontWeight:'bold', fontSize:'1.2rem'}}>
-        예약 병원: {hospitalName || '병원 정보가 없습니다.'}
-      </div>
-
       <div className='reservation-write'>
         <label className='form-label'>
           보호자 이름<br />
@@ -110,8 +105,17 @@ function ReservationWrite() {
           </select>
         </label> */}
 
-        <br /><br />
+        <label className='form-label'>
+          예약한 병원 <br />
+          <input
+            className='form-input'
+            type='disabled'
+            value={hospitalName}
+          />
+        </label>
 
+        <br /><br />
+        
         <label className='form-label'>
         동물 이름 입력 <br />
           <input
