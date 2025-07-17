@@ -92,7 +92,7 @@ public class NuserService {
     String address = dto.getNaddr();
     double[] latlng = service.getCoordinates(address);
 
-    Nuser nuser = dto.tonChangeEntity(latlng[0], latlng[1]);
+    Nuser nuser = dto.tonChangeEntity(latlng[0], latlng[1], loginId);
     nuserDao.nchangeInfo(nuser);
 
     return nuserDao.getBynUsername(loginId).tonChangeRead();

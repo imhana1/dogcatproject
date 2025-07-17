@@ -81,6 +81,7 @@ function ChangeMyPage() {
           "Content-Type": "multipart/form-data"
         }
       });
+      console.log(form.nid)
       console.log("서버 응답:", response.data);
       navigate("/nuser-mypage");
     } catch(err) {

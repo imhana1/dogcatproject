@@ -107,8 +107,8 @@ public class JoinViewInfoDto {
         private Integer zip; // 우편번호
         private String nsubaddr; // 상세 주소 추가
 
-        public Nuser tonChangeEntity(Double nlocation, Double nlongitude) {
-            return Nuser.builder().ntel(nTel).naddr(naddr).zip(zip).nlocation(nlocation).nlongitude(nlongitude).nsubaddr(nsubaddr).build();
+        public Nuser tonChangeEntity(Double nlocation, Double nlongitude,String loginId) {
+            return Nuser.builder().ntel(nTel).naddr(naddr).zip(zip).nlocation(nlocation).nlongitude(nlongitude).nsubaddr(nsubaddr).nid(loginId).build();
         }
     }
 }

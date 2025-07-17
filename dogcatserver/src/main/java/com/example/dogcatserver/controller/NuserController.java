@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.*;
+import org.springframework.validation.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,11 +42,14 @@ public class   NuserController {
 
     }
 
+    // 수정 (재호)
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "일반 회원 정보 변경", description = "일반 회원 정보 변경")
     @PutMapping("/nuser/profile")
     public ResponseEntity<JoinViewInfoDto.NuserInfo> changenInfo (
             @RequestPart("dto") @Valid JoinViewInfoDto.NuserInfoChange dto,
-            @RequestPart("uDto") @Valid UseMemberDto.UsernameCheck uDto) {
+            @RequestPart("uDto") @Valid UseMemberDto.UsernameCheck uDto, BindingResult br,
+            Principal principal) {
 
         JoinViewInfoDto.NuserInfo nInfo = nuserservice.ChangeInfo(dto, uDto.getUsername());
         return ResponseEntity.ok(nInfo);
