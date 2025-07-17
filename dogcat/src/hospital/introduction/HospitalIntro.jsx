@@ -99,7 +99,7 @@ function HospitalIntro() {
                     <ul style={{ display: "flex", gap: "30px", listStyle: "none", margin: 0, padding: 0 }}>
                         <li><span style={{ color: "#ff5f2e", fontWeight: "bold" }}>병원 소개</span></li>
                         <li><Link to="/hospital-doctor" style={{ color: "#333", textDecoration: "none" }}>의료진 소개</Link></li>
-                        <li><Link to="/reservation/write" state ={{ hUsername: form.hUsername, hospitalName: form.hospitalName }} style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
+                        <li><Link to="/reservation/write" state ={{ hUsername: form.husername, hospitalName: form.hospital }} style={{ color: "#333", textDecoration: "none" }}>예약</Link></li>
                     </ul>
                 </nav>
                 {username ? (
