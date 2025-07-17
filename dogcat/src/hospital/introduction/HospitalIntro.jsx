@@ -44,20 +44,38 @@ function HospitalIntro() {
 
     // console.log("병원 아이디", hAddress);
 
+    // 병원 전체 세부 내용 불오오기
+    useEffect(()=>{
+        const fetch=async ()=>{
+            try {
+                const response = await axios.get("http://localhost:8080/hospital/info",{
+                    params: {hAddress, hospital: hospitalName},
+                    withCredentials:true
+                })
+                console.log(response.data)
+                setForm(response.data);
+            } catch (e) {
+                console.log(e)
+                alert("병원 아이디를 찾지 못했습니다");
+                navigate("/");
+            }
+        }
+        fetch()
+    },[hAddress])
     // 병원 정보
-    useEffect(() => {
-        axios.get("http://localhost:8080/hospital/public", {
-            params: { hAddress },
-            withCredentials: true,
-        })
-        .then(res => {
-            setForm(res.data);
-            console.log("받은 병원 정보:", res.data);
-        })
-        .catch(err => {
-            console.error("병원 정보 조회 실패", err);
-        });
-    }, [hAddress]);
+    // useEffect(() => {
+    //     axios.get("http://localhost:8080/hospital/public", {
+    //         params: { hAddress },
+    //         withCredentials: true,
+    //     })
+    //     .then(res => {
+    //         setForm(res.data);
+    //         console.log("받은 병원 정보:", res.data);
+    //     })
+    //     .catch(err => {
+    //         console.error("병원 정보 조회 실패", err);
+    //     });
+    // }, [hAddress]);
 
     // useEffect(()=> {
     //     fetch(`/hospital/public?hUsername=${encodeURIComponent(hUsername)}`)
@@ -140,23 +158,23 @@ function HospitalIntro() {
                     <FcClock size={48} />
                     <h4 style={{ margin: "18px 0 8px 0", color: "#1c140d" }}>진료시간</h4>
                     <div style={{ color: "#555", fontSize: "1.1rem", lineHeight: 1.7, textAlign:"center" }}>
-                        평일: <b>09:00 ~ 20:00</b><br />
-                        토요일: <b>09:00 ~ 20:00</b><br />
+                        평일: <b>09:00 ~ 18:00</b><br />
+                        토요일: <b>09:00 ~ 18:00</b><br />
                         <div style={{ color: "#ff5f2e" }}>일요일 휴무</div>
                     </div>
                     <div style={{ padding: "30px 40px", minWidth: 220, display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <FcPhone size={48} />
                         <h4 style={{ margin: "18px 0 8px 0", color: "#1c140d" }}>연락처</h4>
                         <div style={{ color: "#555", fontSize: "1.1rem" }}>
-                            010-3475-9466
+                            {form.htel}
                         </div>
                     </div>
                     <div style={{ padding: "30px 40px", minWidth: 220, display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <FcHome size={48} />
                         <h4 style={{ margin: "18px 0 8px 0", color: "#1c140d" }}>주소</h4>
                         <div style={{ color: "#555", fontSize: "1.1rem", textAlign: "center" }}>
-                            인천 미추홀구 매소홀로488번길 6-32<br />
-                            태승빌딩 5층
+                            {form.haddress}<br />
+                            {form.hsubaddress}
                         </div>
                     </div>
               </div>
