@@ -1,0 +1,77 @@
+/* TossSuccess.css */
+
+.toss-success-container {
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 120px); /* 헤더와 푸터 높이를 고려하여 최소 높이 설정 */
+}
+
+.status-message-processing {
+  margin-top: 50px;
+  font-size: 1.2em;
+}
+
+.status-message-success {
+  color: green;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.status-message-failure {
+  color: red;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.success-icon-wrapper {
+  font-size: 100px;
+  color: green;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid green;
+  box-sizing: border-box;
+}
+
+.success-title {
+  margin-top: 30px;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.success-description {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.failure-message-text {
+  margin-top: 10px; /* 실패 메시지 아래 여백 추가 */
+}
+
+.contact-support-message {
+  margin-top: 10px; /* 고객센터 메시지 위 여백 추가 */
+}
+
+.go-to-mypage-button {
+  margin-top: 30px;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  background-color: #4CAF50; /* 버튼 색상 */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.go-to-mypage-button:hover {
+  background-color: #45a049;
+}

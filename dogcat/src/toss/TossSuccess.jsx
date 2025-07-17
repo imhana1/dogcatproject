@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ReservationHeader from '../fragments/reservation/ReservationHeader';
+import StepIndicator from '../components/reservation/StepIndicator';
 import useAuthStore from '../stores/useAuthStore';
 
 const TossSuccess = () => {
   const navigate = useNavigate();
-
   const checkAuth = useAuthStore(state => state.checkAuth);
 
    useEffect(() => {
@@ -32,7 +33,29 @@ useEffect(() => {
 }, []);
 
 
-  return <div>예약 및 결제를 처리 중입니다...</div>;
+
+  return (
+    <>
+      <ReservationHeader />
+      <div className='toss-success-container'>
+        <StepIndicator currentStep={3} />
+          <>
+            <div className='success-icon-wrapper'>
+              &#10003;
+            </div>
+            <h2 className='success-title'>
+              예약이 완료되었습니다.
+            </h2>
+            <p className='success-description'>
+              자세한 사항은 마이 페이지를 확인해주세요.
+            </p>
+            <buttion className='go-to-mypage-button' onClick={handleToMyPage}>
+              마이 페이지로 이동
+            </buttion>
+          </>
+      </div>
+    </>
+  )
 };
 
 export default TossSuccess;
