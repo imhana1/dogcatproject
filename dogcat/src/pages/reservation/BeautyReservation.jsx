@@ -19,9 +19,9 @@ function BeautyReservation() {
    useEffect(() => {
       checkAuth();
    }, []);
+
   const { username, pName, rCondition, remark, hUsername } = location.state || {};
   console.log("병원 아이디 : ", hUsername);
-
   // 날짜 및 시간 선택 상태
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -43,7 +43,7 @@ function BeautyReservation() {
   }, [selectedDate, hUsername]);
 
   // 예약 및 결제 처리
-  const handleReservationSubmit = async () => {
+  const handleReservationSubmit = () => {
     if (!selectedDate || !selectedTime) {
       alert('날짜와 시간을 선택해 주세요.');
       return;
@@ -63,30 +63,6 @@ function BeautyReservation() {
       sChoice:'미용',
       schedule: `${selectedDate}T${selectedTime}:00`
     }));
-
-    // --- 여기에 웹소켓 메시지 전송 로직 추가 (예시) ---
-    const messagePayload = {
-      receiver: hUsername, // 병원 아이디를 수신자로 설정
-      message: `${username}님께서 ${pName}의 진료 예약을 시도합니다.`, // 메시지 내용
-      url: `http://localhost:3000/booking` // 관련 URL (필요하다면)
-    };
-
-    try {
-      const response = await fetch('/api/message', { // 웹소켓 메시지 전송 API 호출
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(messagePayload),
-        credentials: 'include' // <--- 여기!
-      });
-      if (!response.ok) {
-        console.error('웹소켓 메시지 전송 실패:', await response.text());
-        // 실패하더라도 결제는 진행해야 할 수 있으므로 경고만 하고 throw 하지 않을 수 있음
-      }
-    } catch (error) {
-      console.error('웹소켓 메시지 전송 중 오류 발생:', error);
-    }
 
     // 결제 요청
     tossPayments.requestPayment('카드', {

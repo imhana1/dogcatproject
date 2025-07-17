@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const CancelPaymentPage =()=> {
-  const {rno} = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
+  const { paymentKey = '', orderId = '', amount = 0 } = location.state || {};
 
-  const [paymentKey, setPaymentKey] = useState('');
-  const [orderId, setOrderId] = useState('');
-  const [amount, setAmount] = useState('');
-  
   // 값이 제대로 넘어오는지 로그로 확인
   console.log('CancelPaymentPage loaded with:', { paymentKey, orderId, amount });
 

@@ -7,7 +7,7 @@
             select reservation_seq.nextval from dual
         </selectKey>
         insert into reservation(rno, n_username, schedule, h_username, pno, r_status, s_id, r_condition, remark)
-               values (#{rno}, #{nUsername}, #{schedule}, #{hUsername}, #{pno}, #{rStatus}, #{sId}, #{rCondition}, #{remark})
+        values (#{rno}, #{nUsername}, #{schedule}, #{hUsername}, #{pno}, #{rStatus}, #{sId}, #{rCondition}, #{remark})
     </insert>
     <!-- 예약 결과 보여주기 -->
     <resultMap id="reservationMap" type="com.example.dogcatserver.entity.Reservation">
@@ -17,12 +17,6 @@
         <result property="pno" column="pno"/>
         <result property="schedule" column="schedule"/>
         <result property="rStatus" column="r_status"/>
-        <result property="orderNo" column="order_no"/>
-        <result property="paymentKey" column="payment_key"/>
-        <result property="amount" column="amount"/>
-        <result property="remark" column="remark"/>
-        <result property="rCondition" column="r_condition"/>
-        <result property="sId" column="s_id"/>
     </resultMap>
 
     <!-- 예약 승인 처리 -->
@@ -39,13 +33,18 @@
     <delete id="deleteReservation" parameterType="int">
         delete from reservation where rno = #{rno} and r_status = 'CANCELED'
     </delete>
-    
+
     <!--  병원 시간 불러오기  -->
     <select id="getHospitalSchedule" resultType="com.example.dogcatserver.entity.Schedule">
         SELECT *
         FROM schedule
         WHERE hospital = #{hospital}
           AND TRUNC(schedule) = TRUNC(#{date})
+    </select>
+
+    <!--  마이 페이지에서 병원 예약한 내역 출력  -->
+    <select id="getMyReservation" resultType="com.example.dogcatserver.entity.Reservation">
+        select * from reservation where n_username = #{nUsername} order by schedule desc
     </select>
 
     <!--  예약 번호로 상세 조회  -->
@@ -57,15 +56,4 @@
     <select id="selectReservationByRno" resultType="com.example.dogcatserver.entity.Reservation">
         select * from reservation where rno = #{rno}
     </select>
-
-    <!-- pay 테이블과 resevation 테이블 조인하기 (상세보기를 위해서) -->
-    <select id="getMyReservationWithPaymentDetails" resultMap="reservationMap">
-        select r.rno, r.n_username, r.h_username, r.pno, r.schedule, r.r_status, r.s_id, r.r_condition, r.remark, r.order_no, p.payment_key, p.amount
-        from reservation r left join pay p on r.order_no = p.order_no where r.n_username = #{nUsername} order by r.schedule desc
-    </select>
-
-    <!-- 예약 결제 성공하면 order_no 업데이트 -->
-    <update id="updateOrderNoForReservation">
-        update reservation set order_no = #{orderNo} where rno =#{rno}
-    </update>
 </mapper>

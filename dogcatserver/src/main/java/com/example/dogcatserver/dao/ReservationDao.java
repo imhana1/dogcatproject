@@ -25,9 +25,12 @@ public interface ReservationDao {
   // 예약 삭제
   int deleteReservation(int rno);
 
+  // 마이 페이지에서 병원 예약한 내역
+  List<Reservation> getMyReservation(String nUsername);
+
   // 병원이 고객 예약 내역 읽기 (병원, 고객, 예약 테이블 3개를 join)
   @Select("select  h.hospital, r.*, s.s_choice, n.n_name  from hospital_member h join reservation r on h.h_username=r.h_username join normal_member n on n.n_username= r.n_username\n" +
-    "JOIN schedule s on r.s_id = s.s_id  WHERE h.h_username =#{hUsername} ORDER BY r.schedule DESC")
+      "JOIN schedule s on r.s_id = s.s_id  WHERE h.h_username =#{hUsername} ORDER BY r.schedule DESC")
   List<Reservation> getReservation(String hUsername);
 
   // 예약 시간이 지나면 상태 업데이트 'COMPLETED'
@@ -65,10 +68,4 @@ public interface ReservationDao {
   // s_id로 시간을 식별해 block 처리
   @Update("update schedule set block_status = 1 where s_id=#{sId}")
   int blockTime(Integer sId);
-
-  // 조인 처리
-  List<Reservation> getMyReservationWithPaymentDetails(String nUsername);
-
-  // 예약 결제 후 성공 시 order_no 업데이트
-  int updateOrderNoForReservation(int rno, String orderNo);
 }
