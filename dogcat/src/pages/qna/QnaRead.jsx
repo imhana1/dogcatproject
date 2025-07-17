@@ -6,6 +6,7 @@ import FooterNoticeQna from "../../fragments/noticeQna/FooterNoticeQna";
 import useAuthStore from "../../stores/useAuthStore";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {findQnaQuestionByQnoWithAnswer} from "../../utils/qnaApi";
+import axios from "axios";
 
 function QnaRead() {
   // 가져올거: qno(+searchparam), navigate, data 계정정보
@@ -14,6 +15,7 @@ function QnaRead() {
   const qno = parseInt(params.get('qno'));
   const [data, setData] = useState();
   const navigate = useNavigate();
+  const [receiver, setReceiver] = useState('');  // 웹소켓으로 추가(글이 로딩되어야 거기에서 username 가져와서)
 
   // 글 가져오기
   useEffect(() => {
@@ -22,6 +24,7 @@ function QnaRead() {
       try {
         const response = await findQnaQuestionByQnoWithAnswer(qno);
         setData(response.data);
+        setReceiver(response.data.QUESTION_USERNAME);
       /*   * map을 쓰면 데이터가 QUESTION_USERNAME 이렇게 넘어와 */
       } catch(err) {
         console.log('질문 글 불러오기 실패: ', err);
@@ -34,6 +37,33 @@ function QnaRead() {
       navigate('/qna');
     }
   }, [qno, role, username]);
+  // 여기부터 웹소켓 건드려보는 영역
+  const handleClick = async() => {
+    // 디버깅용 로그 추가
+    console.log('Username from store:', username);
+    console.log('Role from store:', role);
+    console.log('Receiver:', receiver);
+
+    if (!username || role === undefined) {
+      alert('로그인 정보가 없습니다. 다시 로그인해주세요.');
+      navigate('/login'); // 로그인 페이지로 리다이렉트
+      return;
+    }
+    if(receiver === '') {
+      alert('수신자를 확인할 수 없습니다.');
+      return;
+    }
+    // 보낼 객체 만들기
+    const message = {sender: username, receiver: receiver, message: '1:1 문의글 답변 작성이 완료되었습니다.', url: `/qna/question?qno=${qno}`}
+    // 보내
+    try {
+      await axios.post('/api/message', message, { withCredentials: true });
+      alert('답변 등록 알림을 전송하였습니다.');
+    } catch(err) {
+      console.log('알림 전송 실패: ', err);
+    }
+  }
+  // 여기가 끝
 
   // 1:1 문의는 삭제x
 
@@ -90,7 +120,13 @@ function QnaRead() {
                       <a type='button' className='btn btn-dark me-2' onClick={() => navigate(`/qna/write-answer?qno=${qno}`)}>답변하기</a>
                       <a type='button' className='btn btn-secondary' href='/qna'>목록으로</a>
                     </div>
-                  ) : (
+                  ): (data && role==='ADMIN' && data.Q_IS_ANSWERED===1)? (
+                      <div className='mt-3 mb-5' style={{ textAlign: 'center' }}>
+                        <button className='btn btn-dark me-2' onClick={()=>handleClick()}>알림전송</button>
+                        <a type='button' className='btn btn-secondary' href='/qna'>목록으로</a>
+                      </div>
+                    )
+                    : (
                     <div className='mt-3 mb-5' style={{ textAlign: 'center' }}>
                     <a type='button' className='btn btn-secondary' href='/qna'>목록으로</a>
                     </div>
