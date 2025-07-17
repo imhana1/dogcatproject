@@ -21,6 +21,7 @@ function BeautyReservation() {
    }, []);
   const { username, pName, rCondition, remark, hUsername } = location.state || {};
   console.log("병원 아이디 : ", hUsername);
+
   // 날짜 및 시간 선택 상태
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -59,7 +60,7 @@ function BeautyReservation() {
       hUsername,
       rCondition,
       remark,
-      sChoice:'진료',
+      sChoice:'미용',
       schedule: `${selectedDate}T${selectedTime}:00`
     }));
 
@@ -113,7 +114,7 @@ function BeautyReservation() {
         <HospitalNotice />
         <DateSelector selectedDate={selectedDate} onDateChange={setSelectedDate} />
         <TimeSelector
-          reservationType="medical"
+          reservationType="beauty"
           selectedDate={selectedDate}
           selectedTime={selectedTime}
           onTimeChange={setSelectedTime}

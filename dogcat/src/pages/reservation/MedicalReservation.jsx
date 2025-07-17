@@ -20,6 +20,7 @@ function MedicalReservation() {
    }, []);  
   const { username, pName, rCondition, remark, hUsername } = location.state || {};
   console.log("병원 아이디 : ", hUsername);
+  
   // 날짜 및 시간 선택 상태
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
