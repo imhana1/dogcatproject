@@ -116,7 +116,7 @@ function AdoptionList() {
                 <td onClick={()=>handleFilterChange('gyeongnam')} style={{cursor:'pointer', textAlign:'center', color:filter==='gyeongnam'?'#1e81ec':''}}>경남</td>
                 <td onClick={()=>handleFilterChange('gangwon')} style={{cursor:'pointer', textAlign:'center', color:filter==='gangwon'?'#1e81ec':''}}>강원</td>
                 <td onClick={()=>handleFilterChange('jeonbuk')} style={{cursor:'pointer', textAlign:'center', color:filter==='jeonbuk'?'#1e81ec':''}}>전북</td>
-                <td onClick={()=>handleFilterChange('jeonnam')} style={{cursor:'pointer', textAlign:'center', color:filter==='jeonnam'?'#1e81ec':''}}>제주</td>
+                <td onClick={()=>handleFilterChange('jeju')} style={{cursor:'pointer', textAlign:'center', color:filter==='jeju'?'#1e81ec':''}}>제주</td>
               </tr>
               </tbody>
             </table>

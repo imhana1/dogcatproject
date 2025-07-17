@@ -57,7 +57,7 @@ public class AdoptionController {
     String base64Image = "";
     try {
       if(aProfile != null && !aProfile.isEmpty()) {
-        base64Image = Adoption2Util.convertToBase64(aProfile);
+        base64Image = AdoptionUtil.convertToBase64(aProfile);
       }
     } catch (IOException e) {
       System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
@@ -74,7 +74,7 @@ public class AdoptionController {
 //    String base64Image = "";
 //    try {
 //      if(aProfile != null && !aProfile.isEmpty()) {
-//        base64Image = Adoption2Util.convertToBase64(aProfile);
+//        base64Image = AdoptionUtil.convertToBase64(aProfile);
 //      }
 //    } catch (IOException e) {
 //      System.out.println("프로필 이미지 변환 실패: " + e.getMessage());
@@ -99,12 +99,11 @@ public class AdoptionController {
   @PutMapping("/api/adoptions/adoption")
   public ResponseEntity<Adoption> updateAdoption(@RequestPart @Valid AdoptionDto.Update updateDto, @RequestPart(value = "aProfile", required = false) MultipartFile aProfile, BindingResult br, Principal principal) {
     // 로그인 아이디 = 작성자 확인하는 부분은 서비스에 있어
-    String loginId = principal.getName();
     Adoption existingAdoption = adoptionService.findAdoptionByAno(updateDto.getAno(), principal.getName());
     String base64Image = existingAdoption.getAProfile();
     try {
       if(aProfile != null && !aProfile.isEmpty()) {
-        base64Image = Adoption2Util.convertToBase64(aProfile);
+        base64Image = AdoptionUtil.convertToBase64(aProfile);
       }
     } catch (IOException e) {
       System.out.println("프로필 이미지 변환 실패: " + e.getMessage());

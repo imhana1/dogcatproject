@@ -16,8 +16,6 @@ public class AdoptionService {
   @Autowired
   private AdoptionDao adoptionDao;
   @Autowired
-  private AdoptionUtil adoptionUtil;
-  @Autowired
   private WishDao wishDao;
 
   // 블록 사이즈는 5로 고정

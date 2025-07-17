@@ -127,11 +127,11 @@ function AdoptionUpdate() {
 
       // writeAdoption 사용
       const response = await updateAdoption(formData);
-      alert('입양 글 작성이 완료되었습니다. ');
+      alert('입양 글 수정이 완료되었습니다. ');
       navigate(`/adoptions/adoption?ano=${ano}`);
     } catch (err) {
-      console.log('글 작성에 실패했습니다: ', err);
-      alert('문의글 작성에 실패했습니다.');
+      console.log('글 수정에 실패했습니다: ', err);
+      alert('입양 글 수정에 실패했습니다.');
     }
   }
 
@@ -139,7 +139,7 @@ function AdoptionUpdate() {
   const cancelHandler = () => {
     const result = window.confirm('작성한 내용은 저장되지 않습니다. \n취소하시겠습니까?');
     if (result)
-      navigate('/adoptions')
+      navigate(`/adoptions/adoption?ano=${ano}`);
   }
 
   return (

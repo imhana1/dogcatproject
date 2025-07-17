@@ -170,8 +170,8 @@ function App() {
         {/* 1:1 문의 */}
         <Route path='/qna' element={<PrivateRoute element={<QnaList />} />} />
         <Route path='/qna/question' element={<PrivateRoute element={<QnaRead />} />} />
-        <Route path='/qna/write-answer' element={<QnaWriteAnswer />} />
-        <Route path='/qna/write-question' element={<QnaWriteQuestion />} />
+        <Route path='/qna/write-answer' element={<AdminRoute  element={<QnaWriteAnswer />} />} />
+        <Route path='/qna/write-question' element={<PrivateRoute  element={<QnaWriteQuestion />} />} />
         {/* 일반 유저 관리 */}
         <Route path='/n-members' element={<AdminRoute element={<NMemberList />} />} />
         <Route path='/n-members/n-member' element={<AdminRoute element={<NMemberRead />} />} />

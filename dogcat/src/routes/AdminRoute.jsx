@@ -8,9 +8,10 @@ function AdminRoute ({element}) {
 
   // role 확인 불가면 리턴하고 관리자면 element 보여죽 아니면 홈
   if(role === undefined) return;
-  if(role!=='ADMIN')  {
+  if(!role || role!=='ADMIN')  {
     alert('관리자만 접근 가능합니다');
-    navigate('/');
+    navigate('/', { replace: true }); // 이상한 주소로 넘어가고 넘어가서 replace:true 추가
+    return;
   }
   return element;
 
