@@ -111,7 +111,7 @@ function ChangeMyPage() {
     setForm({
       ...form,
       zip: data.zonecode,
-      nsubaddr: data.address,
+      naddr: data.address,
     });
     setShowPostcode(false);
   };
@@ -155,8 +155,8 @@ function ChangeMyPage() {
                     )}
                   </label>
                   <input type="text" name="zip" onChange={handleChange} placeholder="우편번호" value={form.zip} style={{ width: "180px", height:"35px", minWidth: 100, display: "inline-block" }} required />
-                  <input className="inputStyle" type="text" name="naddr" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.naddr} required />
-                  <input className="inputStyle" type="text" name="nsubaddr" onChange={handleChange} placeholder="주소를 입력해주세요" value={form.nsubaddr} required />
+                  <input className="inputStyle" type="text" name="naddr" onChange={handleChange} placeholder="주소를 입력해주세요" value={form.naddr} required />
+                  <input className="inputStyle" type="text" name="nsubaddr" onChange={handleChange} placeholder="상세 주소를 입력해주세요" value={form.nsubaddr} required />
                 </div>
               </div>
               <div style={{ display: "flex", justifyContent: "center" }}>
