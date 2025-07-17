@@ -8,11 +8,18 @@ import PriceNotice from '../../components/reservation/PriceNotice'
 import SubmitReservationButton from '../../components/reservation/SubmitReservationButton'
 import ReservationHeader from '../../fragments/reservation/ReservationHeader'
 import ReservationFooter from '../../fragments/reservation/ReservationFooter'
+import useAuthStore from '../../stores/useAuthStore'
 
 // 미용 예약 페이지 
 function BeautyReservation() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const checkAuth = useAuthStore(state => state.checkAuth);
+
+   useEffect(() => {
+      checkAuth();
+   }, []);
 
   // ReservationWrite에서 받은 정보
   const { username, petName, rCondition, remark, hUsername } = location.state || {};
@@ -27,7 +34,7 @@ function BeautyReservation() {
   // 블락된 시간 가져오기
   useEffect(()=> {
     if(selectedDate && hUsername) {
-      fetch(`/reservation/unavailable-times?date=${selectedDate}&hUsername=${hUsername}`)
+      fetch(`/reservation/unavailable-times?date=${selectedDate}&hUsername=${hUsername}`, { credentials : 'include' })
       .then((res)=> res.json())
       .then((data)=> {
         setUnavailableTimes(data.unavailableTimes)

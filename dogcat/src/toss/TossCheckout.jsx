@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const TossCheckout = ({ rno=1, amount = 5000, customerName = '김모모' }) => {
+const TossCheckout = ({ rno, amount = 5000, customerName = '김모모' }) => {
   const handlePayment = () => {
     if (!rno) {
       alert('예약 번호가 없습니다.');

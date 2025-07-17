@@ -29,7 +29,7 @@ const CancelPaymentPage =()=> {
           orderId,
           cancelReason,
           cancelAmount: Number(cancelAmount),
-        }),
+        }, { credentials : 'include' }),
       });
 
       if (response.ok) {

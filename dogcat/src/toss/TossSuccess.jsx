@@ -1,9 +1,16 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import useAuthStore from '../stores/useAuthStore';
 
 const TossSuccess = () => {
   const navigate = useNavigate();
+
+  const checkAuth = useAuthStore(state => state.checkAuth);
+
+   useEffect(() => {
+      checkAuth();
+   }, []);
 
 useEffect(() => {
   const reservationInfo = JSON.parse(sessionStorage.getItem('reservationInfo'));
@@ -12,7 +19,7 @@ useEffect(() => {
     return;
   }
 
-  axios.post('http://localhost:8080/reservation', reservationInfo)
+  axios.post('http://localhost:8080/reservation', reservationInfo, {withCredentials : true})
     .then(() => {
       alert('예약이 완료되었습니다!');
       sessionStorage.removeItem('reservationInfo');

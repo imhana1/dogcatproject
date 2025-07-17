@@ -27,7 +27,7 @@ function MedicalReservation() {
   // 날짜와 병원 아이디가 선택되면 해당 날짜의 예약 불가능한 시간 목록 요청
   useEffect(() => {
     if (selectedDate && hUsername) {
-      fetch(`/api/reservation/unavailable-times?date=${selectedDate}&hUsername=${hUsername}`)
+      fetch(`/api/reservation/unavailable-times?date=${selectedDate}&hUsername=${hUsername}`, { credentials : 'include'})
         .then(res => res.json())
         .then(data => setUnavailableTimes(data.unavailableTimes || []))
         .catch(err => console.error('시간 블락 정보 불러오기 실패', err));
