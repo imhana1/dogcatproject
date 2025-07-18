@@ -32,9 +32,16 @@ public class ReservationController {
     @Secured("ROLE_USER")
     @Operation(summary = "예약 생성", description = "예약 생성이 되었는지 확인")
     @PostMapping("/reservation")
-    public ResponseEntity<String> create(@RequestBody ReservationRequestDto.Create dto, Principal principal) {
+    // ✅ ResponseEntity<String> 대신 ResponseEntity<Map<String, Object>> 또는 커스텀 DTO 사용
+    public ResponseEntity<Map<String, Object>> create(@RequestBody ReservationRequestDto.Create dto, Principal principal) {
         int rno = service.createReservation(dto, principal.getName());
-        return ResponseEntity.ok("예약번호: " + rno);
+
+        // ✅ 응답을 JSON 객체 형태로, rno 필드를 포함하여 반환
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "예약이 성공적으로 완료되었습니다.");
+        response.put("rno", rno); // <--- 프론트엔드에서 기대하는 "rno" 필드
+
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "병원 예약 스케줄 불러오기", description = "스케줄 불러와서 예약 가능한 시간 보여주기")

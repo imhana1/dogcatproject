@@ -8,6 +8,7 @@ import com.example.dogcatserver.toss.exception.AlreadyCanceledException;
 import com.example.dogcatserver.toss.exception.PaymentNotFoundException;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 @Service
 public class TossPaymentService {
@@ -37,57 +38,58 @@ public class TossPaymentService {
     );
   }
 
-  // 결제 승인
-  public TossPaymentConfirmResponseDto confirmPayment(String paymentKey, String orderNo, int amount) {
+  @Transactional // 트랜잭션 관리
+  public TossPaymentConfirmResponseDto confirmPayment(String paymentKey, String orderNo, int amount, int rno) { // ✅ rno 매개변수 추가
     System.out.println(">>> confirmPayment 호출됨");
     System.out.println("paymentKey = " + paymentKey);
-    System.out.println("orderNo = " + orderNo);
+    System.out.println("orderNo = " + orderNo); // Toss API 호출에 필요한 orderNo 유지
     System.out.println("amount = " + amount);
+    System.out.println("rno (받은 값) = " + rno); // 받은 rno 값 로그
 
-    // 예약 번호  + 예외처리
-    int rno = 0;
-    try {
-      String[] parts = orderNo.split("_rno_");
-      if(parts.length < 2) {
-        throw new IllegalArgumentException("orderId 에 rno 가 포함되어 있지 않습니다." + orderNo);
-      }
-      rno = Integer.parseInt(parts[1]);
-    } catch (NumberFormatException e) {
-      throw new IllegalArgumentException("rno 파싱 실패" + orderNo, e);
-    }
-
+    // rno를 orderNo에서 파싱하는 로직 제거
+    // int rno = 0;
+    // try { ... }
 
     // 예약 번호로 예약 정보 조회
     Reservation reservation = reservationDao.selectReservationByRno(rno);
-      // 예외처리
     if (reservation == null) {
       throw new IllegalArgumentException("예약 정보를 찾을 수 없습니다: " + rno);
     }
 
-    // 예약 정보에서 병원 아이디와 고객 아이디 가져오기
     String hUsername = reservation.getHUsername();
     String nUsername = reservation.getNUsername();
 
     // 토스 API에 결제 승인 요청
     TossPaymentConfirmResponseDto responseDto;
-    // 예외 처리
     try {
       responseDto = tossPaymentApiCaller.confirmPayment(paymentKey, orderNo, amount);
     } catch (Exception e) {
-      throw new RuntimeException("토스 결제 승인 중 오류 발생" + e.getMessage(), e);
+      // 결제 승인 실패 시 롤백 (만약 예약 정보 저장 및 기타 DB 작업이 이 트랜잭션 내에 있다면)
+      throw new RuntimeException("토스 결제 승인 중 오류 발생: " + e.getMessage(), e);
     }
 
     // Pay 엔티티 생성 및 DB 저장
+    // Pay.builder()를 사용할 때 모든 필드에 값을 설정하는 것이 안전합니다.
+    // TossPaymentConfirmResponseDto에서 가져올 수 있는 정보는 가져오고, 나머지는 null/기본값으로 설정
     Pay pay = Pay.builder()
-      .rno(rno)
-      .hUsername(hUsername)
-      .nUsername(nUsername)
-      .orderNo(orderNo)
-      .paymentKey(paymentKey)
-      .amount(amount)
-      .pStatus(responseDto.getPStatus())
-      .build();
-    service.savePay(pay);
+            .rno(rno)
+            .hUsername(hUsername)
+            .nUsername(nUsername)
+            .orderNo(orderNo)
+            .paymentKey(paymentKey)
+            .amount(amount)
+            // ✅ 이 부분에서 사용됩니다!
+            .pStatus(responseDto.getPStatus()) // Toss 응답의 PaymentStatus Enum을 String으로 변환하여 저장
+            // .pStatus(responseDto.getPStatus().name()) // 또는 이렇게 직접 Enum의 name() 메서드를 호출할 수도 있습니다.
+            .pUsername(responseDto.getOrderName())
+            .productDesc(responseDto.getOrderName())
+            .amountTaxFree((int) (responseDto.getTotalAmount() - amount))
+            .autoExecute(null)
+            .resultCallback(null)
+            .retUrl(null)
+            .retCancelUrl(null)
+            .build();
+     service.savePay(pay); // Pay 저장 로직 호출
 
     return responseDto;
   }

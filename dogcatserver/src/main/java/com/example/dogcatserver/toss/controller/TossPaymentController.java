@@ -32,21 +32,20 @@ public class TossPaymentController {
     return ResponseEntity.ok(service.createPayment(dto));
   }
 
-  // 결제 승인 api
   @Operation(summary = "결제 승인 요청", description = "결제를 보내고 승인을 받기 위한 API 호출")
   @PostMapping("/api/toss/confirm")
-  public ResponseEntity<TossPaymentConfirmResponseDto> confirmPayment (@RequestBody TossPaymentConfirmRequestDto dto) {
+  public ResponseEntity<TossPaymentConfirmResponseDto> confirmPayment(@RequestBody TossPaymentConfirmRequestDto dto) {
 
-    // 이거 콘솔에 찍어보자!
     System.out.println("✔ paymentKey: " + dto.getPaymentKey());
     System.out.println("✔ orderId: " + dto.getOrderId());
     System.out.println("✔ amount: " + dto.getAmount());
-    System.out.println("✔ rno: " + dto.getRno());
+    System.out.println("✔ rno (from DTO): " + dto.getRno()); // DTO에서 받은 rno 로그
 
     TossPaymentConfirmResponseDto response = service.confirmPayment(
-        dto.getPaymentKey(),
-        dto.getOrderId(),
-        dto.getAmount()
+            dto.getPaymentKey(),
+            dto.getOrderId(), // TossPayments의 orderId
+            dto.getAmount(),
+            dto.getRno() // ✅ 프론트엔드에서 받은 rno를 서비스로 전달
     );
     return ResponseEntity.ok(response);
   }
