@@ -63,7 +63,7 @@ function QnaList() {
             try {
 
                 let response;
-                if(role === 'ADMIN') {  // 관리자: 질문 전체 목록 + 필터링
+                if(role === 'ROLE_ADMIN') {  // 관리자: 질문 전체 목록 + 필터링
                     if (filter === 'all') {
                     response = await findAllQnaQuestion(pageno, PAGE_SIZE);
                     } else if (filter === 'answered') {
@@ -72,7 +72,7 @@ function QnaList() {
                     response = await findAllQnaQuestionByIsAnswered(false, pageno, PAGE_SIZE);
                     }
                     setData(response.data);
-                } else if (role !== 'ADMIN' && username) {  // 관리자 아닌 유저: 본인이 작성한 질문 목록 + 필터링x
+                } else if (role !== 'ROLE_ADMIN' && username) {  // 관리자 아닌 유저: 본인이 작성한 질문 목록 + 필터링x
                     response = await findQnaQuestionsByUsername(username, pageno, PAGE_SIZE);
                     setData( response.data);
                 }
@@ -99,7 +99,7 @@ function QnaList() {
                 <section>
                     <div style={{ padding: '0 20px' }}>
                         <h4 className='mb-4 mt-3'>1:1 문의</h4>
-                        {role === 'ADMIN' && username &&
+                        {role === 'ROLE_ADMIN' && username &&
                         <ul style={{overflow:'hidden', border:'1px solid black', padding:'7px', borderRadius:'10px'}}>
                             <li style={{float:'left', width:'120px', height:'38px', margin:'3px 7px', textAlign:'center', lineHeight:'38px', fontWeight:'bold'}}>답변 상태</li>
                             <li style={{float:'left'}}>
@@ -159,7 +159,7 @@ function QnaList() {
                             )}
                             </tbody>
                         </table>
-                        {role === 'USER' && username && (
+                        {role === 'ROLE_USER' && username && (
                         <div className='mt-3 mb-5' style={{ textAlign: 'center' }}>
                             <a type='button' className='btn btn-dark' href='/qna/write-question'>작성하기</a>
                         </div>

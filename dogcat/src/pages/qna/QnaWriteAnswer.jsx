@@ -71,7 +71,7 @@ function QnaWriteAnswer () {
 
           <section>
             <div style={{ padding: '0 20px' }}>
-              <h4 className='mb-4 mt-3'>1:1 문의 조회</h4>
+              <h4 className='mb-4 mt-3'>1:1 문의 답변 작성</h4>
               {/* alignItems 반드시 써줘야해 */}
               {data? (
                 <div>

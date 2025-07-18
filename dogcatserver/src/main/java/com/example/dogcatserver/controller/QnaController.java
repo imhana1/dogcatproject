@@ -32,19 +32,11 @@ public class QnaController {
 
   @Autowired
   private QnaService qnaService;
-//  @Autowired
-//  private QnaImageService qnaImageService;
-
-  // 파일 크기 제한 (1MB)
-  private static final long MAX_FILE_SIZE = 1024 * 1024; // 1MB
 
   // 본인이 작성한 질문 리스트(고객)
   @GetMapping("/api/qna/my-questions")
   @PreAuthorize("isAuthenticated()")
   public ResponseEntity<QnaQuestionDto.Pages> findQnaQuestionsByUsername(@RequestParam(defaultValue = "1") int pageno, @RequestParam(defaultValue = "10") int pagesize, Principal principal) {
-    System.out.println("=== Controller 디버깅 ===");
-    System.out.println("Received pageno: " + pageno);
-    System.out.println("Received pagesize: " + pagesize);
     return ResponseEntity.ok(qnaService.findQnaQuestionsByUsername(principal.getName(), pageno, pagesize));
   }
 
@@ -66,33 +58,13 @@ public class QnaController {
     return ResponseEntity.status(200).body(qnaQuestion);
   }
 
-//  // 질문글 작성 (고객)
-//  @Operation(summary = "질문 글 작성", description = "질문 글 작성")
-//  @PostMapping("/api/qna/write-questionTest")
-////  @PreAuthorize("isAuthenticated()")
-//  public ResponseEntity<QnaQuestion> writeQnaQuestionTest( @RequestPart @Valid QnaQuestionDto.Write writeDto, @RequestPart(value = "qImage", required = false) MultipartFile qImage, BindingResult br, Principal principal) {
-//    String base64Image = null;
-//    try {
-//      if(qImage != null && !qImage.isEmpty()) {
-//        base64Image = QnaUtil.convertToBase64(qImage);
-//      }
-//    }catch(IOException e) {
-//      System.out.println("이미지 등록 실패: "  + e.getMessage());
-//    }
-//    QnaQuestion qnaQuestion = qnaService.writeQnaQuestionTest(writeDto, base64Image);
-//    System.out.println("200응답");
-//    return ResponseEntity.status(200).body(qnaQuestion);
-//  }
 
   // 질문 단일글 조회
   @Operation(summary = "질문 글 조회", description = "글번호로 질문 글 조회")
   @GetMapping("/api/qna/question")
-//  @PreAuthorize("isAuthenticated()")  // 작성자/관리자 확인하는건 서비스에서 처리했어
+  @PreAuthorize("isAuthenticated()")  // 작성자/관리자 확인하는건 서비스에서 처리했어
   public ResponseEntity<Map<String, Object>> findQnaQuestionByQnoWithAnswer(@RequestParam int qno, @AuthenticationPrincipal UserDetails userDetails) {
-    System.out.println("로그인 사용자: " + userDetails.getUsername());  // ======================== 글 읽기 안되는 원인 파악용
     Map<String, Object> question = qnaService.findQnaQuestionByQnoWithAnswer(qno, userDetails.getUsername());
-
-
     // 모든 CLOB 필드 변환  * adoption은 map을 안써서 괜찮은데 질문글은 map을 무조건 써야해
     for (Map.Entry<String, Object> entry : question.entrySet()) {
       Object value = entry.getValue();

@@ -34,16 +34,6 @@ public class QnaService {
   public QnaQuestionDto.Pages findQnaQuestionsByUsername(String loginId, int pageno, int pagesize) {  // Principal: at controller
     int totalCount = qnaQuestionDao.countQnaQuestionsByUsername(loginId);
     List<QnaQuestion> qnaQuestions = qnaQuestionDao.findQnaQuestionsByUsername(loginId, pageno, pagesize);
-
-    // 디버깅 로그 추가
-    System.out.println("=== findQnaQuestionsByUsername 디버깅 ===");
-    System.out.println("loginId: " + loginId);
-    System.out.println("pageno: " + pageno);
-    System.out.println("pagesize: " + pagesize);
-    System.out.println("totalCount: " + totalCount);
-    System.out.println("qnaQuestions.size(): " + qnaQuestions.size());
-    System.out.println("BLOCK_SIZE: " + BLOCK_SIZE);
-
     return QnaUtil.getPages(pageno, pagesize, BLOCK_SIZE, totalCount, qnaQuestions);
   }
 

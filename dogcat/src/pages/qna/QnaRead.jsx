@@ -115,12 +115,12 @@ function QnaRead() {
                       <span> 로딩중입니다. </span>
                     )}
                   {/* data 로딩 안되었을 때 바로 q is answered 파악하려해서 오류나는거 막으려고 data && 추가 */}
-                  {(data && (role === 'ADMIN' && username) && data.Q_IS_ANSWERED===0)?  (
+                  {(data && (role === 'ROLE_ADMIN' && username) && data.Q_IS_ANSWERED===0)?  (
                     <div className='mt-3 mb-5' style={{ textAlign: 'center' }}>
                       <a type='button' className='btn btn-dark me-2' onClick={() => navigate(`/qna/write-answer?qno=${qno}`)}>답변하기</a>
                       <a type='button' className='btn btn-secondary' href='/qna'>목록으로</a>
                     </div>
-                  ): (data && role==='ADMIN' && data.Q_IS_ANSWERED===1)? (
+                  ): (data && role==='ROLE_ADMIN' && data.Q_IS_ANSWERED===1)? (
                       <div className='mt-3 mb-5' style={{ textAlign: 'center' }}>
                         <button className='btn btn-dark me-2' onClick={()=>handleClick()}>알림전송</button>
                         <a type='button' className='btn btn-secondary' href='/qna'>목록으로</a>

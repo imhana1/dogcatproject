@@ -101,7 +101,7 @@ function NoticeList() {
                                 })}
                             </tbody>
                         </table>
-                        {role === 'ADMIN' && username && (
+                        {role === 'ROLE_ADMIN' && username && (
                             <div className='mt-3 mb-5' style={{ textAlign: 'center' }}>
                                 <a type='button' className='btn btn-dark' onClick={() => navigate('/notices/write')}>작성하기</a>
                             </div>

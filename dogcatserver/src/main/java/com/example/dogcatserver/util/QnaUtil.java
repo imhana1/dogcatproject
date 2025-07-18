@@ -42,24 +42,4 @@ public class QnaUtil {  // notice와 동일
 
 
 
-  private static final String PROFILE_FOLDER = System.getProperty("user.dir") + File.separator + "upload"
-      + File.separator + "profile" + File.separator;
-  private static final String PROFILE_NAME = "profile_icon.jpg";
-
-  public static String getDefaultBase64Profile() {
-    try {
-      // 1. 폴더와 파일명으로 파일 객체를 생성
-      File file = new File(PROFILE_FOLDER, PROFILE_NAME);
-      // 2. FileInputStream 을 이용해 open 한 파일을 읽어온다
-      FileInputStream fis = new FileInputStream(file);
-      byte[] fileBytes = fis.readAllBytes();
-
-      // 3. Base64 로 리턴한다
-      return "data:" + MediaType.IMAGE_JPEG_VALUE + ";base64," + Base64.getEncoder().encodeToString(fileBytes);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    // 기본프사를 base64 로 바꾸는 시스템 함수이므로 실패하는 일은 없어야지...
-    return null;
-  }
 }

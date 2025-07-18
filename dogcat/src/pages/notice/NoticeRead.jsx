@@ -65,7 +65,7 @@ function NoticeRead() {
                         <p>로딩중입니다. </p>
                     )}
                     <div style={{ textAlign: 'center' }}>
-                        {role === 'ADMIN' ? (
+                        {role === 'ROLE_ADMIN' ? (
                             <div>
                                 <a type='button' className='btn btn-dark me-2' onClick={() => navigate(`/notices/update?nno=${nno}`)}>수정하기</a>
                                 <a type='button' className='btn btn-danger me-2' onClick={() => deleteHandler(nno)}>삭제하기</a>
