@@ -40,6 +40,9 @@ public interface ScheduleDao {
     @Update("update schedule set block_status=1 where h_username=#{loginId}  AND TRUNC(schedule) = TRUNC(#{date})   AND TO_CHAR(schedule, 'HH24:MI:SS') = TO_CHAR(#{time}, 'HH24:MI:SS') and s_choice=#{sChoice}")
     int blockTime(String loginId, LocalDate date, LocalTime time,String sChoice);
 
+    @Select("select * from schedule where s_id=#{sId} and block_status= 1")
+    int countBlockStatus(Integer sId);
+
 
     // 예약 시간이 지나면 삭제하는 기능(미완성 수정 필요) 비효율적인 sql
 //    @Delete("DELETE FROM schedule\n" +

@@ -3,6 +3,7 @@ package com.example.dogcatserver.service;
 import com.example.dogcatserver.dao.*;
 import com.example.dogcatserver.dto.*;
 import com.example.dogcatserver.entity.*;
+import com.example.dogcatserver.exception.*;
 import lombok.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.*;
@@ -44,9 +45,10 @@ public class ReservationService {
     System.out.println("병원 아이디: " + hUsername);
 
     Integer sId= scheduleDao.findScheduleIdByTimeAndChoice(dateTime, choice, hUsername);
+    int count= scheduleDao.countBlockStatus(sId);
     System.out.println(sId);
-    if (sId == null) {
-      throw new IllegalArgumentException("해당 시간과 진료 종류에 대한 스케줄이 없습니다.");
+    if (sId == null || count>=1) {
+      throw new JobFailException("해당 시간과 진료 종류에 대한 스케줄이 없거나 또는 해당 시간이 이미 예약 되었습니다");
     }
 
     Reservation reservation = dto.toEntity(sId, loginId, pno); // 변환 메서드 작성

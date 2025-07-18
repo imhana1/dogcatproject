@@ -1,8 +1,11 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 
 const TossFail = () => {
+    const navigate = useNavigate();
   const handleRetry = () => {
-    window.history.back(); // 이전 페이지로 이동
+    // window.history.back(); // 이전 페이지로 이동
+      navigate('/reservation/write')
   };
 
   return (

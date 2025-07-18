@@ -79,6 +79,7 @@ function ReservationMenu() {
                                     <th style={{ padding: "14px 10px", textAlign: "center" }}>예약자</th>
                                     <th style={{ padding: "14px 10px", textAlign: "center" }}>진료일시</th>
                                     <th style={{ padding: "14px 10px", textAlign: "center" }}>예약상태</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -92,6 +93,7 @@ function ReservationMenu() {
                                             <td><button onClick={() => navigate(`/review-write/${reservation.rno}`)} className="btn btn-dark" style={{ marginBottom: "5px" }}>{reservation.nusername}</button></td>
                                             <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.schedule}</td>
                                             <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.rstatus}</td>
+                                            <td><button onClick={() => navigate(`/toss/cancel/:rno`)} className="btn btn-danger" >취소</button></td>
                                         </tr>
                                     ))
                                 }

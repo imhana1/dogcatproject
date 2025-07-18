@@ -61,7 +61,7 @@ const TossSuccess = () => {
             })
             .catch(err => {
                 console.error('예약 또는 결제 처리 중 오류 발생:', err.response ? err.response.data : err.message);
-                alert('예약 및 결제 처리 중 오류가 발생했습니다: ' + (err.response?.data?.message || err.message));
+                alert("해당 시간과 진료 종류에 대한 스케줄이 없거나 또는 해당 시간이 이미 예약 되었습니다" + (err.response?.data?.message || err.message));
                 navigate('/toss/fail');
             });
     }, []);
