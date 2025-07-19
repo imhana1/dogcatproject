@@ -99,12 +99,28 @@ function Booking() {
         url:"http://localhost:3000/nuser-reservations"
       }
       try {
+        // 웹소켓 메시지 전송
         await axios.post("http://localhost:8080/api/message", payload,{withCredentials:true});
-        await axios.patch(`http://localhost:8080/reservation/cancel?rno=${rno}`, null, {
-          withCredentials: true
+        console.log("예약 취소 알림 메시지 전송 완료.");
+
+        // ★★★ 결제 취소 페이지로 pay 관련 정보를 state로 넘겨 navigate ★★★
+        console.log("Navigating to CancelPaymentPage with:", {
+          paymentKey: target.paymentKey,
+          orderId: target.orderNo,
+          amount: target.amount,
+          rno: target.rno
         });
-        alert("예약이 취소되었습니다.");
-        setBookings(prev => prev.filter(reservation => reservation.rno !== rno));
+
+        navigate(`/toss/cancel/${target.rno}`, {
+          state: {
+            paymentKey: target.paymentKey,
+            orderId: target.orderNo,
+            amount: target.amount,
+            rno: target.rno
+          }
+        });
+
+
       } catch (error) {
         console.error(error);
         alert("취소 중 오류 발생");

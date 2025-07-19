@@ -32,8 +32,8 @@ public interface ReservationDao {
   List<Reservation> getMyReservation(String nUsername);
 
   // 병원이 고객 예약 내역 읽기 (병원, 고객, 예약 테이블 3개를 join)
-  @Select("select  h.hospital, r.*, s.s_choice, n.n_name  from hospital_member h join reservation r on h.h_username=r.h_username join normal_member n on n.n_username= r.n_username\n" +
-      "JOIN schedule s on r.s_id = s.s_id  WHERE h.h_username =#{hUsername} ORDER BY r.schedule DESC")
+  @Select("select  h.hospital, r.*, s.s_choice, n.n_name, p.order_no, p.payment_key, p.amount from hospital_member h join reservation r on h.h_username=r.h_username join normal_member n on n.n_username= r.n_username\n" +
+      "JOIN schedule s on r.s_id = s.s_id join pay p on r.rno = p.rno   WHERE h.h_username =#{hUsername} ORDER BY r.schedule DESC")
   List<Reservation> getReservation(String hUsername);
 
   // 예약 시간이 지나면 상태 업데이트 'COMPLETED'
