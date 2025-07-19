@@ -44,7 +44,7 @@
 
     <!--  마이 페이지에서 병원 예약한 내역 출력  -->
     <select id="getMyReservation" resultType="com.example.dogcatserver.entity.Reservation">
-        select * from reservation where n_username = #{nUsername} order by schedule desc
+        select r.*, p.* from reservation r join pay p on r.rno = p.rno where r.n_username = #{nUsername} order by schedule desc
     </select>
 
     <!--  예약 번호로 상세 조회  -->

@@ -144,7 +144,6 @@ CREATE TABLE pay (
                      ret_cancel_url varchar2 (200),     -- 결제 중단 시 사용자를 이동시킬 홈페이지
                      p_status varchar2(20),             -- 결제 상태
                      CONSTRAINT PK_PAY PRIMARY KEY (rno, h_username, n_username),
-                     CONSTRAINT FK_reservation_TO_pay_1 FOREIGN KEY (rno) REFERENCES reservation (rno),
                      CONSTRAINT FK_hospital_member_TO_pay_1 FOREIGN KEY (h_username) REFERENCES hospital_member (h_username),
                      CONSTRAINT FK_normal_member_TO_pay_1 FOREIGN KEY (n_username) REFERENCES normal_member (n_username)
 );

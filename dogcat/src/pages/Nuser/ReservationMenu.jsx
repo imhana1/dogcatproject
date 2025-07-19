@@ -93,7 +93,25 @@ function ReservationMenu() {
                                             <td><button onClick={() => navigate(`/review-write/${reservation.rno}`)} className="btn btn-dark" style={{ marginBottom: "5px" }}>{reservation.nusername}</button></td>
                                             <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.schedule}</td>
                                             <td style={{ padding: "14px 10px", textAlign: "center" }}>{reservation.rstatus}</td>
-                                            <td><button onClick={() => navigate(`/toss/cancel/:rno`)} className="btn btn-danger" >취소</button></td>
+                                            <td>
+                                                <button
+                                                    onClick={() => {
+                                                        console.log("Navigating to CancelPaymentPage with:", {
+                                                            paymentKey: reservation.paymentKey,
+                                                            orderId: reservation.orderNo,
+                                                            amount: reservation.amount, // <--- 이 로그를 추가하세요!
+                                                            rno: reservation.rno
+                                                        });
+                                                        navigate(`/toss/cancel/${reservation.rno}`, {
+                                                            state: {
+                                                                paymentKey: reservation.paymentKey,
+                                                                orderId: reservation.orderNo,
+                                                                amount: reservation.amount,
+                                                                rno: reservation.rno
+                                                            }
+                                                        });
+                                                    }} className="btn btn-danger">취소</button>
+                                            </td>
                                         </tr>
                                     ))
                                 }

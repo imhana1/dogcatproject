@@ -1,7 +1,7 @@
 package com.example.dogcatserver.toss.controller;
 
 import com.example.dogcatserver.entity.Pay;
-import com.example.dogcatserver.service.PayService;
+import com.example.dogcatserver.service.*;
 import com.example.dogcatserver.toss.dto.*;
 import com.example.dogcatserver.toss.exception.AlreadyCanceledException;
 import com.example.dogcatserver.toss.exception.PaymentNotFoundException;
@@ -24,6 +24,8 @@ public class TossPaymentController {
   private TossPaymentService service;
   @Autowired
   private PayService payService;
+    @Autowired
+    private TossPaymentApiCaller tossPaymentApiCaller;
 
   // 결제 생성 api
   @Operation(summary = "결제 생성 요청", description = "결제를 위한 토스 API 생성")
@@ -72,10 +74,12 @@ public class TossPaymentController {
   @PostMapping("/api/toss/cancel")
   public ResponseEntity<String> cancelPayment(@Valid @RequestBody TossPaymentCancelRequestDto dto) {
     System.out.println("취소 요청 도착");
-    System.out.println("paymentKey = " + dto.getPaymentKey());
-    System.out.println("orderId = " + dto.getOrderId());
-    System.out.println("amount = " + dto.getCancelAmount());
-    System.out.println("rno = " + dto.getRno());
+    System.out.println("[ServiceLayer] DTO's cancelAmount: " + dto.getCancelAmount()); // <-- 이 로그를 추가하세요!
+    tossPaymentApiCaller.cancelPayment(
+            dto.getPaymentKey(),
+            dto.getCancelReason(),
+            dto.getCancelAmount() // 여기에 0이 들어가는지 확인
+    );
     service.cancelPayment(dto);
     return ResponseEntity.ok("결제가 정상적으로 취소되었습니다");
   }

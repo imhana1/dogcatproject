@@ -21,7 +21,7 @@ public class TossPaymentCancelRequestDto {
   @NotBlank(message = "cancelReason 은 필수입니다.")
   private String cancelReason;    // 환불 사유
 
-  @JsonProperty("amount")
+//  @JsonProperty("amount")
   private int cancelAmount;       // 환불 금액
 
   // 환불 해줄 정보 추가

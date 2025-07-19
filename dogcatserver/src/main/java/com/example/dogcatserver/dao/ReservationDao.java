@@ -25,6 +25,9 @@ public interface ReservationDao {
   // 예약 삭제
   int deleteReservation(int rno);
 
+  @Delete("delete from resevation where rno=#{rno}")
+  int deleteRno(int rno);
+
   // 마이 페이지에서 병원 예약한 내역
   List<Reservation> getMyReservation(String nUsername);
 

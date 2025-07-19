@@ -28,4 +28,7 @@ public class Reservation {
   // 기본값 WAITING
   @Builder.Default
   private ReservationStatus rStatus = WAITING;
+  private String orderNo;         // 주문 번호
+  private String paymentKey;
+  private int amount;
 }
