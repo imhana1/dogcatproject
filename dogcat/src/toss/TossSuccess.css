@@ -41,6 +41,18 @@
   box-sizing: border-box;
 }
 
+.fail-icon-wrapper {
+  font-size: 100px;
+  color: red;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  box-sizing: border-box;
+}
+
 .success-title {
   margin-top: 30px;
   font-size: 2em;
@@ -74,4 +86,20 @@
 
 .go-to-mypage-button:hover {
   background-color: #45a049;
+}
+
+.go-to-reservation-write-button {
+  margin-top: 30px;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  background-color: #d45a5a; /* 버튼 색상 */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.go-to-reservation-write-button:hover {
+  background-color: #d43434;
 }

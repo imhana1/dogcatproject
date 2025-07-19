@@ -183,8 +183,7 @@ function App() {
         <Route path='/adoptions/adoption' element={<AdoptionRead />} />
         <Route path='/adoptions/write' element={<PrivateRoute element={<AdoptionWrite />} />} />
         <Route path='/adoptions/update' element={<PrivateRoute element={<AdoptionUpdate />} />} />
-        {/* 토스 예시 페이지 */}
-        <Route path='/toss/checkout' element={<TossCheckout />}/>
+        {/* 토스 */}
         <Route path='/toss/success' element={<TossSuccess />}/>
         <Route path='/toss/fail' element={<TossFail />}/>
         <Route path='/toss/cancel/:rno' element={<CancelPaymentPage />} />

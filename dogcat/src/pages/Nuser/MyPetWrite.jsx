@@ -123,7 +123,6 @@ const MyPetWrite = () => {
                 name="pno"
                 placeholder="동물번호를 입력해주세요"
                 value={form.pno}
-                readOnly
               />
 
               <label className="labelStyle">이름</label>

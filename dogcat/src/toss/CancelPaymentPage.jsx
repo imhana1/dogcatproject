@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import './CancelPaymentPage.css';
+import TossHeader from '../fragments/toss/TossHeader';
+import ReservationFooter from '../fragments/reservation/ReservationFooter';
 
 const CancelPaymentPage =()=> {
   const location = useLocation();
@@ -66,7 +69,10 @@ const CancelPaymentPage =()=> {
   }
 
   return(
-      <div style={{ padding: '30px' }}>
+    <>
+      <TossHeader />
+      <div className="cancel-payment-container"> 
+        <h2>결제 취소</h2>
         <div>
           <label>paymentKey: </label>
           <input type="text" value={paymentKey} readOnly />
@@ -80,28 +86,30 @@ const CancelPaymentPage =()=> {
         <div>
           <label>취소 사유: </label>
           <input
-              type="text"
-              value={cancelReason}
-              onChange={(e) => setCancelReason(e.target.value)}
-              placeholder="취소 사유를 입력하세요"
+            type="text"
+            value={cancelReason}
+            onChange={(e) => setCancelReason(e.target.value)}
+            placeholder="취소 사유를 입력하세요"
           />
         </div>
 
         <div>
           <label>취소 금액: </label>
           <input
-              type="number"
-              value={cancelAmount} // 여기에 5000이 보이는 것이 미스터리입니다.
-              onChange={(e) => setCancelAmount(e.target.value)}
-              min="0"
-              max={initialAmount} // amount 대신 initialAmount 사용
+            type="number"
+            value={cancelAmount}
+            onChange={(e) => setCancelAmount(Number(e.target.value))}
+            min="0"
+            max={initialAmount}
           />
         </div>
 
-        <button onClick={handleCancel} style={{ marginTop: '15px' }}>
+        <button onClick={handleCancel}>
           결제 취소하기
         </button>
       </div>
+      <ReservationFooter />
+    </>
   )
 }
 

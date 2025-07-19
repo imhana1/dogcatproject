@@ -18,8 +18,7 @@ function BeautyReservation() {
 
    useEffect(() => {
       checkAuth();
-   }, []);
-
+   }, []);  
   const { username, pName, rCondition, remark, hUsername } = location.state || {};
   console.log("병원 아이디 : ", hUsername);
   // 날짜 및 시간 선택 상태
@@ -50,7 +49,7 @@ function BeautyReservation() {
     }
 
     // TossPayments 객체 호출 (테스트 키 사용)
-    const tossPayments = window.TossPayments('test_ck_d46qopOB89RP21PQWjDO3ZmM75y0');
+    const tossPayments = window.TossPayments('test_ck_kYG57Eba3GNp91ga4k1L8pWDOxmA');
     const orderId = 'Order_' + uuidv4();
 
     // 예약 정보 저장

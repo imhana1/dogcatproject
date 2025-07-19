@@ -1,0 +1,68 @@
+/* CancelPaymentPage.css */
+
+.cancel-payment-container {
+  max-width: 600px; /* 적당한 최대 너비 */
+  margin: 30px auto; /* 위아래 30px, 좌우 자동 (가운데 정렬) */
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff; /* 배경색을 밝게 */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+.cancel-payment-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.cancel-payment-container div {
+  margin-bottom: 15px; /* 각 입력 필드 간 간격 */
+}
+
+.cancel-payment-container label {
+  display: block; /* 라벨을 블록 요소로 만들어 다음 요소와 분리 */
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+  font-size: 15px;
+}
+
+.cancel-payment-container input[type="text"],
+.cancel-payment-container input[type="number"] {
+  width: calc(100% - 20px); /* 패딩 고려하여 너비 조정 */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* 패딩과 보더를 포함한 너비 계산 */
+}
+
+.cancel-payment-container input[readOnly] {
+  background-color: #e9e9e9; /* 읽기 전용 필드의 배경색 */
+  color: #777;
+  cursor: not-allowed;
+}
+
+.cancel-payment-container button {
+  display: block; /* 버튼을 블록 요소로 만들어 가운데 정렬 용이 */
+  width: 100%; /* 버튼 너비 100% */
+  padding: 12px 20px;
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 25px; /* 상단 여백 */
+}
+
+.cancel-payment-container button:hover {
+  background-color: #0056b3;
+}
+
+.cancel-payment-container button:active {
+  background-color: #004080;
+}

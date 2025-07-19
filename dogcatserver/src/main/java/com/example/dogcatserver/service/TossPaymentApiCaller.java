@@ -111,6 +111,8 @@ public class TossPaymentApiCaller {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     headers.set("Authorization", "Basic " + AuthUtil.encodedBasicAuth(tossProperties.getSecretKey()));
+    String encodedAuth = AuthUtil.encodedBasicAuth(tossProperties.getSecretKey());
+    System.out.println("DEBUG: Encoded Auth String Prefix: " + (encodedAuth.length() > 20 ? encodedAuth.substring(0, 20) + "..." : encodedAuth));
 
     // 3. 요청 바디에 담을 데이터 준비 (취소 사유 및 금액)
     Map<String, Object> body = new HashMap<>();
