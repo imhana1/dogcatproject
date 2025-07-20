@@ -8,6 +8,8 @@ import java.util.*;
 @Mapper
 public interface TreatDao {
 
+    @Select("select distinct rno from treat")
+    List<Integer> findRnos();
     // 행의 개수
     @Select("select count(*) from treat")
     int count();

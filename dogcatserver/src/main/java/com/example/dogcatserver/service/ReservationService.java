@@ -27,6 +27,9 @@ public class ReservationService {
   private PetDao petDao;
 
   @Autowired
+  private TreatDao treatDao;
+
+  @Autowired
   private ScheduleDao  scheduleDao;
 
   // 예약 생성 (createReservation)
@@ -146,5 +149,29 @@ public class ReservationService {
       throw new IllegalArgumentException("존재하지 않는 예약 번호입니다");
     }
     return reservationDao.findReservation(rno);
+  }
+
+//  @Scheduled(fixedRate = 10000) // 10000ms = 10초
+  @Transactional // 모든 삭제 작업은 하나의 트랜잭션으로 묶어 일관성 보장
+  public void cleanupReservationsWithTreatResults() {
+
+    // 1. 진료 결과가 있는 모든 고유한 rno 목록을 데이터베이스에서 직접 조회
+    List<Integer> rnosToClean = treatDao.findRnos();
+
+    if (rnosToClean.isEmpty()) {
+      System.out.println("삭제할 진료 결과가 있는 예약이 없습니다.");
+      return;
+    }
+
+    System.out.println("처리할 예약 RNO 목록: " + rnosToClean);
+
+    // 2. 가져온 rno 목록을 순회하며 각 예약에 대한 삭제 처리를 수행합니다.
+    for (Integer rno : rnosToClean) {
+      // treat 테이블의 진료 결과는 삭제하지 않습니다.
+      // 오직 reservation 테이블에서만 해당 예약을 삭제합니다.
+      reservationDao.deleteRnos(rno); // JpaRepository의 deleteById 사용
+      System.out.println("예약 (rno: " + rno + ") 삭제 완료. 관련 진료 결과는 보존됨.");
+    }
+    System.out.println("서비스 스케줄러 종료: 진료 결과가 있는 예약 삭제 완료 (진료 결과 보존).");
   }
 }

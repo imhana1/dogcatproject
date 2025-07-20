@@ -26,6 +26,10 @@ public interface ReservationDao {
   int deleteReservation(int rno);
 
   @Delete("delete from reservation where rno=#{rno}")
+  Integer deleteRnos(int rno);
+
+  // 결제 취소시 예약 삭제용
+  @Delete("delete from reservation where rno=#{rno}")
   int deleteRno(int rno);
 
   // 마이 페이지에서 병원 예약한 내역
