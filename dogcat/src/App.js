@@ -62,6 +62,7 @@ import AdoptionUpdate from "./pages/adoptions/AdoptionUpdate";
 import ReviewWrite from "./pages/Nuser/ReviewWrite";
 import {Slide, toast, ToastContainer} from "react-toastify";
 import ReviewUpdate from "./pages/Nuser/ReviewUpdate";
+import FindIdAccount from "./pages/FindIdAccount";
 
 
 
@@ -125,6 +126,7 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<LoginPage />} />
         <Route path="/find-account" element={<FindAccount />} />
+        <Route path="/find-id" element={<FindIdAccount />} />
         <Route path="/hospital-signup" element={<SignupHospitalForm />} />
         {/*일반 회원 회원가입 */}
         <Route path='/nmembersignup' element={<SignupNuserForm />} />
