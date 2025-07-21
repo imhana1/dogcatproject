@@ -102,6 +102,7 @@ function ReservationMenu() {
                                                             amount: reservation.amount, // <--- 이 로그를 추가하세요!
                                                             rno: reservation.rno
                                                         });
+                                                        console.log("Actual reservation object:", reservation); // reservation 객체 전체를 확인해보는 것도 좋습니다.
                                                         navigate(`/toss/cancel/${reservation.rno}`, {
                                                             state: {
                                                                 paymentKey: reservation.paymentKey,

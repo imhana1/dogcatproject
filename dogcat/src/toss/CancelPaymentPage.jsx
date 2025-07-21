@@ -9,11 +9,11 @@ const CancelPaymentPage =()=> {
   const navigate = useNavigate();
 
   // 중요한 부분: 구조 분해 할당 시 초기 amount 값 확인
-  const { paymentKey = '', orderId = '', amount: initialAmount = 0 ,rno=null } = location.state || {};
+  const { paymentKey = '', orderNo = '', amount: initialAmount = 0 ,rno=null } = location.state || {};
 
   // 이 로그는 컴포넌트가 처음 마운트될 때 찍힙니다.
   useEffect(() => {
-    console.log('CancelPaymentPage useEffect (initial mount):', { paymentKey, orderId, amount: initialAmount });
+    console.log('CancelPaymentPage useEffect (initial mount):', { paymentKey, orderNo, amount: initialAmount });
   }, []);
 
   const [cancelReason, setCancelReason] = useState('');
@@ -37,7 +37,7 @@ const CancelPaymentPage =()=> {
       return;
     }
 
-    console.log('Sending cancel request with:', { paymentKey, orderId, cancelReason, cancelAmount: Number(cancelAmount) }); // <-- 백엔드로 보낼 최종 값 확인
+    console.log('Sending cancel request with:', { paymentKey, orderNo, cancelReason, cancelAmount: Number(cancelAmount) }); // <-- 백엔드로 보낼 최종 값 확인
 
     try {
       const response = await fetch('http://localhost:8080/api/toss/cancel', {
@@ -47,7 +47,7 @@ const CancelPaymentPage =()=> {
         },
         body: JSON.stringify({
           paymentKey,
-          orderId,
+          orderNo,
           cancelReason,
           cancelAmount: Number(cancelAmount), // 백엔드로 보낼 값
           rno
@@ -80,7 +80,7 @@ const CancelPaymentPage =()=> {
 
         <div>
           <label>orderId: </label>
-          <input type="text" value={orderId} readOnly />
+          <input type="text" value={orderNo} readOnly />
         </div>
 
         <div>
