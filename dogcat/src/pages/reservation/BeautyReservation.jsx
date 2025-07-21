@@ -49,6 +49,7 @@ function BeautyReservation() {
     }
 
     // TossPayments 객체 호출 (테스트 키 사용)
+    // const tossPayments = window.TossPayments('test_ck_kYG57Eba3GNp91ga4k1L8pWDOxmA');  재호
     const tossPayments = window.TossPayments('test_ck_kYG57Eba3GNp91ga4k1L8pWDOxmA');
     const orderId = 'Order_' + uuidv4();
 

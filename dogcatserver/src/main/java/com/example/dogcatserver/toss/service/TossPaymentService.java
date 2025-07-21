@@ -110,7 +110,7 @@ public class TossPaymentService {
   }
 
   // 결제 취소
-  @Transactional
+  @Transactional // 이 어노테이션은 기본적으로 Unchecked Exception 발생 시 롤백합니다.
   public void cancelPayment(TossPaymentCancelRequestDto dto) {
     Pay pay = payDao.selectPayByOrderId(dto.getOrderId());
     if (pay == null) {
@@ -136,20 +136,35 @@ public class TossPaymentService {
 
     } catch (RuntimeException e) {
       // TossPaymentApiCaller에서 발생한 예외를 잡습니다.
-      String errorResponseBody = e.getMessage() != null ? e.getMessage() : ""; // RuntimeException 메시지에 응답 본문이 담겨있다고 가정
+
+      // 💡 수정된 부분: e.getCause()를 통해 실제 응답 본문을 가져와서 정확한 에러 코드 확인
+      String actualErrorBody = "";
+      if (e.getCause() instanceof org.springframework.web.client.HttpClientErrorException) {
+        org.springframework.web.client.HttpClientErrorException httpError = (org.springframework.web.client.HttpClientErrorException) e.getCause();
+        actualErrorBody = httpError.getResponseBodyAsString();
+      } else {
+        // HttpClientErrorException이 아닌 다른 RuntimeException의 경우, 메시지를 사용
+        actualErrorBody = e.getMessage() != null ? e.getMessage() : "";
+      }
+
+      System.out.println("DEBUG: Actual Error Body for comparison: " + actualErrorBody); // 디버깅용 로그
 
       // 3. 토스 API가 "ALREADY_CANCELED_PAYMENT"를 반환한 경우 특별 처리
-      if (errorResponseBody.contains("ALREADY_CANCELED_PAYMENT")) { //
+      if (actualErrorBody.contains("ALREADY_CANCELED_PAYMENT")) {
         System.out.println("경고: 토스에서 이미 취소된 결제입니다. 내부 DB 상태를 'CANCELLED'로 동기화합니다. orderId: " + dto.getOrderId());
         // 이 경우 토스 시스템에서는 이미 취소된 상태이므로, 우리 DB도 취소 상태로 업데이트
         updateCancelStatus(dto.getOrderId());
         reservationDao.deleteRno(dto.getRno());
         // 여기서 예외를 다시 던지지 않음으로써, 이 특정 상황에서는 정상적인 처리 흐름으로 간주합니다.
-        // (클라이언트에게는 성공적인 취소로 보이거나, "이미 취소된 결제입니다"라는 정보성 메시지를 줄 수 있음)
+        // 트랜잭션은 커밋됩니다.
       } else {
         // 4. 그 외의 모든 다른 취소 실패 (진정한 오류)
         System.err.println("오류: 토스 결제 취소 API 호출 중 예상치 못한 오류 발생. orderId: " + dto.getOrderId() + ", 에러: " + e.getMessage());
-        throw e; // 예외를 다시 던져 트랜잭션 롤백 및 상위 호출자에게 에러 전달
+        // 💡 수정된 부분: 여기서 예외를 다시 던지지 않도록 변경하여 롤백을 방지합니다.
+        // 이 경우에도 트랜잭션은 커밋됩니다.
+        // 이는 네트워크 문제, 토스 서버 오류 등 심각한 오류가 발생해도 DB 변경사항이 커밋될 수 있음을 의미합니다.
+        // 데이터 정합성을 위해 이 부분을 다시 throw e; 로 유지하는 것을 권장합니다.
+        // 하지만 요청하신 대로 롤백을 방지하기 위해 제거합니다.
       }
     }
   }

@@ -74,12 +74,10 @@ public class TossPaymentController {
   @PostMapping("/api/toss/cancel")
   public ResponseEntity<String> cancelPayment(@Valid @RequestBody TossPaymentCancelRequestDto dto) {
     System.out.println("취소 요청 도착");
-    System.out.println("[ServiceLayer] DTO's cancelAmount: " + dto.getCancelAmount()); // <-- 이 로그를 추가하세요!
-    tossPaymentApiCaller.cancelPayment(
-            dto.getPaymentKey(),
-            dto.getCancelReason(),
-            dto.getCancelAmount() // 여기에 0이 들어가는지 확인
-    );
+    System.out.println("paymentKey = " + dto.getPaymentKey());
+    System.out.println("orderId = " + dto.getOrderId());
+    System.out.println("amount = " + dto.getCancelAmount());
+    System.out.println("rno = " + dto.getRno());
     service.cancelPayment(dto);
     return ResponseEntity.ok("결제가 정상적으로 취소되었습니다");
   }
